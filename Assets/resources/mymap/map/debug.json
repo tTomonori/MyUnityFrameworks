@@ -1,0 +1,130 @@
+﻿{
+  "name": "デバッグマップ",
+  "feild": [
+    [0,1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1,0]
+  ],
+  "chip": {
+    "0": {"prefab": "prairie/grass1"},
+    "1": {"prefab": "prairie/grass2"}
+  },
+  "object": [
+               {"prefab": "treeSign","x": 2,"y": 2},
+               {"prefab": "treeSign","x": 4,"y": 2},
+               {"prefab": "vase","x": 3,"y": 4},
+               {"prefab": "step","x": 5,"y": 3},
+               {"prefab": "step","x": 6,"y": 3}
+             ],
+  "npc": [
+    
+  ],
+  "event": [
+    //////////
+    {"x": 0,"y": 6,
+     "collider": {
+       "colliderType": "box","colliderSizeX": 1,"colliderSizeY": 1
+     },
+     "trigger": {
+       "passType": "stop",
+       "terms": [{"name": "player"}]
+     },
+     "destroy": true,
+     "enter": {
+       "jack": ["player"],
+       "events": [
+         {"event": "text","name": "システム", "text": "zキーで正面を調べられるよ"}
+       ]
+     }
+    },
+    //////////
+    {"x": 0,"y": 0,
+      "collider": {
+        "colliderType": "box",
+        "colliderSizeX": 1,
+        "colliderSizeY": 1
+      },
+      "trigger": {
+        "passType": "stop",
+        "terms": [ { "name": "player" } ]
+      },
+      "destroy": false,
+      "enter": {
+        "jack": [ "player" ],
+        "events": [
+          {"event": "text","type": "list","list": [
+             {"name": "system","text": "画面を押して次のメッセージ"},
+             {"name": "system","text": "表示されてる？"},
+             {"text": "次で閉じるよ"}
+           ]}
+        ]
+      }
+    }
+  ],
+  "argument": {
+    "vase": {
+       "event": {
+        "jack": [ "player" ],
+        "events": [
+          {"event": "text","type": "list","list": [
+             {"text": "ベタ塗..."},
+            { "text": "......綺麗な花が飾ってある" }
+           ]}
+        ]
+      }
+    },
+    //////////
+    "sign": {
+       "up": {
+        "jack": [ "player" ],
+        "events": [
+          {"event": "text","type": "list","list": [
+             {"text": "看板の裏にはなんと!?"},
+            { "text": "...何も書いてなかった" }
+           ]}
+        ]
+      },
+      "down": {
+        "jack": [ "player" ],
+        "events": [
+          {
+            "event": "text",
+            "type": "list",
+            "list": [
+              { "text": "ここはデバッグ用のマップだよ" }
+            ]
+          }
+        ]
+      },
+      "left": {
+        "jack": [ "player" ],
+        "events": [
+          {
+            "event": "text",
+            "type": "list",
+            "list": [
+              { "text": "看板の側面に何か書いてあるはずがなかった" }
+            ]
+          }
+        ]
+      },
+      "right": {
+        "jack": [ "player" ],
+        "events": [
+          {
+            "event": "text",
+            "type": "list",
+            "list": [
+              { "text": "看板の側面に何か書いてあるはずがなかった" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

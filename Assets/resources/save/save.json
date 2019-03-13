@@ -1,0 +1,9 @@
+{
+  "mapName": "debug",
+  "player": {
+    "positionX": 3,
+    "positionY": 1, 
+    "layer": 0,
+    "direction": "down"
+  }
+}

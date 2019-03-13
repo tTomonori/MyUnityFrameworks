@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{6FF1B3E0-3D74-0A4F-3C46-66BD414091AA}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myMapFramework/behaviour/MapBehaviourImageAnimator.cs">
+    <Files>
+      <File FileName="Assets/scripts/myMapFramework/behaviour/MapWalker.cs" Line="81" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/MapTrigger.cs" Line="6" Column="20" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/event/MapEventTrigger.cs" Line="6" Column="20" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/state/StateTrigger.cs" Line="13" Column="45" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/state/JumpTrigger.cs" Line="12" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/character/MapCharacter.cs" Line="18" Column="36" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/character/state/JumpingState.cs" Line="16" Column="43" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/MapBehaviourImageAnimator.cs" Line="15" Column="20" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.MyMapFramework PreferredExecutionTarget="Unity.Editor" />
+</Properties>
