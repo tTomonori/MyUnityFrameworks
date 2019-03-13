@@ -41,11 +41,12 @@ public partial class MyMap : MyBehaviour {
     private void createFeild(){
         List<List<int>> tFeildData = mFile.feild;
         Arg tChipData = mFile.chip;
-        for (int y = 0; y < tFeildData.Count;y++){
-            for (int x = 0; x < tFeildData[0].Count;x++){
-                Arg tChip = tChipData.get<Arg>(tFeildData[y][x].ToString());
-                MapTile tTile = MapBehaviour.createFromMapResource<MapTile>("tile/prefabs/" + tChip.get<string>("prefab"));
-                tTile.transform.SetParent(mTiles.transform, false);
+        int tYCount = tFeildData.Count;
+        int tXCount = tFeildData[0].Count;
+        for (int y = 0; y < tYCount;y++){
+            for (int x = 0; x < tXCount;x++){
+                Arg tChip = tChipData.get<Arg>(tFeildData[tYCount-1-y][x].ToString());
+                MapTile tTile = createTile(tChip);
                 tTile.name = "(" + x.ToString() + "," + y.ToString() + ")";
                 tTile.setPositionMaintainZ(x, y);
             }
@@ -69,6 +70,21 @@ public partial class MyMap : MyBehaviour {
         tPlayer.name = "player";
         tPlayer.setPosition(aData.get<float>("positionX"), aData.get<float>("positionY"));
         tPlayer.setAi("player");
+    }
+    private MapTile createTile(Arg aData){
+        MapTile tTile = MapBehaviour.createFromMapResource<MapTile>("tile/prefabs/" + aData.get<string>("prefab"));
+        tTile.transform.SetParent(mTiles.transform, false);
+        if (!aData.ContainsKey("pile")) return tTile;
+        //pile
+        List<Arg> tPiledDataList = aData.get<List<Arg>>("pile");
+        for (int i = 0; i < tPiledDataList.Count;i++){
+            Arg tData = tPiledDataList[i];
+            MapTile tPiled = createTile(tData);
+            tPiled.transform.SetParent(tTile.transform, false);
+            tPiled.positionZ = -(i + 1) * 0.01f;
+            tPiled.name = "piled"+i.ToString();
+        }
+        return tTile;
     }
     private MapCharacter createCharacter(Sprite aSprite){
         MapCharacter tCharacter = MapBehaviour.createFromMapResource<MapCharacter>("character/prefabs/player");

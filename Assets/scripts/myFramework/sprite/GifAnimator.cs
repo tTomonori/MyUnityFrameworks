@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class GifAnimator : MonoBehaviour {
     private SpriteRenderer mRenderer;
-    private Sprite[] mSprites;
+    [SerializeField] private Sprite[] mSprites;
     private bool mChangedSprites = false;
     public int[] mOrder=new int[0];
     public float mInterval = 0.2f;
@@ -14,11 +15,15 @@ public class GifAnimator : MonoBehaviour {
     private float mDeltaTime = 0;
 
     private void Awake(){
-        mRenderer = gameObject.AddComponent<SpriteRenderer>(); 
+        mRenderer = gameObject.GetComponent<SpriteRenderer>(); 
     }
 
     void Update () {
-        if (mOrder.Length == 0) return;
+        if (mOrder.Length == 0){
+            mOrder = new int[mSprites.Length];
+            for (int i = 0; i < mSprites.Length; i++)
+                mOrder[i] = i;
+        }
         if(mChangedSprites){
             //画像が変更された場合
             mChangedSprites = false;
