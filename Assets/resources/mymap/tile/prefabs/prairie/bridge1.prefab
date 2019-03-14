@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mAttribute: {fileID: 114630376581552154}
+  mEdge: {fileID: 61220357223953250}
 --- !u!114 &114630376581552154
 MonoBehaviour:
   m_ObjectHideFlags: 1

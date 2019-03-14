@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class MapCharacter : MapBehaviour {
+public partial class MapCharacter : MapEntity {
     private class WalkingState : State{
         public WalkingState(MapCharacter aParent):base(aParent){}
         private bool mIsMoved = false;

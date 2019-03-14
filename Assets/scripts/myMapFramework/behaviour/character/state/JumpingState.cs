@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class MapCharacter : MapBehaviour {
+public partial class MapCharacter : MapEntity {
     private class JumpingState : State{
         public JumpingState(MapCharacter aParent,Direction aDirection,float aDistance):base(aParent){
             parent.direction = aDirection;

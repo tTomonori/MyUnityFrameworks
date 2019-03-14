@@ -9,6 +9,7 @@ public partial class MyMap : MyBehaviour {
     private MyBehaviour mTiles;
     private MyBehaviour mOrnaments;
     private MyBehaviour mCharacters;
+    private MapPlayerCharacter mPlayer;
     private void Awake(){
         mController = new MyMapController(this);
         //tiles
@@ -66,6 +67,7 @@ public partial class MyMap : MyBehaviour {
     private void createPlayer(Arg aData){
         MapCharacter tPlayer = createCharacter(Resources.Load<Sprite>("mymap/character/sprites/player"));
 
+        mPlayer = tPlayer.gameObject.AddComponent<MapPlayerCharacter>();
         tPlayer.transform.parent = mCharacters.transform;
         tPlayer.name = "player";
         tPlayer.setPosition(aData.get<float>("positionX"), aData.get<float>("positionY"));

@@ -161,7 +161,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mImageAnimator: {fileID: 114938719623837684}
-  mWalker: {fileID: 114905284057810412}
   mCollider: {fileID: 61713527472477122}
 --- !u!114 &114695313266089850
 MonoBehaviour:

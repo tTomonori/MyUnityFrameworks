@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class MapCharacter : MapBehaviour {
+public partial class MapCharacter : MapEntity {
     private class StandingState : State{
         public StandingState(MapCharacter aParent):base(aParent){}
         public override void enter(){

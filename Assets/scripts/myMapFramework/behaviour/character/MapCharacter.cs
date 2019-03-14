@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class MapCharacter : MapBehaviour {
+[RequireComponent(typeof(MapWalker))]
+[RequireComponent(typeof(Rigidbody2D))]
+public partial class MapCharacter : MapEntity {
     [SerializeField] private MapBehaviourImageAnimator mImageAnimator;
-    [SerializeField] private MapWalker mWalker;
-    [SerializeField] private BoxCollider2D mCollider;
+    private MapWalker mWalker;
     private Ai mAi;
     private State mState;
     private GifAnimator mCharaSprite;
@@ -18,7 +19,6 @@ public partial class MapCharacter : MapBehaviour {
                 mDirection = value;
         }
     }
-
     //<summary>画像変更</summary>
     public void setSprites(Sprite[][] aSprites){
         mSprites = aSprites;
@@ -29,8 +29,14 @@ public partial class MapCharacter : MapBehaviour {
         mAi = Ai.convertToInstance(aAiName, this);
     }
     private void Awake(){
+        //画像
         mCharaSprite = MyBehaviour.create<GifAnimator>();
         mCharaSprite.transform.SetParent(mImageAnimator.transform, false);
+        //移動
+        mWalker = gameObject.GetComponent<MapWalker>();
+        //rigidbody
+        Rigidbody2D tRigid = gameObject.GetComponent<Rigidbody2D>();
+        tRigid.bodyType = RigidbodyType2D.Kinematic;
     }
     private void Start(){
         if (mAi == null) mAi = new EmptyAi(this);

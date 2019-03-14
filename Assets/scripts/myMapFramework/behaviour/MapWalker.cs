@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MapBorderStepper))] 
 public class MapWalker : MapBehaviour {
     //障害物と衝突した時、障害物との距離の最大許容距離
     static private float kMaxSeparation = 0.02f;
-    [SerializeField] private MapBehaviour mBehaviour;
-    [SerializeField] private BoxCollider2D mCollider;
-    [SerializeField] private MapAttribute mAttribute;
+    [SerializeField] private MapEntity mEntity;
+    private MapBorderStepper mStepper;
     private float mMaxDelta;
     private void Awake(){
-        if (mCollider == null) mCollider = gameObject.GetComponent<BoxCollider2D>();
-        Vector2 tSize = mCollider.size;
+        //移動用パラメータ
+        Vector2 tSize = mEntity.boxCollider.size;
         mMaxDelta = Mathf.Sqrt(tSize.x * tSize.x + tSize.y * tSize.y) / 2;
         if (mMaxDelta > 1) mMaxDelta = 1;
+        //borderStepper
+        mStepper = gameObject.GetComponent<MapBorderStepper>();
     }
     public void move(Vector2 aVector,float aSpeed){
         Vector2 tNormal = aVector.normalized;
@@ -85,7 +87,7 @@ public class MapWalker : MapBehaviour {
             moveTo((Vector2)tInterimTo);
         //壁に沿って移動
         if(tInterimPassType == PassType.collision){
-            ColliderDistance2D tCollision = tCollided.Distance(mCollider);
+            ColliderDistance2D tCollision = tCollided.Distance(mEntity.boxCollider);
             Vector2 tRemaining = DirectionOperator.disassemble(aDelta - tMoveDelta, tCollision.normal);
             switch(moveDelta(tRemaining)){
                 case PassType.stop:return PassType.stop;
@@ -98,21 +100,22 @@ public class MapWalker : MapBehaviour {
     }
     private void moveTo(Vector2 aPosition){
         setPosition(aPosition.x, aPosition.y);
+        mStepper.step();
     }
     //指定した座標に移動可能か
     public PassType canMove(Vector2 aPosition,out Collider2D oCollided){
-        Vector2 tSize = mCollider.size;
+        Vector2 tSize = mEntity.boxCollider.size;
         Collider2D[] tColliders = Physics2D.OverlapBoxAll(aPosition + new Vector2(0, tSize.y / 2), tSize, 0);
         PassType tInterimPassType = PassType.through;
         foreach(Collider2D tCollider in tColliders){
-            if (tCollider == mCollider) continue;//自分自身とは当たり判定を取らない
+            if (tCollider == mEntity.boxCollider) continue;//自分自身とは当たり判定を取らない
             MapAttribute tAttribute = tCollider.gameObject.GetComponent<MapAttribute>();
             //属性なし
             if (tAttribute == null) continue;
             //イベントトリガー
             if(tAttribute.type == MapAttribute.Type.eventTrigger){
                 MapEventTrigger tTrigger = tCollider.GetComponent<MapEventTrigger>();
-                PassType tPassType = tTrigger.confirmPassType(mBehaviour);
+                PassType tPassType = tTrigger.confirmPassType(mEntity);
                 if (tPassType == PassType.collision){
                     oCollided = tCollider;
                     return PassType.collision;
@@ -121,7 +124,7 @@ public class MapWalker : MapBehaviour {
                 continue;
             }
             //地形or置物orキャラ
-            if (tAttribute.isCollide(mAttribute)){
+            if (tAttribute.isCollide(mEntity.attribute)){
                 oCollided = tCollider;
                 return PassType.collision;
             }

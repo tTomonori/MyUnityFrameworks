@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class MapCharacter : MapBehaviour {
+public partial class MapCharacter : MapEntity {
     private abstract class State{
         protected MapCharacter parent;
         public State(MapCharacter aParent){
