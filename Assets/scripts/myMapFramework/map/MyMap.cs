@@ -8,6 +8,7 @@ public partial class MyMap : MyBehaviour {
     private MapDataFile mFile;
     private MapPlayerCharacter mPlayer;
     private List<MapStratum> mStratums = new List<MapStratum>();
+    [SerializeField] public MyMapCamera mCamera;
     private void Awake(){
         mController = new MyMapController(this);
     }
@@ -27,6 +28,9 @@ public partial class MyMap : MyBehaviour {
     public void load(Arg aSaveData){
         loadMap(aSaveData.get<string>("mapName"));
         createPlayer(aSaveData.get<Arg>("player"));
+
+        //カメラ設定
+        mCamera.setShootingMode(new MyMapCamera.ShootingTarget(mPlayer));
     }
     private MapStratum createStratum(Arg aData){
         MapStratum tStratum = MyBehaviour.create<MapStratum>();
@@ -35,6 +39,7 @@ public partial class MyMap : MyBehaviour {
         //ornament
         createOrnaments(aData.get<List<Arg>>("ornament"), tStratum);
         //npc
+        createNpc(aData.get<List<Arg>>("npc"), tStratum);
         //event
 
         return tStratum;
@@ -85,6 +90,24 @@ public partial class MyMap : MyBehaviour {
         tOrnament.setPosition(aData.get<float>("x"), aData.get<float>("y"));
         return tOrnament;
     }
+    //<summary>NPC配置</summary>
+    private void createNpc(List<Arg> aData,MapStratum aStratum){
+        foreach(Arg tData in aData){
+            MapCharacter tChara = createCharacter(Resources.Load<Sprite>("mymap/character/sprites/" + tData.get<string>("image")));
+            tChara.name = tData.get<string>("name");
+            tChara.setPosition(tData.get<float>("x"), tData.get<float>("y"));
+            tChara.direction = EnumParser.parse<Direction>(tData.get<string>("direction"));
+            tChara.setAi(tData.get<string>("ai"), tData.get<Arg>("aiArg"));
+            aStratum.addCharacter(tChara);
+        }
+    }
+    //<summary>キャラクター生成</summary>
+    private MapCharacter createCharacter(Sprite aSprite){
+        MapCharacter tCharacter = MapBehaviour.createFromMapResource<MapCharacter>("character/prefabs/player");
+        Sprite[][] tSprites = SpriteCutter.split(aSprite.texture, new Vector2(100, 100),new Vector2(0.5f,0));
+        tCharacter.setSprites(tSprites);
+        return tCharacter;
+    }
     //<summary>プレイヤー生成</summary>
     private void createPlayer(Arg aData){
         MapCharacter tPlayer = createCharacter(Resources.Load<Sprite>("mymap/character/sprites/player"));
@@ -94,13 +117,6 @@ public partial class MyMap : MyBehaviour {
         tPlayer.setPosition(aData.get<float>("positionX"), aData.get<float>("positionY"));
         tPlayer.setAi("player");
         mStratums[aData.get<int>("stratum")].addCharacter(tPlayer);
-    }
-    //<summary>キャラクター生成</summary>
-    private MapCharacter createCharacter(Sprite aSprite){
-        MapCharacter tCharacter = MapBehaviour.createFromMapResource<MapCharacter>("character/prefabs/player");
-        Sprite[][] tSprites = SpriteCutter.split(aSprite.texture, new Vector2(100, 100),new Vector2(0.5f,0));
-        tCharacter.setSprites(tSprites);
-        return tCharacter;
     }
 
     //stratum変更

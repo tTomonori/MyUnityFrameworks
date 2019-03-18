@@ -10,7 +10,7 @@ public partial class MapCharacter : MapEntity {
         private MapPlayerCharacter mInput;
         public override void update(){
             if (mInput.mMoveDirection != null)
-                parent.mState.move((Vector2)mInput.mMoveDirection, 2);
+                move((Vector2)mInput.mMoveDirection, 2);
         }
     }
 }

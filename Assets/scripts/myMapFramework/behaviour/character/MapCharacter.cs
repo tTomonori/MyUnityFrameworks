@@ -15,6 +15,10 @@ public partial class MapCharacter : MapEntity {
     public Direction direction{
         get { return mDirection; }
         set {
+            if(mState==null){
+                mDirection = value;
+                return;
+            }
             if(mState.turnAround(value))
                 mDirection = value;
         }
@@ -25,8 +29,8 @@ public partial class MapCharacter : MapEntity {
         mCharaSprite.mIsPlayed = true;
     }
     //<summary>AI変更(文字列でAIを指定)</summary>
-    public void setAi(string aAiName){
-        mAi = Ai.convertToInstance(aAiName, this);
+    public void setAi(string aAiName,Arg aArg=null){
+        mAi = Ai.convertToInstance(aAiName, this, aArg);
     }
     private void Awake(){
         //画像

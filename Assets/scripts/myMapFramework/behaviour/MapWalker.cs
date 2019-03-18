@@ -17,26 +17,59 @@ public class MapWalker : MapBehaviour {
         //borderStepper
         mStepper = gameObject.GetComponent<MapBorderStepper>();
     }
-    public void move(Vector2 aVector,float aSpeed){
+    //<summary>指定方向に指定速度になるように移動</summary>
+    public PassType move(Vector2 aVector,float aSpeed){
+        //移動距離
+        Vector2 tDistance = aVector.normalized * aSpeed * Time.deltaTime;
+        return move(tDistance);
+    }
+    /// <summary>
+    /// 指定方向に指定速度になるように、指定最大距離を超えないように移動
+    /// </summary>
+    /// <returns>移動結果</returns>
+    /// <param name="aVector">移動方向</param>
+    /// <param name="aSpeed">移動速度</param>
+    /// <param name="aMax">最大移動距離.</param>
+    /// <param name="aStuckAtMax">指定最大距離に引っかかったら<c>true</c></param>
+    public PassType move(Vector2 aVector,float aSpeed,Vector2 aMax,out bool oStuckAtMax){
+        oStuckAtMax = false;
+        //移動距離
+        Vector2 tDistance = aVector.normalized * aSpeed * Time.deltaTime;
+        if ((tDistance.x * aMax.x > 0) && Mathf.Abs(tDistance.x) > Mathf.Abs(aMax.x)){
+            tDistance.x = aMax.x;
+            oStuckAtMax = true;
+        }
+        if ((tDistance.y * aMax.y > 0) && Mathf.Abs(tDistance.y) > Mathf.Abs(aMax.y)){
+            tDistance.y = aMax.y;
+            oStuckAtMax = true;
+        }
+        PassType tPassType = move(tDistance);
+        if (tPassType != PassType.through) oStuckAtMax = false;
+        return tPassType;
+    }
+    //<summary>指定距離移動</summary>
+    public PassType move(Vector2 aVector){
         Vector2 tNormal = aVector.normalized;
         //移動距離
-        Vector2 tDistance = tNormal * aSpeed * Time.deltaTime;
+        Vector2 tDistance = aVector;
         //delta移動距離
         Vector2 tDelta = tNormal * mMaxDelta;
         while(true){
             if(tDistance.magnitude<mMaxDelta){
                 //最後の移動
                 if(tDistance.magnitude!=0)
-                    moveDelta(tDistance);
-                return;
+                    return moveDelta(tDistance);
+                return PassType.through;
             }
             PassType tPassType = moveDelta(tDelta);
             tDistance -= tDelta;
             switch(tPassType){
                 case PassType.stop:
+                    //これ以上進めない
+                    return PassType.stop;
                 case PassType.collision:
                     //これ以上進めない
-                    return;
+                    return PassType.collision;
                 case PassType.through:
                 case PassType.slide:
                     //まだ進める
@@ -44,6 +77,7 @@ public class MapWalker : MapBehaviour {
             }
         }
     }
+    //<summary>ちょびちょび移動の一回分</summary>
     private PassType moveDelta(Vector2 aDelta){
         //衝突したcollider
         Collider2D tCollided;
@@ -99,6 +133,7 @@ public class MapWalker : MapBehaviour {
         }
         return tInterimPassType;
     }
+    //<summary>指定した位置へ移動</summary>
     private void moveTo(Vector2 aPosition){
         setPosition(aPosition.x, aPosition.y);
         mStepper.step();

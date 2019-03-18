@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114088342972611330}
   - component: {fileID: 114823183487236680}
   - component: {fileID: 61835989334628646}
+  - component: {fileID: 114083641893471974}
   m_Layer: 0
   m_Name: bridge7
   m_TagString: Untagged
@@ -152,6 +153,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.2}
   m_EdgeRadius: 0
+--- !u!114 &114083641893471974
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1112473010660610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b975546d0174e05a2904003f96da24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mOffsetZ: 0
+  mShadowForm: {fileID: 21300000, guid: 3d9c6fe13559545ed9779f7e6f8f8e3f, type: 3}
+  mOffsetZ: 0
+  mTargetStratumNum: 0
 --- !u!114 &114088342972611330
 MonoBehaviour:
   m_ObjectHideFlags: 1

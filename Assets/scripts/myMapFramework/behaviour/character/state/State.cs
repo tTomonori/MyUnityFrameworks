@@ -15,7 +15,7 @@ public partial class MapCharacter : MapEntity {
         public virtual bool turnAround(Direction aDirection){
             return false;
         }
-        public virtual void move(Vector2 aVector,float aSpeed){}
+        public virtual void move(Vector2 aVector){}
     }
 
     public void jump(Direction aDirection,float aDistance){

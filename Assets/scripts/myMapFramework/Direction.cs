@@ -52,4 +52,8 @@ public static class DirectionOperator{
         Vector2 tARightAngleVector = k * tRightAngleVector;
         return tARightAngleVector;
     }
+    static public Vector2 randomVector(){
+        Vector2 vector = new Vector2(0, 1);
+        return Quaternion.Euler(0, 0, Random.Range(0,359)) * vector;
+    }
 }

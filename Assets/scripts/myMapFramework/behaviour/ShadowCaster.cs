@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShadowCaster : MapBehaviour {
     private SpriteRenderer mShadow;
     [SerializeField] private Sprite mShadowForm;
-    [SerializeField] private float mOffsetZ;
+    [SerializeField] private float mShadowOffsetZ;
     [SerializeField] private int mTargetStratumNum;
 
 	void Start () {
@@ -16,7 +16,7 @@ public class ShadowCaster : MapBehaviour {
 
         int tDifference = mStratum.stratumNum - mTargetStratumNum;
         if (tDifference > 0){
-            tBehaviour.position = new Vector3(0, -tDifference, -1+mOffsetZ);
+            tBehaviour.position = new Vector3(0, -tDifference, -1+mShadowOffsetZ);
         }else{
             tBehaviour.position = new Vector3(0.1f, -0.1f, 0.001f);
         }

@@ -10,9 +10,9 @@ public partial class MapCharacter : MapEntity {
             parent.mCharaSprite.mInterval = 0;
             turnAround(parent.direction);
         }
-        public override void move(Vector2 aVector, float aSpeed){
+        public override void move(Vector2 aVector){
             parent.changeState(new WalkingState(parent));
-            parent.mState.move(aVector, aSpeed);
+            parent.mState.move(aVector);
         }
         public override bool turnAround(Direction aDirection){
             parent.mCharaSprite.setSprites(parent.mSprites[parent.getSpritesIndex(aDirection)]);

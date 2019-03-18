@@ -11,9 +11,9 @@ public partial class MapCharacter : MapEntity {
             parent.mCharaSprite.mInterval = 0.2f;
             turnAround(parent.direction);
         }
-        public override void move(Vector2 aVector, float aSpeed){
+        public override void move(Vector2 aVector){
             parent.direction = DirectionOperator.convertToDirection(aVector);
-            parent.mWalker.move(aVector, aSpeed);
+            parent.mWalker.move(aVector);
             mIsMoved = true;
         }
         public override void update(){
