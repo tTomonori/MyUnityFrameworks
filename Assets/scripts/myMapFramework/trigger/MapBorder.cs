@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapBorder : MapBehaviour {
-    public virtual void onEnterCharacter(MapCharacter aCharacter){
+    public virtual void onEnter(MapBorderStepper aStepper, Vector2 aPre, Vector2 aCur){
         
     }
-    public virtual void onExitCharacter(MapCharacter aCharacter){
+    public virtual void onExit(MapBorderStepper aStepper, Vector2 aPre, Vector2 aCur){
         
     }
-    public virtual void onMoveCharacter(MapCharacter aCharacter){
+    public virtual void onMove(MapBorderStepper aStepper, Vector2 aPre, Vector2 aCur){
         
     }
 }

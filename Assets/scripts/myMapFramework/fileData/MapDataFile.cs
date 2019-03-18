@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MapDataFile {
     private Arg mData;
+    public List<Arg> stratum{
+        get { return mData.get<List<Arg>>("stratum"); }
+    }
     public List<List<int>> feild{
         get { return mData.get<List<List<int>>>("feild"); }
     }

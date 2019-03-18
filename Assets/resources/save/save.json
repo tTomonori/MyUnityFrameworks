@@ -3,6 +3,7 @@
   "player": {
     "positionX": 3,
     "positionY": 1, 
+    "stratum": 0,
     "layer": 0,
     "direction": "down"
   }

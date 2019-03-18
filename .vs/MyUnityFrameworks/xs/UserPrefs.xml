@@ -1,10 +1,9 @@
 ﻿<Properties StartupConfiguration="{5FC93A7A-63B7-5808-3EAE-B7463B930AA6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myMapFramework/behaviour/MapWalker.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myMapFramework/behaviour/MapBehaviour.cs">
     <Files>
-      <File FileName="Assets/scripts/myMapFramework/behaviour/MapWalker.cs" Line="18" Column="64" />
-      <File FileName="Assets/scripts/myMapFramework/behaviour/character/MapCharacter.cs" Line="7" Column="1" />
-      <File FileName="Assets/scripts/myMapFramework/behaviour/MapEntity.cs" Line="4" Column="1" />
-      <File FileName="Assets/scripts/myMapFramework/behaviour/ornament/MapOrnament.cs" Line="4" Column="1" />
+      <File FileName="Assets/resources/mymap/map/debug.json" Line="31" Column="25" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/ShadowCaster.cs" Line="9" Column="7" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/MapBehaviour.cs" Line="75" Column="41" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

@@ -89,6 +89,7 @@ public class MapWalker : MapBehaviour {
         if(tInterimPassType == PassType.collision){
             ColliderDistance2D tCollision = tCollided.Distance(mEntity.boxCollider);
             Vector2 tRemaining = DirectionOperator.disassemble(aDelta - tMoveDelta, tCollision.normal);
+            if (tRemaining.magnitude == aDelta.magnitude) return PassType.stop;//垂直方向を取ったのにベクトルの大きさが変わらなかった
             switch(moveDelta(tRemaining)){
                 case PassType.stop:return PassType.stop;
                 case PassType.collision:return PassType.collision;
@@ -107,8 +108,8 @@ public class MapWalker : MapBehaviour {
         Vector2 tSize = mEntity.boxCollider.size;
         Collider2D[] tColliders = Physics2D.OverlapBoxAll(aPosition + new Vector2(0, tSize.y / 2), tSize, 0);
         PassType tInterimPassType = PassType.through;
-        foreach(Collider2D tCollider in tColliders){
-            if (tCollider == mEntity.boxCollider) continue;//自分自身とは当たり判定を取らない
+        //衝突する可能性があるcolliderのみ抽出してforeach
+        foreach(Collider2D tCollider in selectCanCollide(tColliders)){
             MapAttribute tAttribute = tCollider.gameObject.GetComponent<MapAttribute>();
             //属性なし
             if (tAttribute == null) continue;

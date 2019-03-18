@@ -62,7 +62,7 @@ public class MapAttribute : MyBehaviour {
             case Attribute.character:
                 switch(aAttribute){
                     //地形
-                    case Attribute.none:return false;
+                    case Attribute.none:return true;
                     case Attribute.air:return true;
                     case Attribute.flat:return false;
                     case Attribute.water:return true;
@@ -81,7 +81,7 @@ public class MapAttribute : MyBehaviour {
             case Attribute.flying:
                 switch(aAttribute){
                     //地形
-                    case Attribute.none: return false;
+                    case Attribute.none: return true;
                     case Attribute.air: return true;
                     case Attribute.flat: return false;
                     case Attribute.water: return false;
@@ -90,7 +90,7 @@ public class MapAttribute : MyBehaviour {
                     case Attribute.bridge: return false;
                     case Attribute.ladder: return true;
                     //もの
-                    case Attribute.ghost: return false;
+                    case Attribute.ghost: return true;
                     case Attribute.ornament: return true;
                     case Attribute.character: return true;
                     case Attribute.flying: return true;
@@ -100,7 +100,7 @@ public class MapAttribute : MyBehaviour {
             case Attribute.pygmy:
                 switch (aAttribute){
                     //地形
-                    case Attribute.none: return false;
+                    case Attribute.none: return true;
                     case Attribute.air: return false;
                     case Attribute.flat: return false;
                     case Attribute.water: return false;

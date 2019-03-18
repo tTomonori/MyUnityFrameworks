@@ -6,7 +6,11 @@ public class MapPiledTile : MapTile {
     [SerializeField] private Collider2D mEdge;
 	void Start () {
         MapTile tParent = transform.parent.GetComponentInParent<MapTile>();
-        if (tParent == null) return;
+        if (tParent == null){
+            MapAttribute tAttribute = mEdge.gameObject.AddComponent<MapAttribute>();
+            tAttribute.mAttribute = MapAttribute.Attribute.none;
+            return;
+        }
         //親のcolliderを付け直す
         Destroy(tParent.GetComponent<Collider2D>());
         Collider2D tParentCollider = (Collider2D)tParent.gameObject.AddComponent(mEdge.GetType());
