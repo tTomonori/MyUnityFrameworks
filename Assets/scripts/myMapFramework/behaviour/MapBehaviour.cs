@@ -42,7 +42,7 @@ public class MapBehaviour : MyBehaviour {
     }
     //階層を変更
     public void changeStratum(int aStratumNum){
-        GetComponentInParent<MyMap>().changeStratum(this, aStratumNum);
+        GetComponentInParent<MapWorld>().changeStratum(this, aStratumNum);
     }
     //<summary>(階層を考慮した上で)自分と衝突しているcolliderを返す</summary>
     public List<Collider2D> getCollided(){

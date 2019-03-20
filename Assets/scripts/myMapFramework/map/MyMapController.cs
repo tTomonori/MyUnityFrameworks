@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class MyMap : MyBehaviour {
+public partial class MyMap {
     public class MyMapController{
-        private MyMap parent;
-        public MyMapController(MyMap aParent){
-            parent = aParent;
-        }
         public void move(Vector2 aVector){
-            parent.mPlayer.mMoveDirection = aVector;
+            MyMap.mPlayer.mMoveDirection = aVector;
         }
         public void inputA(){
-            parent.mPlayer.mInputA = true;
+            MyMap.mPlayer.mInputA = true;
         }
         public void inputB(){
-            parent.mPlayer.mInputB = true;
+            MyMap.mPlayer.mInputB = true;
         }
         public void play(){
             

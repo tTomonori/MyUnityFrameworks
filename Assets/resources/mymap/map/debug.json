@@ -22,7 +22,7 @@
       "npc": [
           { "name" : "test0" , "x" : 13 , "y" : 5 , "ai" : "walkAround" , "aiArg" : {"rangeX": 3,"rangeY": 3} , "direction" : "left" , "image" : "player" }
       ],
-      "event": [
+      "trigger": [
         
       ]
     },
@@ -42,8 +42,8 @@
       "npc": [
     
       ],
-      "event": [
-        
+      "trigger": [
+
       ]
     },
     {
@@ -62,7 +62,7 @@
       "npc": [
 
       ],
-      "event": [
+      "trigger": [
 
       ]
     }
