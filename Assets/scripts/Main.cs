@@ -10,17 +10,24 @@ public class Main : MonoBehaviour {
         Arg tSave = new Arg(MyJson.deserializeResourse("save/save"));
 
         MyMap.mDisplay = map;
+
         MyMapInputPad pad = GameObject.Find("pad").GetComponent<MyMapInputPad>();
         MyMap.MyMapController controller = new MyMap.MyMapController();
         pad.mController = controller;
         MyMap.mController = controller;
-        MyMap.mCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        MyMap.load(tSave);
 
+        MyMap.mCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+
+        MyMap.mEventHandler = new TestHandler();
+
+        MyMap.load(tSave);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+}
+
+public class TestHandler:MapEventHandler{
 }

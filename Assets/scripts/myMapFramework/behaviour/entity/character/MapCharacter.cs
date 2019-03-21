@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MapWalker))]
-[RequireComponent(typeof(Rigidbody2D))]
 public partial class MapCharacter : MapEntity {
     [SerializeField] private MapBehaviourImageAnimator mImageAnimator;
     private MapWalker mWalker;
@@ -38,9 +37,6 @@ public partial class MapCharacter : MapEntity {
         mCharaSprite.transform.SetParent(mImageAnimator.transform, false);
         //移動
         mWalker = gameObject.GetComponent<MapWalker>();
-        //rigidbody
-        Rigidbody2D tRigid = gameObject.GetComponent<Rigidbody2D>();
-        tRigid.bodyType = RigidbodyType2D.Kinematic;
     }
     private void Start(){
         if (mAi == null) mAi = new EmptyAi(this);

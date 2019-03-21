@@ -6,6 +6,10 @@ public class JumpTrigger : StateTrigger {
     [SerializeField] private Direction mDirection;
     [SerializeField] private float mDistance;
     protected override void triggered(MapCharacter aCharacter){
-        aCharacter.jump(mDirection, mDistance);
+        MapEvent.function tEvent = new MapEvent.function((aFunc) =>{
+            aCharacter.jump(mDirection, mDistance);
+            aFunc();
+        });
+        mMapWorld.mEventOperator.addEvent(new MapEvent(tEvent));
     }
 }

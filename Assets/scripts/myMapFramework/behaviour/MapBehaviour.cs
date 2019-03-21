@@ -12,8 +12,13 @@ public class MapBehaviour : MyBehaviour {
             return stoc;
         }
     }
+    //<summary>このオブジェクトが存在する階層</summary>
     public MapStratum mStratum{
         get { return GetComponentInParent<MapStratum>(); }
+    }
+    //<summary>このオブジェクトが存在するマップ</summary>
+    public MapWorld mMapWorld{
+        get { return GetComponentInParent<MapWorld>(); }
     }
     public float mOffsetZ = 0;
     /// <summary>

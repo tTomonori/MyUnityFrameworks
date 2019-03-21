@@ -10,10 +10,9 @@ public abstract class StateTrigger : MapTrigger {
         }
         return MapWalker.PassType.stop;
     }
-    private void OnTriggerEnter2D(Collider2D other){
-        MapCharacter tCharacter = other.gameObject.GetComponent<MapCharacter>();
-        if (tCharacter == null) return;//キャラクター出ないならtriggerしない
-        if (!canCollide(other)) return;//階層等を考慮して衝突するか判定
+    public override void onEnter(MapStepper aStepper){
+        MapCharacter tCharacter = aStepper.gameObject.GetComponent<MapCharacter>();
+        if (tCharacter == null) return;//キャラクターでないならtriggerしない
         triggered(tCharacter);
     }
     protected abstract void triggered(MapCharacter aCharacter);

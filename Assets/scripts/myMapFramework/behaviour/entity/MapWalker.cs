@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MapBorderStepper))] 
+[RequireComponent(typeof(MapStepper))] 
 public class MapWalker : MapBehaviour {
     //障害物と衝突した時、障害物との距離の最大許容距離
     static private float kMaxSeparation = 0.02f;
     [SerializeField] private MapEntity mEntity;
-    private MapBorderStepper mStepper;
+    private MapStepper mStepper;
     private float mMaxDelta;
     private void Awake(){
         //移動用パラメータ
@@ -15,7 +15,7 @@ public class MapWalker : MapBehaviour {
         mMaxDelta = Mathf.Sqrt(tSize.x * tSize.x + tSize.y * tSize.y) / 2;
         if (mMaxDelta > 1) mMaxDelta = 1;
         //borderStepper
-        mStepper = gameObject.GetComponent<MapBorderStepper>();
+        mStepper = gameObject.GetComponent<MapStepper>();
     }
     //<summary>指定方向に指定速度になるように移動</summary>
     public PassType move(Vector2 aVector,float aSpeed){

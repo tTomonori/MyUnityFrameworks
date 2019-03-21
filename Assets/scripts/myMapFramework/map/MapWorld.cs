@@ -6,8 +6,10 @@ public partial class MapWorld : MyBehaviour {
     private MapDataFile mFile;
     private MapPlayerCharacter mPlayer;
     private List<MapStratum> mStratums = new List<MapStratum>();
+    public MapEventOperator mEventOperator;
     public void load(string aMapName){
         mFile = new MapDataFile(aMapName);
+        mEventOperator = new MapEventOperator(this);
         //階層データ取得
         List<MapDataFile.Stratum> tStratumsData = mFile.stratums;
         for (int i = 0; i < tStratumsData.Count;i++){
@@ -112,5 +114,9 @@ public partial class MapWorld : MyBehaviour {
     public void changeStratum(MapBehaviour aBehaviour,int aStratumNum){
         if (aStratumNum < 0) return;
         mStratums[aStratumNum].add(aBehaviour);
+    }
+
+    private void Update(){
+        mEventOperator.runEvents();
     }
 }

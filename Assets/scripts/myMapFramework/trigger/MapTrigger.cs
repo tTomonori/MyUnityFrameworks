@@ -4,4 +4,13 @@ using UnityEngine;
 
 public abstract class MapTrigger : MapBehaviour {
     public abstract MapWalker.PassType confirmPassType(MapBehaviour aBehaviour);
+    public virtual void onEnter(MapStepper aStepper){
+
+    }
+    public virtual void onExit(MapStepper aStepper){
+
+    }
+    public virtual void onMove(MapStepper aStepper){
+
+    }
 }

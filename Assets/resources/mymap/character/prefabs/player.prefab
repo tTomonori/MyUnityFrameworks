@@ -39,8 +39,7 @@ GameObject:
   - component: {fileID: 114695313266089850}
   - component: {fileID: 114905284057810412}
   - component: {fileID: 61713527472477122}
-  - component: {fileID: 50790512450911594}
-  - component: {fileID: 114036619856744728}
+  - component: {fileID: 114532649723923204}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -105,26 +104,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50790512450911594
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1202165646036932}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &61713527472477122
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -150,7 +129,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 0.2}
   m_EdgeRadius: 0
---- !u!114 &114036619856744728
+--- !u!114 &114532649723923204
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -158,9 +137,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1202165646036932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a33a3644c7ff24af3af3661080711999, type: 3}
+  m_Script: {fileID: 11500000, guid: 221f6b29bde164b84bae6ca9e080d9c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mOffsetZ: 0
 --- !u!114 &114552149135177174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -172,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244cc8dcab4d044a1b52ab4359dc17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mOffsetZ: 0
   mCollider: {fileID: 61713527472477122}
   mAttribute: {fileID: 114695313266089850}
   mImageAnimator: {fileID: 114938719623837684}
@@ -198,6 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ed5606f48a3494fbca4a98b2c7b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mOffsetZ: 0
   mEntity: {fileID: 114552149135177174}
 --- !u!114 &114938719623837684
 MonoBehaviour:

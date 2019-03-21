@@ -14,6 +14,7 @@ public static partial class MyMap {
 
     static public void load(Arg aSaveData){
         mWorld = MyBehaviour.create<MapWorld>();
+        mWorld.name = "world";
         mWorld.transform.SetParent(mDisplay.transform, false);
         mWorld.load(aSaveData.get<string>("mapName"));
         mPlayer = mWorld.createPlayer(aSaveData.get<Arg>("player"));
