@@ -23,7 +23,7 @@
           { "name" : "test0" , "x" : 13 , "y" : 5 , "ai" : "walkAround" , "aiArg" : {"rangeX": 3,"rangeY": 3} , "direction" : "left" , "image" : "player" }
       ],
       "trigger": [
-        
+        { "x" : 11 , "y" : 0 , "collider":{"type": "box","width" : 1 , "height" : 1 }, "event" : "npcMove" , "trigger": {"prototype": "player"}}
       ]
     },
     {
@@ -43,7 +43,7 @@
     
       ],
       "trigger": [
-
+        
       ]
     },
     {
@@ -63,7 +63,8 @@
 
       ],
       "trigger": [
-
+        { "x" : 1 , "y" : 5 , "collider":{"type": "box","width" : 1 , "height" : 1 }, "event" : "test" , "trigger": {"prototype": "player"}},
+         { "x" : 9 , "y" : 5.5 , "collider":{"type": "box","width" : 1 , "height" : 2 }, "event" : "bridgeBack" , "trigger": {"prototype": "player"}}
       ]
     }
   ],
@@ -87,12 +88,26 @@
     "26": {"prefab": "prairie/grass1","pile": [{"prefab": "cliff/cliff16"}] },
     "27": {"prefab": "prairie/grass1","pile": [{"prefab": "cliff/cliff17"}] },
     "28": {"prefab": "prairie/grass1","pile": [{"prefab": "cliff/cliff18"}] },
-    "30": { "prefab": "cliff/stairs" },
-    "31": { "prefab": "bridge/bridge1" },
-    "32": { "prefab": "bridge/bridge7" },
+    "30": {"prefab": "cliff/stairs" },
+    "31": {"prefab": "bridge/bridge1" },
+    "32": {"prefab": "bridge/bridge7" },
     "33": {"prefab": "prairie/grass1","pile": [{"prefab": "cliff/cliff6","pile": [{"prefab": "bridge/bridge1"}]}]}
   },
-  "event": [
+  "event": {
+    "test": {"event": "list","list" : [
+                                        {"event": "moveBy","targetName": ["player"],"deltaX": 0,"deltaY":1,"speed":1},
+                                        {"event": "moveBy","targetName": ["player"],"deltaX": 4,"deltaY":0,"speed":1}
+                                      ]},
+    "bridgeBack": {"event": "moveBy","targetName": ["player"],"deltaX": -1,"deltaY":0,"speed":1.5},
+    "npcMove": {"event": "list","list": [
+                                        {"event": "moveBy","targetName": ["test0"],"deltaX": -2,"deltaY":0,"speed":4},
+                                        {"event": "moveBy","targetName": ["test0"],"deltaX": 2,"deltaY":0,"speed":4}
+                ]}
+  }
+}
+
+//////
+[
     //////////
     {"x": 0,"y": 6,
      "collider": {
@@ -195,4 +210,3 @@
       }
     }
   }
-}

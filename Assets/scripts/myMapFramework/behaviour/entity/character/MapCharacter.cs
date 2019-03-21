@@ -38,10 +38,6 @@ public partial class MapCharacter : MapEntity {
         //移動
         mWalker = gameObject.GetComponent<MapWalker>();
     }
-    private void Start(){
-        if (mAi == null) mAi = new EmptyAi(this);
-        if (mState == null) changeState(new StandingState(this));
-    }
 
     private void changeState(State aState){
         if(mState!=null)
@@ -49,9 +45,13 @@ public partial class MapCharacter : MapEntity {
         mState = aState;
         mState.enter();
     }
-	
+    private void Start(){
+        if (mAi == null) mAi = new EmptyAi(this);
+        if (mState == null) changeState(new StandingState(this));
+        mAi.start();
+    }
 	void Update () {
-        mAi.update();
+        mAi.updateParFrame();
         mState.update();
 	}
     private int getSpritesIndex(Direction aDirection){

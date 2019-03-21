@@ -7,8 +7,8 @@ public class MapAttribute : MyBehaviour {
     public Type type{
         get{
             if (mAttribute < Attribute.ghost) return Type.terrain;
-            if (mAttribute < Attribute.empty) return Type.entity;
-            return Type.eventTrigger;
+            if (mAttribute < Attribute.trigger) return Type.entity;
+            return Type.trigger;
         }
     }
     public enum Attribute{
@@ -28,12 +28,10 @@ public class MapAttribute : MyBehaviour {
         flying,
         pygmy,
         //イベント
-        empty,
-        environment,
-        force
+        trigger
     }
     public enum Type{
-        terrain,entity,eventTrigger
+        terrain,entity,trigger
     }
 
     public bool isCollide(MapAttribute aAttribute){

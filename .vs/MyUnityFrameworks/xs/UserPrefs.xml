@@ -1,13 +1,29 @@
 ﻿<Properties StartupConfiguration="{5FC93A7A-63B7-5808-3EAE-B7463B930AA6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myMapFramework/trigger/MapTrigger.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myMapFramework/behaviour/entity/character/HijackedAi.cs">
     <Files>
-      <File FileName="Assets/scripts/myMapFramework/trigger/MapTrigger.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/MapTrigger.cs" Line="16" Column="2" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/event/MapEventTrigger.cs" Line="28" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/event/MapEvent.cs" Line="31" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/event/moveEvent.cs" Line="14" Column="86" />
+      <File FileName="Assets/scripts/myMapFramework/map/MapWorld.cs" Line="10" Column="43" />
+      <File FileName="Assets/scripts/myMapFramework/map/MapEventOperator.cs" Line="24" Column="20" />
+      <File FileName="Assets/resources/mymap/map/debug.json" Line="66" Column="128" />
+      <File FileName="Assets/scripts/myMapFramework/system/Collider2DCreator.cs" Line="11" Column="23" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/state/StateTrigger.cs" Line="11" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/MapAttribute.cs" Line="11" Column="26" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/entity/MapWalker.cs" Line="153" Column="27" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/event/eventGroup.cs" Line="48" Column="33" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/entity/character/MapCharacter.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/entity/character/HijackedAi.cs" Line="24" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/myMapFramework/trigger/event/MapEventTrigger.cs" relfile="Assets/scripts/myMapFramework/trigger/event/MapEventTrigger.cs" line="27" column="1" />
+      <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/myMapFramework/trigger/event/MapEventTrigger.cs" relfile="Assets/scripts/myMapFramework/trigger/event/MapEventTrigger.cs" line="28" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />

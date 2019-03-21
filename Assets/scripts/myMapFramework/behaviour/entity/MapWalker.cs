@@ -149,8 +149,8 @@ public class MapWalker : MapBehaviour {
             //属性なし
             if (tAttribute == null) continue;
             //イベントトリガー
-            if(tAttribute.type == MapAttribute.Type.eventTrigger){
-                MapEventTrigger tTrigger = tCollider.GetComponent<MapEventTrigger>();
+            if(tAttribute.type == MapAttribute.Type.trigger){
+                MapTrigger tTrigger = tCollider.GetComponent<MapTrigger>();
                 PassType tPassType = tTrigger.confirmPassType(mEntity);
                 if (tPassType == PassType.collision){
                     oCollided = tCollider;

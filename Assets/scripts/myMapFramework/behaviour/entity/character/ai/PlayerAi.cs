@@ -8,9 +8,9 @@ public partial class MapCharacter : MapEntity {
             mInput = aParent.gameObject.GetComponent<MapPlayerCharacter>();
         }
         private MapPlayerCharacter mInput;
-        public override void update(){
+        protected override void update(){
             if (mInput.mMoveDirection != null)
-                move((Vector2)mInput.mMoveDirection, 2);
+                move(calculateDistance((Vector2)mInput.mMoveDirection, 2));
         }
     }
 }

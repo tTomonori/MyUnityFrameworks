@@ -14,6 +14,7 @@ public class MapStratum : MyBehaviour {
     private MyBehaviour mTiles;
     private MyBehaviour mCharacters;
     private MyBehaviour mOrnaments;
+    private MyBehaviour mTriggers;
     private void Awake(){
         mTiles = MyBehaviour.create<MyBehaviour>();
         mTiles.name = "tiles";
@@ -24,6 +25,9 @@ public class MapStratum : MyBehaviour {
         mOrnaments = MyBehaviour.create<MyBehaviour>();
         mOrnaments.name = "ornaments";
         mOrnaments.transform.SetParent(transform, false);
+        mTriggers = MyBehaviour.create<MyBehaviour>();
+        mTriggers.name = "triggers";
+        mTriggers.transform.SetParent(transform, false);
     }
     public void addTile(MapTile aTile){
         aTile.transform.SetParent(mTiles.transform,false);
@@ -33,6 +37,9 @@ public class MapStratum : MyBehaviour {
     }
     public void addOrnament(MapOrnament aOrnament){
         aOrnament.transform.SetParent(mOrnaments.transform,false);
+    }
+    public void addTrigger(MapTrigger aTrigger){
+        aTrigger.transform.SetParent(mTriggers.transform, false);
     }
     public void add(MapBehaviour aBehaviour){
         MapEntity[] tEntity = aBehaviour.GetComponents<MapEntity>();

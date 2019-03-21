@@ -6,6 +6,7 @@ public partial class MapWorld : MyBehaviour {
     private MapDataFile mFile;
     private MapPlayerCharacter mPlayer;
     private List<MapStratum> mStratums = new List<MapStratum>();
+    private List<MapCharacter> mCharacters = new List<MapCharacter>();
     public MapEventOperator mEventOperator;
     public void load(string aMapName){
         mFile = new MapDataFile(aMapName);
@@ -29,7 +30,8 @@ public partial class MapWorld : MyBehaviour {
         createOrnaments(aData.mOrnament, tStratum);
         //npc
         createNpc(aData.mNpc, tStratum);
-        //event
+        //trigger
+        createTriggers(aData.mTrigger, tStratum);
 
         return tStratum;
     }
@@ -95,7 +97,24 @@ public partial class MapWorld : MyBehaviour {
         MapCharacter tCharacter = MapBehaviour.createFromMapResource<MapCharacter>("character/prefabs/player");
         Sprite[][] tSprites = SpriteCutter.split(aSprite.texture, new Vector2(100, 100),new Vector2(0.5f,0));
         tCharacter.setSprites(tSprites);
+        mCharacters.Add(tCharacter);//リストに追加
         return tCharacter;
+    }
+    //<summary>リストのtrigger生成</summary>
+    private void createTriggers(List<Arg> aData,MapStratum aStratum){
+        foreach(Arg tData in aData){
+            MapTrigger tTrigger = createTrigger(tData);
+            aStratum.addTrigger(tTrigger);
+        }
+    }
+    //<summary>trigger生成</summary>
+    private MapTrigger createTrigger(Arg aData){
+        MapEventTrigger tTrigger = MyBehaviour.create<MapEventTrigger>();
+        tTrigger.name = aData.get<string>("event");
+        Collider2DCreator.addCollider(tTrigger.gameObject, aData.get<Arg>("collider"));
+        tTrigger.position2D = new Vector2(aData.get<float>("x"), aData.get<float>("y"));
+        tTrigger.set(aData.get<Arg>("trigger"), mFile.events.get<Arg>(aData.get<string>("event")));
+        return tTrigger;
     }
     //<summary>プレイヤー生成</summary>
     public MapPlayerCharacter createPlayer(Arg aData){
@@ -118,5 +137,14 @@ public partial class MapWorld : MyBehaviour {
 
     private void Update(){
         mEventOperator.runEvents();
+    }
+
+    //指定した名前のキャラを取得
+    public MapCharacter getCharacter(string aName){
+        foreach(MapCharacter tChara in mCharacters){
+            if (tChara.name != aName) continue;
+            return tChara;
+        }
+        return null;
     }
 }
