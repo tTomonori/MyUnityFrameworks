@@ -24,7 +24,7 @@ public partial class MyBehaviour : MonoBehaviour {
     /// </summary>
     /// <returns>生成されたGameObjectがもつComponent</returns>
     /// <typeparam name="T">取り付けるComponent</typeparam>
-    static public T create<T>() where T : MonoBehaviour{
+    static public T create<T>() where T : Component{
         return new GameObject().AddComponent<T>();
     }
     /// <summary>

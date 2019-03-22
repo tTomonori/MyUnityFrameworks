@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 public static partial class MyMap {
-    static public MapEventHandler mEventHandler;
+    static public MyMapEventHandler mEventHandler;
     static public MyMapController mController;
     static public Camera mCamera;
     static public GameObject mDisplay;
