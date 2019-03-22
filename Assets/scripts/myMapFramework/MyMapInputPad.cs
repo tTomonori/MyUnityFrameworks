@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class MyMapInputPad : MyBehaviour {
     public MyMap.MyMapController mController;
     private Vector2 mDragStartingPoint;

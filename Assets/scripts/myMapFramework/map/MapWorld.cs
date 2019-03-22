@@ -82,6 +82,8 @@ public partial class MapWorld : MyBehaviour {
         MapOrnament tOrnament = MapBehaviour.createFromMapResource<MapOrnament>("ornament/prefabs/" + aData.get<string>("prefab"));
         tOrnament.name = aData.get<string>("prefab");
         tOrnament.setPosition(aData.get<float>("x"), aData.get<float>("y"));
+        if (aData.ContainsKey("speak"))
+            tOrnament.gameObject.AddComponent<MapSpeaker>().mEvent = new MapEvent(mFile.events.get<Arg>(aData.get<string>("speak")));
         return tOrnament;
     }
     //<summary>NPC配置</summary>
@@ -92,6 +94,8 @@ public partial class MapWorld : MyBehaviour {
             tChara.setPosition(tData.get<float>("x"), tData.get<float>("y"));
             tChara.direction = EnumParser.parse<Direction>(tData.get<string>("direction"));
             tChara.setAi(tData.get<string>("ai"), tData.get<Arg>("aiArg"));
+            if (tData.ContainsKey("speak"))
+                tChara.gameObject.AddComponent<MapSpeaker>().mEvent = new MapEvent(mFile.events.get<Arg>(tData.get<string>("speak")));
             aStratum.addCharacter(tChara);
         }
     }

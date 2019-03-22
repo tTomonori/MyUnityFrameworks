@@ -6,7 +6,7 @@ public partial class MapCharacter : MapEntity {
     private class JumpingState : State{
         public JumpingState(MapCharacter aParent,Direction aDirection,float aDistance):base(aParent){
             parent.direction = aDirection;
-            mDistance = Mathf.Abs(aDistance) + parent.mCollider.size[DirectionOperator.convertToAxis(aDirection)];
+            mDistance = Mathf.Abs(aDistance) + parent.mCollider.size[(int)DirectionOperator.convertToAxis(aDirection)];
             mTOSystem = new TakeOutFloatSystem(mDistance, mDistance);
         }
         private float mDistance;

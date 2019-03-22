@@ -28,6 +28,7 @@ public partial class MapCharacter : MapEntity {
             if (aRunThisFrame)
                 aRoutine();
         }
+        //ミニルーチン削除
         protected bool removeMiniRoutine(Action aRoutine){
             return mMiniRoutine.Remove(aRoutine);
         }
@@ -58,6 +59,10 @@ public partial class MapCharacter : MapEntity {
         //<summary>指定方向に指定距離移動</summary>
         protected void move(Vector2 aVector){
             parent.mState.move(aVector);
+        }
+        //<summary>正面を調べる</summary>
+        protected void examine(){
+            parent.mState.examine();
         }
         //AIのインスタンス生成
         static public Ai convertToInstance(string aAiName,MapCharacter aParent,Arg aArg=null){

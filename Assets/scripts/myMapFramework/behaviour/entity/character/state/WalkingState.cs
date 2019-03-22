@@ -16,6 +16,9 @@ public partial class MapCharacter : MapEntity {
             parent.mWalker.move(aVector);
             mIsMoved = true;
         }
+        public override void examine(){
+            examineFront();
+        }
         public override void update(){
             if(mIsMoved){
                 //移動した

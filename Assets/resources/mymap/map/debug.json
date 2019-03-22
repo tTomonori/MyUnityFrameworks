@@ -17,10 +17,11 @@
                {"prefab": "treeSign","x": 4,"y": 2},
                {"prefab": "vase","x": 7,"y": 4},
                {"prefab": "step","x": 5,"y": 3},
-               {"prefab": "step","x": 6,"y": 3}
+               {"prefab": "step","x": 6,"y": 3},
+               {"prefab": "treeSign","x": 13,"y": 3,"speak": "npcMove"}
              ],
       "npc": [
-          { "name" : "test0" , "x" : 13 , "y" : 5 , "ai" : "walkAround" , "aiArg" : {"rangeX": 3,"rangeY": 3} , "direction" : "left" , "image" : "player" }
+          { "name" : "test0" , "x" : 13 , "y" : 5 , "ai" : "walkAround" , "aiArg" : {"rangeX": 3,"rangeY": 3} , "direction" : "left" , "image" : "player" ,"speak": "npcMove"}
       ],
       "trigger": [
         { "x" : 11 , "y" : 0 , "collider":{"type": "box","width" : 1 , "height" : 1 }, "event" : "npcMove" , "trigger": {"prototype": "player"}},

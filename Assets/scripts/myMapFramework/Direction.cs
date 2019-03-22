@@ -6,7 +6,7 @@ public enum Direction{
     up,down,left,right,none
 }
 public enum VHDirection{
-    vertical,horizontal,none
+    horizontal,vertical,none
 }
 
 public static class DirectionOperator{
@@ -29,14 +29,14 @@ public static class DirectionOperator{
         }
         return new Vector2();
     }
-    static public int convertToAxis(Direction aDirection){
+    static public VHDirection convertToAxis(Direction aDirection){
         switch (aDirection){
-            case Direction.up: return 1;
-            case Direction.down: return 1;
-            case Direction.left: return 0;
-            case Direction.right: return 0;
+            case Direction.up: return VHDirection.vertical;
+            case Direction.down: return VHDirection.vertical;
+            case Direction.left: return VHDirection.horizontal;
+            case Direction.right: return VHDirection.horizontal;
         }
-        return -1;
+        return VHDirection.none;
     }
     /// <summary>
     /// ベクトルを成分分解する

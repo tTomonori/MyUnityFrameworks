@@ -14,6 +14,9 @@ public partial class MapCharacter : MapEntity {
             parent.changeState(new WalkingState(parent));
             parent.mState.move(aVector);
         }
+        public override void examine(){
+            examineFront();
+        }
         public override bool turnAround(Direction aDirection){
             parent.mCharaSprite.setSprites(parent.mSprites[parent.getSpritesIndex(aDirection)]);
             return true;

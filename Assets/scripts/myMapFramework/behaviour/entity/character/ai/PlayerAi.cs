@@ -11,6 +11,8 @@ public partial class MapCharacter : MapEntity {
         protected override void update(){
             if (mInput.mMoveDirection != null)
                 move(calculateDistance((Vector2)mInput.mMoveDirection, 2));
+            if (mInput.mInputA)
+                examine();
         }
     }
 }
