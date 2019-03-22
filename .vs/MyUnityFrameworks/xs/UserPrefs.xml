@@ -1,21 +1,24 @@
 ﻿<Properties StartupConfiguration="{5FC93A7A-63B7-5808-3EAE-B7463B930AA6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myMapFramework/stratum/MapStratum.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myMapFramework/trigger/encount/EncountTrigger.cs">
     <Files>
-      <File FileName="Assets/scripts/myMapFramework/behaviour/entity/MapSpeaker.cs" Line="9" Column="6" />
-      <File FileName="Assets/scripts/myMapFramework/behaviour/entity/character/state/State.cs" Line="18" Column="52" />
-      <File FileName="Assets/resources/mymap/map/debug.json" Line="21" Column="52" />
-      <File FileName="Assets/scripts/myMapFramework/map/MapWorld.cs" Line="98" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/entity/MapSpeaker.cs" Line="14" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/behaviour/entity/character/state/State.cs" Line="40" Column="39" />
+      <File FileName="Assets/resources/mymap/map/debug.json" Line="21" Column="72" />
+      <File FileName="Assets/scripts/myMapFramework/map/MapWorld.cs" Line="148" Column="140" />
       <File FileName="Assets/scripts/myMapFramework/behaviour/MapBehaviour.cs" Line="92" Column="1" />
       <File FileName="Assets/scripts/myMapFramework/behaviour/entity/character/state/StandingState.cs" Line="18" Column="28" />
       <File FileName="Assets/scripts/myMapFramework/behaviour/entity/character/state/WalkingState.cs" Line="20" Column="28" />
       <File FileName="Assets/scripts/myMapFramework/stratum/MapStratum.cs" Line="1" Column="1" />
+      <File FileName="Assets/resources/mymap/map/debug2.json" Line="48" Column="27" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/encount/MyMapEncountSystem.cs" Line="7" Column="42" />
+      <File FileName="Assets/scripts/myMapFramework/trigger/encount/EncountTrigger.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/myMapFramework/map/MapWorld.cs" relfile="Assets/scripts/myMapFramework/map/MapWorld.cs" line="85" column="1" />
+      <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/myMapFramework/trigger/encount/EncountTrigger.cs" relfile="Assets/scripts/myMapFramework/trigger/encount/EncountTrigger.cs" line="35" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

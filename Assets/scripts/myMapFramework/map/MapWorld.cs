@@ -83,7 +83,7 @@ public partial class MapWorld : MyBehaviour {
         tOrnament.name = aData.get<string>("prefab");
         tOrnament.setPosition(aData.get<float>("x"), aData.get<float>("y"));
         if (aData.ContainsKey("speak"))
-            tOrnament.gameObject.AddComponent<MapSpeaker>().mEvent = new MapEvent(mFile.events.get<Arg>(aData.get<string>("speak")));
+            addSpeaker(tOrnament, aData.get<Arg>("speak"));
         return tOrnament;
     }
     //<summary>NPC配置</summary>
@@ -95,7 +95,7 @@ public partial class MapWorld : MyBehaviour {
             tChara.direction = EnumParser.parse<Direction>(tData.get<string>("direction"));
             tChara.setAi(tData.get<string>("ai"), tData.get<Arg>("aiArg"));
             if (tData.ContainsKey("speak"))
-                tChara.gameObject.AddComponent<MapSpeaker>().mEvent = new MapEvent(mFile.events.get<Arg>(tData.get<string>("speak")));
+                addSpeaker(tChara, tData.get<Arg>("speak"));
             aStratum.addCharacter(tChara);
         }
     }
@@ -137,6 +137,15 @@ public partial class MapWorld : MyBehaviour {
                 mStratums[(int)tPosition.z].addTrigger(tTrigger);
             }
         }
+    }
+    //<summary>MapSpeakerをつける</summary>
+    private void addSpeaker(MapBehaviour aBehaviour,Arg aData){
+        MapSpeaker tSpeaker = aBehaviour.gameObject.AddComponent<MapSpeaker>();
+        if (aData.ContainsKey("default")) tSpeaker.mEvent = new MapEvent(mFile.events.get<Arg>(aData.get<string>("default")));
+        if (aData.ContainsKey("fromUp")) tSpeaker.mEventFromUp = new MapEvent(mFile.events.get<Arg>(aData.get<string>("fromUp")));
+        if (aData.ContainsKey("fromDown")) tSpeaker.mEventFromDown = new MapEvent(mFile.events.get<Arg>(aData.get<string>("fromDown")));
+        if (aData.ContainsKey("fromLeft")) tSpeaker.mEventFromLeft = new MapEvent(mFile.events.get<Arg>(aData.get<string>("fromLeft")));
+        if (aData.ContainsKey("fromRight")) tSpeaker.mEventFromRight = new MapEvent(mFile.events.get<Arg>(aData.get<string>("fromRight")));
     }
     //<summary>プレイヤー生成</summary>
     public MapPlayerCharacter createPlayer(Arg aData){

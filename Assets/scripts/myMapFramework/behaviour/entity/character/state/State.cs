@@ -37,7 +37,7 @@ public partial class MapCharacter : MapEntity {
                 MapSpeaker tSpeaker = tCollider.GetComponent<MapSpeaker>();
                 if (tSpeaker == null) continue;
                 if (!parent.mStratum.canCollide(tSpeaker.mStratum)) continue;
-                tSpeaker.speack();
+                tSpeaker.speack(parent);
             }
         }
     }

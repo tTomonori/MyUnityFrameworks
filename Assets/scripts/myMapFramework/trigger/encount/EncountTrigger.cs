@@ -39,7 +39,7 @@ public class EncountTrigger : MapTrigger {
         mLastCount = aStepper.curPosition;
         //移動距離
         float tDistance = Vector2.Distance(aStepper.curPosition,aStepper.preStepPosition);
-        if (!MyMapEncountSystem.count(tDistance)) return;
+        if (!MyMapEncountSystem.count(tDistance * mEncountMagnification)) return;
 
         //エンカウントした
         MapEvent.battle tBattle = new MapEvent.battle();

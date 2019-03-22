@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class MyMapEncountSystem {
-    static public float mRestCountMin = 10;
-    static public float mRestCountMax = 20;
+    static public float mRestCountMin = 400;
+    static public float mRestCountMax = 1200;
     static private float mCount;
     //<summary>指定数カウントを進めるとエンカウントするならtrueを返す</summary>
     static public bool simulate(float aCount){
