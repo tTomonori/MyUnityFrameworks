@@ -21,6 +21,9 @@ public static partial class MyMap {
         mWorld.load(aSaveData.get<string>("mapName"));
         mPlayer = mWorld.createPlayer(aSaveData.get<Arg>("player"));
 
+        //エンカウント
+        MyMapEncountSystem.setCount(aSaveData.get<float>("encount"));
+
         //カメラ設定
         mMyCamera = mCamera.gameObject.AddComponent<MyMapCamera>();
         mMyCamera.setShootingMode(new MyMapCamera.ShootingTarget(mPlayer));

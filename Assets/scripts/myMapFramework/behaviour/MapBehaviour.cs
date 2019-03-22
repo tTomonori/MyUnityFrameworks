@@ -12,6 +12,15 @@ public class MapBehaviour : MyBehaviour {
             return stoc;
         }
     }
+    private MapAttribute attribute;
+    //<summary>このオブジェクトのMapAttribute</summary>
+    public MapAttribute mAttribute{
+        get{
+            if (attribute != null) return attribute;
+            attribute = GetComponent<MapAttribute>();
+            return attribute;
+        }
+    }
     //<summary>このオブジェクトが存在する階層</summary>
     public MapStratum mStratum{
         get { return GetComponentInParent<MapStratum>(); }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class StratumBorder : MapTrigger{
     [SerializeField] private BorderDirection mBorderDirection;
     private int mStratumNum;
-    public override MapWalker.PassType confirmPassType(MapBehaviour aBehaviour){
+    public override MapWalker.PassType confirmPassType(MapWalker aBehaviour,Vector2 aPosition){
         return MapWalker.PassType.through;
     }
     private void Start(){

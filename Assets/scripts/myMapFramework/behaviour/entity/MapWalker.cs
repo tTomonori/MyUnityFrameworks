@@ -7,7 +7,9 @@ public class MapWalker : MapBehaviour {
     //障害物と衝突した時、障害物との距離の最大許容距離
     static private float kMaxSeparation = 0.02f;
     [SerializeField] private MapEntity mEntity;
+    public MapEntity cEntity{ get { return mEntity; }}
     private MapStepper mStepper;
+    public MapStepper cStepper{ get { return mStepper; }}
     private float mMaxDelta;
     private void Awake(){
         //移動用パラメータ
@@ -151,7 +153,7 @@ public class MapWalker : MapBehaviour {
             //イベントトリガー
             if(tAttribute.type == MapAttribute.Type.trigger){
                 MapTrigger tTrigger = tCollider.GetComponent<MapTrigger>();
-                PassType tPassType = tTrigger.confirmPassType(mEntity);
+                PassType tPassType = tTrigger.confirmPassType(this,aPosition);
                 if (tPassType == PassType.collision){
                     oCollided = tCollider;
                     return PassType.collision;

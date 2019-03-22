@@ -9,23 +9,23 @@ public class MapEventTrigger : MapTrigger {
         mTriggerConfig = new TriggerConfig(aTriggerData);
         mMapEvent = new MapEvent(aEventData, mTriggerConfig.mRequireAi);
     }
-    public override MapWalker.PassType confirmPassType(MapBehaviour aBehaviour){
+    public override MapWalker.PassType confirmPassType(MapWalker aBehaviour,Vector2 aPosition){
         //behaviourなし
         if (aBehaviour == null) return MapWalker.PassType.through;
         //characterではない
-        if (!(aBehaviour is MapCharacter)) return MapWalker.PassType.through;
+        if (!(aBehaviour.cEntity is MapCharacter)) return MapWalker.PassType.through;
         //characterの場合
         //対象のキャラでない
         if (!isTarget(aBehaviour)) return MapWalker.PassType.through;
         //hijack不可
-        if (!((MapCharacter)aBehaviour).isCanHijack()) return MapWalker.PassType.through;
+        if (!((MapCharacter)aBehaviour.cEntity).isCanHijack()) return MapWalker.PassType.through;
 
         return MapWalker.PassType.stop;
     }
     public override void onEnter(MapStepper aStepper){
         //イベント発火対象でない
         if (!isTarget(aStepper)) return;
-        mMapEvent.run(mMapWorld.mEventOperator);
+        mMapWorld.mEventOperator.addEvent(mMapEvent);
     }
     //イベント発火のトリガーとなるキャラかどうか
     private bool isTarget(MapBehaviour aBehaviour){

@@ -57,4 +57,13 @@ public class TestHandler:MyMapEventHandler{
         });
         MyBehaviour.setTimeoutToIns(0.5f, aOnFadeInEnd);
     }
+    /// <summary>
+    /// 戦闘イベント発火通知
+    /// </summary>
+    /// <param name="aData">戦闘データ</param>
+    /// <param name="aEndBattle">戦闘終了時に呼ぶ</param>
+    public void onBattleStart(Arg aData, Action<bool> aEndBattle){
+        Debug.Log("battle : "+aData.get<string>("test"));
+        aEndBattle(true);
+    }
 }

@@ -20,6 +20,8 @@ public partial class MapWorld : MyBehaviour {
             tStratum.transform.SetParent(transform, false);
             mStratums.Add(tStratum);
         }
+        //encount
+        createEncountTrigger(mFile.encountData);
     }
     //<summary>階層生成</summary>
     private MapStratum createStratum(MapDataFile.Stratum aData){
@@ -117,6 +119,21 @@ public partial class MapWorld : MyBehaviour {
         tTrigger.set(aData.get<Arg>("trigger"), mFile.events.get<Arg>(aData.get<string>("event")));
         return tTrigger;
     }
+    //<summary>encountTrigger生成</summary>
+    private void createEncountTrigger(List<MapDataFile.EncountData> aData){
+        foreach(MapDataFile.EncountData tData in aData){
+            foreach(Vector3 tPosition in tData.mTrout){
+                EncountTrigger tTrigger = MyBehaviour.create<EncountTrigger>();
+                tTrigger.mEncountMagnification = tData.mMagnification;
+                tTrigger.mEncountData = tData.mEncountData;
+                tTrigger.position2D = new Vector2(tPosition.x, tPosition.y);
+                tTrigger.name = "encountTrigger";
+                BoxCollider2D tCollider = tTrigger.gameObject.AddComponent<BoxCollider2D>();
+                tCollider.size = new Vector2(1, 1);
+                mStratums[(int)tPosition.z].addTrigger(tTrigger);
+            }
+        }
+    }
     //<summary>プレイヤー生成</summary>
     public MapPlayerCharacter createPlayer(Arg aData){
         MapCharacter tPlayer = createCharacter(Resources.Load<Sprite>("mymap/character/sprites/player"));
@@ -134,6 +151,7 @@ public partial class MapWorld : MyBehaviour {
         mPlayer = aPlayer;
         mPlayer.setPosition(aPosition.x, aPosition.y);
         mStratums[aStratumNum].addCharacter(mPlayer.GetComponent<MapCharacter>());
+        mCharacters.Add(mPlayer.GetComponent<MapCharacter>());
     }
 
     //stratum変更

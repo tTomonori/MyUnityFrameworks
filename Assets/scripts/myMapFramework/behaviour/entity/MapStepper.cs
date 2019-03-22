@@ -12,7 +12,10 @@ public class MapStepper : MapBehaviour {
     public Vector2 preStepPosition{
         get { return mPreStepPosition; }
     }
+    private MapWalker mWalker;
+    public MapWalker cWalker{ get { return mWalker; }}
     public void Start(){
+        mWalker = GetComponent<MapWalker>();
         mCurPosition = position2D;
         mPreStepPosition = mCurPosition;
     }

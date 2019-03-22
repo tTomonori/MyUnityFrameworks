@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class StateTrigger : MapTrigger {
-    public override MapWalker.PassType confirmPassType(MapBehaviour aBehaviour){
-        if(aBehaviour is MapCharacter){
-            if (aBehaviour.GetComponent<MapAttribute>().mAttribute == MapAttribute.Attribute.ghost)
+    public override MapWalker.PassType confirmPassType(MapWalker aBehaviour,Vector2 aPosition){
+        if(aBehaviour.cEntity is MapCharacter){
+            if (aBehaviour.mAttribute.mAttribute == MapAttribute.Attribute.ghost)
                 return MapWalker.PassType.through;
         }
         return MapWalker.PassType.stop;

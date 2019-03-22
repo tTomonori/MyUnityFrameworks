@@ -105,7 +105,10 @@
                                         {"event": "moveBy","targetName": ["test0"],"deltaX": 2,"deltaY":0,"speed":4}
                 ]},
     "moveMap": {"event": "moveMap","mapName": "debug2","positionX": 0,"positionY": 0,"stratum": 0}
-  }
+  },
+  "encount": [
+    
+  ]
 }
 
 //////
