@@ -32,7 +32,8 @@ public partial class MapWorld : MyBehaviour {
         createNpc(aData.mNpc, tStratum);
         //trigger
         createTriggers(aData.mTrigger, tStratum);
-
+        //壁生成
+        tStratum.createWall(new Vector2(aData.mFeild[0].Count, aData.mFeild.Count));
         return tStratum;
     }
     //<summary>地面生成</summary>

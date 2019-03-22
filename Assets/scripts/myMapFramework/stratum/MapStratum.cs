@@ -15,6 +15,7 @@ public class MapStratum : MyBehaviour {
     private MyBehaviour mCharacters;
     private MyBehaviour mOrnaments;
     private MyBehaviour mTriggers;
+    private MyBehaviour mWalls;
     private void Awake(){
         mTiles = MyBehaviour.create<MyBehaviour>();
         mTiles.name = "tiles";
@@ -28,6 +29,9 @@ public class MapStratum : MyBehaviour {
         mTriggers = MyBehaviour.create<MyBehaviour>();
         mTriggers.name = "triggers";
         mTriggers.transform.SetParent(transform, false);
+        mWalls = MyBehaviour.create<MyBehaviour>();
+        mWalls.name = "walls";
+        mWalls.transform.SetParent(transform, false);
     }
     public void addTile(MapTile aTile){
         aTile.transform.SetParent(mTiles.transform,false);
@@ -53,5 +57,42 @@ public class MapStratum : MyBehaviour {
     public bool canCollide(MapStratum aStatum){
         if (aStatum == null) return false;
         return (mStratumNum == aStatum.mStratumNum) || (mStratumNum + 1 == aStatum.mStratumNum);
+    }
+    //フィールドの周囲に壁を生成
+    public void createWall(Vector2 aSize){
+        MyBehaviour tWall;
+        BoxCollider2D tCollider;
+        //上
+        tWall = MyBehaviour.create<MyBehaviour>();
+        tCollider = tWall.gameObject.AddComponent<BoxCollider2D>();
+        tCollider.size = new Vector2(aSize.x + 2, 1);
+        tWall.position2D = new Vector2(aSize.x / 2 - 0.5f, aSize.y);
+        tWall.transform.SetParent(mWalls.transform, false);
+        tWall.gameObject.AddComponent<MapAttribute>().mAttribute = MapAttribute.Attribute.none;
+        tWall.name = "wallUp";
+        //下
+        tWall = MyBehaviour.create<MyBehaviour>();
+        tCollider = tWall.gameObject.AddComponent<BoxCollider2D>();
+        tCollider.size = new Vector2(aSize.x + 2, 1);
+        tWall.position2D = new Vector2(aSize.x / 2 - 0.5f, -1);
+        tWall.transform.SetParent(mWalls.transform, false);
+        tWall.gameObject.AddComponent<MapAttribute>().mAttribute = MapAttribute.Attribute.none;
+        tWall.name = "wallDown";
+        //左
+        tWall = MyBehaviour.create<MyBehaviour>();
+        tCollider = tWall.gameObject.AddComponent<BoxCollider2D>();
+        tCollider.size = new Vector2(1, aSize.y + 2);
+        tWall.position2D = new Vector2(-1, aSize.y / 2 - 0.5f);
+        tWall.transform.SetParent(mWalls.transform, false);
+        tWall.gameObject.AddComponent<MapAttribute>().mAttribute = MapAttribute.Attribute.none;
+        tWall.name = "wallLeft";
+        //右
+        tWall = MyBehaviour.create<MyBehaviour>();
+        tCollider = tWall.gameObject.AddComponent<BoxCollider2D>();
+        tCollider.size = new Vector2(1, aSize.y + 2);
+        tWall.position2D = new Vector2(aSize.x, aSize.y / 2 - 0.5f);
+        tWall.transform.SetParent(mWalls.transform, false);
+        tWall.gameObject.AddComponent<MapAttribute>().mAttribute = MapAttribute.Attribute.none;
+        tWall.name = "wallRight";
     }
 }
