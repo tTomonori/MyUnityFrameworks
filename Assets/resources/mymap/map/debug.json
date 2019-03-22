@@ -18,7 +18,8 @@
                {"prefab": "vase","x": 7,"y": 4},
                {"prefab": "step","x": 5,"y": 3},
                {"prefab": "step","x": 6,"y": 3},
-               {"prefab": "treeSign","x": 13,"y": 3,"speak": {"fromDown": "npcMove"}}
+               {"prefab": "treeSign","x": 13,"y": 3,"speak": {"fromDown": "npcMove"}},
+               {"prefab": "treeSign","x": 5,"y": 5,"speak": {"fromDown": "npcMove"}}
              ],
       "npc": [
           { "name" : "test0" , "x" : 13 , "y" : 5 , "ai" : "walkAround" , "aiArg" : {"rangeX": 3,"rangeY": 3} , "direction" : "left" , "image" : "player" ,"speak": {"default": "npcMove"}}

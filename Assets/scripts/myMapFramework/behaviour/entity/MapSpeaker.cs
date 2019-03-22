@@ -9,7 +9,7 @@ public class MapSpeaker : MapBehaviour {
     public MapEvent mEventFromLeft;
     public MapEvent mEventFromRight;
     public void speack(MapCharacter aCharacter){
-        Direction tDirection = DirectionOperator.convertToDirection(aCharacter.position2D - position2D);
+        Direction tDirection = DirectionOperator.convertToDirection(Physics2D.Distance(aCharacter.mCollider, mCollider).normal);
         MapEvent tEvent = mEvent;
         switch(tDirection){
             case Direction.up:

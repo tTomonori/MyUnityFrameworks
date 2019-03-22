@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapBehaviour : MyBehaviour {
     private Collider2D stoc;//colliderが変更されないことを前提に保持しておく
     //<summary>このオブジェクトについているcollider</summary>
-    private Collider2D mCollider{
+    public Collider2D mCollider{
         get{
             if (stoc != null) return stoc;
             stoc = GetComponent<Collider2D>();
