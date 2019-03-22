@@ -128,6 +128,12 @@ public partial class MapWorld : MyBehaviour {
 
         return mPlayer;
     }
+    //<summary>プレイヤーをセット</summary>
+    public void setPlayer(MapPlayerCharacter aPlayer,Vector2 aPosition,int aStratumNum){
+        mPlayer = aPlayer;
+        mPlayer.setPosition(aPosition.x, aPosition.y);
+        mStratums[aStratumNum].addCharacter(mPlayer.GetComponent<MapCharacter>());
+    }
 
     //stratum変更
     public void changeStratum(MapBehaviour aBehaviour,int aStratumNum){

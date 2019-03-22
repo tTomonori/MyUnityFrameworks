@@ -23,7 +23,8 @@
           { "name" : "test0" , "x" : 13 , "y" : 5 , "ai" : "walkAround" , "aiArg" : {"rangeX": 3,"rangeY": 3} , "direction" : "left" , "image" : "player" }
       ],
       "trigger": [
-        { "x" : 11 , "y" : 0 , "collider":{"type": "box","width" : 1 , "height" : 1 }, "event" : "npcMove" , "trigger": {"prototype": "player"}}
+        { "x" : 11 , "y" : 0 , "collider":{"type": "box","width" : 1 , "height" : 1 }, "event" : "npcMove" , "trigger": {"prototype": "player"}},
+        { "x" : 0 , "y" : 0 , "collider":{"type": "box","width" : 1 , "height" : 1 }, "event" : "moveMap" , "trigger": {"prototype": "player"}}
       ]
     },
     {
@@ -102,7 +103,8 @@
     "npcMove": {"event": "list","list": [
                                         {"event": "moveBy","targetName": ["test0"],"deltaX": -2,"deltaY":0,"speed":4},
                                         {"event": "moveBy","targetName": ["test0"],"deltaX": 2,"deltaY":0,"speed":4}
-                ]}
+                ]},
+    "moveMap": {"event": "moveMap","mapName": "debug2","positionX": 0,"positionY": 0,"stratum": 0}
   }
 }
 
