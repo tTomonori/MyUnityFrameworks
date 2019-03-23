@@ -126,7 +126,7 @@ public partial class MapWorld : MyBehaviour {
     //<summary>encountTrigger生成</summary>
     private void createEncountTrigger(List<MapDataFile.EncountData> aData){
         foreach(MapDataFile.EncountData tData in aData){
-            foreach(Vector3 tPosition in tData.mTrout){
+            foreach(Vector3 tPosition in tData.mMass){
                 EncountTrigger tTrigger = MyBehaviour.create<EncountTrigger>();
                 tTrigger.mEncountMagnification = tData.mMagnification;
                 tTrigger.mEncountData = tData.mEncountData;

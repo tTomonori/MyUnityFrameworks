@@ -56,9 +56,9 @@ public class MapDataFile {
     }
     public class EncountData{
         private Arg mData;
-        private List<Vector3> mTroutList;
-        public List<Vector3> mTrout{
-            get { return mTroutList; }
+        private List<Vector3> mMassList;
+        public List<Vector3> mMass{
+            get { return mMassList; }
         }
         public float mMagnification{
             get { return mData.get<float>("magnification"); }
@@ -68,9 +68,9 @@ public class MapDataFile {
         }
         public EncountData(Arg aData){
             mData = aData;
-            mTroutList = new List<Vector3>();
-            foreach(List<int> tPosition in mData.get<List<List<int>>>("trout")){
-                mTroutList.Add(new Vector3(tPosition[0], tPosition[1], tPosition[2]));
+            mMassList = new List<Vector3>();
+            foreach(List<int> tPosition in mData.get<List<List<int>>>("mass")){
+                mMassList.Add(new Vector3(tPosition[0], tPosition[1], tPosition[2]));
             }
         }
     }
