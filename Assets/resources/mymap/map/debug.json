@@ -19,7 +19,8 @@
                {"prefab": "step","x": 5,"y": 3},
                {"prefab": "step","x": 6,"y": 3},
                {"prefab": "treeSign","x": 13,"y": 3,"speak": {"fromDown": "npcMove"}},
-               {"prefab": "treeSign","x": 5,"y": 5,"speak": {"fromDown": "npcMove"}}
+               {"prefab": "treeSign","x": 5,"y": 5,"speak": {"fromDown": "npcMove"}},
+               {"prefab": "treeSign","x": 8,"y": 2,"speak": {"fromDown": "downSign","fromUp": "upSign"}}
              ],
       "npc": [
           { "name" : "test0" , "x" : 13 , "y" : 5 , "ai" : "walkAround" , "aiArg" : {"rangeX": 3,"rangeY": 3} , "direction" : "left" , "image" : "player" ,"speak": {"default": "npcMove"}}
@@ -106,7 +107,11 @@
                                         {"event": "moveBy","targetName": ["test0"],"deltaX": -2,"deltaY":0,"speed":4},
                                         {"event": "moveBy","targetName": ["test0"],"deltaX": 2,"deltaY":0,"speed":4}
                 ]},
-    "moveMap": {"event": "moveMap","mapName": "debug2","positionX": 0,"positionY": 0,"stratum": 0}
+    "moveMap": {"event": "moveMap","mapName": "debug2","positionX": 0,"positionY": 0,"stratum": 0},
+    "downSign": {"event": "conversation","conversations": [
+                   {"name": "かんばん","text": "はろーはろー"}
+                 ]},
+    "upSign": {"event": "conversation","conversations": [{"text": "看板の裏には何も書かれていなかった"}]}
   },
   "encount": [
     

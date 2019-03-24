@@ -66,4 +66,13 @@ public class TestHandler:MyMapEventHandler{
         Debug.Log("battle : "+aData.get<string>("test"));
         aEndBattle(true);
     }
+    /// <summary>
+    /// 外部で処理するイベントの発火通知
+    /// </summary>
+    /// <param name="aData">イベントデータ</param>
+    /// <param name="aCallback">イベント終了時に呼ぶ</param>
+    public void onFireOuterEvent(Arg aData, Action<string> aCallback){
+        MyDebugLog.Log(aData);
+        aCallback("");
+    }
 }

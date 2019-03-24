@@ -71,13 +71,14 @@ public partial class MapEvent {
         //データからイベント生成
         static public MapEventChild create(Arg aData){
             Type tType = Type.GetType("MapEvent+"+aData.get<string>("event"));
+            if (tType == null) tType = typeof(outerEvent);
             MapEventChild tEvent = (MapEventChild)Activator.CreateInstance(tType);
             //MapEventChild tEvent = (MapEventChild)tType.GetConstructor(new Type[0]).Invoke(new object[0]);
             tEvent.init(aData);
             return tEvent;
         }
     }
-    //関数を実行
+    //関数を実行イベント
     public class function:MapEventChild{
         private Action<Action> mFunction;
         public function(Action<Action> aFunction){
@@ -88,6 +89,30 @@ public partial class MapEvent {
         }
         public override void run(MapEvent aParent, Action aCallback){
             mFunction(aCallback);
+        }
+    }
+    //外部通知イベント
+    public class outerEvent:MapEventChild{
+        private Arg mData;
+        private Dictionary<string, MapEventChild> mBranch;
+        public override void init(Arg aData){
+            mData = aData;
+            if (!mData.ContainsKey("branch")) return;
+            //外部イベントからの戻り値により分岐する場合のイベント
+            mBranch = new Dictionary<string, MapEventChild>();
+            foreach(KeyValuePair<string,Arg> tPair in mData.get<Arg>("branch").dictionary){
+                mBranch.Add(tPair.Key, MapEventChild.create(tPair.Value));
+            }
+        }
+        public override void run(MapEvent aParent, Action aCallback){
+            MyMap.mEventHandler.onFireOuterEvent(mData, (aRes) =>{
+                if(mBranch==null || !mBranch.ContainsKey(aRes)){
+                    if (aRes != "") Debug.Log("MapEvent : 「" + mData.get<string>("event") + "」イベントの戻り値「" + aRes + "」に対応したイベントがないよ");
+                    aCallback();
+                    return;
+                }
+                mBranch[aRes].run(aParent, aCallback);
+            });
         }
     }
 }
