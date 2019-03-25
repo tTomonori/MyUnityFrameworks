@@ -39,6 +39,27 @@ public partial class MyBehaviour : MonoBehaviour{
     public Coroutine moveBy(Vector3 delta, float duration, Action callback = null){
         return StartCoroutine(moveDelta(delta, duration, callback));
     }
+    /// <summary>
+    /// 移動させる
+    /// </summary>
+    /// <returns>コルーチン</returns>
+    /// <param name="delta">移動量</param>
+    /// <param name="speed">移動速度(/s)</param>
+    /// <param name="callback">移動終了時関数</param>
+    public Coroutine moveByWithSpeed(Vector3 delta,float speed,Action callback=null){
+        return StartCoroutine(moveDelta(delta, delta.magnitude / speed, callback));
+    }
+    /// <summary>
+    /// 移動させる
+    /// </summary>
+    /// <returns>コルーチン</returns>
+    /// <param name="goal">目標地点</param>
+    /// <param name="speed">移動速度(/s)</param>
+    /// <param name="callback">移動終了時関数</param>
+    public Coroutine moveToWithSpeed(Vector2 goal, float speed, Action callback = null){
+        Vector2 tDelta = goal - position2D;
+        return StartCoroutine(moveDelta(tDelta, tDelta.magnitude / speed, callback));
+    }
     private IEnumerator moveDelta(Vector3 delta, float duration, Action callback){
         float tLeftTime = duration;
         Vector3 tLeftDistance = delta;
