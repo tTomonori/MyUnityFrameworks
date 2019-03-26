@@ -97,6 +97,13 @@ public partial class MyBehaviour : MonoBehaviour {
     public void delete(){
         Destroy(gameObject);
     }
+    //<summary>子要素を全て削除</summary>
+    public void deleteChildren(){
+        foreach(Transform tChild in transform){
+            if (tChild == this) continue;
+            Destroy(tChild.gameObject);
+        }
+    }
     ///座標
     public Vector3 position{
         get { return gameObject.transform.localPosition; }

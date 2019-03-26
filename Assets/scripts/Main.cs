@@ -19,9 +19,14 @@ public class Main : MonoBehaviour {
 
         MyMap.mCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
-        MyMap.mEventHandler = new TestHandler();
+        TestHandler tHandler = new TestHandler();
+        tHandler.mConversationHandler = new MyConversationEventHandler();
+        MySceneManager.openScene("text",null,(aScene) => {
+            tHandler.mConversationHandler.mWindow = GameObject.Find("conversationWindow").GetComponent<MyConversationWondow>();
+            MyMap.mEventHandler = tHandler;
 
-        MyMap.load(tSave);
+            MyMap.load(tSave);
+        });
 	}
 	
 	// Update is called once per frame
@@ -32,6 +37,7 @@ public class Main : MonoBehaviour {
 
 public class TestHandler:MyMapEventHandler{
     private MyBehaviour mFade;
+    public MyConversationEventHandler mConversationHandler;
     /// <summary>
     /// マップ移動イベント発火通知
     /// </summary>
@@ -72,6 +78,7 @@ public class TestHandler:MyMapEventHandler{
     /// <param name="aData">イベントデータ</param>
     /// <param name="aCallback">イベント終了時に呼ぶ</param>
     public void onFireOuterEvent(Arg aData, Action<string> aCallback){
+        if (mConversationHandler.on(aData, aCallback)) return;
         MyDebugLog.Log(aData);
         aCallback("");
     }

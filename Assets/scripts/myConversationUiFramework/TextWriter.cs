@@ -6,13 +6,29 @@ using System;
 using System.IO;
 
 public class TextWriter : MonoBehaviour {
+    //文字オブジェクトのscale
     static float kScale = 100;
+    //表示位置管理
     private Board mBoard;
+    //文字の行
     private List<Line> mLines=new List<Line>();
+    //自分のtransform
     private RectTransform mRect;
+    //Lineの親要素
     private RectTransform mLineContainer;
-    private WriterReader mReader;
+    private MyBehaviour mLineContainerBehaviour;
+    //文字を１文字ずつ読む用
+    private WriterReader mReader = new WriterReader();
+    //文字を表示するタイミング管理用
     private float mWaited = 0;
+    //全部表示し終わった時のコールバック
+    public Action mCallback;
+    //表示停止
+    private bool mStop = false;
+    //goが呼ばれた時の関数(タグ処理で設定する)
+    private Action mOnGo;
+    //終了フラグ
+    private bool mIsEnd = true;
     private Color mColor;
     private int mSize;
     [SerializeField] public int mFontSize = 100;
@@ -31,45 +47,78 @@ public class TextWriter : MonoBehaviour {
         mLineContainer.name = "lineContainer";
         mLineContainer.localPosition = new Vector3(-mRect.sizeDelta.x/2, mRect.sizeDelta.y/2, 0);
         mLineContainer.transform.SetParent(mBoard.transform, false);
+        mLineContainerBehaviour = mLineContainer.gameObject.AddComponent<MyBehaviour>();
         createNewLine();
-        mReader = new WriterReader();
         mColor = mFontColor;
         mSize = mFontSize;
 	}
 	
 	void Update () {
-        if (mReader.isEnd()) return;
+        if (mIsEnd || mStop) return;
         mWaited += Time.deltaTime;
         int tNum = Mathf.FloorToInt(mWaited / mWriteInterval);
         mWaited = mWaited % mWriteInterval;
         //文字表示
-        for (int i = 0; i < tNum; i++)
-            writeNextChar();
-        //表示位置調整
-        mBoard.updated();
+        writeNextString(tNum);
 	}
+    //読む,読み飛ばす
+    public void go(){
+        //タグの関数
+        if(mOnGo!=null){
+            mOnGo();
+            mOnGo = null;
+            writeNextString(1);
+            return;
+        }
+        //読み飛ばす
+        writeNextString(9999);
+    }
     //表示する文章を追加
     public void write(string aText){
+        mIsEnd = false;
         mReader.add(aText);
+    }
+    //表示リセット
+    public void clear(){
+        //行を削除
+        mLineContainerBehaviour.deleteChildren();
+        mLines.Clear();
+        createNewLine();
+        //表示位置をリセット
+        mBoard.reset();
+    }
+    //指定文字数表示
+    private void writeNextString(int aNum){
+        for (int i = 0; i < aNum;i++){
+            if (mStop) return;//書き込み停止
+            if(mReader.isEnd()){//終了
+                mIsEnd = true;
+                mCallback();
+                return;
+            }
+            //次の１文字表示
+            writeNextChar();
+        }
+        mBoard.updated();
     }
     //次の文字を表示
     private void writeNextChar(){
-        string tStr = getNextChar();
-        if (tStr == "") return;
-        Text tText = createText();
-        tText.text = tStr;
-        writeText(tText);
-    }
-    //次の文字を取得
-    private string getNextChar(){
         string tNext;
-        while(true){
+        while (!mStop){
+            //次の１文字
             tNext = mReader.read();
-            if(tNext=="<"){
+            //終了
+            if (tNext == "") return;
+            //タグ
+            if (tNext == "<"){
                 readTag();
                 continue;
             }
-            return tNext;
+            //１文字表示
+            Text tText = createText();
+            tText.text = tNext;
+            writeText(tText);
+            return;
         }
     }
     //タグ処理
@@ -94,6 +143,14 @@ public class TextWriter : MonoBehaviour {
                 break;
             case "/size"://文字サイズをデフォルトに戻す
                 mSize = mFontSize;
+                break;
+            case "stop"://文字の書き込みを停止
+                mStop = true;
+                mOnGo = () => { mStop = false; };
+                break;
+            case "clear"://文字の書き込みを停止し,再開時に表示リセット
+                mStop = true;
+                mOnGo = () => { clear(); mStop = false; };
                 break;
         }
     }
@@ -123,6 +180,7 @@ public class TextWriter : MonoBehaviour {
         tText.horizontalOverflow = HorizontalWrapMode.Overflow;
         tText.verticalOverflow = VerticalWrapMode.Overflow;
         tText.font = mFont;
+        tText.gameObject.layer = gameObject.layer;
         return tText;
     }
 
@@ -193,6 +251,11 @@ public class TextWriter : MonoBehaviour {
         }
         private float getCorrectY(){
             return -outer.mLines[0].getBottom() - outer.mRect.sizeDelta.y;
+        }
+        public void reset(){
+            if (mMoveCoroutine != null) StopCoroutine(mMoveCoroutine);
+            positionY = 0;
+            mToY = 0;
         }
     }
 

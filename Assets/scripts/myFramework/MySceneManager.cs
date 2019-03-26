@@ -70,8 +70,8 @@ public static class MySceneManager {
     static public void openScene(string aName, Arg aArg=null, Action<Scene> aOpened = null, Action<Arg> aClosed = null){
         SceneData tData = new SceneData(aName, (aArg == null) ? new Arg() : aArg, aOpened, aClosed, true);
         mScenes.Add(tData);
-        SceneManager.LoadSceneAsync(aName, LoadSceneMode.Additive);
-        //SceneManager.LoadScene(aName,LoadSceneMode.Additive);
+        //SceneManager.LoadSceneAsync(aName, LoadSceneMode.Additive);
+        SceneManager.LoadScene(aName,LoadSceneMode.Additive);
     }
     ///シーンを閉じる
     static public void closeScene(string aName,Arg aArg=null,Action<Arg> aClosed=null){
