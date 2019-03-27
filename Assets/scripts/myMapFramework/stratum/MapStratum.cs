@@ -46,6 +46,14 @@ public class MapStratum : MyBehaviour {
         aTrigger.transform.SetParent(mTriggers.transform, false);
     }
     public void add(MapBehaviour aBehaviour){
+        if (aBehaviour is MapCharacter){
+            addCharacter((MapCharacter)aBehaviour);
+            return;
+        }
+        if(aBehaviour is MapTrigger){
+            addTrigger((MapTrigger)aBehaviour);
+            return;
+        }
         MapEntity[] tEntity = aBehaviour.GetComponents<MapEntity>();
         if (tEntity[0] is MapCharacter){
             addCharacter((MapCharacter)tEntity[0]);
@@ -54,9 +62,11 @@ public class MapStratum : MyBehaviour {
         Debug.Log("MapStratum : " + aBehaviour.GetType().ToString() + "型の階層を変更するのは想定外");
     }
     //指定した階層と衝突判定するか
-    public bool canCollide(MapStratum aStatum){
+    public bool canCollide(MapStratum aStatum,MapStratum.ContactFilter aFilter=null){
         if (aStatum == null) return false;
-        return (mStratumNum == aStatum.mStratumNum) || (mStratumNum + 1 == aStatum.mStratumNum);
+        ContactFilter tFilter = (aFilter != null) ? aFilter : new ContactFilter(0,1);
+        int tDifference = aStatum.mStratumNum - mStratumNum;
+        return (tFilter.mMinStratumOffset <= tDifference) && (tDifference <= tFilter.mMaxStratumOffset);
     }
     //フィールドの周囲に壁を生成
     public void createWall(Vector2 aSize){
@@ -94,5 +104,14 @@ public class MapStratum : MyBehaviour {
         tWall.transform.SetParent(mWalls.transform, false);
         tWall.gameObject.AddComponent<MapAttribute>().mAttribute = MapAttribute.Attribute.none;
         tWall.name = "wallRight";
+    }
+    public class ContactFilter{
+        public int mMinStratumOffset = 0;
+        public int mMaxStratumOffset = 0;
+        public ContactFilter(){}
+        public ContactFilter(int aMin,int aMax){
+            mMinStratumOffset = aMin;
+            mMaxStratumOffset = aMax;
+        }
     }
 }

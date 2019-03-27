@@ -20,24 +20,28 @@ public partial class MapCharacter : MapEntity {
 
         //正面を調べる
         protected void examineFront(){
-            //調べる範囲
-            Vector2 tSize = parent.mCollider.size;
-            if (DirectionOperator.convertToAxis(parent.direction) == VHDirection.horizontal)
-                tSize.x = 0.5f;
-            else
-                tSize.y = 0.5f;
-            //調べる範囲の中心
-            Vector2 tPoint = parent.position2D + new Vector2(0, parent.mCollider.size.y / 2);
-            Vector2 tDirection = DirectionOperator.convertToVector(parent.direction);
-            tPoint = tPoint + new Vector2(parent.mCollider.size.x * tDirection.x, parent.mCollider.size.y * tDirection.y) + new Vector2(tSize.x / 2 * tDirection.x, tSize.y / 2 * tDirection.y);
-
-
-            Collider2D[] tColliders = Physics2D.OverlapBoxAll(tPoint, tSize, 0);
+            //調べる位置
+            Vector2 tTarget=new Vector2();
+            switch(parent.direction){
+                case Direction.up:
+                    tTarget = parent.position2D + new Vector2(0, parent.mCollider.size.y);
+                    break;
+                case Direction.down:
+                    tTarget = parent.position2D + new Vector2(0, -parent.mCollider.size.y);
+                    break;
+                case Direction.left:
+                    tTarget = parent.position2D + new Vector2(-parent.mCollider.size.x, 0);
+                    break;
+                case Direction.right:
+                    tTarget = parent.position2D + new Vector2(parent.mCollider.size.x, 0);
+                    break;
+            }
+            List<Collider2D> tColliders = MyMapPhysics.overlapAll(parent, new MapStratum.ContactFilter(),tTarget);
             foreach(Collider2D tCollider in tColliders){
                 MapSpeaker tSpeaker = tCollider.GetComponent<MapSpeaker>();
                 if (tSpeaker == null) continue;
-                if (!parent.mStratum.canCollide(tSpeaker.mStratum)) continue;
                 tSpeaker.speack(parent);
+                return;
             }
         }
     }

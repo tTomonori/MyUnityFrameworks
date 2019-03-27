@@ -143,10 +143,10 @@ public class MapWalker : MapBehaviour {
     //指定した座標に移動可能か
     public PassType canMove(Vector2 aPosition,out Collider2D oCollided){
         Vector2 tSize = mEntity.boxCollider.size;
-        Collider2D[] tColliders = Physics2D.OverlapBoxAll(aPosition + new Vector2(0, tSize.y / 2), tSize, 0);
+        List<Collider2D> tColliders = MyMapPhysics.overlapAll(this, new MapStratum.ContactFilter(0, 1), aPosition);
         PassType tInterimPassType = PassType.through;
         //衝突する可能性があるcolliderのみ抽出してforeach
-        foreach(Collider2D tCollider in selectCanCollide(tColliders)){
+        foreach(Collider2D tCollider in tColliders){
             MapAttribute tAttribute = tCollider.gameObject.GetComponent<MapAttribute>();
             //属性なし
             if (tAttribute == null) continue;

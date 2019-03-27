@@ -104,6 +104,16 @@ public partial class MyBehaviour : MonoBehaviour {
             Destroy(tChild.gameObject);
         }
     }
+    //<summary>指定したコンポーネントをもつオブジェクトのみを取り出す</summary>
+    static public List<T> selectComponent<T>(List<Component> aList) where T:Component{
+        List<T> tList = new List<T>();
+        foreach(Component tComponent in aList){
+            T tTarget = tComponent.GetComponent<T>();
+            if (tTarget == null) continue;
+            tList.Add(tTarget);
+        }
+        return tList;
+    }
     ///座標
     public Vector3 position{
         get { return gameObject.transform.localPosition; }
