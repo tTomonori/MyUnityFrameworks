@@ -1,14 +1,20 @@
 ﻿<Properties StartupConfiguration="{5FC93A7A-63B7-5808-3EAE-B7463B930AA6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myMapFramework/MyMapPhysics.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/myFramework/controller/MyVirtualPad.cs">
     <Files>
-      <File FileName="Assets/scripts/Main.cs" Line="28" Column="27" />
+      <File FileName="Assets/scripts/Main.cs" Line="9" Column="17" />
       <File FileName="Assets/resources/mymap/map/debug.json" Line="10" Column="22" />
       <File FileName="Assets/scripts/myMapFramework/behaviour/entity/MapWalker.cs" Line="146" Column="1" />
       <File FileName="Assets/scripts/myMapFramework/behaviour/entity/MapStepper.cs" Line="1" Column="1" />
       <File FileName="Assets/scripts/myMapFramework/behaviour/MapBehaviour.cs" Line="1" Column="1" />
-      <File FileName="Assets/scripts/myMapFramework/MyMapPhysics.cs" Line="34" Column="9" />
+      <File FileName="Assets/scripts/myMapFramework/MyMapPhysics.cs" Line="33" Column="2" />
       <File FileName="Assets/scripts/myMapFramework/stratum/MapStratum.cs" Line="56" Column="10" />
       <File FileName="Assets/scripts/myMapFramework/trigger/stratum/StratumBorder.cs" Line="7" Column="36" />
+      <File FileName="Assets/scripts/myFramework/behaviour/MyBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/interface/MyMapController.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/myMapFramework/MyMapInputPad.cs" Line="11" Column="54" />
+      <File FileName="Assets/scripts/myFramework/controller/MyVirtualPad.cs" Line="44" Column="10" />
+      <File FileName="Assets/scripts/myFramework/system/MyMath.cs" Line="16" Column="2" />
+      <File FileName="Assets/scripts/myMapFramework/interface/MyMapEventHandler.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
