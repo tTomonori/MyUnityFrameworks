@@ -158,18 +158,24 @@ public partial class MyBehaviour : MonoBehaviour {
         }
     }
     public float scaleY{
-        get { return gameObject.transform.localScale.x; }
+        get { return gameObject.transform.localScale.y; }
         set {
             Vector3 tScale = gameObject.transform.localScale;
             gameObject.transform.localScale = new Vector3(tScale.x, value, tScale.z);
         }
     }
     public float scaleZ{
-        get { return gameObject.transform.localScale.x; }
+        get { return gameObject.transform.localScale.z; }
         set {
             Vector3 tScale = gameObject.transform.localScale;
             gameObject.transform.localScale = new Vector3(tScale.x, tScale.y, value);
         }
+    }
+    public float scale3D{
+        set { this.transform.localScale = new Vector3(value, value, value); }
+    }
+    public float scale2D{
+        set { this.transform.localScale = new Vector3(value, value, scaleZ); }
     }
     //回転
     public float rotateZ{
