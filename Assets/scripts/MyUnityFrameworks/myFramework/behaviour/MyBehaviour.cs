@@ -178,6 +178,24 @@ public partial class MyBehaviour : MonoBehaviour {
         set { this.transform.localScale = new Vector3(value, value, scaleZ); }
     }
     //回転
+    public Vector3 rotate{
+        get { return gameObject.transform.localRotation.eulerAngles; }
+        set { gameObject.transform.localRotation = Quaternion.Euler(value.x, value.y, value.z); }
+    }
+    public float rotateX{
+        get { return gameObject.transform.localRotation.eulerAngles.x; }
+        set {
+            Vector3 tRotate = gameObject.transform.localRotation.eulerAngles;
+            gameObject.transform.localRotation = Quaternion.Euler(value, tRotate.y, tRotate.z);
+        }
+    }
+    public float rotateY{
+        get { return gameObject.transform.localRotation.eulerAngles.y; }
+        set {
+            Vector3 tRotate = gameObject.transform.localRotation.eulerAngles;
+            gameObject.transform.localRotation = Quaternion.Euler(tRotate.x, value, tRotate.z);
+        }
+    }
     public float rotateZ{
         get { return gameObject.transform.localRotation.eulerAngles.z; }
         set {
@@ -185,6 +203,7 @@ public partial class MyBehaviour : MonoBehaviour {
             gameObject.transform.localRotation = Quaternion.Euler(tRotate.x, tRotate.y, value);
         }
     }
+
 
     //Behaviourの機能をstaticで使えるようにする
     static private MyBehaviourInstance instance;
