@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{5FC93A7A-63B7-5808-3EAE-B7463B930AA6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyPad.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/DummyButton.cs">
     <Files>
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/system/TakeOutFloatSystem.cs" Line="1" Column="1" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/system/TimeCounter.cs" Line="28" Column="20" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyVirtualPad.cs" Line="14" Column="6" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/DragMonitor.cs" Line="5" Column="29" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyPad.cs" Line="53" Column="41" />
       <File FileName="Assets/scripts/Main.cs" Line="9" Column="17" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyVirtualPad.cs" Line="12" Column="22" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyVirtualPadTransparentPush.cs" Line="66" Column="13" />
+      <File FileName="Assets/scripts/DummyButton.cs" Line="16" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

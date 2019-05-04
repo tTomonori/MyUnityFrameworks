@@ -9,7 +9,7 @@ public class MyVirtualPad : MyPad {
     protected void OnMouseDown(){
         mouseDown();
     }
-    protected void OnMouseUp(){
+    protected virtual void OnMouseUp(){
         mouseUp();
     }
 }
