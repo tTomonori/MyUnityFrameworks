@@ -1,13 +1,12 @@
 ﻿<Properties StartupConfiguration="{5FC93A7A-63B7-5808-3EAE-B7463B930AA6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/camera/GazePourer/GazePourerY.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyPad.cs">
     <Files>
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/system/TakeOutFloatSystem.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/system/TimeCounter.cs" Line="28" Column="20" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyVirtualPad.cs" Line="14" Column="6" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/DragMonitor.cs" Line="5" Column="29" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyPad.cs" Line="53" Column="41" />
       <File FileName="Assets/scripts/Main.cs" Line="9" Column="17" />
-      <File FileName="Assets/resources/mymap/map/debug.json" Line="10" Column="22" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/MyBehaviour.cs" Line="183" Column="97" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/camera/GazePourer/GazePourer.cs" Line="5" Column="33" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/camera/GazePourer/GazePourerCamera.cs" Line="5" Column="24" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/camera/GazePourer/GazePourerCameraY.cs" Line="5" Column="24" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/camera/GazePourer/GazePourerY.cs" Line="13" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
