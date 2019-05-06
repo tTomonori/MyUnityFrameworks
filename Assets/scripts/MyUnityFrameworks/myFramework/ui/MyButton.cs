@@ -10,6 +10,7 @@ public class MyButton : MyBehaviour {
     /// falseなら押されても処理を実行しない
     /// </summary>
     [SerializeField] public bool mActivated = true;
+    [SerializeField] public bool mActionChildrenOnly = false;
     public Arg mParameters=new Arg();
     //押されているか
     private bool isPushed = false;
@@ -17,6 +18,7 @@ public class MyButton : MyBehaviour {
     private MyBehaviour mContentsObject;
     protected MyBehaviour mContents{
         get{
+            if (!mActionChildrenOnly) return this;
             if (mContentsObject == null) uniteChildren();
             return mContentsObject;
         }
