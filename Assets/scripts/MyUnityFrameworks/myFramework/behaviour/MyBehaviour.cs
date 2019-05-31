@@ -93,6 +93,15 @@ public partial class MyBehaviour : MonoBehaviour {
     static public void runCoroutine(IEnumerator aCoroutine){
         ins.StartCoroutine(aCoroutine);
     }
+    public Coroutine runCoroutine(Action aClosure){
+        return StartCoroutine(createCroutine(aClosure));
+    }
+    private IEnumerator createCroutine(Action aClosure){
+        while (true){
+            aClosure();
+            yield return null;
+        }
+    }
     ///削除する
     public void delete(){
         Destroy(gameObject);
