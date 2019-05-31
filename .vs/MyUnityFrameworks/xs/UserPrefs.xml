@@ -1,20 +1,16 @@
-﻿<Properties StartupConfiguration="{5FC93A7A-63B7-5808-3EAE-B7463B930AA6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/ui/MyButton.cs">
+﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
+  <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonDeserialize.cs">
     <Files>
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/DragMonitor.cs" Line="5" Column="29" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyPad.cs" Line="53" Column="41" />
-      <File FileName="Assets/scripts/Main.cs" Line="9" Column="17" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyVirtualPad.cs" Line="12" Column="22" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/controller/MyVirtualPadTransparentPush.cs" Line="77" Column="2" />
-      <File FileName="Assets/scripts/DummyButton.cs" Line="16" Column="12" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/ui/MyButton.cs" Line="21" Column="18" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonDeserialize.cs" Line="307" Column="18" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonSerialize.cs" Line="15" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
 </Properties>

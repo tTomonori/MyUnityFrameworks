@@ -27,7 +27,7 @@ public static partial class MyJson {
         private char nextChar{
             get {
                 checkEnd();
-                return Convert.ToChar(reader.Read()); 
+                return Convert.ToChar(reader.Read());
             }
         }
         ///現在の位置の文字を読む
@@ -37,7 +37,7 @@ public static partial class MyJson {
         ///位置文字読み進める
         private void readOneChar() {
             checkEnd();
-            reader.Read(); 
+            reader.Read();
         }
         //最後まで読む
         private string readToEnd(){
@@ -70,6 +70,14 @@ public static partial class MyJson {
         private char currenSense(){
             readToNextSense();
             return currentChar;
+        }
+        ///次の、指定した文字の前の位置まで読む(readerは指定した文字の位置)
+        private string readToNextSpecificChar(char c){
+            string readed = "";
+            while(true){
+                if (currentChar == c) return readed;
+                readed += nextChar;
+            }
         }
         ///指定した文字の位置まで読み進める(次の、意味を持つcharが指定した文字でないならエラーを吐く)(readerの位置はその文字)
         private void search(char c){
@@ -173,6 +181,25 @@ public static partial class MyJson {
                     throw new Exception("想定不能なエラー : 「"+currentChar+"」 != t nor f");
             }
         }
+        ///Enumを読む
+        private object readEnum(){
+            search("<");
+            readOneChar();//<を読む
+            //Enumの型名
+            string type = readToNextSpecificChar('>');
+            readOneChar();//>を読む
+            char next = nextChar;
+            if(next!='('){
+                throw new Exception("不正なjson文字列 : invalid char 「" + next + "」, expected 「 ( 」");
+            }
+            //Enumの値
+            string value = readToNextSpecificChar(')');
+            next = nextChar;
+            if (next != ')'){
+                throw new Exception("不正なjson文字列 : invalid char 「" + next + "」, expected 「 ) 」");
+            }
+            return Enum.Parse(Type.GetType(type), value);
+        }
         ///Listを読む
         private object readList(){
             search('[');
@@ -181,7 +208,7 @@ public static partial class MyJson {
                 readOneChar();
                 return new List<object>();
             }
-            
+
             object o = readValue();
             Type firstElementType = o.GetType();
             Type listType = Type.GetType("System.Collections.Generic.List`1["+firstElementType.ToString()+"]");
@@ -331,6 +358,8 @@ public static partial class MyJson {
                 case '+':
                 case '-':
                     return readNumber();
+                case '<'://Enum
+                    return readEnum();
                 default://不正
                     throw new Exception("不正なjson文字列 : invalid value start from 「"+currenSense()+"」");
             }

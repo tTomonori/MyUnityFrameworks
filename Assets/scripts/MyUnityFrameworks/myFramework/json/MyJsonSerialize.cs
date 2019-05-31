@@ -133,6 +133,9 @@ public static partial class MyJson{
                 return dictionaryToString((IDictionary)aObject,out oOut, aSecondFlag);
             }else if (aObject is IList){
                 return listToString((IList)aObject, out oOut);
+                }else if(aObject is Enum){
+                    oOut = "<" + aObject.GetType().ToString() + ">(" + ((Enum)aObject).ToString() + ")";
+                    return true;
             }else if(aObject is Arg){
                 return dictionaryToString(((Arg)aObject).dictionary, out oOut, aSecondFlag);
             }else{
