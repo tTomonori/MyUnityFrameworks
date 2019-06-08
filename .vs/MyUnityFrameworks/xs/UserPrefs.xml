@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/ui/MyButton.cs">
     <Files>
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonDeserialize.cs" Line="81" Column="10" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonSerialize.cs" Line="76" Column="27" />
@@ -8,6 +8,7 @@
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/MyBehaviour.cs" Line="95" Column="6" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="1" Column="1" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/SoundPlayer.cs" Line="18" Column="20" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/ui/MyButton.cs" Line="14" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

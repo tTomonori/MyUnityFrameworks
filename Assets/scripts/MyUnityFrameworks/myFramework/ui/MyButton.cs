@@ -10,7 +10,7 @@ public class MyButton : MyBehaviour {
     /// falseなら押されても処理を実行しない
     /// </summary>
     [SerializeField] public bool mActivated = true;
-    [SerializeField] public bool mActionChildrenOnly = false;
+    [SerializeField] public bool mActionChildrenOnly = true;
     public Arg mParameters=new Arg();
     //押されているか
     private bool isPushed = false;
