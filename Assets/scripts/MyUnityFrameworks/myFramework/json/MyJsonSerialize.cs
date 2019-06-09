@@ -115,7 +115,8 @@ public static partial class MyJson{
         //型を見てStringにする
         private bool toString(object aObject,out string oOut,bool aSecondFlag){
             if(aObject is string){
-                oOut = '"' + (string)aObject + '"';
+                //「"」は「\"」に置換する
+                oOut = '"' + (string)((string)aObject).Replace("\"","\\\"") + '"';
                 return true;
             }else if(aObject is float){
                 oOut = ((float) aObject).ToString();
