@@ -1,10 +1,24 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonSerialize.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/sprite/GifAnimator.cs">
     <Files>
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonSerialize.cs" Line="120" Column="40" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonDeserialize.cs" Line="107" Column="31" />
-      <File FileName="Assets/scripts/Main.cs" Line="11" Column="19" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/MyMapInputPad.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/Main.cs" Line="9" Column="17" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/behaviour/entity/character/ai/PlayerAi.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/behaviour/entity/character/MapPlayerCharacter.cs" Line="15" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/behaviour/entity/character/MapCharacter.cs" Line="11" Column="38" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/interface/MyMapController.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/behaviour/entity/MapWalker.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/stratum/MapStratum.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/behaviour/tile/MapPiledTile.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/Direction.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/behaviour/MapBehaviourImageAnimator.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/behaviour/entity/MapStepper.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/behaviour/entity/character/ai/aiMiniRoutines.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/trigger/stratum/StratumBorder.cs" Line="29" Column="34" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/trigger/event/MapEvent.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/trigger/event/MapEventTrigger.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sprite/GifAnimator.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
