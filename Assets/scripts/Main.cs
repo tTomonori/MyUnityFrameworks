@@ -7,6 +7,7 @@ public class Main : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        MySceneManager.getArg("test");
         GameObject map = GameObject.Find("map");
         Arg tSave = new Arg(MyJson.deserializeResourse("save/save"));
 

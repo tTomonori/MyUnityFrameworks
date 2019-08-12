@@ -48,7 +48,7 @@ public static class MySceneManager {
             additive = aAdditive;
         }
         public string name;//シーンの名前
-        public Arg arg;//開いたシーンに渡す引数
+        public Arg arg;//開いたシーンに渡す引数,閉じた時のcallbackに渡す引数(閉じるメソッドを読んだ時に上書きされる)
         public Action<Scene> opened;//シーンを開いた時のcallback
         public Action<Arg> closed;//シーンを閉じた時のcallback
         public Scene scene;//開いたシーン
@@ -64,7 +64,9 @@ public static class MySceneManager {
                 return tData;
             }
         }
-        throw new KeyNotFoundException("SceneManager:「"+aName+"」なんて名前のシーンはないよ");
+        Debug.LogWarning("SceneManager:「" + aName + "」なんて名前のシーンはないよ");
+        return null;
+        //throw new KeyNotFoundException("SceneManager:「"+aName+"」なんて名前のシーンはないよ");
     }
     ///シーンを開く
     static public void openScene(string aName, Arg aArg=null, Action<Scene> aOpened = null, Action<Arg> aClosed = null){
@@ -81,7 +83,7 @@ public static class MySceneManager {
             tData.arg = (aArg == null) ? new Arg() : aArg;
             if (aClosed != null){
                 if (tData.closed != null)
-                    Debug.Log("SceneManager:「" + aName + "」ってシーンを閉じた時のcallbak上書きしちゃった");
+                    Debug.LogWarning("SceneManager:「" + aName + "」ってシーンを閉じた時のcallbak上書きしちゃった");
                 tData.closed = aClosed;
             }
             if(SceneManager.sceneCount>1){
@@ -110,6 +112,8 @@ public static class MySceneManager {
     ///引数を受け取る
     static public Arg getArg(string aName){
         SceneData tData = findSceneData(aName);
+        if (tData == null)
+            return null;
         return tData.arg;
     }
     ///シーンを停止する
