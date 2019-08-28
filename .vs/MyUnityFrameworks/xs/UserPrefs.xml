@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/Main.cs">
     <Files>
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/MySceneManager.cs" Line="67" Column="53" />
-      <File FileName="Assets/scripts/Main.cs" Line="10" Column="26" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/MyMap.cs" Line="8" Column="1" />
+      <File FileName="Assets/scripts/Main.cs" Line="29" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
