@@ -42,6 +42,16 @@ public partial class MyBehaviour : MonoBehaviour{
     /// <summary>
     /// 移動させる
     /// </summary>
+    /// <param name="goal">移動先の座標(メソッド呼び出し時の座標からの相対座標分移動)</param>
+    /// <param name="duration">移動時間</param>
+    /// <param name="callback">移動終了時関数</param>
+    public Coroutine moveTo(Vector3 goal, float duration, Action callback = null) {
+        Vector3 delta = goal - position;
+        return moveBy(delta, duration, callback);
+    }
+    /// <summary>
+    /// 移動させる
+    /// </summary>
     /// <returns>コルーチン</returns>
     /// <param name="delta">移動量</param>
     /// <param name="speed">移動速度(/s)</param>
