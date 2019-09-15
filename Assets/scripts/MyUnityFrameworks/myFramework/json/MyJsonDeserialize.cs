@@ -181,6 +181,33 @@ public static partial class MyJson {
                     throw new Exception("想定不能なエラー : 「"+currentChar+"」 != t nor f");
             }
         }
+        ///Vectorを読む
+        private object readVector() {
+            readOneChar();//Vを読む
+            if (nextChar != 'e') throw new Exception("不正なjson文字列 : invalid text start from 「V」");
+            if (nextChar != 'c') throw new Exception("不正なjson文字列 : invalid text start from 「Ve」");
+            if (nextChar != 't') throw new Exception("不正なjson文字列 : invalid text start from 「Vec」");
+            if (nextChar != 'o') throw new Exception("不正なjson文字列 : invalid text start from 「Vect」");
+            if (nextChar != 'r') throw new Exception("不正なjson文字列 : invalid text start from 「Vecto」");
+            switch (currentChar) {
+                case '2'://Vector2
+                    readOneChar();//2を読む
+                    if (nextChar != '(') throw new Exception("不正なVectorデータ : 「 ( 」 is not found");
+                    string tTwoNumberString = readToNextSpecificChar(')');
+                    readOneChar();//)を読む
+                    string[] tTwoNumber = tTwoNumberString.Split(',');
+                    return new Vector2(float.Parse(tTwoNumber[0]), float.Parse(tTwoNumber[1]));
+                case '3'://Vector3
+                    readOneChar();//3を読む
+                    if (nextChar != '(') throw new Exception("不正なVectorデータ : 「 ( 」 is not found");
+                    string tThreeNumberString = readToNextSpecificChar(')');
+                    readOneChar();//)を読む
+                    string[] tThreeNumber = tThreeNumberString.Split(',');
+                    return new Vector3(float.Parse(tThreeNumber[0]), float.Parse(tThreeNumber[1]),float.Parse(tThreeNumber[2]));
+                default:
+                    throw new Exception("不正なjson文字列 : invalid text start from 「Vector" + currentChar.ToString() + "」");
+            }
+        }
         ///Enumを読む
         private object readEnum(){
             search("<");
@@ -358,6 +385,8 @@ public static partial class MyJson {
                 case '+':
                 case '-':
                     return readNumber();
+                case 'V'://Vector2 or Vector3
+                    return readVector();
                 case '<'://Enum
                     return readEnum();
                 default://不正
