@@ -31,11 +31,23 @@ public partial class MyBehaviour : MonoBehaviour {
     /// 指定したパスのプレハブを生成
     /// </summary>
     /// <returns>生成したプレハブがもつComponent</returns>
-    /// <param name="aFilePath">プレハブへのパス("prefabs/" + X)</param>
+    /// <param name="aFilePath">プレハブへのパス("resources/prefabs/" + X)</param>
     /// <typeparam name="Type">取得するComponent</typeparam>
     public static Type createObjectFromPrefab<Type>(string aFilePath){
         // プレハブを取得
         GameObject prefab = (GameObject)Resources.Load("prefabs/" + aFilePath);
+        // プレハブからインスタンスを生成
+        return Instantiate(prefab).GetComponent<Type>();
+    }
+    /// <summary>
+    /// 指定したパスのプレハブを生成
+    /// </summary>
+    /// <returns>生成したプレハブがもつComponent</returns>
+    /// <param name="aFilePath">プレハブへのパス("resources/" + X)</param>
+    /// <typeparam name="Type">取得するComponent</typeparam>
+    public static Type createObjectFromResources<Type>(string aFilePath) {
+        // プレハブを取得
+        GameObject prefab = (GameObject)Resources.Load(aFilePath);
         // プレハブからインスタンスを生成
         return Instantiate(prefab).GetComponent<Type>();
     }

@@ -1,0 +1,71 @@
+{
+  "name": "デバッグマップ",
+  "stratum": [
+    {
+      "feild": [
+        [1,1,1,1,1],
+        [1,1,1,1,1],
+        [2,2,2,2,2],
+        [2,2,2,2,2],
+        [2,2,2,51,51],
+        [2,2,2,51,51]
+      ]
+    },
+    {
+      "feild": [
+        [0,30,31,32,0],
+        [0,33,0,35,0],
+        [0,36,0,38,0],
+        [0,22,41,24,0],
+        [0,0,0,0,0],
+        [0,0,0,0,0]
+      ]
+    },
+    {
+      "feild": [
+        [ 0, 10, 11, 12, 0 ],
+        [ 0, 13, 3, 15, 0 ],
+        [ 0, 16, 3, 18, 0 ],
+        [ 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0 ]
+      ]
+    }
+  ],
+  "chip": {
+    "1":  {"tile": ["grass/grass1"] },
+    "2":  {"tile": ["grass/grass2"] },
+    "3": { "tile": ["sand/soil0"] },
+    "10": {"tile": ["sand/soil0","cliff/cliff0"] },
+    "11": {"tile": ["sand/soil0","cliff/cliff1"] },
+    "12": {"tile": ["sand/soil0","cliff/cliff2"] },
+    "13": {"tile": ["sand/soil0","cliff/cliff4"] },
+    "15": {"tile": ["sand/soil0","cliff/cliff6"] },
+    "16": {"tile": ["sand/soil0","cliff/cliff8"] },
+    "17": {"tile": ["sand/soil0","cliff/cliff9"] },
+    "18": {"tile": ["sand/soil0","cliff/cliff10"] },
+    "30": { "tile": [ "cliff/cliff0" ] },
+    "31": { "tile": [ "cliff/cliff1" ] },
+    "32": { "tile": [ "cliff/cliff2" ] },
+    "33": { "tile": [ "cliff/cliff4" ] },
+    "35": { "tile": [ "cliff/cliff6" ] },
+    "36": { "tile": [ "cliff/cliff8" ] },
+    "37": { "tile": [ "cliff/cliff9" ] },
+    "38": { "tile": [ "cliff/cliff10" ] },
+    "39": {"tile": ["cliff/cliff12"] },
+    "20": {"tile": ["cliff/cliff13"] },
+    "21": {"tile": ["cliff/cliff14"] },
+    "22": {"tile": ["cliff/cliff16"] },
+    "23": {"tile": ["cliff/cliff17"] },
+    "24": {"tile": ["cliff/cliff18"] },
+    "40": {"tile": ["cliff/cliff19"] },
+    "41": {"tile": ["cliff/stairs"] },
+    "51": {"tile": ["grass/grass1","grass/grassObj"],"encount": "grass" }
+  },
+  "ornament":[ 
+  {"path": "sign/treeSign","name": "testSign","x": 0,"y": 1,"stratum": 0}
+  ],
+  "npc": [
+    {"path": "player/player","name": "test","ai": "<around,2>","x":3,"y": 4,"stratum": 2}
+  ]
+}
