@@ -7,20 +7,20 @@ public class MapCharacterImageH : MapCharacterImage {
     [SerializeField] public Sprite mSprite;
     //<summary>アニメーション用に分割したsprite</summary>
     private Sprite[][] mCutSprite;
-    //<summary>画像表示用コンポーネント</summary>
-    private SpriteRenderer mRenderer;
+    //<summary>アニメーション用コンポーネント</summary>
+    private GifAnimator mAnimator;
 
     //最後に移動した方向
     private DirectionImageH mLastDirection;
-    //最後に表示した画像のindex
-    private int mLastImageIndex = -1;
 
     //<summary>アニメーションできるようにspriteを加工</summary>
     public void processSprite() {
         mCutSprite = SpriteCutter.split(mSprite.texture, new Vector2(100, 100), new Vector2(0.5f, 0));
     }
     private void Awake() {
-        mRenderer = gameObject.AddComponent<SpriteRenderer>();
+        mAnimator = gameObject.AddComponent<GifAnimator>();
+        mAnimator.mIsPlayed = true;
+        mAnimator.mInterval = 0.4f;
         if (mSprite != null)
             processSprite();
     }
@@ -30,47 +30,44 @@ public class MapCharacterImageH : MapCharacterImage {
             case DirectionH.left://左移動
                 if(mLastDirection != DirectionImageH.left) {
                     mLastDirection = DirectionImageH.left;
-                    mLastImageIndex = -1;
+                    mAnimator.setSprites(mCutSprite[3]);
+                    mAnimator.mInterval = 0.2f;
                 }
-                mLastImageIndex = (mLastImageIndex + 1) % mCutSprite[3].Length;
-                mRenderer.sprite = mCutSprite[3][mLastImageIndex];
                 return;
             case DirectionH.right://右移動
                 if (mLastDirection != DirectionImageH.right) {
                     mLastDirection = DirectionImageH.right;
-                    mLastImageIndex = -1;
+                    mAnimator.setSprites(mCutSprite[2]);
+                    mAnimator.mInterval = 0.2f;
                 }
-                mLastImageIndex = (mLastImageIndex + 1) % mCutSprite[2].Length;
-                mRenderer.sprite = mCutSprite[2][mLastImageIndex];
                 return;
             case DirectionH.none://静止
                 if(mLastDirection == DirectionImageH.left) {
                     mLastDirection = DirectionImageH.stayLeft;
-                    mLastImageIndex = -1;
-                }else if(mLastDirection == DirectionImageH.right) {
+                    mAnimator.setSprites(mCutSprite[1]);
+                    mAnimator.mInterval = 0.4f;
+                } else if(mLastDirection == DirectionImageH.right) {
                     mLastDirection = DirectionImageH.stayRight;
-                    mLastImageIndex = -1;
+                    mAnimator.setSprites(mCutSprite[0]);
+                    mAnimator.mInterval = 0.4f;
                 }
-                if(mLastDirection == DirectionImageH.stayLeft) {
-                    mLastImageIndex = (mLastImageIndex + 1) % mCutSprite[1].Length;
-                    mRenderer.sprite = mCutSprite[1][mLastImageIndex];
+                if (mLastDirection == DirectionImageH.stayLeft) {
+
                 }else if(mLastDirection == DirectionImageH.stayRight) {
-                    mLastImageIndex = (mLastImageIndex + 1) % mCutSprite[0].Length;
-                    mRenderer.sprite = mCutSprite[0][mLastImageIndex];
+
                 }
                 return;
         }
     }
     public override void setDirection(Vector2 aVector) {
-        mLastImageIndex = -1;
         switch (DirectionOperator.convertToDirectionH(aVector)) {
             case DirectionH.left:
                 mLastDirection = DirectionImageH.stayLeft;
-                mRenderer.sprite = mCutSprite[1][0];
+                mAnimator.setSprites(mCutSprite[1]);
                 return;
             case DirectionH.right:
                 mLastDirection = DirectionImageH.stayRight;
-                mRenderer.sprite = mCutSprite[0][0];
+                mAnimator.setSprites(mCutSprite[0]);
                 return;
         }
         mLastDirection = DirectionImageH.none;

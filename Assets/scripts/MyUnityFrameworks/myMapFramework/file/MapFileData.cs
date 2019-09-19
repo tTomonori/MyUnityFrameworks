@@ -8,6 +8,8 @@ public class MapFileData {
     private Chip mChipData;
     private List<Ornament> mOrnamentData;
     private List<Npc> mNpcData;
+    private List<Trigger> mTriggerData;
+    private Event mEventData;
     //<summary>マップ名</summary>
     public string name {
         get { return mData.get<string>("name"); }
@@ -27,6 +29,14 @@ public class MapFileData {
     //<summary>npcデータ</summary>
     public List<Npc> mNpc {
         get { return mNpcData; }
+    }
+    //<summary>triggerデータ</summary>
+    public List<Trigger> mTrigger{
+        get { return mTriggerData; }
+    }
+    //<summary>イベントデータ</summary>
+    public Event mEvent {
+        get { return mEventData; }
     }
 
     public MapFileData(string aFilePath) {
@@ -49,6 +59,13 @@ public class MapFileData {
         foreach (Arg tData in mData.get<List<Arg>>("npc")) {
             mNpcData.Add(new Npc(tData));
         }
+        //triggerデータ
+        mTriggerData = new List<Trigger>();
+        foreach (Arg tData in mData.get<List<Arg>>("trigger")) {
+            mTriggerData.Add(new Trigger(tData));
+        }
+        //イベントデータ
+        mEventData = new Event(mData.get<Arg>("event"));
     }
 
     public class Stratum {
@@ -134,6 +151,10 @@ public class MapFileData {
                 return mData.get<string>("name");
             }
         }
+        //<summary>向き</summary>
+        public Vector2 mDirection {
+            get { return mData.get<Vector2>("direction"); }
+        }
         //<summary>AIを表したタグ</summary>
         public MyTag mAi {
             get { return new MyTag(mData.get<string>("ai")); }
@@ -151,6 +172,41 @@ public class MapFileData {
             get { return mData.get<int>("stratum"); }
         }
         public Npc(Arg aData) {
+            mData = aData;
+        }
+    }
+    public class Trigger {
+        private Arg mData;
+        //<summary>トリガーの名前</summary>
+        public string mName {
+            get {
+                if (!mData.ContainsKey("name")) return "";
+                return mData.get<string>("name");
+            }
+        }
+        //<summary>トリガーの形状を表したタグ</summary>
+        public MyTag mShape {
+            get { return new MyTag(mData.get<string>("shape")); }
+        }
+        //<summary>x座標</summary>
+        public float mX {
+            get { return mData.get<float>("x"); }
+        }
+        //<summary>y座標</summary>
+        public float mY {
+            get { return mData.get<float>("y"); }
+        }
+        //<summary>階層</summary>
+        public int mStratum {
+            get { return mData.get<int>("stratum"); }
+        }
+        public Trigger(Arg aData) {
+            mData = aData;
+        }
+    }
+    public class Event {
+        private Arg mData;
+        public Event(Arg aData) {
             mData = aData;
         }
     }

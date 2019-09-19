@@ -9,6 +9,8 @@ public class MovingData {
     public float mSpeed;
     //<summary>最長移動距離</summary>
     public float mMaxMoveDistance;
+    //<summary>当たり判定を貫通しないように移動できる距離</summary>
+    public float mDeltaDistance;
     //<summary>移動前の座標</summary>
     public Vector2 mPrePosition;
     //<summary>移動前の階層</summary>

@@ -10,11 +10,33 @@ public static partial class MapWorldFactory {
         tCharacter.mImage.transform.SetParent(tCharacter.transform, false);
 
         //向き
-        tCharacter.mImage.setDirection(new Vector2(1, 0));
+        tCharacter.mImage.setDirection(aData.mDirection);
         //ai
-
+        tCharacter.setAi(createAi(aData.mAi));
+        tCharacter.setAi(new MapCharacter.PlayerAi());
+        //state
+        tCharacter.transitionState(new MapCharacter.StandingState());
+        //collider
+        BoxCollider2D tBox = tCharacter.gameObject.AddComponent<BoxCollider2D>();
+        tBox.size = new Vector2(0.6f, 0.3f);
+        tBox.offset = new Vector2(0, 0.15f);
+        //attribute
+        EntityPhysicsAttribute tAttribute = tCharacter.gameObject.AddComponent<EntityPhysicsAttribute>();
+        tAttribute.mAttribute = EntityPhysicsAttribute.Attribute.walking;
+        //movingData
+        tCharacter.mMovingData = new MovingData();
+        tCharacter.mMovingData.mSpeed = 1.5f;
+        tCharacter.mMovingData.mDeltaDistance = 0.3f;
 
         return tCharacter;
+    }
+    //<summary>キャラのAIを生成</summary>
+    static public MapCharacter.Ai createAi(MyTag aAiData) {
+        switch (aAiData.mTagName) {
+            case "walkAroundCircle"://円形範囲内を歩き回る
+                return new MapCharacter.WalkAroundCircleAi(float.Parse(aAiData.mArguments[0]));
+        }
+        throw new System.Exception("MapWorldFactory-CharactorFactory : 不正なAI名「" + aAiData.mTagName + "」");
     }
     //<summary>キャラクターを生成してworldに追加</summary>
     static private void buildCharacter(MapFileData.Npc aData) {

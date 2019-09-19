@@ -16,10 +16,10 @@ public class MyTag {
         string tTagContents = aTagText.Substring(1, aTagText.Length - 2);
         //,で分割
         string[] tSplited = tTagContents.Split(',');
-        string tTagName = tSplited[0];
-        string[] tParams = new string[tSplited.Length - 1];
+        mTagName = tSplited[0];
+        mArguments = new string[tSplited.Length - 1];
         for (int i = 1; i < tSplited.Length; i++) {
-            tParams[i - 1] = tSplited[i];
+            mArguments[i - 1] = tSplited[i];
         }
     }
 }

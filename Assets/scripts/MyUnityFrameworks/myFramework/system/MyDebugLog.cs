@@ -22,6 +22,14 @@ static public class MyDebugLog {
             }
             return "Arg{" + s + "}";
         }
+        if(o is IEnumerable) {
+            string l = "[ ";
+            foreach(object e in (IEnumerable)o) {
+                l += toString(e) + ", ";
+            }
+            l = l.Substring(0, l.Length - 2) + "]";
+            return l;
+        }
         return o.ToString();
     }
 }

@@ -5,11 +5,7 @@ using System;
 
 public partial class MapCharacter : MapEntity {
     public abstract partial class Ai {
-        protected MapCharacter parent;
-        public Ai(MapCharacter aParent) {
-            parent = aParent;
-        }
-        public virtual void start() { }
+        public MapCharacter parent;
         public virtual void update() { }
     }
 }

@@ -14,7 +14,7 @@ public class MyPad : MyBehaviour {
     //Padへの触れ方(右クリックor左クリック)
     private DragType _DragType = DragType.none;
     //1フレーム内でのドラッグベクトル
-    public Vector2 _Delta;
+    private Vector2 _Delta;
     //ドラッグ中か
     private bool _IsDragging = false;
     //<summary>テールの最大長(shortTailモードの時のみ有効)</summary>

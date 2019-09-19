@@ -17,6 +17,7 @@ public static partial class MapWorldFactory {
             MapTile tTile = MyBehaviour.createObjectFromResources<MapTile>(MyMap.mMapResourcesDirectory + "/tile/" + tTilePath);
             tTile.transform.SetParent(tCell.transform, false);
             tTile.positionZ = MapZOrderCalculator.calculateOrderOfTile(tTileLength - 1 - i);
+            tTile.mCell = tCell;
         }
         //エンカウント
 

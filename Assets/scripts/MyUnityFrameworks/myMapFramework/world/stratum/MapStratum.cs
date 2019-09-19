@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapStratum : MyBehaviour {
     //<summary>階層レベル</summary>
-    public int mStratumLevel;
+    public MapStratumLevel mStratumLevel;
     //<summary>マスの入れ物</summary>
     public MyBehaviour mMapCells;
     //<summary>物の入れ物</summary>

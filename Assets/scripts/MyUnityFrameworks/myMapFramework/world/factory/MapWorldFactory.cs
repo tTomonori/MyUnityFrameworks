@@ -24,6 +24,10 @@ public static partial class MapWorldFactory {
         foreach(MapFileData.Npc tNpcData in mData.mNpc) {
             buildCharacter(tNpcData);
         }
+        //trigger生成
+        foreach(MapFileData.Trigger tTriggerData in mData.mTrigger) {
+            buildTrigger(tTriggerData);
+        }
 
         MapWorld tCreatedWorld = mWorld;
         mWorld = null;
