@@ -10,7 +10,7 @@ public partial class MapCharacter : MapEntity {
                 mController = parent.GetComponentInParent<MyMap>().mController;
             }
             if (mController.mInputVector != null)
-                parent.mState.move((Vector2)mController.mInputVector);
+                parent.mState.move((Vector2)mController.mInputVector,((Vector2)mController.mInputVector).magnitude);
         }
     }
 }

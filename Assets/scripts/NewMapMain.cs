@@ -22,6 +22,6 @@ public class NewMapMain : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        mController.mInputVector = mPad.mTailVec;
+        mController.mInputVector = mPad.mTailVec * 0.001f;
     }
 }

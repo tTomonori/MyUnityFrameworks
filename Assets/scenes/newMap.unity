@@ -295,7 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mControllerType: 0
   mMaxTailLength: 100
-  mThresholdDrag: 10
+  mThresholdDrag: 5
 --- !u!4 &1606020987
 Transform:
   m_ObjectHideFlags: 0

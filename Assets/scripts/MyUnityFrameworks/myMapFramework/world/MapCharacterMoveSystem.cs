@@ -84,7 +84,7 @@ public static class MapCharacterMoveSystem {
             tReturn = tResult;
         } else if (tResult is Collided) {
             //衝突した
-            tReturn = slideMove(((Collided)tResult).mAttribute, (tDistance - tResult.mDistance)*tVector.normalized);
+            tReturn = slideMove(((Collided)tResult).mAttribute, (tDistance - tResult.mDistance) * tVector.normalized);
         } else {
             Debug.LogWarning("MapCharacterMoveSystem : 不正な移動結果「" + tResult.GetType().ToString() + "」");
             tReturn = tResult;
@@ -94,37 +94,119 @@ public static class MapCharacterMoveSystem {
         return tReturn;
     }
     //<summary>スライド移動</summary>
-    private static MoveResult slideMove(MapPhysicsAttribute aPhysics, Vector2 aVector) {
-        //衝突したcolliderとの距離ベクトル
-        ColliderDistance2D tColliderDistance = aPhysics.mCollider.Distance(mCollider);
-        //スライド移動する方向
-        Vector2 tSlideVector = VectorCalculator.disassemble(aVector, tColliderDistance.normal);
-        //スライド移動
-        MoveResult tSlideResult = linearMove(tSlideVector);
-        if (tSlideResult is Passed)//衝突せずに移動完了
-            return tSlideResult;
-        if (tSlideResult is Stopped)//止められた
-            return tSlideResult;
-
-        //衝突した
-        //ほとんど移動できていない場合はこれ以上スライド移動しない
-        if (tSlideResult.mDistance < kMaxSeparation)
-            return tSlideResult;
-        //さらにスライド移動
-        Collided tCollidedResult = (Collided)tSlideResult;
-        MoveResult tSlideResult2 = slideMove(tCollidedResult.mAttribute, aVector * (aVector.magnitude - tCollidedResult.mDistance));
-        if (tSlideResult2 is Passed) {//衝突せずに移動完了
-            return new Slided(tCollidedResult.mAttribute, tCollidedResult.mDistance + tSlideResult2.mDistance);
+    private static MoveResult slideMove(MapPhysicsAttribute[] aPhysics, Vector2 aVector) {
+        foreach (MapPhysicsAttribute tAttribute in aPhysics) {
+            //スライド移動する方向
+            Vector2 tSlideVector = getSlideDirection(tAttribute, aVector);
+            //スライド移動
+            MoveResult tSlideResult = linearMove(tSlideVector);
+            if (tSlideResult is Passed)//衝突せずに移動完了
+                return new Slided(tAttribute, tSlideResult.mDistance);
+            if (tSlideResult is Stopped)//止められた
+                return tSlideResult;
+            //衝突した
+            //全く移動していない場合は他のcolliderに沿って移動できるか試す
+            if (tSlideResult.mDistance == 0)
+                continue;
+            //さらにスライド移動
+            Collided tCollidedResult = (Collided)tSlideResult;
+            MoveResult tSlideResult2 = slideMove(tCollidedResult.mAttribute, aVector * (aVector.magnitude - tCollidedResult.mDistance));
+            //移動距離を加算して返す
+            tSlideResult2.mDistance += tCollidedResult.mDistance;
+            return tSlideResult2;
         }
-        //衝突せずに移動完了以外は移動距離を加算して返す
-        tSlideResult2.mDistance += tCollidedResult.mDistance;
-        return tSlideResult2;
+        return new Collided(aPhysics, 0);
+    }
+    /// <summary>
+    /// 衝突時にどの方向にスライド移動するか求める
+    /// </summary>
+    /// <returns>スライドする方向</returns>
+    /// <param name="aAttribute">衝突したbehaviour</param>
+    /// <param name="aVector">どの方向から衝突したか</param>
+    private static Vector2 getSlideDirection(MapPhysicsAttribute aAttribute, Vector2 aVector) {
+        Collider2D tCollider = aAttribute.mCollider;
+        //衝突相手のcolliderの形状で分岐
+        if (tCollider is BoxCollider2D) {
+            //四角形の場合
+            ColliderDistance2D tSquareDistance = tCollider.Distance(mCollider);
+            //候補のスライド方向ベクトル
+            Vector2[] tCandidateVectors = new Vector2[2] { Quaternion.Euler(0,0,tCollider.transform.rotation.z)*new Vector2(1,0)
+            , Quaternion.Euler(0,0,tCollider.transform.rotation.z)*new Vector2(0, 1) };
+            //距離ベクトルと垂直な候補ベクトルがあるか
+            foreach (Vector2 tCandidateVector in tCandidateVectors) {
+                if (!tCandidateVector.isOrthogonalConsiderdError(tSquareDistance.normal)) continue;
+                //垂直なベクトルが見つかった
+                return VectorCalculator.disassembleParallel(aVector, tCandidateVector);
+            }
+            //垂直なベクトルがなかった
+            //候補ベクトルに平行な成分
+            Vector2 tComponentVector1 = aVector.disassembleParallel(tCandidateVectors[0]);
+            Vector2 tComponentVector2 = aVector.disassembleParallel(tCandidateVectors[1]);
+            //大きい方の成分ベクトルを返す
+            return (tComponentVector1.magnitude < tComponentVector2.magnitude) ? tComponentVector2 : tComponentVector1;
+        } else if (tCollider is EdgeCollider2D) {
+            //直線で囲った形の場合
+            //衝突したcolliderとの距離ベクトル
+            ColliderDistance2D tEdgeDistance = tCollider.Distance(mCollider);
+            if (tEdgeDistance.normal.corner(aVector) < 90) {
+                //距離ベクトルと移動方向ベクトルのなす角が90度未満なら、距離ベクトルに垂直な方向にスライド
+                return aVector.disassembleOrthogonal(tEdgeDistance.normal);
+            }
+
+            EdgeCollider2D tEdgeCollider = (EdgeCollider2D)tCollider;
+            //衝突中の距離を求める
+            Vector2 tPrePosition = mCharacter.mMapPosition;
+            mCharacter.mMapPosition = mCharacter.mMapPosition + kMaxSeparation * aVector.normalized;
+            ColliderDistance2D tCollisionDistance = tCollider.Distance(mCollider);
+            mCharacter.mMapPosition = tPrePosition;
+            //辺の数(=頂点の数)
+            int tEdgeNum = tEdgeCollider.pointCount;
+            //候補のスライド方向ベクトル(=辺ベクトル)
+            Vector2[] tEdgeVectors = new Vector2[tEdgeNum];
+            for (int i = 0; i < tEdgeNum; ++i) {
+                //i番目の頂点
+                Vector2 tPointC = tEdgeCollider.points[i];
+                //i+1番目の頂点
+                Vector2 tPointN = tEdgeCollider.points[(i + 1) % tEdgeNum];
+                //i番目の頂点からi+1番目の頂点へのベクトル
+                Vector2 tPointCToPointN = tPointN - tPointC;
+                if (tPointC == tCollisionDistance.pointA) {
+                    //i番目の頂点と衝突した
+                    //i-1番目の頂点
+                    Vector2 tPointP = tEdgeCollider.points[(i + tEdgeNum - 1) % tEdgeNum];
+                    //i番目の頂点からi-1番目の頂点へのベクトル
+                    Vector2 tPointCToPointP = tPointP - tPointC;
+                    //i番目の頂点からi+1番目の頂点方向成分
+                    Vector2 tComponentCToN = aVector.disassembleParallel(tPointCToPointN);
+                    //i番目の頂点からi-1番目の頂点方向成分
+                    Vector2 tComponentCToP = aVector.disassembleParallel(tPointCToPointP);
+                    //大きい方の成分ベクトルを返す
+                    return (tComponentCToN.magnitude < tComponentCToP.magnitude) ? tComponentCToP : tComponentCToN;
+                }
+                //衝突点のローカル座標
+                Vector2 tCollisionPointLocal = tEdgeCollider.transform.position;
+                tCollisionPointLocal = tCollisionDistance.pointA - tCollisionPointLocal;
+                //i番目の頂点から衝突点へのベクトル
+                Vector2 tPointCToCollision = tCollisionPointLocal - tPointC;
+                if (!tPointCToPointN.isParallelConsiderdError(tPointCToCollision)) continue;
+                if (!(tPointCToCollision.magnitude < tPointCToPointN.magnitude)) continue;
+                //辺と衝突した
+                return aVector.disassembleParallel(tPointCToPointN);
+            }
+            Debug.LogWarning("MapCharacterMoveSystem : EdgeCollider2Dに衝突したらしいけど、どこに衝突したのかわかりません");
+        }
+        //円形を含むその他の形状の場合
+        //衝突したcolliderとの距離ベクトル
+        ColliderDistance2D tOtherDistance = tCollider.Distance(mCollider);
+        //スライド移動する方向
+        Vector2 tOtherVector = aVector.disassembleOrthogonal(tOtherDistance.normal);
+        return tOtherVector;
     }
     //<summary>直線移動</summary>
     private static MoveResult linearMove(Vector2 aVector) {
         //移動先の衝突判定結果
         MapPhysicsAttribute.CollisionType tCollisionType;
-        MapPhysicsAttribute tCollidedAttribute;
+        MapPhysicsAttribute[] tCollidedAttribute;
         //１回目の移動衝突判定
         tCollisionType = canMove(mCharacter.mMapPosition + aVector, out tCollidedAttribute);
         if (tCollisionType == MapPhysicsAttribute.CollisionType.pass) {
@@ -140,7 +222,7 @@ public static class MapCharacterMoveSystem {
         //暫定の移動先候補
         MapPhysicsAttribute.CollisionType tProvisionalCollisionType = MapPhysicsAttribute.CollisionType.collide;
         float tProvisionalDistance = 0;
-        MapPhysicsAttribute tProvisionalContactAttribute = tCollidedAttribute;
+        MapPhysicsAttribute[] tProvisionalContactAttribute = tCollidedAttribute;
 
         while (true) {
             switch (tCollisionType) {
@@ -190,8 +272,14 @@ public static class MapCharacterMoveSystem {
     /// <returns>移動可能かどうか</returns>
     /// <param name="aPosition">移動可能か調べる座標</param>
     /// <param name="oCollided">移動先で衝突した属性</param>
-    private static MapPhysicsAttribute.CollisionType canMove(Vector2 aPosition, out MapPhysicsAttribute oCollided) {
+    private static MapPhysicsAttribute.CollisionType canMove(Vector2 aPosition, out MapPhysicsAttribute[] oCollided) {
         Collider2D[] tCollided = getCollided(aPosition);
+        //暫定の衝突結果
+        MapPhysicsAttribute.CollisionType tProvisionalCollisionType = MapPhysicsAttribute.CollisionType.pass;
+        //衝突した属性のリスト
+        MapPhysicsAttribute[] tCollidedAttributeList = new MapPhysicsAttribute[10];
+        //衝突した属性のリストの要素数
+        int tCollidedAttributeNum = 0;
         foreach (Collider2D tCollider in tCollided) {
             MapPhysicsAttribute tAttribute = tCollider.GetComponent<MapPhysicsAttribute>();
             //属性なしなら衝突しない
@@ -204,19 +292,31 @@ public static class MapCharacterMoveSystem {
                 case MapPhysicsAttribute.CollisionType.pass:
                     continue;
                 case MapPhysicsAttribute.CollisionType.collide:
-                    oCollided = tAttribute;
-                    return MapPhysicsAttribute.CollisionType.collide;
+                    if (tProvisionalCollisionType != MapPhysicsAttribute.CollisionType.collide) {
+                        tProvisionalCollisionType = MapPhysicsAttribute.CollisionType.collide;
+                        tCollidedAttributeNum = 0;
+                    }
+                    tCollidedAttributeList[tCollidedAttributeNum] = tAttribute;
+                    tCollidedAttributeNum++;
+                    continue;
                 case MapPhysicsAttribute.CollisionType.stop:
-                    oCollided = tAttribute;
-                    return MapPhysicsAttribute.CollisionType.stop;
+                    if (tProvisionalCollisionType == MapPhysicsAttribute.CollisionType.collide)
+                        continue;
+                    if (tProvisionalCollisionType == MapPhysicsAttribute.CollisionType.pass) {
+                        tProvisionalCollisionType = MapPhysicsAttribute.CollisionType.stop;
+                    }
+                    tCollidedAttributeList[tCollidedAttributeNum] = tAttribute;
+                    tCollidedAttributeNum++;
+                    continue;
                 default:
                     Debug.LogWarning("MapCharacterMoveSystem : 未定義の衝突判定結果「" + tCollisionType.ToString() + "」");
-                    oCollided = tAttribute;
+                    oCollided = new MapPhysicsAttribute[1] { tAttribute };
                     return MapPhysicsAttribute.CollisionType.collide;
             }
         }
-        oCollided = null;
-        return MapPhysicsAttribute.CollisionType.pass;
+        Array.Resize<MapPhysicsAttribute>(ref tCollidedAttributeList, tCollidedAttributeNum);
+        oCollided = tCollidedAttributeList;
+        return tProvisionalCollisionType;
     }
     //<summary>指定座標に移動した時に衝突するcolliderを取得</summary>
     private static Collider2D[] getCollided(Vector2 aPosition) {
@@ -243,8 +343,8 @@ public static class MapCharacterMoveSystem {
     //衝突して止まった
     public class Collided : MoveResult {
         //衝突した物
-        public MapPhysicsAttribute mAttribute;
-        public Collided(MapPhysicsAttribute aAttribute, float aDistance) {
+        public MapPhysicsAttribute[] mAttribute;
+        public Collided(MapPhysicsAttribute[] aAttribute, float aDistance) {
             mAttribute = aAttribute;
             mDistance = aDistance;
         }
@@ -252,8 +352,8 @@ public static class MapCharacterMoveSystem {
     //イベントに止められた
     public class Stopped : MoveResult {
         //止めてきたトリガー
-        public MapPhysicsAttribute mAttribute;
-        public Stopped(MapPhysicsAttribute aAttribute, float aDistance) {
+        public MapPhysicsAttribute[] mAttribute;
+        public Stopped(MapPhysicsAttribute[] aAttribute, float aDistance) {
             mAttribute = aAttribute;
             mDistance = aDistance;
         }
