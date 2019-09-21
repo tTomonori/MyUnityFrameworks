@@ -5,8 +5,8 @@ using UnityEngine;
 public static class MapZOrderCalculator {
     //<summary>階層のzPositionを計算</summary>
     public static float calculateOrderOfStratum(int aStratumLevel) {
-        return -aStratumLevel / 2 * 0.9f - ((aStratumLevel % 2) * 0.001f);
-
+        return -aStratumLevel;
+        //return -aStratumLevel / 2 * 0.9f - ((aStratumLevel % 2) * 0.001f);
     }
     //<summary>tileのzPositionを計算</summary>
     public static float calculateOrderOfTile(int aYoungerBrotherNum) {
@@ -22,23 +22,24 @@ public static class MapZOrderCalculator {
         return aY;
     }
     //<summary>entityのzPositionを計算(aStratumLevelは奇数)</summary>
-    public static float calculateOrderOfEntity(float aX, float aY, int aStratumLevel, MapSlopeTile.SlopeDirection aSlopeDirection) {
+    public static float calculateOrderOfEntity(float aX, float aY, int aStratumLevel, SlopeTilePhysicsAttribute.SlopeDirection aSlopeDirection) {
         //坂にいる
         float tHigh = 0;
         switch (aSlopeDirection) {
-            case MapSlopeTile.SlopeDirection.upHigh:
+            case SlopeTilePhysicsAttribute.SlopeDirection.upHigh:
                 tHigh = (aY + 0.5f) % 1f;
                 break;
-            case MapSlopeTile.SlopeDirection.downHigh:
+            case SlopeTilePhysicsAttribute.SlopeDirection.downHigh:
                 tHigh = -(aY + 0.5f) % 1f;
                 break;
-            case MapSlopeTile.SlopeDirection.leftHigh:
+            case SlopeTilePhysicsAttribute.SlopeDirection.leftHigh:
                 tHigh = -(aX + 0.5f) % 1f;
                 break;
-            case MapSlopeTile.SlopeDirection.rightHigh:
+            case SlopeTilePhysicsAttribute.SlopeDirection.rightHigh:
                 tHigh = (aX + 0.5f) % 1f;
                 break;
         }
+        return aY;
         return aY + (0.001f + 0.9f * tHigh);
     }
 }

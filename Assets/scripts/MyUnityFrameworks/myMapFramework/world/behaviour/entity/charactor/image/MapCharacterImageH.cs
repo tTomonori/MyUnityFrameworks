@@ -26,7 +26,13 @@ public class MapCharacterImageH : MapCharacterImage {
     }
 
     public override void moved(Vector2 aVector) {
-        switch (DirectionOperator.convertToDirectionH(aVector)) {
+        //垂直移動した場合の対応策
+        Vector2 tVector = aVector;
+        if (tVector.x == 0 && tVector.y != 0) {
+            tVector = new Vector2((mLastDirection == DirectionImageH.left || mLastDirection == DirectionImageH.stayLeft) ? -0.1f : 0.1f, tVector.y);
+        }
+
+        switch (DirectionOperator.convertToDirectionH(tVector)) {
             case DirectionH.left://左移動
                 if(mLastDirection != DirectionImageH.left) {
                     mLastDirection = DirectionImageH.left;

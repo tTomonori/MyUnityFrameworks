@@ -14,10 +14,5 @@ public abstract class MapPhysicsAttribute : MonoBehaviour {
     }
     //<summary>この属性が付与されているbehaviourがいる階層</summary>
     public abstract MapStratumLevel getStratumLevel();
-    //<summary>このbehaviourが引数のbehaviourと衝突するか</summary>
-    public abstract CollisionType canCollide(MapPhysicsAttribute aBehaviour);
 
-    public enum CollisionType {
-        pass,stop,collide
-    }
 }

@@ -27,22 +27,11 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
     public override MapStratumLevel getStratumLevel() {
         return mEntity.mStratumLevel;
     }
-    //<summary>このbehaviourが引数のbehaviourと衝突するか</summary>
-    public override CollisionType canCollide(MapPhysicsAttribute aBehaviour) {
-        if (aBehaviour is TilePhysicsAttribute)
-            return canCollide((TilePhysicsAttribute)aBehaviour);
-        if (aBehaviour is EntityPhysicsAttribute)
-            return canCollide((EntityPhysicsAttribute)aBehaviour);
-        if (aBehaviour is TriggerPhysicsAttribute)
-            return ((TriggerPhysicsAttribute)aBehaviour).canCollide(this);
-
-        throw new System.Exception("EntityPhysicsAttribute : 「" + aBehaviour.GetType().ToString() + "」型との衝突判定が定義されてない");
-    }
     //<summary>このbehaviourが引数のtileと衝突するか</summary>
-    public CollisionType canCollide(TilePhysicsAttribute aTilePhysics) {
+    public MapPhysics.CollisionType canCollide(TilePhysicsAttribute aTilePhysics) {
         switch (mAttribute) {
             case Attribute.ghost:
-                return CollisionType.pass;
+                return MapPhysics.CollisionType.pass;
             case Attribute.ornament:
             case Attribute.walking:
                 switch (aTilePhysics.mAttribute) {
@@ -52,9 +41,9 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
                     case TilePhysicsAttribute.Attribute.water:
                     case TilePhysicsAttribute.Attribute.magma:
                     case TilePhysicsAttribute.Attribute.wall:
-                        return CollisionType.collide;
+                        return MapPhysics.CollisionType.collide;
                     case TilePhysicsAttribute.Attribute.flat:
-                        return CollisionType.pass;
+                        return MapPhysics.CollisionType.pass;
                 }
                 break;
             case Attribute.flying:
@@ -62,12 +51,12 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
                     case TilePhysicsAttribute.Attribute.none:
                     case TilePhysicsAttribute.Attribute.end:
                     case TilePhysicsAttribute.Attribute.wall:
-                        return CollisionType.collide;
+                        return MapPhysics.CollisionType.collide;
                     case TilePhysicsAttribute.Attribute.flat:
                     case TilePhysicsAttribute.Attribute.water:
                     case TilePhysicsAttribute.Attribute.magma:
                     case TilePhysicsAttribute.Attribute.air:
-                        return CollisionType.pass;
+                        return MapPhysics.CollisionType.pass;
                 }
                 break;
             case Attribute.pygmy:
@@ -75,50 +64,50 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
                     case TilePhysicsAttribute.Attribute.none:
                     case TilePhysicsAttribute.Attribute.end:
                     case TilePhysicsAttribute.Attribute.wall:
-                        return CollisionType.collide;
+                        return MapPhysics.CollisionType.collide;
                     case TilePhysicsAttribute.Attribute.flat:
                     case TilePhysicsAttribute.Attribute.water:
                     case TilePhysicsAttribute.Attribute.magma:
                     case TilePhysicsAttribute.Attribute.air:
-                        return CollisionType.pass;
+                        return MapPhysics.CollisionType.pass;
                 }
                 break;
         }
         Debug.LogWarning("EntityPhysicsAttribute : 定義されていない属性の当たり判定「" + mAttribute.ToString() + "」「" + aTilePhysics.mAttribute.ToString() + "」");
-        return CollisionType.collide;
+        return MapPhysics.CollisionType.collide;
     }
     //<summary>このbehaviourが引数のentityと衝突するか</summary>
-    public CollisionType canCollide(EntityPhysicsAttribute aEntityPhysics) {
+    public MapPhysics.CollisionType canCollide(EntityPhysicsAttribute aEntityPhysics) {
         switch (mAttribute) {
             case Attribute.ghost:
-                return CollisionType.pass;
+                return MapPhysics.CollisionType.pass;
             case Attribute.ornament:
             case Attribute.walking:
             case Attribute.flying:
                 switch (aEntityPhysics.mAttribute) {
                     case Attribute.ghost:
-                        return CollisionType.pass;
+                        return MapPhysics.CollisionType.pass;
                     case Attribute.ornament:
                     case Attribute.walking:
                     case Attribute.flying:
-                        return CollisionType.collide;
+                        return MapPhysics.CollisionType.collide;
                     case Attribute.pygmy:
-                        return CollisionType.pass;
+                        return MapPhysics.CollisionType.pass;
                 }
                 break;
             case Attribute.pygmy:
                 switch (aEntityPhysics.mAttribute) {
                     case Attribute.ghost:
-                        return CollisionType.pass;
+                        return MapPhysics.CollisionType.pass;
                     case Attribute.ornament:
                     case Attribute.walking:
                     case Attribute.flying:
                     case Attribute.pygmy:
-                        return CollisionType.pass;
+                        return MapPhysics.CollisionType.pass;
                 }
                 break;
         }
         Debug.LogWarning("EntityPhysicsAttribute : 定義されていない属性の当たり判定「" + mAttribute.ToString() + "」「" + aEntityPhysics.mAttribute.ToString() + "」");
-        return CollisionType.collide;
+        return MapPhysics.CollisionType.collide;
     }
 }

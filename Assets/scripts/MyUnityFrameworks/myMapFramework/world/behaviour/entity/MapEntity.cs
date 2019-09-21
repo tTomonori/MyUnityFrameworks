@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapEntity : MapBehaviour {
-    // Start is called before the first frame update
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
+    private EntityPhysicsAttribute _Attribute;
+    public EntityPhysicsAttribute mAttribute {
+        get {
+            if (_Attribute == null)
+                _Attribute = GetComponent<EntityPhysicsAttribute>();
+            return _Attribute;
+        }
     }
 }

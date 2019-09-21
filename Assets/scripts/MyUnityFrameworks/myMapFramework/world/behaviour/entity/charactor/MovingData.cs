@@ -15,4 +15,9 @@ public class MovingData {
     public Vector2 mPrePosition;
     //<summary>移動前の階層</summary>
     public int mPreStratumLevel;
+    //<summary>最後に触れていた階層移動属性のオブジェクト</summary>
+    public SlopeTilePhysicsAttribute[] mCollidedSlope;
+
+    //<summary>同フレーム内で移動できる残りの距離</summary>
+    public float mRemainingDistance;
 }

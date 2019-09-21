@@ -22,8 +22,4 @@ public class TilePhysicsAttribute : MapPhysicsAttribute {
             mTile = GetComponent<MapTile>();
         return mTile.mCell.mStratumLevel;
     }
-    //<summary>このbehaviourが引数のbehaviourと衝突するか</summary>
-    public override CollisionType canCollide(MapPhysicsAttribute aBehaviour) {
-        return CollisionType.pass;
-    }
 }
