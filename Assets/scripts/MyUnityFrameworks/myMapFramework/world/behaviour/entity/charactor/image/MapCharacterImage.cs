@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MapCharacterImage : MyBehaviour {
+public abstract class MapCharacterImage : EntityImage {
     //<summary>移動方向によって画像を変更</summary>
     abstract public void moved(Vector2 aVector);
     //<summary>向きを設定</summary>

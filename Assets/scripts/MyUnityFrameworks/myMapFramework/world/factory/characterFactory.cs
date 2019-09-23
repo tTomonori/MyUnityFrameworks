@@ -6,8 +6,12 @@ public static partial class MapWorldFactory {
     //<summary>キャラクター生成</summary>
     static public MapCharacter createCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = MyBehaviour.create<MapCharacter>();
-        tCharacter.mImage = MyBehaviour.createObjectFromResources<MapCharacterImage>(MyMap.mMapResourcesDirectory + "/character/" + aData.mPath);
+        EntityImageData tImageData = MyBehaviour.createObjectFromResources<EntityImageData>(MyMap.mMapResourcesDirectory + "/character/" + aData.mPath);
+        tCharacter.mImage = MyBehaviour.create<MapCharaterImageGroup>();
+        tCharacter.mImage.name = "image";
         tCharacter.mImage.transform.SetParent(tCharacter.transform, false);
+        tCharacter.mImage.make(tImageData);
+        GameObject.Destroy(tImageData.gameObject);
 
         //向き
         tCharacter.mImage.setDirection(aData.mDirection);
@@ -27,6 +31,7 @@ public static partial class MapWorldFactory {
         tCharacter.mMovingData = new MovingData();
         tCharacter.mMovingData.mSpeed = 1.5f;
         tCharacter.mMovingData.mDeltaDistance = 0.3f;
+
 
         return tCharacter;
     }

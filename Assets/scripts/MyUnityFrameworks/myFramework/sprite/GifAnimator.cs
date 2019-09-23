@@ -49,6 +49,7 @@ public class GifAnimator : MonoBehaviour {
         //経過時間
         mDeltaTime += Time.deltaTime;
         //画像番号決定
+        if (mOrder.Length == 0) return;
         mOrderIndex = (mOrderIndex + Mathf.FloorToInt(mDeltaTime / mInterval)) % mOrder.Length;
         mDeltaTime = mDeltaTime % mInterval;
         //画像変更

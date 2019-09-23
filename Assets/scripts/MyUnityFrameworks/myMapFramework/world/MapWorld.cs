@@ -27,7 +27,7 @@ public class MapWorld : MyBehaviour {
         aCell.name = "cell:(" + aX.ToString() + "," + aY.ToString() + ")";
         aCell.transform.SetParent(mStratums[aStratumLevel].mMapCells.transform, false);
         aCell.mMapPosition = new Vector2(aX, aY);
-        aCell.positionZ = MapZOrderCalculator.calculateOrderOfCell(aX, aY);
+        aCell.positionZ = MapZOrderCalculator.calculateOrderOfCell(aX, aY, aStratumLevel);
         aCell.mStratumLevel = new MapStratumLevel(aStratumLevel);
         aCell.placed();
     }
@@ -35,18 +35,20 @@ public class MapWorld : MyBehaviour {
         aCharacter.name = "charactor:" + aName;
         aCharacter.transform.SetParent(mStratums[aStratumLevel].mCharacters.transform, false);
         aCharacter.mMapPosition = new Vector2(aX, aY);
-        aCharacter.positionZ = MapZOrderCalculator.calculateOrderOfEntity(aX, aY, aStratumLevel);
+        //aCharacter.positionZ = MapZOrderCalculator.calculateOrderOfEntity(aX, aY, aStratumLevel);
         aCharacter.mStratumLevel = new MapStratumLevel(aStratumLevel);
         mCharacters.Add(aCharacter);
         aCharacter.placed();
+        MapWorldUpdater.initZOrder(aCharacter);
     }
     public void addOrnament(MapOrnament aOrnament, string aName, float aX, float aY, int aStratumLevel) {
         aOrnament.name = "ornament:" + aName;
         aOrnament.transform.SetParent(mStratums[aStratumLevel].mOrnaments.transform, false);
         aOrnament.mMapPosition = new Vector2(aX, aY);
-        aOrnament.positionZ = MapZOrderCalculator.calculateOrderOfEntity(aX, aY, aStratumLevel);
+        //aOrnament.positionZ = MapZOrderCalculator.calculateOrderOfEntity(aX, aY, aStratumLevel);
         aOrnament.mStratumLevel = new MapStratumLevel(aStratumLevel);
         aOrnament.placed();
+        MapWorldUpdater.initZOrder(aOrnament);
     }
     public void addTrigger(MapTrigger aTrigger, string aName, float aX, float aY, int aStratumLevel) {
         aTrigger.name = "trigger:" + aName;

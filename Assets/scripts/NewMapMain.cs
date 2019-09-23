@@ -9,6 +9,12 @@ public class NewMapMain : MonoBehaviour {
     MyMapController mController;
     // Start is called before the first frame update
     void Start() {
+        //MyMap.mMapResourcesDirectory = "mymap";
+        //MapCharaterImageGroup g = MyBehaviour.create<MapCharaterImageGroup>();
+        //EntityImageData d = MyBehaviour.createObjectFromResources<EntityImageData>(MyMap.mMapResourcesDirectory+"/character/player/testEntityImage");
+        //g.make(d);
+        //d.gameObject.AddComponent<MyBehaviour>().delete();
+
         //pad
         mPad = GameObject.Find("pad").GetComponent<MyPad>();
         //map
@@ -18,6 +24,10 @@ public class NewMapMain : MonoBehaviour {
         //contoroller
         mController = new MyMapController();
         mMap.mController = mController;
+
+
+
+
     }
 
     // Update is called once per frame

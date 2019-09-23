@@ -11,7 +11,7 @@
         [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [ 2, 2, 2, 1, 1, 1, 1, 1, 2, 2],
         [ 2, 2, 2, 1, 1, 1, 1, 1, 2, 2],
-        [ 2, 2, 2, 1, 1, 1, 1, 1,61,61],
+        [ 2, 2, 2, 1,61, 1, 1, 1,61,61],
         [ 2, 2, 2, 1, 1, 1, 1, 1,61,61],
         [ 2, 2, 2, 1, 1, 1, 1, 1,61,61]
       ]
@@ -115,7 +115,7 @@
   {"path": "sign/treeSign","name": "testSign","x": 3,"y": 2,"stratum": 0}
   ],
   "npc": [
-    {"path": "player/player","name": "test","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":2,"y": 1,"stratum": 0}
+    {"path": "player/testEntityImage","name": "test","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":2,"y": 1,"stratum": 0}
   ],
   "trigger": [
     {"name": "test","shape": "<square,1,1>","x":3,"y": 4,"stratum": 2}

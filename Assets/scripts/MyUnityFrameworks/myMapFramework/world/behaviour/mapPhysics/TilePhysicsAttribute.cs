@@ -15,7 +15,7 @@ public class TilePhysicsAttribute : MapPhysicsAttribute {
         wall
     }
     //この属性が付与されているtile
-    private MapTile mTile;
+    protected MapTile mTile;
     //<summary>この属性が付与されているbehaviourがいる階層</summary>
     public override MapStratumLevel getStratumLevel() {
         if (mTile == null)

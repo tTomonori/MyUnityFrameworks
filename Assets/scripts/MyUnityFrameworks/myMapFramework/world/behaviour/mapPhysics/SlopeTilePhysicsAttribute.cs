@@ -7,7 +7,7 @@ public class SlopeTilePhysicsAttribute : TilePhysicsAttribute {
     [SerializeField] public SlopeDirection mSlopeDirection;
 
     public enum SlopeDirection {
-        upHigh, downHigh, leftHigh, rightHigh
+        upHigh, downHigh, leftHigh, rightHigh,none
     }
 
     //<summary>引数のentityがこの傾斜に侵入できるか</summary>
@@ -66,6 +66,27 @@ public class SlopeTilePhysicsAttribute : TilePhysicsAttribute {
             default:
                 throw new System.Exception("SlopeTilePhysicsAttribute : 未定義の傾斜方向「" + mSlopeDirection.ToString() + "」");
         }
+    }
+    //<summary>指定座標の高さを返す(この傾斜の最低点を0最高点を1とする)</summary>
+    public float getHeight(Vector2 aPosition) {
+        float tHeight = 0;
+        switch (mSlopeDirection) {
+            case SlopeDirection.upHigh:
+                tHeight = aPosition.y - mTile.mCell.mMapPosition.y + 0.5f;
+                break;
+            case SlopeDirection.downHigh:
+                tHeight = -aPosition.y + mTile.mCell.mMapPosition.y - 0.5f;
+                break;
+            case SlopeDirection.leftHigh:
+                tHeight = -aPosition.x + mTile.mCell.mMapPosition.x - 0.5f;
+                break;
+            case SlopeDirection.rightHigh:
+                tHeight = aPosition.x - mTile.mCell.mMapPosition.x + 0.5f;
+                break;
+            default:
+                throw new System.Exception("SlopeTilePhysicsAttribute : 未定義の傾斜方向「" + mSlopeDirection.ToString() + "」");
+        }
+        return mTile.mCell.mStratumLevel.mLevel / 2 + tHeight;
     }
 
     //傾斜に対する位置

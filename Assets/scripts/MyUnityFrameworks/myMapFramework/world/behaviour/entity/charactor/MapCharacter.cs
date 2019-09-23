@@ -6,7 +6,7 @@ public partial class MapCharacter : MapEntity {
     public MovingData mMovingData;
     private MapCharacter.Ai mAi;
     private MapCharacter.State mState;
-    public MapCharacterImage mImage;
+    public MapCharaterImageGroup mImage;
 
     //<summary>MapWorld内に配置された直後に呼ばれる</summary>
     public override void placed() {

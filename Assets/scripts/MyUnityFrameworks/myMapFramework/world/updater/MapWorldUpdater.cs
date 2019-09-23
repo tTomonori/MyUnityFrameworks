@@ -25,11 +25,14 @@ public static class MapWorldUpdater {
 
                 if (!tRemainedDistance) {
                     //これ以上移動しない
+                    updateMaskOrder(tCharacter);
                     //z座標更新
+                    float tHeight = MapStratumMoveSystem.getHeight(tCharacter);
+                    tCharacter.mImage.setUpHigh(tHeight);
                     if (tCharacter.mMovingData.mCollidedSlope.Length == 0)
-                        tCharacter.positionZ = MapZOrderCalculator.calculateOrderOfEntity(tCharacter.mMapPosition.x, tCharacter.mMapPosition.y, tCharacter.mStratumLevel.mLevel);
+                        tCharacter.positionZ = MapZOrderCalculator.calculateOrderOfEntity(tCharacter.mMapPosition.x, tCharacter.mMapPosition.y, SlopeTilePhysicsAttribute.SlopeDirection.none, tCharacter.mStratumLevel.mLevel / 2);
                     else
-                        tCharacter.positionZ = MapZOrderCalculator.calculateOrderOfEntity(tCharacter.mMapPosition.x, tCharacter.mMapPosition.y, tCharacter.mStratumLevel.mLevel, tCharacter.mMovingData.mCollidedSlope[0].mSlopeDirection);
+                        tCharacter.positionZ = MapZOrderCalculator.calculateOrderOfEntity(tCharacter.mMapPosition.x, tCharacter.mMapPosition.y, tCharacter.mMovingData.mCollidedSlope[0].mSlopeDirection, MapStratumMoveSystem.getHeight(tCharacter));
 
                     continue;
                 }
@@ -40,6 +43,16 @@ public static class MapWorldUpdater {
                 break;
             tProcessing = tWaiting;
             tWaiting.Clear();
+        }
+    }
+
+    public static void initZOrder(MapEntity aEntity) {
+        SlopeTilePhysicsAttribute.SlopeDirection tDirection;
+        float tHeight = MapStratumMoveSystem.getHeight(aEntity, out tDirection);
+        aEntity.positionZ = MapZOrderCalculator.calculateOrderOfEntity(aEntity.mMapPosition.x, aEntity.mMapPosition.y, tDirection, tHeight);
+    }
+    public static void updateMaskOrder(MapCharacter aCharacter) {
+        foreach (SpriteRenderer tRenderer in aCharacter.mImage.GetComponentsInChildren<SpriteRenderer>()) {
         }
     }
 }

@@ -70,4 +70,31 @@ public static class MapStratumMoveSystem {
         Array.Resize<SlopeTilePhysicsAttribute>(ref tSlopes, tSlopeNum);
         return tSlopes;
     }
+    //<summary>entityがいる高さを返す</summary>
+    public static float getHeight(MapEntity aEntity) {
+        SlopeTilePhysicsAttribute[] tSlopes = getCollided(aEntity);
+        if (tSlopes.Length == 0) return aEntity.mStratumLevel.mLevel / 2;
+        float tAns = 0;
+        foreach(SlopeTilePhysicsAttribute tSlope in tSlopes) {
+            tAns = tSlope.getHeight(aEntity.mMapPosition);
+            if (tSlope.mCollider.OverlapPoint(aEntity.transform.position))
+                break;
+        }
+        return tAns;
+    }
+    public static float getHeight(MapEntity aEntity,out SlopeTilePhysicsAttribute.SlopeDirection oDirection) {
+        SlopeTilePhysicsAttribute[] tSlopes = getCollided(aEntity);
+        if (tSlopes.Length == 0) {
+            oDirection = SlopeTilePhysicsAttribute.SlopeDirection.none;
+            return aEntity.mStratumLevel.mLevel / 2;
+        }
+        float tAns = 0;
+        foreach (SlopeTilePhysicsAttribute tSlope in tSlopes) {
+            tAns = tSlope.getHeight(aEntity.mMapPosition);
+            if (tSlope.mCollider.OverlapPoint(aEntity.transform.position))
+                break;
+        }
+        oDirection = tSlopes[0].mSlopeDirection;
+        return tAns;
+    }
 }
