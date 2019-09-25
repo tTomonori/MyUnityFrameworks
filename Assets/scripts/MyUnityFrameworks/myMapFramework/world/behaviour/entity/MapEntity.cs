@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapEntity : MapBehaviour {
+public class MapEntity : MapStandBehaviour {
     private EntityPhysicsAttribute _Attribute;
     public EntityPhysicsAttribute mAttribute {
         get {

@@ -1,17 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public static partial class MapWorldFactory {
     //<summary>キャラクター生成</summary>
     static public MapCharacter createCharacter(MapFileData.Npc aData) {
-        MapCharacter tCharacter = MyBehaviour.create<MapCharacter>();
-        EntityImageData tImageData = MyBehaviour.createObjectFromResources<EntityImageData>(MyMap.mMapResourcesDirectory + "/character/" + aData.mPath);
-        tCharacter.mImage = MyBehaviour.create<MapCharaterImageGroup>();
-        tCharacter.mImage.name = "image";
-        tCharacter.mImage.transform.SetParent(tCharacter.transform, false);
-        tCharacter.mImage.make(tImageData);
-        GameObject.Destroy(tImageData.gameObject);
+        MapCharacter tCharacter = MyBehaviour.createObjectFromResources<MapCharacter>(MyMap.mMapResourcesDirectory + "/character/" + aData.mPath);
 
         //向き
         tCharacter.mImage.setDirection(aData.mDirection);
@@ -46,6 +41,9 @@ public static partial class MapWorldFactory {
     //<summary>キャラクターを生成してworldに追加</summary>
     static private void buildCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = createCharacter(aData);
-        mWorld.addCharacter(tCharacter, aData.mName, aData.mX, aData.mY, aData.mStratum);
+        tCharacter.transform.SetParent(mWorld.mCharacterContainer.transform, false);
+        tCharacter.setPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
+
+        mWorld.mCharacters.Add(tCharacter);
     }
 }

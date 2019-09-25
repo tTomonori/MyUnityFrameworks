@@ -23,6 +23,6 @@ public static partial class MapWorldFactory {
     //<summary>トリガーを生成してworldに追加</summary>
     static private void buildTrigger(MapFileData.Trigger aData) {
         MapTrigger tTrigger = createTrigger(aData);
-        mWorld.addTrigger(tTrigger, aData.mName, aData.mX, aData.mY, aData.mStratum);
+        tTrigger.transform.SetParent(mWorld.mTriggerContainer.transform, false);
     }
 }

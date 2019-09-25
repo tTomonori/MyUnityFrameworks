@@ -2,14 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapCell : MapBehaviour {
-    // Start is called before the first frame update
-    void Start() {
+public class MapCell : MapLieBehaviour {
 
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
 }

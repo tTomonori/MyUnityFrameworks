@@ -14,27 +14,27 @@ public class MapFileData {
     public string name {
         get { return mData.get<string>("name"); }
     }
-    //<summary>階層データ</summary>
+    ///<summary>階層データ</summary>
     public List<Stratum> mStratums {
         get { return mStratumData; }
     }
-    //<summary>マスデータ</summary>
+    ///<summary>マスデータ</summary>
     public Chip mChip {
         get { return mChipData; }
     }
-    //<summary>物データ</summary>
+    ///<summary>物データ</summary>
     public List<Ornament> mOrnaments {
         get { return mOrnamentData; }
     }
-    //<summary>npcデータ</summary>
+    ///<summary>npcデータ</summary>
     public List<Npc> mNpc {
         get { return mNpcData; }
     }
-    //<summary>triggerデータ</summary>
+    ///<summary>triggerデータ</summary>
     public List<Trigger> mTrigger{
         get { return mTriggerData; }
     }
-    //<summary>イベントデータ</summary>
+    ///<summary>イベントデータ</summary>
     public Event mEvent {
         get { return mEventData; }
     }
@@ -70,7 +70,7 @@ public class MapFileData {
 
     public class Stratum {
         private Arg mData;
-        //<summary>階層のフィールドデータ(mChipのkeyのリスト)</summary>
+        ///<summary>階層のフィールドデータ(mChipのkeyのリスト)</summary>
         public List<List<int>> mFeild {
             get { return mData.get<List<List<int>>>("feild"); }
         }
@@ -93,11 +93,11 @@ public class MapFileData {
     }
     public class Cell {
         private Arg mData;
-        //<summary>タイルのプレハブへのパスのリスト</summary>
-        public List<string> mTile {
-            get { return mData.get<List<string>>("tile"); }
+        ///<summary>プレハブへのパス</summary>
+        public string mCell {
+            get { return mData.get<string>("cell"); }
         }
-        //<summary>エンカウント番号(エンカウントなしなら空文字列)</summary>
+        ///<summary>エンカウント番号(エンカウントなしなら空文字列)</summary>
         public string mEncount {
             get {
                 if (!mData.ContainsKey("encount")) return "";
@@ -110,27 +110,27 @@ public class MapFileData {
     }
     public class Ornament {
         private Arg mData;
-        //<summary>プレハブへのパス</summary>
+        ///<summary>プレハブへのパス</summary>
         public string mPath {
             get { return mData.get<string>("path"); }
         }
-        //<summary>オブジェクトの名前</summary>
+        ///<summary>オブジェクトの名前</summary>
         public string mName {
             get {
                 if (!mData.ContainsKey("name")) return "";
                 return mData.get<string>("name");
             }
         }
-        //<summary>x座標</summary>
+        ///<summary>x座標</summary>
         public float mX {
             get { return mData.get<float>("x"); }
         }
-        //<summary>y座標</summary>
+        ///<summary>y座標</summary>
         public float mY {
             get { return mData.get<float>("y"); }
         }
-        //<summary>階層</summary>
-        public int mStratum {
+        ///<summary>高さ</summary>
+        public float mHeight {
             get { return mData.get<int>("stratum"); }
         }
 
@@ -140,35 +140,35 @@ public class MapFileData {
     }
     public class Npc {
         private Arg mData;
-        //<summary>プレハブへのパス</summary>
+        ///<summary>プレハブへのパス</summary>
         public string mPath {
             get { return mData.get<string>("path"); }
         }
-        //<summary>オブジェクトの名前</summary>
+        ///<summary>オブジェクトの名前</summary>
         public string mName {
             get {
                 if (!mData.ContainsKey("name")) return "";
                 return mData.get<string>("name");
             }
         }
-        //<summary>向き</summary>
+        ///<summary>向き</summary>
         public Vector2 mDirection {
             get { return mData.get<Vector2>("direction"); }
         }
-        //<summary>AIを表したタグ</summary>
+        ///<summary>AIを表したタグ</summary>
         public MyTag mAi {
             get { return new MyTag(mData.get<string>("ai")); }
         }
-        //<summary>x座標</summary>
+        ///<summary>x座標</summary>
         public float mX {
             get { return mData.get<float>("x"); }
         }
-        //<summary>y座標</summary>
+        ///<summary>y座標</summary>
         public float mY {
             get { return mData.get<float>("y"); }
         }
-        //<summary>階層</summary>
-        public int mStratum {
+        ///<summary>高さ</summary>
+        public float mHeight {
             get { return mData.get<int>("stratum"); }
         }
         public Npc(Arg aData) {
@@ -177,18 +177,18 @@ public class MapFileData {
     }
     public class Trigger {
         private Arg mData;
-        //<summary>トリガーの名前</summary>
+        ///<summary>トリガーの名前</summary>
         public string mName {
             get {
                 if (!mData.ContainsKey("name")) return "";
                 return mData.get<string>("name");
             }
         }
-        //<summary>トリガーの形状を表したタグ</summary>
+        ///<summary>トリガーの形状を表したタグ</summary>
         public MyTag mShape {
             get { return new MyTag(mData.get<string>("shape")); }
         }
-        //<summary>x座標</summary>
+        ///<summary>x座標</summary>
         public float mX {
             get { return mData.get<float>("x"); }
         }
@@ -196,8 +196,8 @@ public class MapFileData {
         public float mY {
             get { return mData.get<float>("y"); }
         }
-        //<summary>階層</summary>
-        public int mStratum {
+        ///<summary>高さ</summary>
+        public float mHeight {
             get { return mData.get<int>("stratum"); }
         }
         public Trigger(Arg aData) {

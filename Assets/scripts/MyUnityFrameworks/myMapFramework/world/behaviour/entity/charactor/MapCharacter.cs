@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class MapCharacter : MapEntity {
+    /// <summary>移動処理で使うデータ</summary>
     public MovingData mMovingData;
+    [SerializeField] public new MapCharacterImage mImage;
+
     private MapCharacter.Ai mAi;
     private MapCharacter.State mState;
-    public MapCharaterImageGroup mImage;
 
     //<summary>MapWorld内に配置された直後に呼ばれる</summary>
     public override void placed() {

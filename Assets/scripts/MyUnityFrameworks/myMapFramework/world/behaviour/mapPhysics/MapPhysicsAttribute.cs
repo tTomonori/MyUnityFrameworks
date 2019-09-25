@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MapPhysicsAttribute : MonoBehaviour {
+public abstract class MapPhysicsAttribute : MyBehaviour {
     private Collider2D _Collider;
     //<summary>この属性が付与されているbehaviourのcollider</summary>
     public Collider2D mCollider {
@@ -12,7 +12,11 @@ public abstract class MapPhysicsAttribute : MonoBehaviour {
             return _Collider;
         }
     }
-    //<summary>この属性が付与されているbehaviourがいる階層</summary>
-    public abstract MapStratumLevel getStratumLevel();
+    /// <summary>この属性が付与されているbehaviour</summary>
+    [SerializeField] public MapBehaviour mBehaviour { get; set; }
 
+    /// <summary>この属性が存在する高さ</summary>
+    public virtual float getHeight() {
+        return mBehaviour.mHeight;
+    }
 }
