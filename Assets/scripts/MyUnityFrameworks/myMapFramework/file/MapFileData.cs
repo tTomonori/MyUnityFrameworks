@@ -131,7 +131,7 @@ public class MapFileData {
         }
         ///<summary>高さ</summary>
         public float mHeight {
-            get { return mData.get<int>("stratum"); }
+            get { return mData.get<int>("height"); }
         }
 
         public Ornament(Arg aData) {
@@ -169,7 +169,7 @@ public class MapFileData {
         }
         ///<summary>高さ</summary>
         public float mHeight {
-            get { return mData.get<int>("stratum"); }
+            get { return mData.get<int>("height"); }
         }
         public Npc(Arg aData) {
             mData = aData;
@@ -198,7 +198,7 @@ public class MapFileData {
         }
         ///<summary>高さ</summary>
         public float mHeight {
-            get { return mData.get<int>("stratum"); }
+            get { return mData.get<int>("height"); }
         }
         public Trigger(Arg aData) {
             mData = aData;

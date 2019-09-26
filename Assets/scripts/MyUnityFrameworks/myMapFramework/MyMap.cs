@@ -5,9 +5,7 @@ using UnityEngine;
 public class MyMap : MyBehaviour {
     ///<summary>マップリソースのディレクトリ(resources/ + X)</summary>
     public static string mMapResourcesDirectory;
-    ///<summary>直立した物体を表示するlayerの番号</summary>
-    public static int mStandLayerNum = 9;
-    /// <summary>マスを表示するlayerの番号</summary>
+    /// <summary>階層を表示するlayerの番号</summary>
     public static int[] mStratumLayerNum = new int[10] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
 
     ///<summary>操作入力用クラス</summary>
@@ -35,5 +33,12 @@ public class MyMap : MyBehaviour {
     ///<summary>更新</summary>
     public void updateMap() {
 
+    }
+
+    static public Sprite mSquareMask {
+        get { return Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/squareMask"); }
+    }
+    static public Sprite mTriangleMask {
+        get {return Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/triangleMask"); }
     }
 }

@@ -51,6 +51,11 @@ public partial class MyBehaviour : MonoBehaviour {
         // プレハブからインスタンスを生成
         return Instantiate(prefab).GetComponent<Type>();
     }
+    public Type createChild<Type>() where Type :Component{
+        Type child = new GameObject().AddComponent<Type>();
+        child.transform.SetParent(this.transform, false);
+        return child;
+    }
     /// <summary>
     /// 指定した名前の子要素を取得
     /// </summary>

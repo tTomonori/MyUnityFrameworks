@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBehaviour: {fileID: 4685431864628667289}
+  mCell: {fileID: 0}
   mAttribute: 6
 --- !u!1 &3341249639494371310
 GameObject:
@@ -160,9 +160,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3850918404914686785}
-  - component: {fileID: 4685431864628667289}
+  - component: {fileID: 5469795301975680029}
   m_Layer: 0
-  m_Name: sand
+  m_Name: cliffV-LB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,7 +184,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4685431864628667289
+--- !u!114 &5469795301975680029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,6 +193,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7308087025450687123}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af2c1676911f417db111dff400963cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fab00a40852240968c22a76d7c81342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

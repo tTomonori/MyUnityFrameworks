@@ -6,14 +6,18 @@ public class TriggerPhysicsAttribute : MapPhysicsAttribute {
     //<summary>トリガー属性</summary>
     [SerializeField] public Attribute mAttribute;
     public enum Attribute {
-        pass,stop,collide
+        pass, stop, collide
     }
 
     //この属性が付与されているtrigger
-    public new MapTrigger mBehaviour;
+    [SerializeField] public MapTrigger mTrigger;
+    public override MapBehaviour mBehaviour {
+        get { return mTrigger; }
+        set { mTrigger = (MapTrigger)value; }
+    }
 
     //<summary>引数のentityがこのtriggerに侵入できるか</summary>
     public MapPhysics.CollisionType canBeEntered(EntityPhysicsAttribute aEntityPhysics) {
-        return mBehaviour.canCollide(aEntityPhysics.mBehaviour);
+        return mTrigger.canCollide(aEntityPhysics.mEntity);
     }
 }

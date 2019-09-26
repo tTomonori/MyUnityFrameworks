@@ -11,9 +11,9 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
     ///<summary>傾斜の方向</summary>
     [SerializeField] public SlopeDirection mSlopeDirection;
     /// <summary>低い側の高さの小数部分(0~1)</summary>
-    [SerializeField] public float mLowSideHeight;
+    [SerializeField] public float mLowSideHeight = 0;
     /// <summary>高い側の高さの小数部分(0~1)</summary>
-    [SerializeField] public float mHighSideHeight;
+    [SerializeField] public float mHighSideHeight = 1;
     public enum SlopeDirection {
         upHigh, downHigh, leftHigh, rightHigh, none
     }
@@ -131,6 +131,6 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
         return Side.none;
     }
     public enum Side {
-        lowSide,highSide,railSide,inner,none
+        lowSide, highSide, railSide, inner, none
     }
 }

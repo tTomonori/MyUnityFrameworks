@@ -18,11 +18,14 @@ public class MapCharacterImageH : MapCharacterImage {
         mCutSprite = SpriteCutter.split(mSprite.texture, new Vector2(100, 100), new Vector2(0.5f, 0));
     }
     private void Awake() {
-        mAnimator = gameObject.AddComponent<GifAnimator>();
+        mAnimator = this.createChild<GifAnimator>();
+        adaptSpriteRenderer(mAnimator.GetComponent<SpriteRenderer>());
         mAnimator.mIsPlayed = true;
         mAnimator.mInterval = 0.4f;
         if (mSprite != null)
             processSprite();
+
+        base.Awake();
     }
 
     public override void moved(Vector2 aVector) {

@@ -70,9 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2d4e81f15ee4bd4881b840641f010f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBehaviour: {fileID: 4074188412900479225}
   mAttribute: 1
-  mBehaviour: {fileID: 4074188412900479225}
+  mEntity: {fileID: 4074188412900479225}
 --- !u!1 &7456116450114944789
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +82,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7453422422384816947}
   - component: {fileID: 7317151621737989987}
-  - component: {fileID: 539940977516832745}
+  - component: {fileID: 4931654990917734225}
   m_Layer: 0
   m_Name: image
   m_TagString: Untagged
@@ -99,7 +98,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7456116450114944789}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7452933435463877879}
@@ -153,7 +152,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &539940977516832745
+--- !u!114 &4931654990917734225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,4 +209,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb33ae17034c48a5aae7febb349a6f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mImage: {fileID: 539940977516832745}
+  _Image: {fileID: 4931654990917734225}

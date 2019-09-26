@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5908176610565046459}
-  - component: {fileID: 2705191976198244451}
+  - component: {fileID: 676834448711481700}
   m_Layer: 0
   m_Name: cliffV-LC
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2705191976198244451
+--- !u!114 &676834448711481700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 136428364097745257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af2c1676911f417db111dff400963cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fab00a40852240968c22a76d7c81342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5391295193284783124
@@ -194,5 +194,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBehaviour: {fileID: 2705191976198244451}
+  mCell: {fileID: 0}
   mAttribute: 6

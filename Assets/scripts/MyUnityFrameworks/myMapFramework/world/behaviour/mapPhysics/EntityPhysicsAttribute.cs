@@ -14,7 +14,11 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
     }
 
     ///この属性が付与されているentity
-    public new MapEntity mBehaviour;
+    [SerializeField] public MapEntity mEntity;
+    public override MapBehaviour mBehaviour {
+        get { return mEntity; }
+        set { mEntity = (MapEntity)value; }
+    }
     ///<summary>このbehaviourが引数のtileに侵入できるか</summary>
     public bool canEnter(TileGroundPhysicsAttribute aTilePhysics) {
         switch (mAttribute) {

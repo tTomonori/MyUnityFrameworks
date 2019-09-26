@@ -60,9 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2d4e81f15ee4bd4881b840641f010f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBehaviour: {fileID: 8912352338911505891}
   mAttribute: 1
-  mBehaviour: {fileID: 8912352338911505891}
+  mEntity: {fileID: 8912352338911505891}
 --- !u!1 &5841041781696271870
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6758290289649526619}
-  - component: {fileID: 7056803349724907885}
+  - component: {fileID: 6685429451069684803}
   m_Layer: 0
   m_Name: image
   m_TagString: Untagged
@@ -94,7 +93,7 @@ Transform:
   m_Father: {fileID: 156537563497749272}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7056803349724907885
+--- !u!114 &6685429451069684803
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,11 +102,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5841041781696271870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c730f013f2fb14b45b5bf04fc24b289b, type: 3}
+  m_Script: {fileID: 11500000, guid: cbad5d8b4383e43ff9dfe1201e5293ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mWidth: 1.5
-  mMaxStraddleNum: 2
 --- !u!1 &6709298953845640513
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,4 +150,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb33ae17034c48a5aae7febb349a6f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mImage: {fileID: 7056803349724907885}
+  _Image: {fileID: 6685429451069684803}

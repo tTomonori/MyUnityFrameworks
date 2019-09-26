@@ -13,7 +13,7 @@ public abstract class MapPhysicsAttribute : MyBehaviour {
         }
     }
     /// <summary>この属性が付与されているbehaviour</summary>
-    [SerializeField] public MapBehaviour mBehaviour { get; set; }
+    public virtual MapBehaviour mBehaviour { get; set; }
 
     /// <summary>この属性が存在する高さ</summary>
     public virtual float getHeight() {

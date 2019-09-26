@@ -5,7 +5,11 @@ using UnityEngine;
 public partial class MapCharacter : MapEntity {
     /// <summary>移動処理で使うデータ</summary>
     public MovingData mMovingData;
-    [SerializeField] public new MapCharacterImage mImage;
+    [SerializeField] public MapCharacterImage mCharacterImage;
+    public override MapStandImage mImage {
+        get { return mCharacterImage; }
+        set { mCharacterImage = (MapCharacterImage)value; }
+    }
 
     private MapCharacter.Ai mAi;
     private MapCharacter.State mState;
@@ -17,7 +21,7 @@ public partial class MapCharacter : MapEntity {
     }
     //状態遷移
     public void transitionState(MapCharacter.State aState) {
-        if(mState!=null)
+        if (mState != null)
             mState.exit();
         aState.parent = this;
         mState = aState;

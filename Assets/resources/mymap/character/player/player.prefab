@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mWidth: 1
   mMaxStraddleNum: 2
+  mCurrentHeight: 0
   mSprite: {fileID: 21300000, guid: 997b6f99b141e4389b88e2715fbacbbc, type: 3}
 --- !u!1 &764572850619348768
 GameObject:
@@ -91,8 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8880103b8be794e6ebe249df4758326c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mImage: {fileID: 0}
-  mImage: {fileID: 0}
+  mCharacterImage: {fileID: 3669370058260532969}
 --- !u!1 &3504848834016067593
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +163,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2d4e81f15ee4bd4881b840641f010f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBehaviour: {fileID: 4362740614079040063}
   mAttribute: 2
-  mBehaviour: {fileID: 4362740614079040063}
+  mEntity: {fileID: 4362740614079040063}

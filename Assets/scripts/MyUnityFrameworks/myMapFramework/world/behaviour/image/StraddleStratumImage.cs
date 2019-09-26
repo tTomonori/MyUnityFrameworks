@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 階層を跨いで移動する
+/// </summary>
 public class StraddleStratumImage : MapStandImage {
     /// <summary>一階層分の高さ</summary>
     static private float kHeight = 1;
@@ -14,7 +17,7 @@ public class StraddleStratumImage : MapStandImage {
     /// <summary>現在の高さ</summary>
     public float mCurrentHeight;
 
-    private void Awake() {
+    protected void Awake() {
         mMaskGroups = new MaskGroup[mMaxStraddleNum];
         for (int i = 0; i < mMaxStraddleNum; ++i) {
             if (i == 0) mMaskGroups[0] = MyBehaviour.create<BottomMaskGroup>();
@@ -30,7 +33,9 @@ public class StraddleStratumImage : MapStandImage {
 
     public override void setHight(float aHeight) {
         mCurrentHeight = aHeight;
-
+        for (int i = 0; i < mMaxStraddleNum; ++i) {
+            mMaskGroups[i].mask(aHeight);
+        }
     }
 
     public abstract class MaskGroup : MyBehaviour {
@@ -45,17 +50,17 @@ public class StraddleStratumImage : MapStandImage {
             //矩形マスク1
             mSquareMask1 = MyBehaviour.create<MyBehaviour>();
             mSquareMask1.name = "squareMask1";
-            mSquareMask1.gameObject.AddComponent<SpriteMask>().sprite = Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/squareMask");
+            mSquareMask1.gameObject.AddComponent<SpriteMask>().sprite = MyMap.mSquareMask;
             mSquareMask1.transform.SetParent(this.transform, false);
             //矩形マスク2
             mSquareMask2 = MyBehaviour.create<MyBehaviour>();
             mSquareMask2.name = "squareMask2";
-            mSquareMask2.gameObject.AddComponent<SpriteMask>().sprite = Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/squareMask");
+            mSquareMask2.gameObject.AddComponent<SpriteMask>().sprite = MyMap.mSquareMask;
             mSquareMask2.transform.SetParent(this.transform, false);
             //三角形マスク
             mTriangleMask = MyBehaviour.create<MyBehaviour>();
             mTriangleMask.name = "triangleMask";
-            mTriangleMask.gameObject.AddComponent<SpriteMask>().sprite = Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/triangleMask");
+            mTriangleMask.gameObject.AddComponent<SpriteMask>().sprite = MyMap.mTriangleMask;
             mTriangleMask.transform.SetParent(this.transform, false);
         }
         public abstract void mask(float aBottomHeight);
@@ -66,8 +71,8 @@ public class StraddleStratumImage : MapStandImage {
             float tBottomHeight = kHeight - aBottomHeight.decimalPart() + kHeight * (mMaskNum - 1);
             //マスク画像の位置,大きさ
             mSquareMask1.position = new Vector2(0, aBottomHeight);
-            mSquareMask1.scale = new Vector3(mWidth, kHeight*10, 1);
-            mSquareMask1.gameObject.layer = MyMap.mStratumLayerNum[Mathf.FloorToInt(aBottomHeight) + 1];
+            mSquareMask1.scale = new Vector3(mWidth, kHeight * 10, 1);
+            mSquareMask1.gameObject.layer = MyMap.mStratumLayerNum[Mathf.FloorToInt(aBottomHeight) + mMaskNum];
 
             mSquareMask2.scale = Vector3.zero;
             mTriangleMask.scale = Vector3.zero;
@@ -80,7 +85,7 @@ public class StraddleStratumImage : MapStandImage {
             //マスク画像の位置,大きさ
             mSquareMask1.position = new Vector2(0, aBottomHeight);
             mSquareMask1.scale = new Vector3(mWidth, kHeight, 1);
-            mSquareMask1.gameObject.layer = MyMap.mStratumLayerNum[Mathf.FloorToInt(aBottomHeight) + 1];
+            mSquareMask1.gameObject.layer = MyMap.mStratumLayerNum[Mathf.FloorToInt(aBottomHeight) + mMaskNum];
 
             mSquareMask2.scale = Vector3.zero;
             mTriangleMask.scale = Vector3.zero;
@@ -88,6 +93,12 @@ public class StraddleStratumImage : MapStandImage {
     }
     public class BottomMaskGroup : MaskGroup {
         public override void mask(float aBottomHeight) {
+            if (aBottomHeight < 0) {
+                mSquareMask1.scale = Vector3.zero;
+                mSquareMask2.scale = Vector3.zero;
+                mTriangleMask.scale = Vector3.zero;
+            }
+
             //表示範囲の高さ
             float aDisplayHeight = kHeight - aBottomHeight.decimalPart();
             //マスク画像の位置,大きさ

@@ -7,21 +7,21 @@ public static partial class MapWorldFactory {
     //<summary>キャラクター生成</summary>
     static public MapCharacter createCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = MyBehaviour.createObjectFromResources<MapCharacter>(MyMap.mMapResourcesDirectory + "/character/" + aData.mPath);
-
+        //名前
+        tCharacter.name = "character:" + aData.mName;
         //向き
-        tCharacter.mImage.setDirection(aData.mDirection);
+        tCharacter.mCharacterImage.setDirection(aData.mDirection);
         //ai
         tCharacter.setAi(createAi(aData.mAi));
-        tCharacter.setAi(new MapCharacter.PlayerAi());
         //state
         tCharacter.transitionState(new MapCharacter.StandingState());
         //collider
-        BoxCollider2D tBox = tCharacter.gameObject.AddComponent<BoxCollider2D>();
-        tBox.size = new Vector2(0.6f, 0.3f);
-        tBox.offset = new Vector2(0, 0.15f);
+        //BoxCollider2D tBox = tCharacter.gameObject.AddComponent<BoxCollider2D>();
+        //tBox.size = new Vector2(0.6f, 0.3f);
+        //tBox.offset = new Vector2(0, 0.15f);
         //attribute
-        EntityPhysicsAttribute tAttribute = tCharacter.gameObject.AddComponent<EntityPhysicsAttribute>();
-        tAttribute.mAttribute = EntityPhysicsAttribute.Attribute.walking;
+        //EntityPhysicsAttribute tAttribute = tCharacter.gameObject.AddComponent<EntityPhysicsAttribute>();
+        //tAttribute.mAttribute = EntityPhysicsAttribute.Attribute.walking;
         //movingData
         tCharacter.mMovingData = new MovingData();
         tCharacter.mMovingData.mSpeed = 1.5f;
@@ -35,6 +35,8 @@ public static partial class MapWorldFactory {
         switch (aAiData.mTagName) {
             case "walkAroundCircle"://円形範囲内を歩き回る
                 return new MapCharacter.WalkAroundCircleAi(float.Parse(aAiData.mArguments[0]));
+            case "player"://プレイヤー操作
+                return new MapCharacter.PlayerAi();
         }
         throw new System.Exception("MapWorldFactory-CharactorFactory : 不正なAI名「" + aAiData.mTagName + "」");
     }

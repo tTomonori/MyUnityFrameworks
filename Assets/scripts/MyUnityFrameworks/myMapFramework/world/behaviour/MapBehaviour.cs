@@ -16,6 +16,10 @@ public class MapBehaviour : MyBehaviour {
     public virtual void setHeight(float aHeight) {
         _Height = aHeight;
     }
+    public virtual void setPosition(Vector2 aPosition,float aHeight) {
+        mMapPosition = aPosition;
+        _Height = aHeight;
+    }
 
     ///<summary>MapWorld生成終了直後に呼ばれる(world生成後に追加した場合はこのbehaviourが配置された直後)</summary>
     public virtual void placed() { }
