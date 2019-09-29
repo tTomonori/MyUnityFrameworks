@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5520065597574481591}
   - component: {fileID: 7320910219123722560}
   m_Layer: 0
-  m_Name: collider
+  m_Name: wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 2609492053792050727}
   mAttribute: 6
 --- !u!1 &3932024745737251503
 GameObject:
@@ -196,3 +196,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fab00a40852240968c22a76d7c81342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mScaffoldHeight: 0
+  mHideLower: 0

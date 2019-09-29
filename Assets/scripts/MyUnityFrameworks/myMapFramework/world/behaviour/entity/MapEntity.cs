@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapEntity : MapStandBehaviour {
-    private EntityPhysicsAttribute _Attribute;
-    public EntityPhysicsAttribute mAttribute {
-        get {
-            if (_Attribute == null)
-                _Attribute = GetComponent<EntityPhysicsAttribute>();
-            return _Attribute;
-        }
-    }
+    /// <summary>このentityに付いている属性</summary>
+    [SerializeField]public EntityPhysicsAttribute mAttribute;
 }

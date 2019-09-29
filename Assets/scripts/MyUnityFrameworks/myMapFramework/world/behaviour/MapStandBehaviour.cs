@@ -13,21 +13,13 @@ public class MapStandBehaviour : MapBehaviour {
     }
 
     //座標設定
-    public override void setPosition(Vector2 aPosition, float aHeight) {
-        mMapPosition = aPosition;
-        mImage.setHight(aHeight);
+    public override void applyPosition() {
+        mImage.setHight(mHeight);
         //order更新
         float oPositionZ;
-        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfEntity(aPosition.x, aPosition.y, aHeight, out oPositionZ);
+        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfEntity(mMapPosition.x, mMapPosition.y, mHeight, mScaffoldHeight, out oPositionZ);
         this.positionZ = oPositionZ;
         //レイヤー更新
-            mImage.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(aHeight)]);
-        _Height = aHeight;
-    }
-
-    public override void setHeight(float aHeight) {
-        _Height = aHeight;
-        mImage.updateBelongLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(aHeight)]);
-        mImage.setHight(aHeight);
+        mImage.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(mHeight)]);
     }
 }

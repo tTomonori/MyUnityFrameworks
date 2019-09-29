@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 7300756748221074189}
   mAttribute: 6
 --- !u!1 &3639192387090950237
 GameObject:
@@ -241,10 +241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e06f774befe4edaba20587bf37a114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 7300756748221074189}
   mSlopeDirection: 3
-  mLowSideHeight: 0
   mHighSideHeight: 1
+  mLowSideHeight: 0
 --- !u!1 &4995177458732163855
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,3 +291,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628068d3c8a1f4c11968e26e3e0ff6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mScaffoldHeight: 0
+  mHideLower: 1

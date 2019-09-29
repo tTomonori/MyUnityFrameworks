@@ -36,6 +36,6 @@ public class NewMapMain : MonoBehaviour {
         mController.mInputVector = mPad.mTailVec * 0.001f;
         if (flag)
             mMap.mWorld.mCameraContainer.position2D = GameObject.Find("character:player").GetComponent<MyBehaviour>().position2D;
-        flag = false;
+        //flag = false;
     }
 }

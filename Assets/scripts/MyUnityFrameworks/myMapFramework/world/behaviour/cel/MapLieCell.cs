@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapLieCell : MapCell {
-    public override void setPosition(Vector2 aPosition, float aHeight) {
-        mMapPosition = aPosition;
+    public override void applyPosition() {
         float oPositionZ;
-        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfLieCell(aPosition.x, aPosition.y, Mathf.FloorToInt(aHeight), out oPositionZ);
+        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfLieCell(mMapPosition.x, mMapPosition.y, Mathf.FloorToInt(mHeight), mScaffoldHeight, out oPositionZ);
         positionZ = oPositionZ;
-    }
-    public override void setHeight(float aHeight) {
-
     }
 }

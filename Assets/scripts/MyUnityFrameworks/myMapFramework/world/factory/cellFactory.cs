@@ -32,11 +32,18 @@ public static partial class MapWorldFactory {
         foreach (EntityInCell tEntity in tCell.GetComponentsInChildren<EntityInCell>()) {
             moveEntityInCell(tEntity, aX, aY, aStratumLevel);
         }
-        //座標設定
-        tCell.setPosition(new Vector2(aX, aY), aStratumLevel);
         //階層に追加
         tCell.transform.SetParent(mWorld.mStratums[aStratumLevel].transform, false);
         tCell.changeLayer(MyMap.mStratumLayerNum[aStratumLevel / 2]);
+        mWorld.mCells[aX, aY, aStratumLevel] = tCell;
+        //足場の高さ
+        if (tCell.mHideLower || aStratumLevel < 2) {
+            tCell.mScaffoldHeight = aStratumLevel / 2;
+        } else {
+            tCell.mScaffoldHeight = MapWorldUpdater.getScaffoldHeight(new Vector3Int(aX, aY, aStratumLevel / 2 - 1), mWorld);
+        }
+        //座標設定
+        tCell.setPosition(new Vector2(aX, aY), aStratumLevel / 2);
     }
 }
 

@@ -13,8 +13,9 @@ public static partial class MapWorldFactory {
             tStratum.name = "stratum" + (aStratumLevel / 2).ToString();
         else
             tStratum.name = "stratum" + (aStratumLevel / 2).ToString() + ".5";
+
         tStratum.changeLayer(MyMap.mStratumLayerNum[aStratumLevel / 2], false);
-        tStratum.transform.SetParent(mWorld.mStratumContainer.transform, false);
+        tStratum.transform.SetParent(mWorld.mField.transform, false);
         mWorld.mStratums[aStratumLevel] = tStratum;
 
         //マス生成

@@ -171,6 +171,13 @@ public partial class MyBehaviour : MonoBehaviour {
         get { return new Vector2(positionX, positionY); }
         set { gameObject.transform.localPosition = new Vector3(value.x, value.y, positionZ); }
     }
+    //ワールド座標(2次元)
+    public Vector2 worldPosition2D {
+        get { return new Vector2(gameObject.transform.position.x, gameObject.transform.position.y); }
+        set {
+            gameObject.transform.localPosition = new Vector3(value.x, value.y, gameObject.transform.position.z);
+        }
+    }
     //スケール
     public Vector3 scale{
         get { return gameObject.transform.localScale; }

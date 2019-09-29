@@ -6,9 +6,11 @@ public class MapWorld : MyBehaviour {
     ///<summary>カメラの入れ物</summary>
     public MyBehaviour mCameraContainer;
     ///<summary>階層の入れ物</summary>
-    public MyBehaviour mStratumContainer;
+    public MyBehaviour mField;
     ///<summary>マスの入れ物</summary>
     public MyBehaviour[] mStratums;
+    /// <summary>マス</summary>
+    public MapCell[,,] mCells;
     ///<summary>characterの入れ物</summary>
     public MyBehaviour mCharacterContainer;
     ///<summary>ornamentの入れ物</summary>
@@ -18,8 +20,8 @@ public class MapWorld : MyBehaviour {
     /// <summary>トリガーの入れ物</summary>
     public MyBehaviour mTriggerContainer;
 
-    /// <summary>階層の数</summary>
-    public int mStratumNum;
+    /// <summary>マップの大きさ</summary>
+    public Vector3Int mSize;
 
     //<summary>キャラのリスト</summary>
     public List<MapCharacter> mCharacters = new List<MapCharacter>();

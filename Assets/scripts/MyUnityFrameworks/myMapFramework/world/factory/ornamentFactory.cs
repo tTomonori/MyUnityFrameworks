@@ -11,11 +11,14 @@ public static partial class MapWorldFactory {
     /// <param name="aX">マスのx座標</param>
     /// <param name="aY">マスのy座標</param>
     /// <param name="aStratumLevel">マスの階層レベル</param>
-    static private void moveEntityInCell(EntityInCell aEntity, float aX, float aY, int aStratumLevel) {
+    static private void moveEntityInCell(EntityInCell aEntity, float aX, float aY, int aHeight) {
         //移動
         aEntity.transform.SetParent(mWorld.mEntityInCellContainer.transform, false);
-
-        aEntity.setPosition(new Vector2(aX + aEntity.positionX, aY + aEntity.positionY), aStratumLevel);
+        aEntity.mMapPosition = new Vector2(aX + aEntity.positionX, aY + aEntity.positionY);
+        aEntity.mHeight = aHeight / 2;
+        aEntity.mScaffoldHeight = MapWorldUpdater.getScaffoldHeight(aEntity.mFootCellPosition, mWorld);
+        aEntity.applyPosition();
+        //aEntity.setPosition(new Vector2(aX + aEntity.positionX, aY + aEntity.positionY), aStratumLevel);
     }
 
 
@@ -29,8 +32,10 @@ public static partial class MapWorldFactory {
     static private void buildOrnament(MapFileData.Ornament aData) {
         MapOrnament tOrnament = createOrnament(aData);
         tOrnament.transform.SetParent(mWorld.mOrnamentContainer.transform, false);
-
-        tOrnament.setPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
+        tOrnament.mMapPosition = new Vector2(aData.mX, aData.mY);
+        tOrnament.mHeight = aData.mHeight;
+        tOrnament.mScaffoldHeight = MapWorldUpdater.getScaffoldHeight(tOrnament.mFootCellPosition, mWorld);
+        tOrnament.applyPosition();
     }
 }
 

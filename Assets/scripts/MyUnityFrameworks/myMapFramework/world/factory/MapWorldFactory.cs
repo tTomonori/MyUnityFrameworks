@@ -12,18 +12,12 @@ public static partial class MapWorldFactory {
     static public MapWorld create(MapFileData aData) {
         //マップデータを記憶
         mData = aData;
-        mWorld = initWorld();
+        mWorld = initWorld(new Vector3Int(aData.mStratums[0].mFeild[0].Count, aData.mStratums[0].mFeild.Count, aData.mStratums.Count));
 
-        //階層の数
-        mWorld.mStratumNum = aData.mStratums.Count;
-        //マスの入れ物
-        mWorld.mStratums = new MyBehaviour[mWorld.mStratumNum];
         //カメラ生成
-        buildCamera(mWorld.mStratumNum);
-        //マス生成
-        for (int i = 0; i < mWorld.mStratumNum; ++i) {
-            buildStratum(i);
-        }
+        buildCamera(mWorld.mSize.z);
+        //フィールド生成
+        buildField();
         //ornament生成
         List<MapFileData.Ornament> tOrnamentData = mData.mOrnaments;
         int tOrnamentNum = tOrnamentData.Count;
@@ -43,26 +37,33 @@ public static partial class MapWorldFactory {
             buildTrigger(tTriggerData[i]);
         }
 
+        //生成完了
+        foreach (MapBehaviour tBehaviour in mWorld.GetComponentsInChildren<MapBehaviour>())
+            tBehaviour.placed();
+
         MapWorld tCreatedWorld = mWorld;
         mWorld = null;
         mData = null;
         return tCreatedWorld;
     }
     /// <summary>worldを生成しコンテナを追加</summary>
-    static private MapWorld initWorld() {
+    static private MapWorld initWorld(Vector3Int aSize) {
         MapWorld tWorld = MyBehaviour.create<MapWorld>();
         tWorld.name = "world";
+        tWorld.mSize = aSize;
         //tWorld.gameObject.AddComponent<SortingGroup>();
         //カメラ
         tWorld.mCameraContainer = MyBehaviour.create<MyBehaviour>();
         tWorld.mCameraContainer.name = "cameraContainer";
         tWorld.mCameraContainer.transform.SetParent(tWorld.transform, false);
+        //フィールド
+        tWorld.mField = MyBehaviour.create<MyBehaviour>();
+        tWorld.mField.name = "field";
+        tWorld.mField.transform.SetParent(tWorld.transform, false);
         //階層
-        tWorld.mStratumContainer = MyBehaviour.create<MyBehaviour>();
-        tWorld.mStratumContainer.name = "stratumContainer";
-        tWorld.mStratumContainer.transform.SetParent(tWorld.transform, false);
+        tWorld.mStratums = new MyBehaviour[aSize.z];
         //マス
-        //tWorld.mCellContainers = new MyBehaviour[];
+        tWorld.mCells = new MapCell[aSize.x, aSize.y, aSize.z];
         //character
         tWorld.mCharacterContainer = MyBehaviour.create<MyBehaviour>();
         tWorld.mCharacterContainer.name = "characterContainer";

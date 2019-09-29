@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 public class MapCell : MapBehaviour {
+    /// <summary>下方にある物を隠すか</summary>
+    [SerializeField] public bool mHideLower = true;
     public SortingGroup mSortingGroup { get; set; }
 
     private void Awake() {

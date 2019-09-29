@@ -17,7 +17,7 @@ public partial class MapCharacter : MapEntity {
     //<summary>MapWorld内に配置された直後に呼ばれる</summary>
     public override void placed() {
         mMovingData.mPrePosition = mMapPosition;
-        MapStratumMoveSystem.initSlopData(this);
+        MapHeightUpdateSystem.initHeight(this);
     }
     //状態遷移
     public void transitionState(MapCharacter.State aState) {

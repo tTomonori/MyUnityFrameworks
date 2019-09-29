@@ -14,7 +14,7 @@ public static class MapPhysics {
     /// <param name="aHeight1">衝突する側</param>
     /// <param name="aHeight2">衝突される側</param>
     public static bool collide(float aHeight1,float aHeight2) {
-        return (aHeight1 - 0.9f < aHeight2) && (aHeight2 < aHeight1 + 0.9f);
+        return Mathf.Abs(aHeight1 - aHeight2) < 1f;
     }
     //衝突するか判定
     public static CollisionType canCollide(MapPhysicsAttribute aAttribute1, MapPhysicsAttribute aAttribute2) {
@@ -42,35 +42,4 @@ public static class MapPhysics {
         }
         throw new System.Exception("MapPhysics : entityと未定義の属性との衝突判定「" + aAttribute2.GetType().ToString() + "」");
     }
-    //public static CollisionType collideEntityAndTile(EntityPhysicsAttribute aEntity, TilePhysicsAttribute aTile) {
-    //    return aEntity.canCollide(aTile);
-    //}
-    //public static CollisionType collideEntityAndSlope(EntityPhysicsAttribute aEntity, SlopeTilePhysicsAttribute aSlope) {
-    //    //坂にいるなら通過可能
-    //    if (aEntity.getStratumLevel().mLevel % 2 == 1) return CollisionType.pass;
-    //    //侵入できるか調べる
-    //    if (!aSlope.canInvade(aEntity)) return CollisionType.collide;
-    //    return aEntity.canCollide(aSlope);
-    //}
-    //public static CollisionType collideEntityAndESTile(EntityPhysicsAttribute aEntity, ExceptionStratumTilePhysicsAttribute aESTile) {
-    //    if (!aESTile.canCollide(aEntity)) return CollisionType.pass;
-    //    return aEntity.canCollide(aESTile);
-    //}
-    //public static CollisionType collideEntityAndEntity(EntityPhysicsAttribute aEntity, EntityPhysicsAttribute aOponent) {
-    //    return aEntity.canCollide(aOponent);
-    //}
-    //public static CollisionType collideEntityAndTrigger(EntityPhysicsAttribute aEntity, TriggerPhysicsAttribute aTrigger) {
-    //    return aTrigger.canCollide(aEntity);
-    //}
-
-    ////衝突しているか判定
-    //public static bool isCollided(EntityPhysicsAttribute aAttribute1,MapPhysicsAttribute aAttribute2) {
-    //    if (aAttribute1.getStratumLevel().collide(aAttribute2.getStratumLevel()) == MapStratumLevel.CollisionType.through)
-    //        return false;
-
-    //    if (aAttribute2 is ExceptionStratumTilePhysicsAttribute)
-    //        return ((ExceptionStratumTilePhysicsAttribute)aAttribute2).canCollide(aAttribute1);
-    //    else
-    //        return true;
-    //}
 }

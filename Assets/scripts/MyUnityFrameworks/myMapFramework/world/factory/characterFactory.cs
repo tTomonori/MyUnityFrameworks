@@ -24,7 +24,7 @@ public static partial class MapWorldFactory {
         //tAttribute.mAttribute = EntityPhysicsAttribute.Attribute.walking;
         //movingData
         tCharacter.mMovingData = new MovingData();
-        tCharacter.mMovingData.mSpeed = 1.5f;
+        tCharacter.mMovingData.mSpeed = 2.5f;
         tCharacter.mMovingData.mDeltaDistance = 0.3f;
 
 

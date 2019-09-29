@@ -10,20 +10,23 @@ using UnityEngine;
 public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
     ///<summary>傾斜の方向</summary>
     [SerializeField] public SlopeDirection mSlopeDirection;
-    /// <summary>低い側の高さの小数部分(0~1)</summary>
-    [SerializeField] public float mLowSideHeight = 0;
     /// <summary>高い側の高さの小数部分(0~1)</summary>
     [SerializeField] public float mHighSideHeight = 1;
+    /// <summary>低い側の高さの小数部分(0~1)</summary>
+    [SerializeField] public float mLowSideHeight = 0;
     public enum SlopeDirection {
         upHigh, downHigh, leftHigh, rightHigh, none
     }
     /// <summary>低い側の高さ(絶対座標)</summary>
     public float mAbsoluteLowSideHeight {
-        get { return getHeight() + mLowSideHeight; }
+        get { return mCell.mHeight + mLowSideHeight; }
     }
     /// <summary>高い側の高さ(絶対座標)</summary>
     public float mAbsoluteHighSideHeight {
-        get { return getHeight() + mHighSideHeight; }
+        get { return mCell.mHeight + mHighSideHeight; }
+    }
+    public override float getHeight() {
+        return mCell.mHeight + 0.5f;
     }
     public override bool canBeEntered(Vector2 aPosition, float aHeight) {
         switch (getRelativeSide(aPosition)) {
@@ -95,7 +98,7 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
         }
         Debug.LogWarning("OneDirectionSlopeTilePhysicsAttribute : 傾斜方向が未設定です");
         oIsIn = (tPoint.left <= aPosition.x && aPosition.x <= tPoint.right) && (tPoint.down <= aPosition.y && aPosition.y <= tPoint.up);
-        return getHeight();
+        return mCell.mHeight;
     }
 
     //<summary>引数の座標が傾斜に対してどの位置にいるか</summary>

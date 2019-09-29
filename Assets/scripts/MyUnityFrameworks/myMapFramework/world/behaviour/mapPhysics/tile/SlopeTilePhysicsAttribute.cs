@@ -6,7 +6,7 @@ public abstract class SlopeTilePhysicsAttribute : TilePhysicsAttribute {
     //<summary>引数の座標からこの傾斜に侵入できるか</summary>
     public abstract bool canBeEntered(Vector2 aPosition, float aHeight);
     /// <summary>
-    /// 指定座標の高さ(world内部での絶対値)を返す(傾斜外にいるならこの傾斜を通過して行った場合の高さを返す)
+    /// 指定座標(worldPosition)の高さ(MapWorld内部での絶対値)を返す(傾斜外にいるならこの傾斜を通過して行った場合の高さを返す)
     /// </summary>
     /// <returns>高さ</returns>
     /// <param name="aPosition">高さを調べる座標</param>
@@ -34,7 +34,7 @@ public abstract class SlopeTilePhysicsAttribute : TilePhysicsAttribute {
     public Collider2DEditer.RectangleEndPoint mColliderEndPoint {
         get {
             if (_ColliderEndPoint != null) return _ColliderEndPoint;
-            Vector2 tPosition = this.position2D;
+            Vector2 tPosition = this.worldPosition2D;
             if (mCollider is BoxCollider2D) {
                 BoxCollider2D tBox = (BoxCollider2D)mCollider;
                 _ColliderEndPoint = new Collider2DEditer.RectangleEndPoint();

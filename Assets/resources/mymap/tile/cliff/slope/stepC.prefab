@@ -87,8 +87,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mCell: {fileID: 0}
   mSlopeDirection: 0
-  mLowSideHeight: 0
   mHighSideHeight: 1
+  mLowSideHeight: 0
 --- !u!1 &4251327128022272459
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2436458691717571940}
-  - component: {fileID: 8842772384385173595}
+  - component: {fileID: 3699974545306312050}
   m_Layer: 0
   m_Name: stepC
   m_TagString: Untagged
@@ -201,7 +201,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8842772384385173595
+--- !u!114 &3699974545306312050
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,7 +210,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8199565949459240118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cdb28c7e26834c838be3398d1b2d9fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 628068d3c8a1f4c11968e26e3e0ff6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mOffsetY: -0.4
