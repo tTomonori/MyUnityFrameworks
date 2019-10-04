@@ -19,7 +19,7 @@ public class MapBehaviour : MyBehaviour {
     /// <summary>現在いる座標のcellの座標(x,y,height)</summary>
     public Vector3Int mFootCellPosition {
         get {
-            return new Vector3Int(Mathf.FloorToInt(mMapPosition.x), Mathf.FloorToInt(mMapPosition.y + 0.5f), Mathf.FloorToInt(mHeight));
+            return new Vector3Int(Mathf.FloorToInt(mMapPosition.x + 0.5f), Mathf.FloorToInt(mMapPosition.y + 0.5f), Mathf.FloorToInt(mHeight));
         }
     }
     /// <summary>現在MapBehaviourに設定されている座標,高さのデータを画像等に反映する</summary>

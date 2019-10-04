@@ -20,7 +20,7 @@ public class NewMapMain : MonoBehaviour {
         //map
         MyMap.mMapResourcesDirectory = "mymap";
         mMap = GameObject.Find("map").GetComponent<MyMap>();
-        mMap.load("maskMap");
+        mMap.load("orderMap");
         //contoroller
         mController = new MyMapController();
         mMap.mController = mController;

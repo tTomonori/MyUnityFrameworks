@@ -89,4 +89,13 @@ public static class VectorCalculator {
         tRad = Mathf.Abs(tRad);
         return 180f * tRad / Mathf.PI;
     }
+    /// <summary>
+    /// Matchs the length.
+    /// </summary>
+    /// <returns>引数長の同じ向きのベクトル</returns>
+    /// <param name="aVector">向き</param>
+    /// <param name="aLength">長さ</param>
+    public static Vector2 matchLength(this Vector2 aVector, float aLength) {
+        return aVector * (aLength / aVector.magnitude);
+    }
 }

@@ -23,6 +23,9 @@ public static class MapPhysics {
 
         return CollisionType.pass;
     }
+    public static bool canCollide(EntityPhysicsAttribute aEntity,RistrictMovingTile aRistrictTile) {
+        return collide(aEntity.mEntity.mHeight, aRistrictTile.mCell.mHeight);
+    }
     public static CollisionType canCollide(EntityPhysicsAttribute aAttribute1, MapPhysicsAttribute aAttribute2) {
         //階層判定
         if (!collide(aAttribute1.getHeight(), aAttribute2.getHeight())) return CollisionType.pass;
@@ -32,7 +35,7 @@ public static class MapPhysics {
             return aAttribute1.canEnter((TileGroundPhysicsAttribute)aAttribute2) ? CollisionType.pass : CollisionType.collide;
         }
         if (aAttribute2 is SlopeTilePhysicsAttribute) {
-            return ((SlopeTilePhysicsAttribute)aAttribute2).canBeEntered(aAttribute1.mBehaviour.mMapPosition, aAttribute1.getHeight()) ? CollisionType.pass : CollisionType.collide;
+            return ((SlopeTilePhysicsAttribute)aAttribute2).canBeEntered(aAttribute1.mBehaviour.worldPosition2D, aAttribute1.getHeight()) ? CollisionType.pass : CollisionType.collide;
         }
         if (aAttribute2 is EntityPhysicsAttribute) {
             return aAttribute1.canEnter((EntityPhysicsAttribute)aAttribute2) ? CollisionType.pass : CollisionType.collide;

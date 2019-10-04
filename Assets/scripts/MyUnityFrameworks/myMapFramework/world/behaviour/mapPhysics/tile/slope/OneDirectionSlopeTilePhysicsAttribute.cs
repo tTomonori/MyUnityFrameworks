@@ -25,15 +25,19 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
     public float mAbsoluteHighSideHeight {
         get { return mCell.mHeight + mHighSideHeight; }
     }
+    /// <summary>坂の中間の高さ</summary>
+    public float mMiddleHeight {
+        get { return mCell.mHeight + (mHighSideHeight + mLowSideHeight) / 2f; }
+    }
     public override float getHeight() {
         return mCell.mHeight + 0.5f;
     }
     public override bool canBeEntered(Vector2 aPosition, float aHeight) {
         switch (getRelativeSide(aPosition)) {
             case Side.lowSide:
-                return mAbsoluteLowSideHeight - aHeight < 1;
+                return aHeight < mMiddleHeight ;
             case Side.highSide:
-                return aHeight - mAbsoluteHighSideHeight < 1;
+                return mMiddleHeight < aHeight;
             case Side.railSide:
                 return mAbsoluteLowSideHeight <= aHeight && aHeight <= mAbsoluteHighSideHeight;
             case Side.none:

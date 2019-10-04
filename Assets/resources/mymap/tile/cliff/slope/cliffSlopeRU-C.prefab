@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6add813bcadb4051a5868d7a9e227bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCell: {fileID: 2087855906767371441}
   mAddingYPercentgae: 1
 --- !u!114 &8271282040195212073
 MonoBehaviour:

@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 7300756748221074189}
   mAttribute: 3
 --- !u!68 &4933829046500654590
 EdgeCollider2D:
@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6add813bcadb4051a5868d7a9e227bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCell: {fileID: 7300756748221074189}
   mAddingYPercentgae: 1
 --- !u!114 &820091944225363093
 MonoBehaviour:

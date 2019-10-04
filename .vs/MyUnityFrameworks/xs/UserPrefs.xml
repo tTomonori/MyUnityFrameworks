@@ -1,13 +1,18 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/UpHighSlopeTile.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/resources/mymap/map/orderMap.json">
     <Files>
       <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/MapWorld.cs" Line="4" Column="1" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/DownHighSlopeTile.cs" Line="5" Column="38" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/LeftHighSlopeTile.cs" Line="5" Column="38" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/RightHighSlopeTile.cs" Line="5" Column="39" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/UpHighSlopeTile.cs" Line="20" Column="64" />
-      <File FileName="Assets/resources/mymap/map/maskMap.json" Line="64" Column="30" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/DownHighSlopeRistrictionTile.cs" Line="5" Column="38" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/LeftHighSlopeRistrictionTile.cs" Line="5" Column="38" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/RightHighSlopeRistrictionTile.cs" Line="5" Column="39" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/UpHighSlopeRistrictionTile.cs" Line="20" Column="64" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapCharacterMoveSystem.cs" Line="366" Column="54" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/mapPhysics/MapPhysics.cs" Line="38" Column="112" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/mapPhysics/tile/slope/OneDirectionSlopeTilePhysicsAttribute.cs" Line="40" Column="48" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapWorldUpdater.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" Line="8" Column="1" />
+      <File FileName="Assets/resources/mymap/map/orderMap.json" Line="45" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

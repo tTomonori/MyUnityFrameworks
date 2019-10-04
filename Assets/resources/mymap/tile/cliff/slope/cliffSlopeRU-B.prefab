@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 51539194948565061}
   mAttribute: 6
 --- !u!68 &5020891072663924548
 EdgeCollider2D:
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 51539194948565061}
   mAttribute: 3
 --- !u!68 &7248811022123186047
 EdgeCollider2D:
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6add813bcadb4051a5868d7a9e227bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCell: {fileID: 51539194948565061}
   mAddingYPercentgae: 1
 --- !u!114 &3607523524063566650
 MonoBehaviour:
@@ -159,10 +160,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e06f774befe4edaba20587bf37a114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 51539194948565061}
   mSlopeDirection: 3
-  mLowSideHeight: 0
   mHighSideHeight: 1
+  mLowSideHeight: 0
 --- !u!1 &3352909583141663987
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,3 +289,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628068d3c8a1f4c11968e26e3e0ff6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mScaffoldHeight: 0
+  mHideLower: 1

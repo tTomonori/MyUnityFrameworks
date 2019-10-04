@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class RistrictMovingTile : MyBehaviour {
+    /// <summary>制限属性を持たせたcell</summary>
+    [SerializeField] public MapCell mCell;
     private Collider2D _Collider;
     public Collider2D mCollider {
         get {
