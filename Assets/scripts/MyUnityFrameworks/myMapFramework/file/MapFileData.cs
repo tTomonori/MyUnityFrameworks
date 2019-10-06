@@ -97,6 +97,14 @@ public class MapFileData {
         public string mCell {
             get { return mData.get<string>("cell"); }
         }
+        public int mDrawOffsetHeight {
+            get {
+                if (mData.ContainsKey("drawOffsetHeight"))
+                    return mData.get<int>("drawOffsetHeight");
+                else
+                    return 0;
+            }
+        }
         ///<summary>エンカウント番号(エンカウントなしなら空文字列)</summary>
         public string mEncount {
             get {

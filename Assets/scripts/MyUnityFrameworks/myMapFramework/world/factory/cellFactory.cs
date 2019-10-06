@@ -17,6 +17,8 @@ public static partial class MapWorldFactory {
         foreach (TilePhysicsAttribute tAttribute in tCell.GetComponentsInChildren<TilePhysicsAttribute>()) {
             tAttribute.mBehaviour = tCell;
         }
+        //drawOffset
+        tCell.mDrawOffsetHeight += aCellData.mDrawOffsetHeight;
         //エンカウント
 
         return tCell;
