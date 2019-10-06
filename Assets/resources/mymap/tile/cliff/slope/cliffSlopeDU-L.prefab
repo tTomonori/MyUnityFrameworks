@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa164b18f8b2c4656b574d8fbf547099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCell: {fileID: 5128569797366316472}
   mYSpeedRate: 0.5
 --- !u!114 &8217631820585904379
 MonoBehaviour:
@@ -300,3 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628068d3c8a1f4c11968e26e3e0ff6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCollideUpperStratum: 0
+  mCollideLowerStratum: 0
+  mScaffoldHeight: 0
+  mHideLower: 1

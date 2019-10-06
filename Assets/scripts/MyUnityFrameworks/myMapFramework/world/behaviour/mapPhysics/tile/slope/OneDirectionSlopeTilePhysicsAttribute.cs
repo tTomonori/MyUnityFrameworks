@@ -32,6 +32,12 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
     public override float getHeight() {
         return mCell.mHeight + 0.5f;
     }
+    /// <summary>
+    /// 指定座標からこの坂道に侵入できるか
+    /// </summary>
+    /// <returns>侵入できるならtrue</returns>
+    /// <param name="aPosition">絶対座標</param>
+    /// <param name="aHeight">侵入する高さ</param>
     public override bool canBeEntered(Vector2 aPosition, float aHeight) {
         switch (getRelativeSide(aPosition)) {
             case Side.lowSide:
@@ -48,6 +54,12 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
         }
         return false;
     }
+    /// <summary>
+    /// 指定座標の高さを返す
+    /// </summary>
+    /// <returns>指定座標の高さ</returns>
+    /// <param name="aPosition">絶対座標</param>
+    /// <param name="oIsIn">指定座標がこの坂道の内部にあるならtrue</param>
     public override float getPointHeight(Vector2 aPosition, out bool oIsIn) {
         Collider2DEditer.RectangleEndPoint tPoint = mColliderEndPoint;
         switch (mSlopeDirection) {

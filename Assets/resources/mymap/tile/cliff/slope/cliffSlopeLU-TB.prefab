@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 5911424900014329751}
   mAttribute: 6
 --- !u!61 &5526809916672524253
 BoxCollider2D:
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 5911424900014329751}
   mAttribute: 3
 --- !u!1 &3079859837993361888
 GameObject:
@@ -269,3 +269,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628068d3c8a1f4c11968e26e3e0ff6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mScaffoldHeight: 0
+  mHideLower: 1

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapBehaviour : MyBehaviour {
+    /// <summary>自分より1以上高い位置にいる相手とも衝突する</summary>
+    public bool mCollideUpperStratum = false;
+    /// <summary>自分より1以上低い位置にいる相手とも衝突する</summary>
+    public bool mCollideLowerStratum = false;
     ///<summary>マップ上での座標</summary>
     public Vector2 mMapPosition {
         get { return position2D; }

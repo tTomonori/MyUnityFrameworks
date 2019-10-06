@@ -36,6 +36,8 @@ public static partial class MapWorldFactory {
         tCell.transform.SetParent(mWorld.mStratums[aStratumLevel].transform, false);
         tCell.changeLayer(MyMap.mStratumLayerNum[aStratumLevel / 2]);
         mWorld.mCells[aX, aY, aStratumLevel] = tCell;
+        //奇数階層の場合は1つ上の階層とも衝突させる
+        tCell.mCollideUpperStratum = aStratumLevel % 2 == 1;
         //足場の高さ
         if (tCell.mHideLower || aStratumLevel < 2) {
             tCell.mScaffoldHeight = aStratumLevel / 2;

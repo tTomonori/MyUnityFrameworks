@@ -28,9 +28,12 @@ public static class MapHeightUpdateSystem {
     /// <summary>behaviourが衝突している坂tileを取得(衝突しているtileは1つのみであること前提)</summary>
     public static SlopeTilePhysicsAttribute getCollidedSlopTile(MapBehaviour aBehaviour) {
         foreach (Collider2D tCollider in Physics2D.OverlapPointAll(aBehaviour.worldPosition2D)) {
+            string name;
+            if (tCollider.transform.parent != null)
+                name = tCollider.transform.parent.name;
             SlopeTilePhysicsAttribute tSlope = tCollider.GetComponent<SlopeTilePhysicsAttribute>();
             if (tSlope == null) continue;
-            if (MapPhysics.collide(aBehaviour.mHeight, tSlope.getHeight())) {
+            if (MapPhysics.collide(aBehaviour, tSlope.mBehaviour)) {
                 return tSlope;
             }
         }

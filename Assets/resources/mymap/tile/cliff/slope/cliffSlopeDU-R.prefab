@@ -46,6 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628068d3c8a1f4c11968e26e3e0ff6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCollideUpperStratum: 0
+  mCollideLowerStratum: 0
+  mScaffoldHeight: 0
+  mHideLower: 1
 --- !u!1 &6600878711900192086
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa164b18f8b2c4656b574d8fbf547099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCell: {fileID: 3248556103425161371}
   mYSpeedRate: 0.5
 --- !u!114 &3048958975754700698
 MonoBehaviour:
@@ -272,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1586e1cc54b2f4355b213243382d72ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCell: {fileID: 0}
+  mCell: {fileID: 3248556103425161371}
   mAttribute: 6
 --- !u!61 &4437726052302103403
 BoxCollider2D:

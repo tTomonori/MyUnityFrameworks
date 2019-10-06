@@ -7,28 +7,19 @@ public class RightHighSlopeRistrictionTile : RistrictionSlopeTile {
     [SerializeField] public float mAddingYPercentgae;
     public override RistrictMovingData getMovingData(Vector2 aStartPoint, Vector2 aMoveVector) {
         RistrictMovingData tAns = new RistrictMovingData();
-        if (aStartPoint.x == 0) {
-            tAns.mInternalVector = new Vector2[1] { aMoveVector };
-            tAns.mOutsideVector = Vector2.zero;
-        }
-        float tXDirection = 0;
-        if (aStartPoint.x < 0) {
-            //左端までのx方向距離
-            tXDirection = aStartPoint.x - mColliderEndPoint.left;
-        } else if (0 < aStartPoint.x) {
-            //右端までのx方向距離
-            tXDirection = mColliderEndPoint.right - aStartPoint.x;
-        }
 
-        if (tXDirection < Mathf.Abs(aMoveVector.x)) {
-            //このtileの範囲外に出る
-            tAns.mInternalVector = new Vector2[1] { new Vector2(tXDirection, aMoveVector.y * tXDirection / aMoveVector.x + (tXDirection * mAddingYPercentgae)) };
-            tAns.mOutsideVector = aMoveVector * (aMoveVector.x - tXDirection) / aMoveVector.x;
+        //このtile内部での移動ベクトル
+        Vector2 tMovingInSelfVector = new Vector2(aMoveVector.x, aMoveVector.y + aMoveVector.x * mAddingYPercentgae);
+
+        float tRate = calculateRateOfMovingInSelf(aStartPoint, tMovingInSelfVector);
+
+        if (tRate <= 0) {
+            tAns.mInternalVector = new Vector2[0];
+            tAns.mOutsideVector = aMoveVector;
             return tAns;
         }
-        //このtileから出ない
-        tAns.mInternalVector = new Vector2[1] { new Vector2(aMoveVector.x, aMoveVector.y + aMoveVector.x * mAddingYPercentgae) };
-        tAns.mOutsideVector = Vector2.zero;
+        tAns.mInternalVector = new Vector2[1] { tMovingInSelfVector * tRate };
+        tAns.mOutsideVector = (1f - tRate) * aMoveVector;
         return tAns;
     }
 }

@@ -26,6 +26,10 @@ public abstract class SlopeTilePhysicsAttribute : TilePhysicsAttribute {
                 _ColliderSize = ((EdgeCollider2D)mCollider).minimumCircumscribedRectangle();
                 return _ColliderSize;
             }
+            if (mCollider is PolygonCollider2D) {
+                _ColliderSize = ((PolygonCollider2D)mCollider).minimumCircumscribedRectangle();
+                return _ColliderSize;
+            }
             throw new System.Exception("RistrictMovingTile : colliderのサイズ計算が未定義「" + mCollider.GetType().ToString() + "」");
         }
     }
@@ -46,6 +50,14 @@ public abstract class SlopeTilePhysicsAttribute : TilePhysicsAttribute {
             }
             if (mCollider is EdgeCollider2D) {
                 _ColliderEndPoint = ((EdgeCollider2D)mCollider).minimumCircumscribedRectangleEndPoint();
+                _ColliderEndPoint.up += tPosition.y;
+                _ColliderEndPoint.down += tPosition.y;
+                _ColliderEndPoint.left += tPosition.x;
+                _ColliderEndPoint.right += tPosition.x;
+                return _ColliderEndPoint;
+            }
+            if (mCollider is PolygonCollider2D) {
+                _ColliderEndPoint = ((PolygonCollider2D)mCollider).minimumCircumscribedRectangleEndPoint();
                 _ColliderEndPoint.up += tPosition.y;
                 _ColliderEndPoint.down += tPosition.y;
                 _ColliderEndPoint.left += tPosition.x;

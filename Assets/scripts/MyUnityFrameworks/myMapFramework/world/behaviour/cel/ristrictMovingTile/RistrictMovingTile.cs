@@ -30,7 +30,7 @@ public abstract class RistrictMovingTile : MyBehaviour {
         }
     }
     public Collider2DEditer.RectangleEndPoint _ColliderEndPoint;
-    /// <summary>このbehaviourに付いているcolliderの最小外接矩形の上下左右の座標</summary>
+    /// <summary>このbehaviourに付いているcolliderの最小外接矩形の上下左右の座標(ローカル座標)</summary>
     public Collider2DEditer.RectangleEndPoint mColliderEndPoint {
         get {
             if (_ColliderEndPoint != null) return _ColliderEndPoint;
@@ -45,6 +45,10 @@ public abstract class RistrictMovingTile : MyBehaviour {
             }
             if (mCollider is EdgeCollider2D) {
                 _ColliderEndPoint = ((EdgeCollider2D)mCollider).minimumCircumscribedRectangleEndPoint();
+                return _ColliderEndPoint;
+            }
+            if (mCollider is PolygonCollider2D) {
+                _ColliderEndPoint = ((PolygonCollider2D)mCollider).minimumCircumscribedRectangleEndPoint();
                 return _ColliderEndPoint;
             }
             throw new System.Exception("RistrictMovingTile : colliderの端の座標計算が未定義「" + mCollider.GetType().ToString() + "」");
@@ -63,4 +67,33 @@ public abstract class RistrictMovingTile : MyBehaviour {
     /// <param name="aStartPoint">移動開始する座標(このbehaviourからの相対座標)</param>
     /// <param name="aMoveVector">このbehaviourに侵入後の移動方向</param>
     public abstract RistrictMovingData getMovingData(Vector2 aStartPoint, Vector2 aMoveVector);
+
+    /// <summary>
+    /// このtile内部でどれだけ移動できるか(移動ベクトルに対する割合を返す)
+    /// </summary>
+    /// <returns>このtile内部で移動できる移動ベクトルの、引数の移動ベクトルに対する割合(0~1)</returns>
+    /// <param name="aStartPoint">移動開始地点(相対座標)</param>
+    /// <param name="aMovingVector">移動ベクトル</param>
+    protected float calculateRateOfMovingInSelf(Vector2 aStartPoint, Vector2 aMovingVector) {
+        Collider2DEditer.RectangleEndPoint tEnd = mColliderEndPoint;
+        //tile外部までの距離
+        float tHDistance;
+        float tVDistance;
+        if (aMovingVector.x < 0) {
+            tHDistance = aStartPoint.x - tEnd.left;
+        } else {
+            tHDistance = tEnd.right - aStartPoint.x;
+        }
+        if (aMovingVector.y < 0) {
+            tVDistance = aStartPoint.y - tEnd.down;
+        } else {
+            tVDistance = tEnd.up - aStartPoint.y;
+        }
+
+        //移動ベクトルに対する外部までの移動ベクトルの割合
+        float tHRate = tHDistance / Mathf.Abs(aMovingVector.x);
+        float tVRate = tVDistance / Mathf.Abs(aMovingVector.y);
+
+        return Mathf.Min(Mathf.Min(tHRate, tVRate), 1f);
+    }
 }
