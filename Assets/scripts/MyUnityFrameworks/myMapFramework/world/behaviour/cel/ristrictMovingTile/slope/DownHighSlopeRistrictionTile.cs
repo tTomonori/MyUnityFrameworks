@@ -16,10 +16,12 @@ public class DownHighSlopeRistrictionTile : RistrictionSlopeTile {
         if (tRate <= 0) {
             tAns.mInternalVector = new Vector2[0];
             tAns.mOutsideVector = aMoveVector;
+            tAns.mLastInternalDirection = tMovingInSelfVector;
             return tAns;
         }
         tAns.mInternalVector = new Vector2[1] { tMovingInSelfVector * tRate };
         tAns.mOutsideVector = (1f - tRate) * aMoveVector;
+        tAns.mLastInternalDirection = tMovingInSelfVector;
         return tAns;
     }
 }

@@ -59,6 +59,8 @@ public abstract class RistrictMovingTile : MyBehaviour {
         public Vector2[] mInternalVector;
         /// <summary>このbehaviourを抜けてからの移動ベクトル</summary>
         public Vector2 mOutsideVector;
+        /// <summary>このbehaviour内部での最後の移動方向</summary>
+        public Vector2 mLastInternalDirection;
     }
     /// <summary>
     /// このbehaviourに入ってからの移動ベクトルを返す
@@ -81,13 +83,17 @@ public abstract class RistrictMovingTile : MyBehaviour {
         float tVDistance;
         if (aMovingVector.x < 0) {
             tHDistance = aStartPoint.x - tEnd.left;
-        } else {
+        } else if (aMovingVector.x > 0) {
             tHDistance = tEnd.right - aStartPoint.x;
+        } else {
+            tHDistance = float.PositiveInfinity;
         }
         if (aMovingVector.y < 0) {
             tVDistance = aStartPoint.y - tEnd.down;
-        } else {
+        } else if (aMovingVector.y > 0) {
             tVDistance = tEnd.up - aStartPoint.y;
+        } else {
+            tVDistance = float.PositiveInfinity;
         }
 
         //移動ベクトルに対する外部までの移動ベクトルの割合

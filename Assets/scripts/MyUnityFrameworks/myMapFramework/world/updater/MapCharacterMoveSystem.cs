@@ -140,10 +140,56 @@ public static class MapCharacterMoveSystem {
     /// <param name="aVector">移動方向</param>
     /// <param name="aRistrictTiles">接触した移動制限tileのcolliderのHit2D</param>
     private static MoveResult ristrictMove(Vector2 aVector, RaycastHit2D[] aRistrictTiles) {
+        RistrictMovingTile.RistrictMovingData tMovingData;
+        MoveResult tResult;
+        MoveResult tMinResult;
+        RaycastHit2D[] tHitList;
+
+        //移動制限tileにしたがって移動
+        tResult = ristrictMoveInner(aVector, aRistrictTiles, out tMovingData);
+        //衝突,止められた,これ以上移動しない場合は移動完了
+        if (tResult.mCollisionType != MapPhysics.CollisionType.pass || tMovingData.mOutsideVector == Vector2.zero) {
+            return tResult;
+        }
+        //移動制限tile外部で移動制限tileを探して移動
+        for (; ; ) {
+            //移動制限tileを探す
+            tHitList = castRistrictTile(tMovingData.mLastInternalDirection, kMaxSeparation);
+            //移動制限tileが見つからなかった
+            if (tHitList.Length == 0) break;
+            //移動制限tileにしたがって移動
+            tMinResult = ristrictMoveInner(tMovingData.mOutsideVector, tHitList, out tMovingData);
+            //衝突,止められた場合は移動完了
+            if (tMinResult.mCollisionType != MapPhysics.CollisionType.pass || tMovingData.mOutsideVector == Vector2.zero) {
+                tMinResult.mDistance = tResult.mDistance;
+                return tMinResult;
+            }
+            tResult.mDistance = tMinResult.mDistance;
+            //tileに接しただけで内部を移動しなかった
+            if (tMinResult.mDistance <= 0) {
+                break;
+            }
+        }
+        //移動制限tile外部で直線移動する
+        RaycastHit2D[] t;
+        MoveResult tOutResult = linearMove(tMovingData.mOutsideVector, out t);
+        tOutResult.mDistance += tResult.mDistance;
+        return tOutResult;
+    }
+    /// <summary>
+    /// 移動制限tile内部で移動
+    /// </summary>
+    /// <returns>移動結果</returns>
+    /// <param name="aVector">移動制限tile外部で移動するはずの移動ベクトル</param>
+    /// <param name="aRistrictTiles">移動制限tileのcolliderのHit2D</param>
+    /// <param name="oMovingData">制限移動データ</param>
+    private static MoveResult ristrictMoveInner(Vector2 aVector, RaycastHit2D[] aRistrictTiles, out RistrictMovingTile.RistrictMovingData oMovingData) {
         RistrictMovingTile tTile;
+        oMovingData = new RistrictMovingTile.RistrictMovingData();
         foreach (RaycastHit2D tHit in aRistrictTiles) {
             tTile = tHit.collider.GetComponent<RistrictMovingTile>();
             RistrictMovingTile.RistrictMovingData tData = tTile.getMovingData(mCharacter.mMapPosition - tTile.mCell.mMapPosition, aVector);
+            oMovingData = tData;
             //tileに接しただけで内部を移動しない
             if (tData.mInternalVector.Length == 0)
                 continue;
@@ -179,16 +225,9 @@ public static class MapCharacterMoveSystem {
                 }
             }
             //移動制限tile内部での移動終了後
-            if (tData.mOutsideVector == Vector2.zero)//これ以上移動しない
-                return new MoveResult(MapPhysics.CollisionType.pass, tMoveDistance);
-            //移動制限tile外部で移動する
-            MoveResult tOutResult = moveToward(tData.mOutsideVector);
-            tOutResult.mDistance += tMoveDistance;
-            return tOutResult;
+            return new MoveResult(MapPhysics.CollisionType.pass, tMoveDistance);
         }
-
-        RaycastHit2D[] tHitList;
-        return linearMove(aVector, out tHitList);
+        return new MoveResult(MapPhysics.CollisionType.pass, 0);
     }
     /// <summary>
     /// 指定方向,距離に移動(移動制限tileは無視)
@@ -345,7 +384,7 @@ public static class MapCharacterMoveSystem {
         }
         //同じ距離で衝突する移動制限tileがあるか探す
         for (int i = tHitIndex + 1; i < tHitLength; ++i) {
-            tHit = tHitList[tHitIndex];
+            tHit = tHitList[i];
             //同じ距離で衝突するcolliderなし
             if (tNears[0].distance < tHit.distance) break;
             //同じ距離で衝突するcolliderあり
@@ -354,7 +393,6 @@ public static class MapCharacterMoveSystem {
             if (!MapPhysics.canCollide(mCharacter.mAttribute, tTile)) continue;
             tNears[tNearsNum] = tHit;
             tNearsNum++;
-            break;
         }
         Array.Resize<RaycastHit2D>(ref tNears, tNearsNum);
         return tNears;
