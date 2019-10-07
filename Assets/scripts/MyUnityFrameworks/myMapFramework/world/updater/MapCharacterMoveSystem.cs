@@ -240,7 +240,8 @@ public static class MapCharacterMoveSystem {
         RaycastHit2D[] tHitList = castAttribute(aVector, aVector.magnitude, out tCollisionType);
         switch (tCollisionType) {
             case MapPhysics.CollisionType.pass:
-                mCharacter.mMapPosition += aVector;
+                move(aVector);
+                //mCharacter.mMapPosition += aVector;
                 oCollidedAtributes = new RaycastHit2D[0];
                 return new MoveResult(MapPhysics.CollisionType.pass, aVector.magnitude);
             case MapPhysics.CollisionType.collide:
@@ -252,7 +253,8 @@ public static class MapCharacterMoveSystem {
                 return new MoveResult(MapPhysics.CollisionType.collide, tCollideMoveDistance);
             case MapPhysics.CollisionType.stop:
                 float tStopMoveDistance = tHitList[0].distance + kMaxSeparation;
-                mCharacter.mMapPosition += aVector.matchLength(tStopMoveDistance);
+                move(aVector.matchLength(tStopMoveDistance));
+                //mCharacter.mMapPosition += aVector.matchLength(tStopMoveDistance);
                 oCollidedAtributes = tHitList;
                 return new MoveResult(MapPhysics.CollisionType.stop, tStopMoveDistance);
         }
@@ -419,17 +421,17 @@ public static class MapCharacterMoveSystem {
     /// <param name="aVector">移動方向,距離</param>
     private static MapPhysics.CollisionType tryMove(Vector2 aVector) {
         //衝突するcolliderを取得
-        Collider2D[] tHitList = new Collider2D[0];
+        RaycastHit2D[] tHitList = new RaycastHit2D[0];
         if (mCollider is BoxCollider2D) {
-            tHitList = Physics2D.OverlapBoxAll(mCharacter.worldPosition2D + aVector + mCollider.offset, ((BoxCollider2D)mCollider).size, mCharacter.transform.rotation.z);
+            tHitList = Physics2D.BoxCastAll(mCharacter.worldPosition2D + aVector + mCollider.offset, ((BoxCollider2D)mCollider).size, mCharacter.transform.rotation.z, Vector2.zero, 0);
         } else if (mCollider is CircleCollider2D) {
-            tHitList = Physics2D.OverlapCircleAll(mCharacter.worldPosition2D + aVector, ((CircleCollider2D)mCollider).radius);
+            tHitList = Physics2D.CircleCastAll(mCharacter.worldPosition2D + aVector, ((CircleCollider2D)mCollider).radius, Vector2.zero, 0);
         }
 
         MapPhysics.CollisionType tCollisionType;
         bool tStopFlag = false;
-        foreach (Collider2D tCollider in tHitList) {
-            getCollidedAttribute(tCollider.gameObject, out tCollisionType);
+        foreach (RaycastHit2D tHit in tHitList) {
+            getCollidedAttribute(tHit.collider.gameObject, out tCollisionType);
             if (tCollisionType == MapPhysics.CollisionType.collide)
                 return MapPhysics.CollisionType.collide;
             if (tCollisionType == MapPhysics.CollisionType.stop)

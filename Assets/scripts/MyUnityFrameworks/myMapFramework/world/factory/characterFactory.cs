@@ -37,6 +37,8 @@ public static partial class MapWorldFactory {
                 return new MapCharacter.WalkAroundCircleAi(float.Parse(aAiData.mArguments[0]));
             case "player"://プレイヤー操作
                 return new MapCharacter.PlayerAi();
+            case "keyboard"://キーボード操作
+                return new MapCharacter.KeyboardAi();
         }
         throw new System.Exception("MapWorldFactory-CharactorFactory : 不正なAI名「" + aAiData.mTagName + "」");
     }
