@@ -26,6 +26,13 @@ public class MapWorld : MyBehaviour {
     //<summary>キャラのリスト</summary>
     public List<MapCharacter> mCharacters = new List<MapCharacter>();
 
+    public MapCell getCell(int aX,int aY,int aZ) {
+        if (aX < 0 || mSize.x <= aX) return null;
+        if (aY < 0 || mSize.y <= aY) return null;
+        if (aZ < 0 || mSize.z <= aZ) return null;
+        return mCells[aX, aY, aZ];
+    }
+
     private void Update() {
         MapWorldUpdater.updateWorld(this);
     }

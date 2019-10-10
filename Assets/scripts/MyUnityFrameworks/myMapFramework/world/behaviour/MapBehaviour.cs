@@ -18,8 +18,15 @@ public class MapBehaviour : MyBehaviour {
         get { return _Height; }
         set { _Height = value; }
     }
+    public Vector3 mMapPosition3 {
+        get { return new Vector3(positionX, positionY, _Height); }
+        set {
+         mMapPosition = new Vector2(value.x, value.y);
+            mHeight = value.z;
+        }
+    }
     /// <summary>足場の高さ</summary>
-    public float mScaffoldHeight;
+    public float mScaffoldLevel { get; set; }
     /// <summary>現在いる座標のcellの座標(x,y,height)</summary>
     public Vector3Int mFootCellPosition {
         get {

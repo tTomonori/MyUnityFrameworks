@@ -17,7 +17,7 @@ public class MapStandBehaviour : MapBehaviour {
         mImage.setHight(mHeight);
         //order更新
         float oPositionZ;
-        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfEntity(mMapPosition.x, mMapPosition.y, mHeight, mScaffoldHeight, out oPositionZ);
+        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfEntity(mMapPosition.x, mMapPosition.y, mHeight, mScaffoldLevel, out oPositionZ);
         this.positionZ = oPositionZ;
         //レイヤー更新
         mImage.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(mHeight)]);

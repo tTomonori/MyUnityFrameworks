@@ -196,5 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fab00a40852240968c22a76d7c81342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mScaffoldHeight: 0
-  mHideLower: 0
+  mCollideUpperStratum: 0
+  mCollideLowerStratum: 0
+  mScaffoldType: 1
+  mDrawOffsetHeight: 0

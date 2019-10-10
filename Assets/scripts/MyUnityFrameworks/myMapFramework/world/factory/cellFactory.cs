@@ -32,20 +32,28 @@ public static partial class MapWorldFactory {
         MapCell tCell = createCell(tCellData);
         //マスに含まれるオブジェクトの移動
         foreach (EntityInCell tEntity in tCell.GetComponentsInChildren<EntityInCell>()) {
-            moveEntityInCell(tEntity, aX, aY, aStratumLevel);
+            EntityTempData tData = new EntityTempData();
+            tData.mEntity = tEntity;
+            tData.mX = aX;
+            tData.mY = aY;
+            tData.mHeight = aStratumLevel / 2;
+            mEntityInCellDataList.Add(tData);
         }
         //階層に追加
         tCell.transform.SetParent(mWorld.mStratums[aStratumLevel].transform, false);
         tCell.changeLayer(MyMap.mStratumLayerNum[aStratumLevel / 2]);
         mWorld.mCells[aX, aY, aStratumLevel] = tCell;
+        //足場の高さレベル
+        tCell.mScaffoldSurfaceLevel = aStratumLevel / 2;
+        tCell.mScaffoldSurfaceLevel2 = aStratumLevel / 2;
+        tCell.mScaffoldLevel = aStratumLevel / 2;
+        //足場の高さレベルの調整が必要か
+        if (tCell.mScaffoldType == MapCell.ScaffoldType.leftHighSlope || tCell.mScaffoldType == MapCell.ScaffoldType.rightHighSlope) {
+            mYRequireAdjustmentScaffoldLevel.Add(aY - aStratumLevel / 2);
+            mYRequireAdjustmentScaffoldLevel.Add(aY - aStratumLevel / 2 - 1);
+        }
         //奇数階層の場合は1つ上の階層とも衝突させる
         tCell.mCollideUpperStratum = aStratumLevel % 2 == 1;
-        //足場の高さ
-        if (tCell.mHideLower || aStratumLevel < 2) {
-            tCell.mScaffoldHeight = aStratumLevel / 2;
-        } else {
-            tCell.mScaffoldHeight = MapWorldUpdater.getScaffoldHeight(new Vector3Int(aX, aY, aStratumLevel / 2 - 1), mWorld);
-        }
         //座標設定
         tCell.setPosition(new Vector2(aX, aY), aStratumLevel / 2);
     }

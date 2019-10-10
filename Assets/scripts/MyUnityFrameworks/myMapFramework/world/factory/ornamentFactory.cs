@@ -16,9 +16,8 @@ public static partial class MapWorldFactory {
         aEntity.transform.SetParent(mWorld.mEntityInCellContainer.transform, false);
         aEntity.mMapPosition = new Vector2(aX + aEntity.positionX, aY + aEntity.positionY);
         aEntity.mHeight = aHeight / 2;
-        aEntity.mScaffoldHeight = MapWorldUpdater.getScaffoldHeight(aEntity.mFootCellPosition, mWorld);
+        aEntity.mScaffoldLevel = MapWorldUpdater.getScaffoldLevel(aEntity.mMapPosition, aEntity.mHeight, mWorld);
         aEntity.applyPosition();
-        //aEntity.setPosition(new Vector2(aX + aEntity.positionX, aY + aEntity.positionY), aStratumLevel);
     }
 
 
@@ -34,7 +33,7 @@ public static partial class MapWorldFactory {
         tOrnament.transform.SetParent(mWorld.mOrnamentContainer.transform, false);
         tOrnament.mMapPosition = new Vector2(aData.mX, aData.mY);
         tOrnament.mHeight = aData.mHeight;
-        tOrnament.mScaffoldHeight = MapWorldUpdater.getScaffoldHeight(tOrnament.mFootCellPosition, mWorld);
+        tOrnament.mScaffoldLevel = MapWorldUpdater.getScaffoldLevel(tOrnament.mMapPosition, tOrnament.mHeight, mWorld);
         tOrnament.applyPosition();
     }
 }

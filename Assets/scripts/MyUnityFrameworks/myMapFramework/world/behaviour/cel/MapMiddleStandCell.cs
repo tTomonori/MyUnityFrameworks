@@ -7,7 +7,7 @@ public class MapMiddleStandCell : MapCell {
     [SerializeField] public float mOffsetY;
     public override void applyPosition() {
         float oPositionZ;
-        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfStandCell(mMapPosition.x, mMapPosition.y + mOffsetY, Mathf.FloorToInt(mHeight), mScaffoldHeight, out oPositionZ);
+        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfStandCell(mMapPosition.x, mMapPosition.y + mOffsetY, Mathf.FloorToInt(mHeight), mScaffoldLevel, out oPositionZ);
         positionZ = oPositionZ;
     }
 }

@@ -15,13 +15,6 @@ public static partial class MapWorldFactory {
         tCharacter.setAi(createAi(aData.mAi));
         //state
         tCharacter.transitionState(new MapCharacter.StandingState());
-        //collider
-        //BoxCollider2D tBox = tCharacter.gameObject.AddComponent<BoxCollider2D>();
-        //tBox.size = new Vector2(0.6f, 0.3f);
-        //tBox.offset = new Vector2(0, 0.15f);
-        //attribute
-        //EntityPhysicsAttribute tAttribute = tCharacter.gameObject.AddComponent<EntityPhysicsAttribute>();
-        //tAttribute.mAttribute = EntityPhysicsAttribute.Attribute.walking;
         //movingData
         tCharacter.mMovingData = new MovingData();
         tCharacter.mMovingData.mSpeed = 2.5f;
@@ -46,6 +39,7 @@ public static partial class MapWorldFactory {
     static private void buildCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = createCharacter(aData);
         tCharacter.transform.SetParent(mWorld.mCharacterContainer.transform, false);
+        tCharacter.mScaffoldLevel = MapWorldUpdater.getScaffoldLevel(tCharacter.mMapPosition, tCharacter.mHeight, mWorld);
         tCharacter.setPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
 
         mWorld.mCharacters.Add(tCharacter);
