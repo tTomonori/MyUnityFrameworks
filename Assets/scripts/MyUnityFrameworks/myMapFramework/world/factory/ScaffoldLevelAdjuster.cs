@@ -217,6 +217,13 @@ public static class ScaffoldLevelAdjuster {
         }
         /// <summary>引数のグループを自分に結合する</summary>
         public void join(ScaffoldLevelGroup aGroup) {
+            //空きマスにScaffoldEmptyを詰める
+            ScaffoldEmpty tEmpty = new ScaffoldEmpty();
+            tEmpty.mHeight = aGroup.mScaffoldList[0].getHeight();
+            for(int i = aGroup.mLeftX - mRightX - 1; 0 < i; --i) {
+                mScaffoldList.Add(tEmpty);
+            }
+            //結合
             foreach (Scaffold tScaffold in aGroup.mScaffoldList) {
                 mScaffoldList.Add(tScaffold);
             }
@@ -233,6 +240,17 @@ public static class ScaffoldLevelAdjuster {
         public abstract float getHeight();
         public abstract MapCell.ScaffoldType getScaffoldType();
         public abstract void setLevel(float aLevel);
+    }
+    private class ScaffoldEmpty : Scaffold {
+        public float mHeight;
+        public override float getHeight() {
+            return mHeight;
+        }
+        public override MapCell.ScaffoldType getScaffoldType() {
+            return MapCell.ScaffoldType.none;
+        }
+        public override void setLevel(float aLevel) {
+        }
     }
     private class ScaffoldFlat : Scaffold {
         public MapCell mCell;

@@ -41,6 +41,6 @@ public class MapCell : MapBehaviour {
     }
 
     public enum ScaffoldType {
-        flat,stand,leftHighSlope,rightHighSlope
+        flat,stand,leftHighSlope,rightHighSlope,none
     }
 }

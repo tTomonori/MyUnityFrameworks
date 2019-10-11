@@ -15,7 +15,7 @@ public static partial class MapWorldFactory {
         //移動
         aEntity.transform.SetParent(mWorld.mEntityInCellContainer.transform, false);
         aEntity.mMapPosition = new Vector2(aX + aEntity.positionX, aY + aEntity.positionY);
-        aEntity.mHeight = aHeight / 2;
+        aEntity.mHeight = aHeight;
         aEntity.mScaffoldLevel = MapWorldUpdater.getScaffoldLevel(aEntity.mMapPosition, aEntity.mHeight, mWorld);
         aEntity.applyPosition();
     }

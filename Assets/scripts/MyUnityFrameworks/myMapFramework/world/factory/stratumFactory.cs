@@ -8,7 +8,7 @@ public static partial class MapWorldFactory {
     static private void buildStratum(int aStratumLevel) {
         MapFileData.Stratum tStratumData = mData.mStratums[aStratumLevel];
 
-        MyBehaviour tStratum = MyBehaviour.create<MyBehaviour>();
+        MapStratum tStratum = MyBehaviour.create<MapStratum>();
         if (aStratumLevel % 2 == 0)
             tStratum.name = "stratum" + (aStratumLevel / 2).ToString();
         else

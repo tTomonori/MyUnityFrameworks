@@ -40,7 +40,7 @@ public static partial class MapWorldFactory {
             mEntityInCellDataList.Add(tData);
         }
         //階層に追加
-        tCell.transform.SetParent(mWorld.mStratums[aStratumLevel].transform, false);
+        tCell.transform.SetParent(mWorld.mStratums[aStratumLevel].mCells.transform, false);
         tCell.changeLayer(MyMap.mStratumLayerNum[aStratumLevel / 2]);
         mWorld.mCells[aX, aY, aStratumLevel] = tCell;
         //足場の高さレベル

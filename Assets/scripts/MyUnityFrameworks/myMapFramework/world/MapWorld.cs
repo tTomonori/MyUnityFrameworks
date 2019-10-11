@@ -8,7 +8,7 @@ public class MapWorld : MyBehaviour {
     ///<summary>階層の入れ物</summary>
     public MyBehaviour mField;
     ///<summary>マスの入れ物</summary>
-    public MyBehaviour[] mStratums;
+    public MapStratum[] mStratums;
     /// <summary>マス</summary>
     public MapCell[,,] mCells;
     ///<summary>characterの入れ物</summary>

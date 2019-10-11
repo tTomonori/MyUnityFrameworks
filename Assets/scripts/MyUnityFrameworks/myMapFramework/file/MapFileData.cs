@@ -6,6 +6,7 @@ public class MapFileData {
     private Arg mData;
     private List<Stratum> mStratumData;
     private Chip mChipData;
+    private List<Shadow> mShadowData;
     private List<Ornament> mOrnamentData;
     private List<Npc> mNpcData;
     private List<Trigger> mTriggerData;
@@ -21,6 +22,10 @@ public class MapFileData {
     ///<summary>マスデータ</summary>
     public Chip mChip {
         get { return mChipData; }
+    }
+    ///<summary>影データ</summary>
+    public List<Shadow> mShadow {
+        get { return mShadowData; }
     }
     ///<summary>物データ</summary>
     public List<Ornament> mOrnaments {
@@ -49,6 +54,11 @@ public class MapFileData {
         }
         //chipデータ
         mChipData = new Chip(mData.get<Arg>("chip"));
+        //shadowデータ
+        mShadowData = new List<Shadow>();
+        foreach(Arg tData in mData.get<List<Arg>>("shadow")) {
+            mShadowData.Add(new Shadow(tData));
+        }
         //ornamentデータ
         mOrnamentData = new List<Ornament>();
         foreach(Arg tData in mData.get<List<Arg>>("ornament")){
@@ -113,6 +123,31 @@ public class MapFileData {
             }
         }
         public Cell(Arg aData) {
+            mData = aData;
+        }
+    }
+    public class Shadow {
+        private Arg mData;
+        /// <summary>影に使うspriteへのパス</summary>
+        public string mSpritePath {
+            get { return mData.get<string>("sprite"); }
+        }
+        /// <summary>colliderの形状を表したタグ</summary>
+        public MyTag mCollider {
+            get { return new MyTag(mData.get<string>("collider")); }
+        }
+        /// <summary>影を配置する座標のリスト Vector3(X,Y,Stratum)</summary>
+        public List<Vector3> mPosition {
+            get { return mData.get<List<Vector3>>("position"); }
+        }
+        /// <summary>指定座標のcellからずらす方向</summary>
+        public Vector2 mOffset {
+            get {
+                if (mData.ContainsKey("offset")) return mData.get<Vector2>("offset");
+                else return Vector2.zero;
+            }
+        }
+        public Shadow(Arg aData) {
             mData = aData;
         }
     }

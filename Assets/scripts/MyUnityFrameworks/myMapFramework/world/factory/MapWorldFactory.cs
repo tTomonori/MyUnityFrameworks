@@ -18,6 +18,12 @@ public static partial class MapWorldFactory {
         buildCamera(mWorld.mSize.z);
         //フィールド生成
         buildField();
+        //影生成
+        List<MapFileData.Shadow> tShadowData = mData.mShadow;
+        int tShadowNum = tShadowData.Count;
+        for(int i = 0; i < tShadowNum; ++i) {
+            buildShadow(tShadowData[i]);
+        }
         //ornament生成
         List<MapFileData.Ornament> tOrnamentData = mData.mOrnaments;
         int tOrnamentNum = tOrnamentData.Count;
@@ -61,7 +67,7 @@ public static partial class MapWorldFactory {
         tWorld.mField.name = "field";
         tWorld.mField.transform.SetParent(tWorld.transform, false);
         //階層
-        tWorld.mStratums = new MyBehaviour[aSize.z];
+        tWorld.mStratums = new MapStratum[aSize.z];
         //マス
         tWorld.mCells = new MapCell[aSize.x, aSize.y, aSize.z];
         //character
