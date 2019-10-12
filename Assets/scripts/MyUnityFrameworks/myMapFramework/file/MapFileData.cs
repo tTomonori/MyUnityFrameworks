@@ -147,6 +147,13 @@ public class MapFileData {
                 else return Vector2.zero;
             }
         }
+        /// <summary>影をかける強さ(0~1)</summary>
+        public float mShadePower {
+            get {
+                if (mData.ContainsKey("shadePower")) return mData.get<float>("shadePower");
+                else return 0.3f;
+            }
+        }
         public Shadow(Arg aData) {
             mData = aData;
         }

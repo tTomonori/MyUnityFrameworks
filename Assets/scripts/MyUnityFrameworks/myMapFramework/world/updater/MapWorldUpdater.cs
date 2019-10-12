@@ -50,11 +50,14 @@ public static class MapWorldUpdater {
     /// <summary>画像イベントを適用する</summary>
     static public void applyImageEvent(MapStandBehaviour aBehaviour) {
         ImageEventTrigger tTrigger;
+        ImageEventData tImageEventData = new ImageEventData();
         foreach(Collider2D tCollider in Physics2D.OverlapPointAll(aBehaviour.worldPosition2D)) {
             tTrigger = tCollider.GetComponent<ImageEventTrigger>();
             if (tTrigger == null) continue;
-
+            if (!MapPhysics.collide(aBehaviour, tTrigger)) continue;
+            tTrigger.plusEvent(tImageEventData, aBehaviour);
         }
+        aBehaviour.mImage.applyImageEvent(tImageEventData);
     }
     /// <summary>指定座標の足場の高さを返す</summary>
     static public float getScaffoldLevel(Vector2 aPosition, float aHeight, MapWorld aWorld) {

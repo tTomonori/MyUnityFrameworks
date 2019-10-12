@@ -21,6 +21,8 @@ public static partial class MapWorldFactory {
 
             tShadow = MyBehaviour.create<ImageShadowTrigger>();
             tShadow.name = "shadow(" + tPosition.x + "," + tPosition.y + "," + tPosition.z + ")";
+            //shadePower
+            tShadow.mShadePower = aData.mShadePower;
             //position
             tShadow.position = tCell.position;
             //offset
@@ -28,7 +30,7 @@ public static partial class MapWorldFactory {
             //sprite
             tRenderer = tShadow.createChild<SpriteRenderer>();
             tRenderer.sprite = Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/sprites/" + aData.mSpritePath);
-            tRenderer.color = new Color(0, 0, 0, 0.3f);
+            tRenderer.color = new Color(0, 0, 0, aData.mShadePower);
             //collider
             Collider2DCreator.addCollider(tShadow.gameObject, tColliderTag);
             //追加
