@@ -107,10 +107,10 @@ public class MapFileData {
         public string mCell {
             get { return mData.get<string>("cell"); }
         }
-        public int mDrawOffsetHeight {
+        public int mDrawOffsetY {
             get {
-                if (mData.ContainsKey("drawOffsetHeight"))
-                    return mData.get<int>("drawOffsetHeight");
+                if (mData.ContainsKey("drawOffsetY"))
+                    return mData.get<int>("drawOffsetY");
                 else
                     return 0;
             }

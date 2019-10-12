@@ -17,8 +17,6 @@ public static partial class MapWorldFactory {
         foreach (TilePhysicsAttribute tAttribute in tCell.GetComponentsInChildren<TilePhysicsAttribute>()) {
             tAttribute.mBehaviour = tCell;
         }
-        //drawOffset
-        tCell.mDrawOffsetHeight += aCellData.mDrawOffsetHeight;
         //エンカウント
 
         return tCell;
@@ -51,6 +49,13 @@ public static partial class MapWorldFactory {
         if (tCell.mScaffoldType == MapCell.ScaffoldType.leftHighSlope || tCell.mScaffoldType == MapCell.ScaffoldType.rightHighSlope) {
             mYRequireAdjustmentScaffoldLevel.Add(aY - aStratumLevel / 2);
             mYRequireAdjustmentScaffoldLevel.Add(aY - aStratumLevel / 2 - 1);
+        }
+        //drawOffset
+        if (tCellData.mDrawOffsetY != 0) {
+            WaitingSetOffsetCellData tOffsetData = new WaitingSetOffsetCellData();
+            tOffsetData.mPosition = new Vector3Int(aX, aY, aStratumLevel);
+            tOffsetData.mOffsetY = tCellData.mDrawOffsetY;
+            mWaitingSetOffsetCell.Add(tOffsetData);
         }
         //奇数階層の場合は1つ上の階層とも衝突させる
         tCell.mCollideUpperStratum = aStratumLevel % 2 == 1;

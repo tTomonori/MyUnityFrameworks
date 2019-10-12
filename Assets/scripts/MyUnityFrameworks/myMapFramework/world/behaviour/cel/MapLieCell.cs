@@ -5,7 +5,10 @@ using UnityEngine;
 public class MapLieCell : MapCell {
     public override void applyPosition() {
         float oPositionZ;
-        mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfLieCell(mMapPosition.x, mMapPosition.y, Mathf.FloorToInt(mHeight), mScaffoldLevel + mDrawOffsetHeight, out oPositionZ);
+        if (mDrawOffsetData == null)
+            mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfLieCell(mMapPosition.x, mMapPosition.y, Mathf.FloorToInt(mHeight), mScaffoldLevel, out oPositionZ);
+        else
+            mSortingGroup.sortingOrder = MapZOrderCalculator.calculateOrderOfLieCell(mMapPosition.x, mDrawOffsetData.mPositionY, Mathf.FloorToInt(mHeight), mDrawOffsetData.mScaffoldLevel, out oPositionZ);
         positionZ = oPositionZ;
     }
 }

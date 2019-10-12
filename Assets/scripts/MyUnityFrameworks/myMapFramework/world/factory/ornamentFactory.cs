@@ -18,6 +18,8 @@ public static partial class MapWorldFactory {
         aEntity.mHeight = aHeight;
         aEntity.mScaffoldLevel = MapWorldUpdater.getScaffoldLevel(aEntity.mMapPosition, aEntity.mHeight, mWorld);
         aEntity.applyPosition();
+        //画像イベント適用
+        MapWorldUpdater.applyImageEvent(aEntity);
     }
 
 
@@ -35,6 +37,8 @@ public static partial class MapWorldFactory {
         tOrnament.mHeight = aData.mHeight;
         tOrnament.mScaffoldLevel = MapWorldUpdater.getScaffoldLevel(tOrnament.mMapPosition, tOrnament.mHeight, mWorld);
         tOrnament.applyPosition();
+        //画像イベント適用
+        MapWorldUpdater.applyImageEvent(tOrnament);
     }
 }
 

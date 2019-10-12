@@ -35,6 +35,8 @@ public static class MapWorldUpdater {
                 tCharacter.mScaffoldLevel = getScaffoldLevel(tCharacter.mMapPosition, tCharacter.mHeight, aWorld);
                 //座標適用
                 tCharacter.setPosition(tCharacter.mMapPosition, tCharacter.mHeight);
+                //画像イベント
+                applyImageEvent(tCharacter);
                 //移動データリセット
                 MapCharacterMoveSystem.resetFrameMovingData(tCharacter);
             }
@@ -43,6 +45,15 @@ public static class MapWorldUpdater {
             tProcessing = tWaiting;
             tWaiting.Clear();
             tExistWaiting = false;
+        }
+    }
+    /// <summary>画像イベントを適用する</summary>
+    static public void applyImageEvent(MapStandBehaviour aBehaviour) {
+        ImageEventTrigger tTrigger;
+        foreach(Collider2D tCollider in Physics2D.OverlapPointAll(aBehaviour.worldPosition2D)) {
+            tTrigger = tCollider.GetComponent<ImageEventTrigger>();
+            if (tTrigger == null) continue;
+
         }
     }
     /// <summary>指定座標の足場の高さを返す</summary>

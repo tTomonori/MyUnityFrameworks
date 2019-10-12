@@ -25,7 +25,7 @@ public class MapBehaviour : MyBehaviour {
             mHeight = value.z;
         }
     }
-    /// <summary>足場の高さ</summary>
+    /// <summary>足場の高さレベル</summary>
     public float mScaffoldLevel { get; set; }
     /// <summary>現在いる座標のcellの座標(x,y,height)</summary>
     public Vector3Int mFootCellPosition {

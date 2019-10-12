@@ -6,12 +6,12 @@ using UnityEngine.Rendering;
 public class MapCell : MapBehaviour {
     /// <summary>足場の形状(描画順序決定用)</summary>
     [SerializeField] public ScaffoldType mScaffoldType = ScaffoldType.flat;
-    /// <summary>足場の高さレベル</summary>
+    /// <summary>このcellに乗っている者に適用する足場の高さレベル</summary>
     public float mScaffoldSurfaceLevel { get; set; }
-    /// <summary>足場の高さレベル(坂形状の場合のみ使用,下側の高さレベル)</summary>
+    /// <summary>このcellに乗っている者に適用する足場の高さレベル(坂形状の場合のみ使用,下側の高さレベル)</summary>
     public float mScaffoldSurfaceLevel2 { get; set; }
-    /// <summary>orderInLayerを計算するときこの数値分高さを補正</summary>
-    [SerializeField] public int mDrawOffsetHeight = 0;
+    /// <summary>orderInLayerを計算するときの補正</summary>
+    public DrawOffsetData mDrawOffsetData;
 
     public SortingGroup mSortingGroup { get; set; }
 
@@ -42,5 +42,9 @@ public class MapCell : MapBehaviour {
 
     public enum ScaffoldType {
         flat,stand,leftHighSlope,rightHighSlope,none
+    }
+    public class DrawOffsetData {
+        public float mPositionY;
+        public float mScaffoldLevel;
     }
 }
