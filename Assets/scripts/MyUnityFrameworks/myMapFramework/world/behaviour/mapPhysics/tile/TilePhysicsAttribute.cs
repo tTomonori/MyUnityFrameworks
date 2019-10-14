@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class TilePhysicsAttribute : MapPhysicsAttribute {
     /// <summary>この属性をもつbehaviourが属しているcell</summary>
-    [SerializeField] public MapCell mCell;
+    [SerializeField] public MapTile mTile;
 
     public override MapBehaviour mBehaviour {
-        get { return mCell; }
-        set { mCell = (MapCell)value; }
+        get { return mTile; }
+        set { mTile = (MapTile)value; }
+    }
+
+    private void OnValidate() {
+        mTile = GetComponentInParent<MapTile>();
     }
 }

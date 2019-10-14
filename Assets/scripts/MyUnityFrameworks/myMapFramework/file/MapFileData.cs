@@ -36,7 +36,7 @@ public class MapFileData {
         get { return mNpcData; }
     }
     ///<summary>triggerデータ</summary>
-    public List<Trigger> mTrigger{
+    public List<Trigger> mTrigger {
         get { return mTriggerData; }
     }
     ///<summary>イベントデータ</summary>
@@ -56,12 +56,12 @@ public class MapFileData {
         mChipData = new Chip(mData.get<Arg>("chip"));
         //shadowデータ
         mShadowData = new List<Shadow>();
-        foreach(Arg tData in mData.get<List<Arg>>("shadow")) {
+        foreach (Arg tData in mData.get<List<Arg>>("shadow")) {
             mShadowData.Add(new Shadow(tData));
         }
         //ornamentデータ
         mOrnamentData = new List<Ornament>();
-        foreach(Arg tData in mData.get<List<Arg>>("ornament")){
+        foreach (Arg tData in mData.get<List<Arg>>("ornament")) {
             mOrnamentData.Add(new Ornament(tData));
         }
         //npcデータ
@@ -84,35 +84,48 @@ public class MapFileData {
         public List<List<int>> mFeild {
             get { return mData.get<List<List<int>>>("feild"); }
         }
+        ///<summary>+0.5階層のフィールドデータ(mChipのkeyのリスト)</summary>
+        public List<List<int>> mHalfHeightFeild {
+            get { return mData.get<List<List<int>>>("halfHeight"); }
+        }
         public Stratum(Arg aData) {
             mData = aData;
         }
     }
     public class Chip {
-        private Dictionary<string,Cell> mData;
-        public Cell get(int aNum) {
+        private Dictionary<string, Tile> mData;
+        public Tile get(int aNum) {
             if (!mData.ContainsKey(aNum.ToString())) return null;
             return mData[aNum.ToString()];
         }
         public Chip(Arg aData) {
-            mData = new Dictionary<string, Cell>();
-            foreach(string tKey in aData.dictionary.Keys) {
-                mData.Add(tKey, new Cell(aData.get<Arg>(tKey)));
+            mData = new Dictionary<string, Tile>();
+            foreach (string tKey in aData.dictionary.Keys) {
+                mData.Add(tKey, new Tile(aData.get<Arg>(tKey)));
             }
         }
     }
-    public class Cell {
+    public class Tile {
         private Arg mData;
         ///<summary>プレハブへのパス</summary>
         public string mCell {
-            get { return mData.get<string>("cell"); }
+            get { return mData.get<string>("tile"); }
         }
-        public int mDrawOffsetY {
+        public int mDrawOffsetH {
             get {
-                if (mData.ContainsKey("drawOffsetY"))
-                    return mData.get<int>("drawOffsetY");
+                if (mData.ContainsKey("drawOffsetH"))
+                    return mData.get<int>("drawOffsetH");
                 else
                     return 0;
+            }
+        }
+        /// <summary>tile内に配置されたornament</summary>
+        public Ornament mOrnamentInTile {
+            get {
+                if (mData.ContainsKey("ornament"))
+                    return new Ornament(mData.get<Arg>("ornament"));
+                else
+                    return null;
             }
         }
         ///<summary>エンカウント番号(エンカウントなしなら空文字列)</summary>
@@ -122,7 +135,7 @@ public class MapFileData {
                 return mData.get<string>("encount");
             }
         }
-        public Cell(Arg aData) {
+        public Tile(Arg aData) {
             mData = aData;
         }
     }
@@ -186,6 +199,15 @@ public class MapFileData {
 
         public Ornament(Arg aData) {
             mData = aData;
+        }
+        /// <summary>tile内に配置されたornamentのデータをworld内に配置されたデータへと変換</summary>
+        public void toInTileData(Vector3 aTilePosition) {
+            if (mData.ContainsKey("x")) mData.set("x", mData.get<float>("x") + aTilePosition.x);
+            else mData.set("x", aTilePosition.x);
+            if (mData.ContainsKey("x")) mData.set("y", mData.get<float>("y") + aTilePosition.y);
+            else mData.set("y", aTilePosition.y);
+            if (mData.ContainsKey("height")) mData.set("height", mData.get<float>("height") + aTilePosition.z);
+            else mData.set("height", aTilePosition.z);
         }
     }
     public class Npc {

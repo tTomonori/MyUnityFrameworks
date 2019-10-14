@@ -13,8 +13,7 @@ public static class MapPhysics {
     /// <returns>衝突するならtrue</returns>
     /// <param name="aHeight1">衝突する側</param>
     /// <param name="aHeight2">衝突される側</param>
-    public static bool collide(MapBehaviour aBehaviour1, MapBehaviour aBehaviour2) {
-        if (aBehaviour1.mHeight == aBehaviour2.mHeight) return true;
+    public static bool isOverlapedH(MapBehaviour aBehaviour1, MapBehaviour aBehaviour2) {
         MapBehaviour tUpperBehaviour;
         MapBehaviour tLowerBehaviour;
         if (aBehaviour1.mHeight < aBehaviour2.mHeight) {
@@ -24,8 +23,7 @@ public static class MapPhysics {
             tUpperBehaviour = aBehaviour1;
             tLowerBehaviour = aBehaviour2;
         }
-        return tUpperBehaviour.mHeight - tLowerBehaviour.mHeight < ((tUpperBehaviour.mCollideLowerStratum || tLowerBehaviour.mCollideUpperStratum) ? 1.5f : 1f);
-        //return Mathf.Abs(aBehaviour1.mHeight - aBehaviour2.mHeight) < 1f;
+        return tUpperBehaviour.mHeight < tLowerBehaviour.mHeight + tLowerBehaviour.mCollideHeight;
     }
     //衝突するか判定
     public static CollisionType canCollide(MapPhysicsAttribute aAttribute1, MapPhysicsAttribute aAttribute2) {
@@ -35,11 +33,11 @@ public static class MapPhysics {
         return CollisionType.pass;
     }
     public static bool canCollide(EntityPhysicsAttribute aEntity, RistrictMovingTile aRistrictTile) {
-        return collide(aEntity.mEntity, aRistrictTile.mCell);
+        return isOverlapedH(aEntity.mEntity, aRistrictTile.mTile);
     }
     public static CollisionType canCollide(EntityPhysicsAttribute aAttribute1, MapPhysicsAttribute aAttribute2) {
         //階層判定
-        if (!collide(aAttribute1.mBehaviour, aAttribute2.mBehaviour)) return CollisionType.pass;
+        if (!isOverlapedH(aAttribute1.mBehaviour, aAttribute2.mBehaviour)) return CollisionType.pass;
 
         //相手の属性で分岐
         if (aAttribute2 is TileGroundPhysicsAttribute) {

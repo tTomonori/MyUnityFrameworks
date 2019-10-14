@@ -12,12 +12,12 @@ public class MovingData {
     //<summary>当たり判定を貫通しないように移動できる距離</summary>
     public float mDeltaDistance;
     //<summary>移動前の座標</summary>
-    public Vector2 mPrePosition;
-    //<summary>移動前の高さ</summary>
-    public float mPreHeight;
+    public MapPosition mPrePosition;
     //<summary>最後に触れていた階層移動属性のオブジェクト</summary>
     public SlopeTilePhysicsAttribute mCollidedSlope;
 
     //<summary>同フレーム内で移動できる残りの距離</summary>
     public float mRemainingDistance;
+    /// <summary>移動処理1回前の座標</summary>
+    public MapPosition mDeltaPrePosition;
 }

@@ -39,9 +39,8 @@ public static partial class MapWorldFactory {
     static private void buildCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = createCharacter(aData);
         tCharacter.transform.SetParent(mWorld.mCharacterContainer.transform, false);
-        tCharacter.mScaffoldLevel = MapWorldUpdater.getScaffoldLevel(tCharacter.mMapPosition, tCharacter.mHeight, mWorld);
-        tCharacter.setPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
-
+        tCharacter.setMapPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
+        tCharacter.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(tCharacter.mHeight)]);
         mWorld.mCharacters.Add(tCharacter);
     }
 }

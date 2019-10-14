@@ -12,32 +12,34 @@ public static partial class MapWorldFactory {
         List<Vector3> tPositionList = aData.mPosition;
         MyTag tColliderTag = aData.mCollider;
         ImageShadowTrigger tShadow;
-        SpriteRenderer tRenderer;
-        Vector2 tOffset = aData.mOffset;
+        LieMesh tMesh;
+        Vector3 tOffset = aData.mOffset;
         MapCell tCell;
+        MapTile tTile;
         foreach (Vector3 tPosition in tPositionList) {
-            //追加対象のcell
+            //追加対象のtile
             tCell = mWorld.mCells[Mathf.FloorToInt(tPosition.x), Mathf.FloorToInt(tPosition.y), Mathf.FloorToInt(tPosition.z)];
+            tTile = (tPosition.z.decimalPart() > 0.4f) ? tCell.mHalfHeightTile : tCell.mTile;
 
             tShadow = MyBehaviour.create<ImageShadowTrigger>();
             tShadow.name = "shadow(" + tPosition.x + "," + tPosition.y + "," + tPosition.z + ")";
             //shadePower
             tShadow.mShadePower = aData.mShadePower;
             //position
-            tShadow.position = tCell.position;
-            //offset
-            tShadow.position2D += tOffset;
+            tShadow.mMapPosition = new MapPosition(tTile.mMapPosition.vector + tOffset);
+            tShadow.mLieBehaviourPileLevel = 5;
+            tShadow.applyPosition();
             //sprite
-            tRenderer = tShadow.createChild<SpriteRenderer>();
-            tRenderer.sprite = Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/sprites/" + aData.mSpritePath);
-            tRenderer.color = new Color(0, 0, 0, aData.mShadePower);
+            tMesh = tShadow.createChild<LieMesh>();
+            tMesh.mRenderMode = Mesh2D.RenderMode.shadow;
+            tMesh.mSprite= Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/sprites/" + aData.mSpritePath);
+            tMesh.initialize();
+            tMesh.setColor(new Color(0, 0, 0, aData.mShadePower));
             //collider
             Collider2DCreator.addCollider(tShadow.gameObject, tColliderTag);
             //追加
             tShadow.transform.SetParent(mWorld.mStratums[Mathf.FloorToInt(tPosition.z)].mShadows.transform, false);
-            tShadow.gameObject.AddComponent<SortingGroup>().sortingOrder = tCell.mSortingGroup.sortingOrder;
-            tShadow.positionZ -= 0.0001f;
-            tShadow.changeLayer(tCell.gameObject.layer, true);
+            tShadow.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(tPosition.z)], true);
         }
     }
 }

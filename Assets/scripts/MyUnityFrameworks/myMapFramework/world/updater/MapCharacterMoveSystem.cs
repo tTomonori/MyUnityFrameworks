@@ -30,8 +30,6 @@ public static class MapCharacterMoveSystem {
             aCharacter.mMovingData.mRemainingDistance = aCharacter.mMovingData.mMaxMoveDistance;
         //移動前の座標
         aCharacter.mMovingData.mPrePosition = aCharacter.mMapPosition;
-        //移動前の高さ
-        aCharacter.mMovingData.mPreHeight = aCharacter.mHeight;
     }
     /// <summary>移動完了後に移動データリセット</summary>
     public static void resetFrameMovingData(MapCharacter aCharacter) {
@@ -45,6 +43,8 @@ public static class MapCharacterMoveSystem {
             aCharacter.mMovingData.mRemainingDistance = 0;
             return false;
         }
+        //移動処理前の座標を記録
+        aCharacter.mMovingData.mDeltaPrePosition = aCharacter.mMapPosition;
         //移動処理で使うデータ収集・記録
         mCharacter = aCharacter;
         mAttribute = aCharacter.mAttribute;
@@ -188,7 +188,7 @@ public static class MapCharacterMoveSystem {
         oMovingData = new RistrictMovingTile.RistrictMovingData();
         foreach (RaycastHit2D tHit in aRistrictTiles) {
             tTile = tHit.collider.GetComponent<RistrictMovingTile>();
-            RistrictMovingTile.RistrictMovingData tData = tTile.getMovingData(mCharacter.mMapPosition - tTile.mCell.mMapPosition, aVector);
+            RistrictMovingTile.RistrictMovingData tData = tTile.getMovingData(mCharacter.mMapPosition.vector2 - tTile.mTile.mMapPosition.vector2, aVector);
             oMovingData = tData;
             //tileに接しただけで内部を移動しない
             if (tData.mInternalVector.Length == 0)
@@ -451,6 +451,6 @@ public static class MapCharacterMoveSystem {
 
     //<summary>(誤差を考慮した上で)指定座標に居るならtrue</summary>
     public static bool arrived(MapCharacter aCharacter, Vector2 aPosition) {
-        return Vector2.Distance(aCharacter.mMapPosition, aPosition) <= kMaxSeparation;
+        return Vector2.Distance(aCharacter.mMapPosition.vector2, aPosition) <= kMaxSeparation;
     }
 }

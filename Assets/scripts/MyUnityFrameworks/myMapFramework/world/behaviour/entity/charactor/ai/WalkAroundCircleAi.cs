@@ -10,7 +10,7 @@ public partial class MapCharacter : MapEntity {
         //移動範囲の半径
         private float mRange;
         //移動範囲の中心
-        private Vector2 mCenterPosition;
+        private MapPosition mCenterPosition;
         private WalkState mWalkState;
         public WalkAroundCircleAi(float aRange) {
             mRange = aRange;
@@ -33,7 +33,7 @@ public partial class MapCharacter : MapEntity {
             private Vector2 mTargetPosition;
             public WalkingState(WalkAroundCircleAi aParent) {
                 mParent = aParent;
-                mTargetPosition = mParent.mCenterPosition + Random.Range(0, mParent.mRange) * VectorCalculator.randomVector();
+                mTargetPosition = mParent.mCenterPosition.vector2 + Random.Range(0, mParent.mRange) * VectorCalculator.randomVector();
             }
             public override void update() {
                 if (MapCharacterMoveSystem.arrived(mParent.parent, mTargetPosition)) {
@@ -42,7 +42,7 @@ public partial class MapCharacter : MapEntity {
                     return;
                 }
                 //移動方向の決定
-                Vector2 tDirection = mTargetPosition - mParent.parent.mMapPosition;
+                Vector2 tDirection = mTargetPosition - mParent.parent.mMapPosition.vector2;
                 mParent.parent.mState.move(tDirection);
             }
         }

@@ -9,12 +9,9 @@ public static partial class MapWorldFactory {
         MapFileData.Stratum tStratumData = mData.mStratums[aStratumLevel];
 
         MapStratum tStratum = MyBehaviour.create<MapStratum>();
-        if (aStratumLevel % 2 == 0)
-            tStratum.name = "stratum" + (aStratumLevel / 2).ToString();
-        else
-            tStratum.name = "stratum" + (aStratumLevel / 2).ToString() + ".5";
+        tStratum.name = "stratum" + aStratumLevel.ToString();
 
-        tStratum.changeLayer(MyMap.mStratumLayerNum[aStratumLevel / 2], false);
+        tStratum.changeLayer(MyMap.mStratumLayerNum[aStratumLevel], false);
         tStratum.transform.SetParent(mWorld.mField.transform, false);
         mWorld.mStratums[aStratumLevel] = tStratum;
 

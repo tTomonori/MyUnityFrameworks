@@ -33,7 +33,7 @@ public static class MapHeightUpdateSystem {
                 name = tCollider.transform.parent.name;
             SlopeTilePhysicsAttribute tSlope = tCollider.GetComponent<SlopeTilePhysicsAttribute>();
             if (tSlope == null) continue;
-            if (MapPhysics.collide(aBehaviour, tSlope.mBehaviour)) {
+            if (MapPhysics.isOverlapedH(aBehaviour, tSlope.mBehaviour)) {
                 return tSlope;
             }
         }

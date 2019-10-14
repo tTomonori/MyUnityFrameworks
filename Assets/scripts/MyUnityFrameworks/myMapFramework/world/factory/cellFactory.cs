@@ -9,58 +9,75 @@ public static partial class MapWorldFactory {
     /// </summary>
     /// <returns>マス</returns>
     /// <param name="aCellData">マスのデータ</param>
-    public static MapCell createCell(MapFileData.Cell aCellData) {
-        string tPrefabPath = aCellData.mCell;
+    public static MapTile createTile(MapFileData.Tile aTileData) {
+        string tPrefabPath = aTileData.mCell;
         //ロード
-        MapCell tCell = MyBehaviour.createObjectFromResources<MapCell>(MyMap.mMapResourcesDirectory + "/tile/" + tPrefabPath);
+        MapTile tTile = MyBehaviour.createObjectFromResources<MapTile>(MyMap.mMapResourcesDirectory + "/tile/" + tPrefabPath);
         //属性にcellを割り当て
-        foreach (TilePhysicsAttribute tAttribute in tCell.GetComponentsInChildren<TilePhysicsAttribute>()) {
-            tAttribute.mBehaviour = tCell;
+        foreach (TilePhysicsAttribute tAttribute in tTile.GetComponentsInChildren<TilePhysicsAttribute>()) {
+            tAttribute.mBehaviour = tTile;
         }
         //エンカウント
 
-        return tCell;
+        return tTile;
     }
-    //指定座標のcellを生成してworldに追加(平面のマス)
-    private static void buildCell(int aX, int aY, int aStratumLevel) {
-        int tY = mData.mStratums[aStratumLevel].mFeild.Count - 1 - aY;
-        int tChipNum = mData.mStratums[aStratumLevel].mFeild[tY][aX];
-        MapFileData.Cell tCellData = mData.mChip.get(tChipNum);
-        if (tCellData == null) return;
-        MapCell tCell = createCell(tCellData);
-        //マスに含まれるオブジェクトの移動
-        foreach (EntityInCell tEntity in tCell.GetComponentsInChildren<EntityInCell>()) {
-            EntityTempData tData = new EntityTempData();
-            tData.mEntity = tEntity;
-            tData.mX = aX;
-            tData.mY = aY;
-            tData.mHeight = aStratumLevel / 2;
-            mEntityInCellDataList.Add(tData);
+    //指定座標のcellを生成してworldに追加
+    private static void buildCell(int aX, int aY, int aH) {
+        int tY = mWorld.mSize.y - 1 - aY;
+        MapCell tCell = new MapCell();
+
+        MapTile tTile;
+        MapFileData.Ornament tData;
+        //平面階層
+        int tChipNum = mData.mStratums[aH].mFeild[tY][aX];
+        MapFileData.Tile tTileData = mData.mChip.get(tChipNum);
+        if (tTileData != null) {
+            tTile = createTile(tTileData);
+            //accessory
+            tData = tTileData.mOrnamentInTile;
+            if (tData != null) {
+                tData.toInTileData(new Vector3(aX, aY, aH));
+                mOrnamentInTileData.Add(tData);
+            }
+            //階層に追加
+            tTile.transform.SetParent(mWorld.mStratums[aH].mTiles.transform, false);
+            tTile.changeLayer(MyMap.mStratumLayerNum[aH]);
+            tCell.mTile = tTile;
+            //drawOffset
+            if (tTileData.mDrawOffsetH != 0) {
+                tTile.mDrawOffsetData.mHeight = tTileData.mDrawOffsetH;
+                tTile.mLieBehaviourPileLevel += (tTile.mDrawOffsetData.mHeight > 0) ? -1 : 1;
+            }
+            tTile.mLieBehaviourPileLevel += -5;
+            //座標設定
+            tTile.setMapPosition(new Vector2(aX, aY), aH);
         }
-        //階層に追加
-        tCell.transform.SetParent(mWorld.mStratums[aStratumLevel].mCells.transform, false);
-        tCell.changeLayer(MyMap.mStratumLayerNum[aStratumLevel / 2]);
-        mWorld.mCells[aX, aY, aStratumLevel] = tCell;
-        //足場の高さレベル
-        tCell.mScaffoldSurfaceLevel = aStratumLevel / 2;
-        tCell.mScaffoldSurfaceLevel2 = aStratumLevel / 2;
-        tCell.mScaffoldLevel = aStratumLevel / 2;
-        //足場の高さレベルの調整が必要か
-        if (tCell.mScaffoldType == MapCell.ScaffoldType.leftHighSlope || tCell.mScaffoldType == MapCell.ScaffoldType.rightHighSlope) {
-            mYRequireAdjustmentScaffoldLevel.Add(aY - aStratumLevel / 2);
-            mYRequireAdjustmentScaffoldLevel.Add(aY - aStratumLevel / 2 - 1);
+        //+0.5階層
+        tChipNum = mData.mStratums[aH].mHalfHeightFeild[tY][aX];
+        tTileData = mData.mChip.get(tChipNum);
+        if (tTileData != null) {
+            tTile = createTile(tTileData);
+            //accessory
+            tData = tTileData.mOrnamentInTile;
+            if (tData != null) {
+                tData.toInTileData(new Vector3(aX, aY, aH));
+                mOrnamentInTileData.Add(tData);
+            }
+            //階層に追加
+            tTile.transform.SetParent(mWorld.mStratums[aH].mHalfHeightTiles.transform, false);
+            tTile.changeLayer(MyMap.mStratumLayerNum[aH]);
+            tCell.mHalfHeightTile = tTile;
+            //drawOffset
+            if (tTileData.mDrawOffsetH != 0) {
+                tTile.mDrawOffsetData.mHeight = tTileData.mDrawOffsetH;
+                tTile.mLieBehaviourPileLevel += (tTile.mDrawOffsetData.mHeight > 0) ? -1 : 1;
+            }
+            tTile.mLieBehaviourPileLevel += -4;
+            //座標設定
+            tTile.setMapPosition(new Vector2(aX, aY), aH);
         }
-        //drawOffset
-        if (tCellData.mDrawOffsetY != 0) {
-            WaitingSetOffsetCellData tOffsetData = new WaitingSetOffsetCellData();
-            tOffsetData.mPosition = new Vector3Int(aX, aY, aStratumLevel);
-            tOffsetData.mOffsetY = tCellData.mDrawOffsetY;
-            mWaitingSetOffsetCell.Add(tOffsetData);
-        }
-        //奇数階層の場合は1つ上の階層とも衝突させる
-        tCell.mCollideUpperStratum = aStratumLevel % 2 == 1;
-        //座標設定
-        tCell.setPosition(new Vector2(aX, aY), aStratumLevel / 2);
+
+        mWorld.mCells[aX, aY, aH] = tCell;
     }
 }
 

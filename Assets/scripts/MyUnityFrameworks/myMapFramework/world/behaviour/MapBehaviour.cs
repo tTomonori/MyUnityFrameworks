@@ -3,14 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapBehaviour : MyBehaviour {
-    /// <summary>自分より1以上高い位置にいる相手とも衝突する</summary>
-    public bool mCollideUpperStratum = false;
-    /// <summary>自分より1以上低い位置にいる相手とも衝突する</summary>
-    public bool mCollideLowerStratum = false;
-    ///<summary>マップ上での座標</summary>
-    public Vector2 mMapPosition {
-        get { return position2D; }
-        set { position2D = value; }
+    /// <summary>衝突判定が適用される高さ(このBehaviourの高さ +0 ~ +mColliderHeight未満 の範囲で衝突)</summary>
+    [SerializeField] public float mCollideHeight = 1f;
+    /// <summary>平面behaviourを重ねた場合の描画順序を決定するための値</summary>
+    public int mLieBehaviourPileLevel = 0;
+    /// <summary>3次元変換した場合の座標</summary>
+    public MapRealPosition mMapRealPosition {
+        get { return mMapPosition.toMapRealPosition(); }
+        set { mMapPosition = value.toMapPosition(); }
+    }
+    /// <summary>マップ上での座標</summary>
+    public MapPosition mMapPosition {
+        get { return new MapPosition(new Vector3(positionX, positionY, _Height)); }
+        set {
+            position2D = value.vector;
+            _Height = value.h;
+        }
+    }
+    /// <summary>描画する際の座標</summary>
+    public RenderPosition mRenderPosition {
+        get { return new RenderPosition(position); }
+        set { position = value.vector; }
     }
     protected float _Height;
     /// <summary>マップ上での高さ</summary>
@@ -18,25 +31,19 @@ public class MapBehaviour : MyBehaviour {
         get { return _Height; }
         set { _Height = value; }
     }
-    public Vector3 mMapPosition3 {
-        get { return new Vector3(positionX, positionY, _Height); }
-        set {
-         mMapPosition = new Vector2(value.x, value.y);
-            mHeight = value.z;
-        }
-    }
-    /// <summary>足場の高さレベル</summary>
-    public float mScaffoldLevel { get; set; }
     /// <summary>現在いる座標のcellの座標(x,y,height)</summary>
     public Vector3Int mFootCellPosition {
         get {
-            return new Vector3Int(Mathf.FloorToInt(mMapPosition.x + 0.5f), Mathf.FloorToInt(mMapPosition.y + 0.5f), Mathf.FloorToInt(mHeight));
+            Vector3 tPosition = mMapPosition.vector;
+            return new Vector3Int(Mathf.FloorToInt(tPosition.x + 0.5f), Mathf.FloorToInt(tPosition.y + 0.5f), Mathf.FloorToInt(_Height));
         }
     }
-    /// <summary>現在MapBehaviourに設定されている座標,高さのデータを画像等に反映する</summary>
-    public virtual void applyPosition() { }
+    /// <summary>MapPositionをRenderPositionに適用</summary>
+    public virtual void applyPosition() {
+        mRenderPosition = mMapPosition.toRenderPosition().addPileLevel(mLieBehaviourPileLevel);
+    }
     /// <summary>座標と高さを設定し画像等に反映する</summary>
-    public void setPosition(Vector2 aPosition, float aHeight) {
+    public void setMapPosition(Vector2 aPosition, float aHeight) {
         position2D = aPosition;
         _Height = aHeight;
         applyPosition();

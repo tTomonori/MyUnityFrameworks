@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapOrnament : MapEntity {
-    [SerializeField] private MapStandImage _Image;
-    public override MapStandImage mImage {
+    [SerializeField] private MapEntityImage _Image;
+    public override MapEntityImage mImage {
         get { return _Image; }
-
         set { _Image = value; }
     }
 }

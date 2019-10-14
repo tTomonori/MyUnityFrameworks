@@ -8,5 +8,5 @@ public class ImageEventTrigger : MapBehaviour {
     /// </summary>
     /// <param name="aData">画像イベントデータ</param>
     /// <param name="aBehaviour">画像イベントを適用するbehaviour</param>
-    public virtual void plusEvent(ImageEventData aData, MapStandBehaviour aBehaviour) { }
+    public virtual void plusEvent(ImageEventData aData, MapEntity aBehaviour) { }
 }

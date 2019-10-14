@@ -6,7 +6,7 @@ public partial class MapCharacter : MapEntity {
     /// <summary>移動処理で使うデータ</summary>
     public MovingData mMovingData;
     [SerializeField] public MapCharacterImage mCharacterImage;
-    public override MapStandImage mImage {
+    public override MapEntityImage mImage {
         get { return mCharacterImage; }
         set { mCharacterImage = (MapCharacterImage)value; }
     }
@@ -17,6 +17,7 @@ public partial class MapCharacter : MapEntity {
     //<summary>MapWorld内に配置された直後に呼ばれる</summary>
     public override void placed() {
         mMovingData.mPrePosition = mMapPosition;
+        mMovingData.mDeltaPrePosition = mMovingData.mPrePosition;
         MapHeightUpdateSystem.initHeight(this);
     }
     //状態遷移

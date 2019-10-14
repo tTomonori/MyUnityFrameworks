@@ -98,4 +98,8 @@ public static class VectorCalculator {
     public static Vector2 matchLength(this Vector2 aVector, float aLength) {
         return aVector * (aLength / aVector.magnitude);
     }
+    /// <summary>Vector2に変換する</summary>
+    public static Vector2 toVector2(this Vector3 aVector) {
+        return new Vector2(aVector.x, aVector.y);
+    }
 }

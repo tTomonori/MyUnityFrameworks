@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ImageShadowTrigger : ImageEventTrigger {
     public float mShadePower = 0.3f;
-    public override void plusEvent(ImageEventData aData, MapStandBehaviour aBehaviour) {
+    public override void plusEvent(ImageEventData aData, MapEntity aBehaviour) {
         aData.shade(mShadePower);
     }
 }

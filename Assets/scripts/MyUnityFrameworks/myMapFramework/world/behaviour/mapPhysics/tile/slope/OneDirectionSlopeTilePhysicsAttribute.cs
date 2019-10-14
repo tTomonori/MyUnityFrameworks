@@ -19,18 +19,18 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
     }
     /// <summary>低い側の高さ(絶対座標)</summary>
     public float mAbsoluteLowSideHeight {
-        get { return mCell.mHeight + mLowSideHeight; }
+        get { return mTile.mHeight + mLowSideHeight; }
     }
     /// <summary>高い側の高さ(絶対座標)</summary>
     public float mAbsoluteHighSideHeight {
-        get { return mCell.mHeight + mHighSideHeight; }
+        get { return mTile.mHeight + mHighSideHeight; }
     }
     /// <summary>坂の中間の高さ</summary>
     public float mMiddleHeight {
-        get { return mCell.mHeight + (mHighSideHeight + mLowSideHeight) / 2f; }
+        get { return mTile.mHeight + (mHighSideHeight + mLowSideHeight) / 2f; }
     }
     public override float getHeight() {
-        return mCell.mHeight + 0.5f;
+        return mTile.mHeight + 0.5f;
     }
     /// <summary>
     /// 指定座標からこの坂道に侵入できるか
@@ -114,7 +114,7 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
         }
         Debug.LogWarning("OneDirectionSlopeTilePhysicsAttribute : 傾斜方向が未設定です");
         oIsIn = (tPoint.left <= aPosition.x && aPosition.x <= tPoint.right) && (tPoint.down <= aPosition.y && aPosition.y <= tPoint.up);
-        return mCell.mHeight;
+        return mTile.mHeight;
     }
 
     //<summary>引数の座標が傾斜に対してどの位置にいるか</summary>
