@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mRenderMode: 1
   mSprite: {fileID: 21300000, guid: 61b6f903f60824027a3aaf54cecccbb4, type: 3}
-  mPivotX: 0.5
+  mPivot: {x: 0.5, y: 0}
 --- !u!1 &6709298953845640513
 GameObject:
   m_ObjectHideFlags: 0

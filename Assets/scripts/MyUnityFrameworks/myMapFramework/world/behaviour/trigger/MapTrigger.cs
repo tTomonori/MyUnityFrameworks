@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapTrigger : MapBehaviour {
+public class MapTrigger : MyBehaviour {
+    /// <summary>このtriggerが付与されているbehaviour</summary>
+    [SerializeField] public MapBehaviour mBehaviour;
     //<summary>引数のentityが衝突するか</summary>
-    public MapPhysics.CollisionType canCollide(MapEntity aEntity) {
+    public virtual MapPhysics.CollisionType canCollide(MapEntity aEntity) {
         //キャラでないなら衝突しない
         if (!(aEntity is MapCharacter))
             return MapPhysics.CollisionType.pass;
@@ -12,4 +14,14 @@ public class MapTrigger : MapBehaviour {
         MapCharacter tCharacter = (MapCharacter)aEntity;
         return MapPhysics.CollisionType.pass;
     }
+    /// <summary>triggerに侵入した</summary>
+    public virtual void enter(MapEntity aEntity) { }
+    /// <summary>trigger内で移動せずに居座った</summary>
+    public virtual void stay(MapEntity aEntity) { }
+    /// <summary>trigger内で移動した</summary>
+    public virtual void moved(MapEntity aEntity) { }
+    /// <summary>triggerから出て行った</summary>
+    public virtual void exit(MapEntity aEntity) { }
+    /// <summary>マップ生成時から内部にいた</summary>
+    public virtual void existInner(MapEntity aEntity) { }
 }

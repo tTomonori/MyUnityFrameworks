@@ -20,4 +20,6 @@ public class MovingData {
     public float mRemainingDistance;
     /// <summary>移動処理1回前の座標</summary>
     public MapPosition mDeltaPrePosition;
+    /// <summary>移動処理1回前に衝突していたtrigger</summary>
+    public List<MapTrigger> mCollidedTriggers;
 }

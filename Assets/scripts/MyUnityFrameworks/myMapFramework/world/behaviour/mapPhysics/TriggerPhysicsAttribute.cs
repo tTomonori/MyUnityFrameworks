@@ -12,8 +12,8 @@ public class TriggerPhysicsAttribute : MapPhysicsAttribute {
     //この属性が付与されているtrigger
     [SerializeField] public MapTrigger mTrigger;
     public override MapBehaviour mBehaviour {
-        get { return mTrigger; }
-        set { mTrigger = (MapTrigger)value; }
+        get { return mTrigger.mBehaviour; }
+        set { mTrigger.mBehaviour = value; }
     }
 
     //<summary>引数のentityがこのtriggerに侵入できるか</summary>

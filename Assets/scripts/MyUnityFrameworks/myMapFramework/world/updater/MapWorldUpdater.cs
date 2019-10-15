@@ -19,10 +19,15 @@ public static class MapWorldUpdater {
         for (; ; ) {
             foreach (MapCharacter tCharacter in tProcessing) {
                 //移動
-                bool tRemainedDistance = MapCharacterMoveSystem.moveCharacter(tCharacter);
-                //高さ更新
-                MapHeightUpdateSystem.updateHeight(tCharacter);
-                //trigger
+                bool tRemainedDistance;
+                if (tCharacter.mMovingData.mRemainingDistance > 0) {
+                    tRemainedDistance = MapCharacterMoveSystem.moveCharacter(tCharacter);
+                    //高さ更新
+                    MapHeightUpdateSystem.updateHeight(tCharacter);
+                    //trigger
+                    MapTriggerUpdater.trigger(tCharacter);
+                    //encount
+                } else { tRemainedDistance = false; }
 
                 //まだ移動できるか
                 if (tRemainedDistance) {

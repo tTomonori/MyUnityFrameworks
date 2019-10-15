@@ -19,6 +19,7 @@ public partial class MapCharacter : MapEntity {
         mMovingData.mPrePosition = mMapPosition;
         mMovingData.mDeltaPrePosition = mMovingData.mPrePosition;
         MapHeightUpdateSystem.initHeight(this);
+        MapTriggerUpdater.initTriggerDataOfMovingData(this);
     }
     //状態遷移
     public void transitionState(MapCharacter.State aState) {
