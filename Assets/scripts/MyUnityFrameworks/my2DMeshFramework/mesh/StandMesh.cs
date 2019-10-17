@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StandMesh : Mesh2D {
     [SerializeField] public Vector2 mPivot = new Vector2(0.5f, 0f);
+    /// <summary>Y軸回転量(度)</summary>
+    [SerializeField] public float mRotationY = 0;
     public override void createMesh() {
         mFilter.mesh = new Mesh();
         Mesh tMesh = mFilter.sharedMesh;
@@ -11,10 +13,10 @@ public class StandMesh : Mesh2D {
 
         Vector2 tSize = mSprite.bounds.size;
         Vector3[] tVertices = new Vector3[4] {
-            new Vector3(-tSize.x*mPivot.x,-tSize.y*mPivot.y,0),
-            new Vector3(tSize.x*(1-mPivot.x),-tSize.y*mPivot.y,0),
-            new Vector3(-tSize.x*mPivot.x,tSize.y*(1-mPivot.y),0),
-            new Vector3(tSize.x*(1-mPivot.x),tSize.y*(1-mPivot.y),0)
+            new Vector3(-tSize.x*mPivot.x*Mathf.Cos(mRotationY/180f*Mathf.PI),-tSize.y*mPivot.y+tSize.x*mPivot.x*Mathf.Sin(mRotationY/180f*Mathf.PI),tSize.x*mPivot.x*Mathf.Sin(mRotationY/180f*Mathf.PI)),
+            new Vector3(tSize.x*(1-mPivot.x)*Mathf.Cos(mRotationY/180f*Mathf.PI),-tSize.y*mPivot.y-tSize.x*(1-mPivot.x)*Mathf.Sin(mRotationY/180f*Mathf.PI),-tSize.x*(1-mPivot.x)*Mathf.Sin(mRotationY/180f*Mathf.PI)),
+            new Vector3(-tSize.x*mPivot.x*Mathf.Cos(mRotationY/180f*Mathf.PI),tSize.y*(1-mPivot.y)+tSize.x*mPivot.x*Mathf.Sin(mRotationY/180f*Mathf.PI),tSize.x*mPivot.x*Mathf.Sin(mRotationY/180f*Mathf.PI)),
+            new Vector3(tSize.x*(1-mPivot.x)*Mathf.Cos(mRotationY/180f*Mathf.PI),tSize.y*(1-mPivot.y)-tSize.x*(1-mPivot.x)*Mathf.Sin(mRotationY/180f*Mathf.PI),-tSize.x*(1-mPivot.x)*Mathf.Sin(mRotationY/180f*Mathf.PI))
         };
         Vector2[] tUvs = new Vector2[4] {
             new Vector2(0,0),
