@@ -8,13 +8,15 @@ public class MapAccessoryBehaviour : MyBehaviour {
     [SerializeField] public int mPileLevel = 0;
 
     public enum AccessoryType {
-        lie,stand,custom
+        lie, stand, custom
     }
 
     private void OnValidate() {
         if (Application.isPlaying) return;
-        if (mType == AccessoryType.custom) return;
-        setMeshComponent();
+
+        if (mType != AccessoryType.custom)
+            setMeshComponent();
+
         setPosition();
     }
     private void setMeshComponent() {

@@ -9,8 +9,12 @@ public partial class MapCharacter : MapEntity {
             if (mController == null) {
                 mController = parent.GetComponentInParent<MyMap>().mController;
             }
+            //移動
             if (mController.mInputVector != null)
                 parent.mState.move((Vector2)mController.mInputVector,((Vector2)mController.mInputVector).magnitude);
+            //話しかける
+            if (mController.mInputA)
+                parent.mState.speak();
         }
     }
 }

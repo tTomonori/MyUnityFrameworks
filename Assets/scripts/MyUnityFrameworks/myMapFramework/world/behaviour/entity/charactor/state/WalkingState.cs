@@ -24,6 +24,10 @@ public partial class MapCharacter : MapEntity {
             parent.mCharacterImage.moved(aVector);
             return true;
         }
+        public override bool speak() {
+            parent.mMovingData.mSpeak = true;
+            return true;
+        }
     }
 }
 

@@ -49,12 +49,19 @@ public static class MapWorldUpdater {
             tWaiting.Clear();
             tExistWaiting = false;
         }
+        //エンカウント
+        //話しかけるor調べる
+        foreach (MapCharacter tCharacter in aWorld.mCharacters) {
+            if (!tCharacter.mMovingData.mSpeak) continue;
+            MapSpeakUpdater.speak(tCharacter);
+            tCharacter.mMovingData.mSpeak = false;
+        }
     }
     /// <summary>画像イベントを適用する</summary>
     static public void applyImageEvent(MapEntity aBehaviour) {
         ImageEventTrigger tTrigger;
         ImageEventData tImageEventData = new ImageEventData();
-        foreach(Collider2D tCollider in Physics2D.OverlapPointAll(aBehaviour.worldPosition2D)) {
+        foreach (Collider2D tCollider in Physics2D.OverlapPointAll(aBehaviour.worldPosition2D)) {
             tTrigger = tCollider.GetComponent<ImageEventTrigger>();
             if (tTrigger == null) continue;
             if (!MapPhysics.isOverlapedH(aBehaviour, tTrigger)) continue;

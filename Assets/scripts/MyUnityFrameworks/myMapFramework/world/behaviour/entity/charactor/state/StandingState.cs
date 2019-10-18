@@ -18,6 +18,10 @@ public partial class MapCharacter : MapEntity {
             parent.transitionState(new WalkingState());
             return parent.mState.move(aVector, aMaxMoveDistance);
         }
+        public override bool speak() {
+            parent.mMovingData.mSpeak = true;
+            return true;
+        }
     }
 }
 

@@ -45,6 +45,8 @@ public static class MapCharacterMoveSystem {
         }
         //移動処理前の座標を記録
         aCharacter.mMovingData.mDeltaPrePosition = aCharacter.mMapPosition;
+        //最後の移動方向記録
+        aCharacter.mMovingData.mLastDirection = aCharacter.mMovingData.mDirection;
         //移動処理で使うデータ収集・記録
         mCharacter = aCharacter;
         mAttribute = aCharacter.mAttribute;
@@ -123,6 +125,8 @@ public static class MapCharacterMoveSystem {
         Vector2 tSlideVector;
         foreach (RaycastHit2D tHit in aAttributes) {
             tSlideVector = aVector.disassembleOrthogonal(tHit.normal);
+            //スライド移動しようとしても移動方向がかわらない場合は衝突として扱う
+            if (aVector == tSlideVector) return new MoveResult(MapPhysics.CollisionType.collide, 0);
             MapPhysics.CollisionType tCollisionType;
             castAttribute(tSlideVector, kMaxSeparation * 2, out tCollisionType);
             //ほとんど移動できない場合は次の属性に沿って移動

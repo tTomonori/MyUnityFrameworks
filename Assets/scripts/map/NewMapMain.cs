@@ -31,11 +31,10 @@ public class NewMapMain : MonoBehaviour {
     }
 
     bool flag = true;
-    // Update is called once per frame
     void Update() {
         mController.mInputVector = mPad.mTailVec * 0.001f;
         if (flag)
             mMap.mWorld.mCameraContainer.position2D = GameObject.Find("character:player").GetComponent<MyBehaviour>().position2D;
-        //flag = false;
+        mController.mInputA = mPad.mIsTapped;
     }
 }

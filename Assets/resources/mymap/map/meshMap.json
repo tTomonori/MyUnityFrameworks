@@ -227,7 +227,8 @@
   {"path": "rotaFlower","name": "rotaFlower","x": 8,"y": 1,"height": 0},
   {"path": "rotaFlower","name": "rotaFlower","x": 9,"y": 1,"height": 0},
   {"path": "rotaFlower","name": "rotaFlower","x": 10,"y": 1,"height": 0},
-  {"path": "rotaFlower","name": "rotaFlower","x": 11,"y": 1,"height": 0}
+  {"path": "rotaFlower","name": "rotaFlower","x": 11,"y": 1,"height": 0},
+  {"path": "shakeTree","name": "shakeTree","x": 15,"y": 1,"height": 0}
   ],
   "npc": [
     {"path": "player/player","name": "player","direction": Vector2(1,0),"ai": "<player>","x":4,"y": 2,"height": 0},
