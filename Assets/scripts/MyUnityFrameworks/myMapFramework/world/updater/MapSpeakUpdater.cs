@@ -41,6 +41,7 @@ public static class MapSpeakUpdater {
                 tCornerList.Insert(i, tCorner);
                 tTargets.Add(tSpeaker);
                 tAdd = true;
+                break;
             }
             if (!tAdd) {
                 tCornerList.Add(tCorner);
