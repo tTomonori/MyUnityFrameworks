@@ -8,6 +8,7 @@ public static partial class MapWorldFactory {
     static public MapCharacter createCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = MyBehaviour.createObjectFromResources<MapCharacter>(MyMap.mMapResourcesDirectory + "/character/" + aData.mPath);
         //名前
+        tCharacter.mName = aData.mName;
         tCharacter.name = "character:" + aData.mName;
         //向き
         tCharacter.mCharacterImage.setDirection(aData.mDirection);

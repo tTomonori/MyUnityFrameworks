@@ -15,13 +15,13 @@ public class MapTrigger : MyBehaviour {
         return MapPhysics.CollisionType.pass;
     }
     /// <summary>triggerに侵入した</summary>
-    public virtual void enter(MapEntity aEntity) { }
+    public virtual void enter(MapEntity aEntity, MapEventSystem aEventSystem) { }
     /// <summary>trigger内で移動せずに居座った</summary>
-    public virtual void stay(MapEntity aEntity) { }
+    public virtual void stay(MapEntity aEntity, MapEventSystem aEventSystem) { }
     /// <summary>trigger内で移動した</summary>
-    public virtual void moved(MapEntity aEntity) { }
+    public virtual void moved(MapEntity aEntity, MapEventSystem aEventSystem) { }
     /// <summary>triggerから出て行った</summary>
-    public virtual void exit(MapEntity aEntity) { }
+    public virtual void exit(MapEntity aEntity, MapEventSystem aEventSystem) { }
     /// <summary>マップ生成時から内部にいた</summary>
     public virtual void existInner(MapEntity aEntity) { }
 }

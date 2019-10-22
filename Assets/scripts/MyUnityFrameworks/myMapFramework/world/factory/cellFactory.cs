@@ -51,6 +51,11 @@ public static partial class MapWorldFactory {
             tTile.mLieBehaviourPileLevel += -5;
             //座標設定
             tTile.setMapPosition(new Vector2(aX, aY), aH);
+            //encount
+            if (tTileData.mEncountKey != "") {
+                tCell.mEncountKey = tTileData.mEncountKey;
+                tCell.mEncountFrequency = tTileData.mEncountFrequency;
+            }
         }
         //+0.5階層
         tChipNum = mData.mStratums[aH].mHalfHeightFeild[tY][aX];
@@ -75,6 +80,11 @@ public static partial class MapWorldFactory {
             tTile.mLieBehaviourPileLevel += -4;
             //座標設定
             tTile.setMapPosition(new Vector2(aX, aY), aH);
+            //encount
+            if (tTileData.mEncountKey != "") {
+                tCell.mEncountKey = tTileData.mEncountKey;
+                tCell.mEncountFrequency = tTileData.mEncountFrequency;
+            }
         }
 
         mWorld.mCells[aX, aY, aH] = tCell;

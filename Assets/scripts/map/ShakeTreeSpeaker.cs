@@ -8,7 +8,7 @@ public class ShakeTreeSpeaker : MapSpeaker {
     public override bool canReply(MapCharacter aCharacter) {
         return !mAnimating;
     }
-    public override void speak(MapCharacter aCharacter) {
+    public override void speak(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         if (mAnimating) return;
         shake();
     }

@@ -11,7 +11,7 @@ public class MapFileData {
     private List<Npc> mNpcData;
     private List<Trigger> mTriggerData;
     private Event mEventData;
-    //<summary>マップ名</summary>
+    ///<summary>マップ名</summary>
     public string name {
         get { return mData.get<string>("name"); }
     }
@@ -129,10 +129,16 @@ public class MapFileData {
             }
         }
         ///<summary>エンカウント番号(エンカウントなしなら空文字列)</summary>
-        public string mEncount {
+        public string mEncountKey {
             get {
-                if (!mData.ContainsKey("encount")) return "";
-                return mData.get<string>("encount");
+                if (!mData.ContainsKey("encountKey")) return "";
+                return mData.get<string>("encountKey");
+            }
+        }
+        public float mEncountFrequency {
+            get {
+                if (!mData.ContainsKey("encountFrequency")) return 0;
+                return mData.get<float>("encountFrequency");
             }
         }
         public Tile(Arg aData) {
@@ -278,6 +284,9 @@ public class MapFileData {
     }
     public class Event {
         private Arg mData;
+        public IDictionary mDic {
+            get { return mData.dictionary; }
+        }
         public Event(Arg aData) {
             mData = aData;
         }

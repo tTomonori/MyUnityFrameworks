@@ -44,4 +44,14 @@ public partial class MapCharacter : MapEntity {
     public bool isPlayer() {
         return mAi is MapCharacter.PlayerAi;
     }
+    //操作状態
+    public Operation getOperation() {
+        if (mAi is JackedAi) return Operation.jacked;
+        if (mState is StandingState) return Operation.free;
+        if (mState is WalkingState) return Operation.free;
+        return Operation.busy;
+    }
+    public enum Operation {
+        free,jacked,busy
+    }
 }

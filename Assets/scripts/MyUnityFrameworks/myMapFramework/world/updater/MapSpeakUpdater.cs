@@ -4,11 +4,11 @@ using UnityEngine;
 
 public static class MapSpeakUpdater {
     /// <summary>話しかけるor調べる処理</summary>
-    static public void speak(MapCharacter aCharacter) {
+    static public void speak(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         foreach (MapSpeaker tSpeaker in getTargetSpeakers(aCharacter)) {
             //応答不可
             if (!tSpeaker.canReply(aCharacter)) continue;
-            tSpeaker.speak(aCharacter);
+            tSpeaker.speak(aCharacter, aEventSystem);
             return;
         }
     }

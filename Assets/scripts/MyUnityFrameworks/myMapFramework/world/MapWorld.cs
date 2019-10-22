@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapWorld : MyBehaviour {
+    /// <summary>マップ名</summary>
+    public string mMapName;
     ///<summary>カメラの入れ物</summary>
     public MyBehaviour mCameraContainer;
     ///<summary>階層の入れ物</summary>
@@ -25,12 +27,36 @@ public class MapWorld : MyBehaviour {
 
     //<summary>キャラのリスト</summary>
     public List<MapCharacter> mCharacters = new List<MapCharacter>();
+    /// <summary>イベント</summary>
+    public Dictionary<string, MapEvent> mEvents;
 
+    /// <summary>イベント処理システム</summary>
+    public MapEventSystem mEventSystem;
+    /// <summary>マップ</summary>
+    public MyMap mMap;
+
+    /// <summary>指定座標のCellを取得</summary>
     public MapCell getCell(int aX,int aY,int aZ) {
         if (aX < 0 || mSize.x <= aX) return null;
         if (aY < 0 || mSize.y <= aY) return null;
         if (aZ < 0 || mSize.z <= aZ) return null;
         return mCells[aX, aY, aZ];
+    }
+    /// <summary>プレイヤーのMapCharacterを取得</summary>
+    public MapCharacter getPlayer() {
+        foreach(MapCharacter tCharacter in mCharacters) {
+            if (tCharacter.isPlayer())
+                return tCharacter;
+        }
+        return null;
+    }
+    /// <summary>指定名のキャラを取得</summary>
+    public MapCharacter getCharacter(string aName) {
+        foreach (MapCharacter tCharacter in mCharacters) {
+            if (tCharacter.name == "character:" + aName)
+                return tCharacter;
+        }
+        return null;
     }
 
     private void Update() {

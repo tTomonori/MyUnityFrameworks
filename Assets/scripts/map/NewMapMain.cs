@@ -7,6 +7,7 @@ public class NewMapMain : MonoBehaviour {
     MyPad mPad;
     MyMap mMap;
     MyMapController mController;
+    TestEventDelegate mDelegate;
     // Start is called before the first frame update
     void Start() {
         //MyMap.mMapResourcesDirectory = "mymap";
@@ -20,6 +21,10 @@ public class NewMapMain : MonoBehaviour {
         //map
         MyMap.mMapResourcesDirectory = "mymap";
         mMap = GameObject.Find("map").GetComponent<MyMap>();
+        //delegate
+        mDelegate = new TestEventDelegate();
+        mMap.mDelegate = mDelegate;
+
         mMap.load("meshMap");
         //contoroller
         mController = new MyMapController();

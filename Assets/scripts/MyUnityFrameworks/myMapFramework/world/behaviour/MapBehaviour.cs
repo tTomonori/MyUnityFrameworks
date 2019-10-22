@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapBehaviour : MyBehaviour {
+    /// <summary>名前</summary>
+    public string mName { get; set; }
     /// <summary>衝突判定が適用される高さ(このBehaviourの高さ +0 ~ +mColliderHeight未満 の範囲で衝突)</summary>
     [SerializeField] public float mCollideHeight = 1f;
     /// <summary>平面behaviourを重ねた場合の描画順序を決定するための値</summary>

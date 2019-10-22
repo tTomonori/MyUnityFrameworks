@@ -5,7 +5,7 @@ using System;
 
 public class MapTriggerUpdater {
     /// <summary>衝突したtriggerを発火させる</summary>
-    static public void trigger(MapCharacter aEntity) {
+    static public void trigger(MapCharacter aEntity, MapEventSystem aEventSystem) {
         bool tMoved = aEntity.mMovingData.mPrePosition != aEntity.mMapPosition;
         List<MapTrigger> tCollidedTriggers = getCollidedTriggers(aEntity);
 
@@ -15,18 +15,18 @@ public class MapTriggerUpdater {
             for (int i = 0; i < tCount; ++i) {
                 if (aEntity.mMovingData.mCollidedTriggers[i] != tTrigger) continue;
 
-                if (tMoved) tTrigger.moved(aEntity);//内部移動
-                else tTrigger.stay(aEntity);//内部停止
+                if (tMoved) tTrigger.moved(aEntity, aEventSystem);//内部移動
+                else tTrigger.stay(aEntity, aEventSystem);//内部停止
 
                 aEntity.mMovingData.mCollidedTriggers.RemoveAt(i);
                 tFind = true;
                 break;
             }
             if (tFind) continue;
-            tTrigger.enter(aEntity);//侵入
+            tTrigger.enter(aEntity, aEventSystem);//侵入
         }
         foreach (MapTrigger tTrigger in aEntity.mMovingData.mCollidedTriggers) {
-            tTrigger.exit(aEntity);//撤退
+            tTrigger.exit(aEntity, aEventSystem);//撤退
         }
         aEntity.mMovingData.mCollidedTriggers = tCollidedTriggers;
     }
@@ -55,7 +55,7 @@ public class MapTriggerUpdater {
     /// <summary>trigger衝突状況データを初期化</summary>
     static public void initTriggerDataOfMovingData(MapCharacter aCharacter) {
         List<MapTrigger> tTriggers = getCollidedTriggers(aCharacter);
-        foreach(MapTrigger tTrigger in tTriggers) {
+        foreach (MapTrigger tTrigger in tTriggers) {
             tTrigger.existInner(aCharacter);
         }
         aCharacter.mMovingData.mCollidedTriggers = tTriggers;

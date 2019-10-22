@@ -14,6 +14,8 @@ public class MyMap : MyBehaviour {
     public MyMapEventDelegate mDelegate;
     ///<summary>フラグ</summary>
     public MapFlag mFlag;
+    /// <summary>エンカウント</summary>
+    public MapEncoutSystem mEncountSystem;
 
     ///<summary>世界オブジェクト</summary>
     public MapWorld mWorld;
@@ -21,12 +23,14 @@ public class MyMap : MyBehaviour {
     public MapFileData mMapData;
     ///<summary>マップ読み込み</summary>
     public void load(string aFilePath) {
+        mEncountSystem = new MapEncoutSystem();
         //マップデータ読み込み
         mMapData = new MapFileData(aFilePath);
         //ワールドを再生成
         if (mWorld != null)
             mWorld.delete();
         mWorld = MapWorldFactory.create(mMapData);
+        mWorld.mMap = this;
         mWorld.name = "world";
         mWorld.transform.SetParent(this.transform, false);
     }

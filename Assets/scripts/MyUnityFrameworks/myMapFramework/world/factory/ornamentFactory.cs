@@ -8,6 +8,9 @@ public static partial class MapWorldFactory {
     static public MapOrnament createOrnament(MapFileData.Ornament aData) {
         MapOrnament tOrnament = MyBehaviour.createObjectFromResources<MapOrnament>(MyMap.mMapResourcesDirectory + "/ornament/" + aData.mPath);
 
+        tOrnament.mName = aData.mName;
+        tOrnament.name = "ornament:" + aData.mName;
+
         return tOrnament;
     }
     //<summary>物を生成してworldに追加</summary>

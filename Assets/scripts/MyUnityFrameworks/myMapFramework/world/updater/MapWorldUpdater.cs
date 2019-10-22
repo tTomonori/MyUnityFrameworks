@@ -25,8 +25,11 @@ public static class MapWorldUpdater {
                     //高さ更新
                     MapHeightUpdateSystem.updateHeight(tCharacter);
                     //trigger
-                    MapTriggerUpdater.trigger(tCharacter);
+                    MapTriggerUpdater.trigger(tCharacter, aWorld.mEventSystem);
                     //encount
+                    if (tCharacter.isPlayer() && tCharacter.getOperation() == MapCharacter.Operation.free) {
+                        encountCount(tCharacter, aWorld);
+                    }
                 } else { tRemainedDistance = false; }
 
                 //まだ移動できるか
@@ -50,12 +53,20 @@ public static class MapWorldUpdater {
             tExistWaiting = false;
         }
         //エンカウント
+        if (aWorld.mMap.mEncountSystem.mIsFire) {
+            if (aWorld.mEventSystem.encount(aWorld.mMap.mEncountSystem.mEncountKey))
+                aWorld.mMap.mEncountSystem.resetCount();//エンカウントイベント実行成功
+            else
+                aWorld.mMap.mEncountSystem.lastCount();//エンカウントイベント実行失敗
+        }
         //話しかけるor調べる
         foreach (MapCharacter tCharacter in aWorld.mCharacters) {
             if (!tCharacter.mMovingData.mSpeak) continue;
-            MapSpeakUpdater.speak(tCharacter);
+            MapSpeakUpdater.speak(tCharacter, aWorld.mEventSystem);
             tCharacter.mMovingData.mSpeak = false;
         }
+        //待機中のイベントを実行
+        aWorld.mEventSystem.runWaitingEvents();
     }
     /// <summary>画像イベントを適用する</summary>
     static public void applyImageEvent(MapEntity aBehaviour) {
@@ -68,5 +79,26 @@ public static class MapWorldUpdater {
             tTrigger.plusEvent(tImageEventData, aBehaviour);
         }
         aBehaviour.mImage.applyImageEvent(tImageEventData);
+    }
+    /// <summary>
+    /// エンカウントのカウントを進める
+    /// </summary>
+    /// <returns>エンカウントした場合はtrue</returns>
+    /// <param name="aCharacter">Player Character</param>
+    /// <param name="aWorld">MapWorld</param>
+    static private bool encountCount(MapCharacter aCharacter, MapWorld aWorld) {
+        Vector3Int tPosition = aCharacter.mFootCellPosition;
+        MapCell tCell = aWorld.mCells[tPosition.x, tPosition.y, tPosition.z];
+        //エンカウントしないマス
+        if (tCell.mEncountKey == null || tCell.mEncountKey == "") return false;
+
+        //移動距離
+        float tDeltaDistance = (aCharacter.mMovingData.mDeltaPrePosition.vector2 - aCharacter.mMapPosition.vector2).magnitude;
+        if (!aWorld.mMap.mEncountSystem.count(tCell.mEncountFrequency * tDeltaDistance, tCell.mEncountKey)) return false;
+
+        //エンカウントした
+        aCharacter.mMovingData.mRemainingDistance = 0;
+        aCharacter.mMovingData.mSpeak = false;
+        return true;
     }
 }

@@ -5,4 +5,6 @@ using UnityEngine;
 public class MapCell {
     public MapTile mTile;
     public MapTile mHalfHeightTile;
+    public string mEncountKey;
+    public float mEncountFrequency = 100;
 }

@@ -14,6 +14,7 @@ public static partial class MapWorldFactory {
         mData = aData;
         mWorld = initWorld(new Vector3Int(aData.mStratums[0].mFeild[0].Count, aData.mStratums[0].mFeild.Count, aData.mStratums.Count));
 
+        mWorld.mMapName = aData.name;
         //カメラ生成
         buildCamera(mWorld.mSize.z);
         //フィールド生成
@@ -42,6 +43,8 @@ public static partial class MapWorldFactory {
         for (int i = 0; i < tTriggerNum; ++i) {
             buildTrigger(tTriggerData[i]);
         }
+        //event
+        createEvent();
 
         //生成完了
         foreach (MapBehaviour tBehaviour in mWorld.GetComponentsInChildren<MapBehaviour>())
@@ -86,6 +89,8 @@ public static partial class MapWorldFactory {
         tWorld.mTriggerContainer = MyBehaviour.create<MyBehaviour>();
         tWorld.mTriggerContainer.name = "triggerContainer";
         tWorld.mTriggerContainer.transform.SetParent(tWorld.transform, false);
+        //event処理システム
+        tWorld.mEventSystem = new MapEventSystem(tWorld);
         return tWorld;
     }
 
@@ -101,5 +106,14 @@ public static partial class MapWorldFactory {
             tCamera.cullingMask |= (1 << MyMap.mStratumLayerNum[i]);
         tCamera.transform.SetParent(mWorld.mCameraContainer.transform, false);
         tCamera.transform.localPosition = new Vector3(0, 0, -10);
+    }
+    /// <summary>イベントを生成してDictionaryに追加</summary>
+    static private void createEvent() {
+        mWorld.mEvents = new Dictionary<string, MapEvent>();
+        MapFileData.Event tEvents = mData.mEvent;
+        foreach(KeyValuePair<string,object> tPair in tEvents.mDic) {
+            Arg tData = (Arg)tPair.Value;
+            mWorld.mEvents.Add(tPair.Key, MapEvent.createRoot(tData));
+        }
     }
 }
