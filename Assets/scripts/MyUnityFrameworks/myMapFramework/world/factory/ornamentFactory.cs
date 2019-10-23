@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public static partial class MapWorldFactory {
     //<summary>物生成</summary>
@@ -10,6 +9,17 @@ public static partial class MapWorldFactory {
 
         tOrnament.mName = aData.mName;
         tOrnament.name = "ornament:" + aData.mName;
+
+        //speaker
+        if (aData.mIsSpeaker) {
+            MapKeyEventSpeaker tSpeaker = tOrnament.mAttribute.gameObject.AddComponent<MapKeyEventSpeaker>();
+            tSpeaker.mBehaviour = tOrnament;
+            tSpeaker.mSpeakDefault = aData.mSpeakDefault;
+            tSpeaker.mSpeakFromUp = aData.mSpeakFromUp;
+            tSpeaker.mSpeakFromDown = aData.mSpeakFromDown;
+            tSpeaker.mSpeakFromLeft = aData.mSpeakFromLeft;
+            tSpeaker.mSpeakFromRight = aData.mSpeakFromRight;
+        }
 
         return tOrnament;
     }

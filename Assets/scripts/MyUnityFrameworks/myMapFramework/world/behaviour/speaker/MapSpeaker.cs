@@ -10,7 +10,7 @@ public class MapSpeaker : MyBehaviour {
     /// </summary>
     /// <returns>trueなら返答可能</returns>
     /// <param name="aCharacter">このbehaviourに話かけるキャラ</param>
-    public virtual bool canReply(MapCharacter aCharacter) {
+    public virtual bool canReply(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         return true;
     }
     /// <summary>

@@ -88,7 +88,7 @@ public static partial class MyJson {
             readToNextSense();
             char sense = currentChar;
             if (sense != c)
-                throw new Exception("不正なjson文字列 : invalid char 「" + sense + "」, expected 「" + c + "」");
+                throw new Exception("不正なjson文字列 : invalid char 「" + sense + "」, expected 「" + c + "」, following「"+following+"」");
         }
         private void search(string s) {
             readToNextSense();
@@ -96,7 +96,7 @@ public static partial class MyJson {
             for (int i = 0; i < s.Length; i++) {
                 if (sense == s[i]) return;
             }
-            throw new Exception("不正なjson文字列 : invalid char 「" + sense + "」, expected 「" + s + "」");
+            throw new Exception("不正なjson文字列 : invalid char 「" + sense + "」, expected 「" + s + "」, following「"+following+"」");
         }
         ///文字列を読む
         private string readString() {

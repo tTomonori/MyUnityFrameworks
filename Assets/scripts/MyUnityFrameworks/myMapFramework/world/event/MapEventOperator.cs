@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public partial class MapEventSystem {
-    public class Operator {
+    public partial class Operator {
         /// <summary>イベント通知先</summary>
         public MyMapEventDelegate mDelegate {
             get { return parent.mWorld.mMap.mDelegate; }
@@ -17,7 +18,7 @@ public partial class MapEventSystem {
         /// <summary>実行するイベント</summary>
         public MapEvent mRootEvent;
         public MapEventSystem parent;
-        public Operator(MapEventSystem aParent,MapEvent aEvent) {
+        public Operator(MapEventSystem aParent, MapEvent aEvent) {
             parent = aParent;
             mRootEvent = aEvent;
         }
@@ -26,17 +27,26 @@ public partial class MapEventSystem {
             if (!(mRootEvent is MapEventRoot)) return true;
             MapEventRoot tRoot = (MapEventRoot)mRootEvent;
             MapCharacter.JackedAi tAi;
-            //プレイヤージャック
-            if (tRoot.mJackPlayer) {
-                tAi = parent.jackPlayer();
+            //Invokerジャック
+            if (tRoot.mJackInvoker) {
+                tAi = mInvoker.jack();
                 if (tAi == null) {//ジャック失敗
                     releaseAi();
                     return false;
                 }
-                mAiDic.Add("player", tAi);
+                mAiDic.Add("invoker", tAi);
+            }
+            //Invokedジャック
+            if (tRoot.mJackInvoked && mInvoked is MapCharacter) {
+                tAi = ((MapCharacter)mInvoked).jack();
+                if (tAi == null) {//ジャック失敗
+                    releaseAi();
+                    return false;
+                }
+                mAiDic.Add("invoked", tAi);
             }
             //その他のキャラジャック
-            foreach(string tName in tRoot.mRequareAi) {
+            foreach (string tName in tRoot.mRequareAi) {
                 tAi = parent.jack(tName);
                 if (tAi == null) {//ジャック失敗
                     releaseAi();
@@ -54,16 +64,9 @@ public partial class MapEventSystem {
         }
         /// <summary>jackしたAIを全て解放</summary>
         public void releaseAi() {
-            foreach(KeyValuePair<string,MapCharacter.JackedAi> tPair in mAiDic) {
+            foreach (KeyValuePair<string, MapCharacter.JackedAi> tPair in mAiDic) {
                 tPair.Value.release();
             }
-        }
-        /// <summary>指定名のキャラのAIをジャック</summary>
-        public MapCharacter.JackedAi jack(string aName) {
-            MapCharacter.JackedAi tAi = parent.jack(aName);
-            if (tAi == null) return null;
-            mAiDic.Add(aName, tAi);
-            return tAi;
         }
     }
 }

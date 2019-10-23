@@ -7,14 +7,14 @@ public static class MapSpeakUpdater {
     static public void speak(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         foreach (MapSpeaker tSpeaker in getTargetSpeakers(aCharacter)) {
             //応答不可
-            if (!tSpeaker.canReply(aCharacter)) continue;
+            if (!tSpeaker.canReply(aCharacter, aEventSystem)) continue;
             tSpeaker.speak(aCharacter, aEventSystem);
             return;
         }
     }
     /// <summary>話しかけるor調べる対象となるspeakerを優先順位順で取得</summary>
     static public List<MapSpeaker> getTargetSpeakers(MapCharacter aCharacter) {
-        //移動していない場合は話しかけれない
+        //配置後全く移動していない場合は話しかけれない
         if (aCharacter.mMovingData.mLastDirection == Vector2.zero) return new List<MapSpeaker>();
 
         List<MapSpeaker> tSpeakers = getSurroundSpeakers(aCharacter);
@@ -59,6 +59,7 @@ public static class MapSpeakUpdater {
         foreach (Collider2D tCollider in tColliders) {
             tSpeaker = tCollider.GetComponent<MapSpeaker>();
             if (tSpeaker == null) continue;
+            if (tSpeaker.mBehaviour == aCharacter) continue;//自分自身には話かけられない
             if (!MapPhysics.isOverlapedH(aCharacter, tSpeaker.mBehaviour)) continue;
             tSpeakers.Add(tSpeaker);
         }

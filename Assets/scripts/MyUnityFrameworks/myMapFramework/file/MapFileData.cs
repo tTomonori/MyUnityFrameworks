@@ -202,6 +202,30 @@ public class MapFileData {
         public float mHeight {
             get { return mData.get<int>("height"); }
         }
+        ///<summary>話かけられた時のイベント</summary>
+        public string mSpeakDefault {
+            get { return (mData.ContainsKey("speakDefault")) ? mData.get<string>("speakDefault") : ""; }
+        }
+        ///<summary>上から話かけられた時のイベント</summary>
+        public string mSpeakFromUp {
+            get { return (mData.ContainsKey("speakFromUp")) ? mData.get<string>("speakFromUp") : ""; }
+        }
+        ///<summary>下から話かけられた時のイベント</summary>
+        public string mSpeakFromDown {
+            get { return (mData.ContainsKey("speakFromDown")) ? mData.get<string>("speakFromDown") : ""; }
+        }
+        ///<summary>左から話かけられた時のイベント</summary>
+        public string mSpeakFromLeft {
+            get { return (mData.ContainsKey("speakFromLeft")) ? mData.get<string>("speakFromLeft") : ""; }
+        }
+        ///<summary>右から話かけられた時のイベント</summary>
+        public string mSpeakFromRight {
+            get { return (mData.ContainsKey("speakFromRight")) ? mData.get<string>("speakFromRight") : ""; }
+        }
+        ///<summary>話かけられた時のイベントを持つかどうか</summary>
+        public bool mIsSpeaker {
+            get { return mData.ContainsKey("speakDefault") || mData.ContainsKey("speakFromUp") || mData.ContainsKey("speakFromDown") || mData.ContainsKey("speakFromLeft") || mData.ContainsKey("speakFromRight"); }
+        }
 
         public Ornament(Arg aData) {
             mData = aData;
@@ -249,6 +273,30 @@ public class MapFileData {
         public float mHeight {
             get { return mData.get<int>("height"); }
         }
+        ///<summary>話かけられた時のイベント</summary>
+        public string mSpeakDefault {
+            get { return (mData.ContainsKey("speakDefault")) ? mData.get<string>("speakDefault") : ""; }
+        }
+        ///<summary>上から話かけられた時のイベント</summary>
+        public string mSpeakFromUp {
+            get { return (mData.ContainsKey("speakFromUp")) ? mData.get<string>("speakFromUp") : ""; }
+        }
+        ///<summary>下から話かけられた時のイベント</summary>
+        public string mSpeakFromDown {
+            get { return (mData.ContainsKey("speakFromDown")) ? mData.get<string>("speakFromDown") : ""; }
+        }
+        ///<summary>左から話かけられた時のイベント</summary>
+        public string mSpeakFromLeft {
+            get { return (mData.ContainsKey("speakFromLeft")) ? mData.get<string>("speakFromLeft") : ""; }
+        }
+        ///<summary>右から話かけられた時のイベント</summary>
+        public string mSpeakFromRight {
+            get { return (mData.ContainsKey("speakFromRight")) ? mData.get<string>("speakFromRight") : ""; }
+        }
+        ///<summary>話かけられた時のイベントを持つかどうか</summary>
+        public bool mIsSpeaker {
+            get { return mData.ContainsKey("speakDefault") || mData.ContainsKey("speakFromUp") || mData.ContainsKey("speakFromDown") || mData.ContainsKey("speakFromLeft") || mData.ContainsKey("speakFromRight"); }
+        }
         public Npc(Arg aData) {
             mData = aData;
         }
@@ -278,6 +326,31 @@ public class MapFileData {
         public float mHeight {
             get { return mData.get<int>("height"); }
         }
+        /// <summary>triggerを発火させるentityの名前(リストが空なら全てのentityがtriggerになる)</summary>
+        public List<string> mTriggerKey {
+            get { return mData.ContainsKey("triggerKey") ? mData.get<List<string>>("triggerKey") : new List<string>(); }
+        }
+        /// <summary>triggerKeyになるキャラとの衝突判定</summary>
+        public string mCollisionType {
+            get { return mData.get<string>("collisionType"); }
+        }
+        /// <summary>trigger侵入時に発火するイベントのKey</summary>
+        public string mEnterKey {
+            get { return mData.ContainsKey("enterKey") ? mData.get<string>("enterKey") : ""; }
+        }
+        /// <summary>trigger内部で停止時に発火するイベントのKey</summary>
+        public string mStayKey {
+            get { return mData.ContainsKey("stayKey") ? mData.get<string>("stayKey") : ""; }
+        }
+        /// <summary>trigger内部で移動時に発火するイベントのKey</summary>
+        public string mMovedKey {
+            get { return mData.ContainsKey("movedKey") ? mData.get<string>("movedKey") : ""; }
+        }
+        /// <summary>trigger内部から外部へ移動時に発火するイベントのKey</summary>
+        public string mExitKey {
+            get { return mData.ContainsKey("exitKey") ? mData.get<string>("exitKey") : ""; }
+        }
+
         public Trigger(Arg aData) {
             mData = aData;
         }
@@ -286,6 +359,9 @@ public class MapFileData {
         private Arg mData;
         public IDictionary mDic {
             get { return mData.dictionary; }
+        }
+        public Arg get(string aKey) {
+            return mData.get<Arg>(aKey);
         }
         public Event(Arg aData) {
             mData = aData;

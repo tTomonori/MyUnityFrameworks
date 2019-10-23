@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapEventList : MapEvent {
-    public List<MapEvent> mEventList;
+    public List<MapEvent> mEventList = new List<MapEvent>();
     public MapEventList(Arg aData) {
         foreach(Arg tData in aData.get<List<Arg>>("list")) {
             mEventList.Add(MapEvent.create(tData));
@@ -17,6 +17,7 @@ public class MapEventList : MapEvent {
         f = () => {
             if (tLength <= i) {
                 aCallback(new Arg());
+                return;
             }
             MapEvent tEvent = mEventList[i];
             tEvent.run(aOperator, (aArg) => {
@@ -24,5 +25,6 @@ public class MapEventList : MapEvent {
                 f();
              });
         };
+        f();
     }
 }

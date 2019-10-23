@@ -22,8 +22,9 @@ public partial class MapEventSystem {
     /// <param name="aEncountKey">エンカウントKey</param>
     public bool encount(string aEncountKey) {
         MapEventEncount tEncount = new MapEventEncount(mWorld.mMapName, aEncountKey);
-        MapEventRoot tRoot = new MapEventRoot(new List<string>(), true, tEncount);
+        MapEventRoot tRoot = new MapEventRoot(new List<string>(), true, false, tEncount);
         Operator tOperator = new Operator(this, tRoot);
+        tOperator.mInvoker = mWorld.getPlayer();
 
         return addOperator(tOperator);
     }

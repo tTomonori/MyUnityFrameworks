@@ -10,7 +10,7 @@ public partial class MapCharacter : MapEntity {
         public virtual void enter() { }
         public virtual void exit() { }
 
-        //<summary>移動入力(入力を受け付けたらtrue)</summary>
+        ///<summary>移動入力(入力を受け付けたらtrue)</summary>
         public virtual bool move(Vector2 aVector, float aMaxMoveDistance = float.PositiveInfinity) {
             return false;
          }

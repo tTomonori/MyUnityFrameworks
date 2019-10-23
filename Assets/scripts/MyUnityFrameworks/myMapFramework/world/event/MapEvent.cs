@@ -15,6 +15,14 @@ public abstract class MapEvent {
                 return new MapEventEncount(aData);
             case "delegate":
                 return new MapEventForwardDelegate(aData);
+            //振り向き
+            case "turnTo":
+                return new MapEventTurnTo(aData);
+            case "turn":
+                return new MapEventTurn(aData);
+            //移動
+            case "moveBy":
+                return new MapEventMoveBy(aData);
         }
         throw new System.Exception("MapEvent : 不正なイベント名「" + aData.get<string>("type") + "」");
     }

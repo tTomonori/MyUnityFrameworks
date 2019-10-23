@@ -36,7 +36,7 @@ public class MapWorld : MyBehaviour {
     public MyMap mMap;
 
     /// <summary>指定座標のCellを取得</summary>
-    public MapCell getCell(int aX,int aY,int aZ) {
+    public MapCell getCell(int aX, int aY, int aZ) {
         if (aX < 0 || mSize.x <= aX) return null;
         if (aY < 0 || mSize.y <= aY) return null;
         if (aZ < 0 || mSize.z <= aZ) return null;
@@ -44,7 +44,7 @@ public class MapWorld : MyBehaviour {
     }
     /// <summary>プレイヤーのMapCharacterを取得</summary>
     public MapCharacter getPlayer() {
-        foreach(MapCharacter tCharacter in mCharacters) {
+        foreach (MapCharacter tCharacter in mCharacters) {
             if (tCharacter.isPlayer())
                 return tCharacter;
         }
@@ -53,7 +53,7 @@ public class MapWorld : MyBehaviour {
     /// <summary>指定名のキャラを取得</summary>
     public MapCharacter getCharacter(string aName) {
         foreach (MapCharacter tCharacter in mCharacters) {
-            if (tCharacter.name == "character:" + aName)
+            if (tCharacter.mName == aName)
                 return tCharacter;
         }
         return null;

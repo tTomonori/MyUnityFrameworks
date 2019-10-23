@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System;
 
 public static partial class MapWorldFactory {
     //生成に使っているマップデータ
@@ -111,8 +112,8 @@ public static partial class MapWorldFactory {
     static private void createEvent() {
         mWorld.mEvents = new Dictionary<string, MapEvent>();
         MapFileData.Event tEvents = mData.mEvent;
-        foreach(KeyValuePair<string,object> tPair in tEvents.mDic) {
-            Arg tData = (Arg)tPair.Value;
+        foreach(KeyValuePair<string,object> tPair in (Dictionary<string,object>)tEvents.mDic) {
+            Arg tData = tEvents.get(tPair.Key);
             mWorld.mEvents.Add(tPair.Key, MapEvent.createRoot(tData));
         }
     }

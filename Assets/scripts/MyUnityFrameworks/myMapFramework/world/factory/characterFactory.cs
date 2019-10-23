@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public static partial class MapWorldFactory {
     //<summary>キャラクター生成</summary>
@@ -20,7 +19,16 @@ public static partial class MapWorldFactory {
         tCharacter.mMovingData = new MovingData();
         tCharacter.mMovingData.mSpeed = 2.5f;
         tCharacter.mMovingData.mDeltaDistance = 0.3f;
-
+        //speaker
+        if (aData.mIsSpeaker) {
+            MapKeyEventSpeaker tSpeaker = tCharacter.mAttribute.gameObject.AddComponent<MapKeyEventSpeaker>();
+            tSpeaker.mBehaviour = tCharacter;
+            tSpeaker.mSpeakDefault = aData.mSpeakDefault;
+            tSpeaker.mSpeakFromUp = aData.mSpeakFromUp;
+            tSpeaker.mSpeakFromDown = aData.mSpeakFromDown;
+            tSpeaker.mSpeakFromLeft = aData.mSpeakFromLeft;
+            tSpeaker.mSpeakFromRight = aData.mSpeakFromRight;
+        }
 
         return tCharacter;
     }

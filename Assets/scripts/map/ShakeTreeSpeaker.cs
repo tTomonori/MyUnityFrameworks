@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShakeTreeSpeaker : MapSpeaker {
     private bool mAnimating = false;
     [SerializeField] public MyBehaviour mLeaf;
-    public override bool canReply(MapCharacter aCharacter) {
+    public override bool canReply(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         return !mAnimating;
     }
     public override void speak(MapCharacter aCharacter, MapEventSystem aEventSystem) {

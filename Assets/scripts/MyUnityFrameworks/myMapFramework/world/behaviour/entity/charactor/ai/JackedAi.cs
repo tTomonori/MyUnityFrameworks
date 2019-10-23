@@ -1,19 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public partial class MapCharacter : MapEntity {
     public class JackedAi : Ai {
+        /// <summary>updateで呼ぶ関数の型(falseならリストから削除)</summary>
+        delegate bool UpdateFunc();
+        /// <summary>updateで呼ぶ関数のリスト</summary>
+        private List<UpdateFunc> mUpdateFuncList = new List<UpdateFunc>();
+        /// <summary>このAIを持つキャラ</summary>
         public MapCharacter mCharacter {
             get { return parent; }
         }
         public override void update() {
-
+            for(int i = 0; i < mUpdateFuncList.Count; ++i) {
+                if (mUpdateFuncList[i]()) continue;
+                mUpdateFuncList.RemoveAt(i);
+                --i;
+            }
         }
         /// <summary>AIジャックを終了する</summary>
         public void release() {
             parent.endJack();
             parent = null;
+        }
+
+        /// <summary>振り向く</summary>
+        public void turn(Vector2 aDirection) {
+            parent.mCharacterImage.setDirection(aDirection);
+        }
+        /// <summary>指定距離移動</summary>
+        public void moveBy(Vector2 aVector,float aSpeed,Action aOnEnd) {
+            float tRemainedDistance = aVector.magnitude;
+            mUpdateFuncList.Add(() => {
+                if (tRemainedDistance <= 0) {
+                    //移動完了
+                    aOnEnd();
+                    return false;
+                }
+                //移動入力
+                float tDistance = aSpeed * Time.deltaTime;
+                if (tRemainedDistance < tDistance) tDistance = tRemainedDistance;
+                parent.mState.move(aVector,tDistance);
+
+                tRemainedDistance -= tDistance;
+                return true;
+            });
         }
     }
 

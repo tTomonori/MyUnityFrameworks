@@ -5,7 +5,7 @@ using UnityEngine;
 public static partial class MapWorldFactory {
     //<summary>トリガー生成</summary>
     static public MapTrigger createTrigger(MapFileData.Trigger aData) {
-        MapTrigger tTrigger = MyBehaviour.create<MapTrigger>();
+        MapKeyEventTrigger tTrigger = MyBehaviour.create<MapKeyEventTrigger>();
 
         //形状
         MyTag tShapeTag = aData.mShape;
@@ -17,6 +17,32 @@ public static partial class MapWorldFactory {
             default:
                 throw new System.Exception("MapWorldFactory-TriggerFactory : 不正な形状名「" + tShapeTag.mTagName + "」");
         }
+
+        //triggerKey
+        tTrigger.mTriggerKey = aData.mTriggerKey;
+        //eventKey
+        tTrigger.mEnterKey = aData.mEnterKey;
+        tTrigger.mStayKey = aData.mStayKey;
+        tTrigger.mMovedKey = aData.mMovedKey;
+        tTrigger.mExitKey = aData.mExitKey;
+        //collisionType
+        switch (aData.mCollisionType) {
+            case "pass":
+                tTrigger.mCollisionType = MapPhysics.CollisionType.pass;
+                break;
+            case "stop":
+                tTrigger.mCollisionType = MapPhysics.CollisionType.stop;
+                break;
+            case "collide":
+                tTrigger.mCollisionType = MapPhysics.CollisionType.collide;
+                break;
+            default:
+                Debug.LogWarning("triggerFactory : 不正なcollisionType「" + aData.mCollisionType + "」");
+                break;
+        }
+        //attribute
+        TriggerPhysicsAttribute tAttribute = tTrigger.gameObject.AddComponent<TriggerPhysicsAttribute>();
+        tAttribute.mTrigger = tTrigger;
 
         return tTrigger;
     }

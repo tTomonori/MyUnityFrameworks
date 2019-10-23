@@ -234,12 +234,16 @@
   "npc": [
     {"path": "player/player","name": "player","direction": Vector2(1,0),"ai": "<player>","x":4,"y": 2,"height": 0},
     {"path": "player/player","name": "keyboard","direction": Vector2(-1,0),"ai": "<keyboard>","x":7,"y": 12,"height": 1},
-    {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":10,"y": 6,"height": 1}
+    {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":10,"y": 6,"height": 1,"speakDefault": "speachTest"}
   ],
   "trigger": [
-    {"name": "test","shape": "<square,1,1>","x":3,"y": 4,"height": 0}
+    {"name": "test","shape": "<square,1,1>","x":0,"y": 4,"height": 0,"triggerKey": ["player"],"collisionType": "stop","enterKey": "moveByTest"}
   ],
   "event": {
-    
+    "speachTest": {"jackInvoker": true,"jackInvoked": true,"event": {"type": "list","list": [
+                                                                       {"type": "turnTo","target": "invoked","to": "invoker"},
+                                                                       {"type": "delegate","name": "conversation"}
+                                                                     ]}},
+    "moveByTest":{"jackInvoker": true,"event": {"type": "moveBy","vector": Vector2(2,0),"target": "invoker"}}
   }
 }

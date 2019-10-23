@@ -17,7 +17,12 @@ public interface MyMapEventDelegate {
     /// <param name="aEncountKey">エンカウントKey</param>
     /// <param name="onEnd">戦闘終了時コールバック</param>
     void onEncount(string aMapName, string aEncountKey, Action<BattleEventResult> onEnd);
-
+    /// <summary>
+    /// 外部処理のイベント発火
+    /// </summary>
+    /// <param name="aData">イベントデータ</param>
+    /// <param name="onEnd">終了時コールバック(MapEvent:このイベントを実行,string:nextEventsプロパティ内のこのプロパティのイベントを実行,null:実行しない)</param>
+    void onEvent(Arg aData, Action<object> onEnd);
 
 
     ///// <summary>
