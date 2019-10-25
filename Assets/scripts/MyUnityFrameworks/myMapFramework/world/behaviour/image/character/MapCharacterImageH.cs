@@ -92,6 +92,7 @@ public class MapCharacterImageH : MapCharacterImage {
                 mAnimator.setRects(mFrameRects[1]);
                 return;
             case DirectionH.right:
+            case DirectionH.none:
                 mLastDirection = DirectionImageH.stayRight;
                 mAnimator.setRects(mFrameRects[0]);
                 return;
