@@ -12,15 +12,22 @@ public partial class MapCharacter : MapEntity {
         //移動範囲の中心
         private MapPosition mCenterPosition;
         private WalkState mWalkState;
-        public WalkAroundCircleAi(float aRange) {
-            mRange = aRange;
+        public WalkAroundCircleAi(MyTag aTag) {
+            mRange = float.Parse(aTag.mArguments[0]);
+            if (aTag.mArguments.Length >= 3) {
+                mCenterPosition = new MapPosition(new Vector3(float.Parse(aTag.mArguments[1]), float.Parse(aTag.mArguments[2])));
+            }
         }
         public override void update() {
             if (mWalkState == null) {
-                mCenterPosition = parent.mMapPosition;
+                if (mCenterPosition == null)
+                    mCenterPosition = parent.mMapPosition;
                 mWalkState = new StoppingState(this);
             }
             mWalkState.update();
+        }
+        public override string save() {
+            return "<walkAroundCircle," + mRange + "," + mCenterPosition.x + "," + mCenterPosition.y + ">";
         }
 
         private class WalkState {

@@ -9,11 +9,14 @@ public partial class MapCharacter : MapEntity {
         public virtual void update() { }
         public virtual void enter() { }
         public virtual void exit() { }
+        public virtual string save() {
+            return "";
+        }
 
         ///<summary>移動入力(入力を受け付けたらtrue)</summary>
         public virtual bool move(Vector2 aVector, float aMaxMoveDistance = float.PositiveInfinity) {
             return false;
-         }
+        }
         /// <summary>話しかけるor調べる入力(入力を受け付けたらtrue)</summary>
         public virtual bool speak() {
             return false;

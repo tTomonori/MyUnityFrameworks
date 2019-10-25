@@ -23,5 +23,8 @@ public partial class MapCharacter : MapEntity {
             if (Input.GetKeyDown(KeyCode.Z))
                 parent.mState.speak();
         }
+        public override string save() {
+            return "<keyboard>";
+        }
     }
 }

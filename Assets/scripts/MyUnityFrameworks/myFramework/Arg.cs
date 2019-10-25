@@ -51,4 +51,7 @@ public class Arg{
     public void set(string key,object value){
         arg[key] = value;
     }
+    public void remove(object key) {
+        dictionary.Remove(key);
+    }
 }

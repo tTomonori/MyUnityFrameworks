@@ -16,5 +16,8 @@ public partial class MapCharacter : MapEntity {
             if (mController.mInputA)
                 parent.mState.speak();
         }
+        public override string save() {
+            return "<player>";
+        }
     }
 }

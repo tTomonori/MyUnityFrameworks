@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapWorld : MyBehaviour {
+    /// <summary>マップデータファイルのパス</summary>
+    public string mMapPath;
+    /// <summary>ロードしたマップのデータ</summary>
+    public MapFileData mFileData;
+    /// <summary>ロードしたセーブデータ</summary>
+    public MapSaveFileData mSaveData;
     /// <summary>マップ名</summary>
     public string mMapName;
     ///<summary>カメラの入れ物</summary>

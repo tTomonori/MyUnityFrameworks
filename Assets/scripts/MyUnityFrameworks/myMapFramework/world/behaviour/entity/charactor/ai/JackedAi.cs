@@ -14,11 +14,14 @@ public partial class MapCharacter : MapEntity {
             get { return parent; }
         }
         public override void update() {
-            for(int i = 0; i < mUpdateFuncList.Count; ++i) {
+            for (int i = 0; i < mUpdateFuncList.Count; ++i) {
                 if (mUpdateFuncList[i]()) continue;
                 mUpdateFuncList.RemoveAt(i);
                 --i;
             }
+        }
+        public override string save() {
+            return parent.mAi.save();
         }
         /// <summary>AIジャックを終了する</summary>
         public void release() {
@@ -31,7 +34,7 @@ public partial class MapCharacter : MapEntity {
             parent.mCharacterImage.setDirection(aDirection);
         }
         /// <summary>指定距離移動</summary>
-        public void moveBy(Vector2 aVector,float aSpeed,Action aOnEnd) {
+        public void moveBy(Vector2 aVector, float aSpeed, Action aOnEnd) {
             float tRemainedDistance = aVector.magnitude;
             mUpdateFuncList.Add(() => {
                 if (tRemainedDistance <= 0) {
@@ -42,7 +45,7 @@ public partial class MapCharacter : MapEntity {
                 //移動入力
                 float tDistance = aSpeed * Time.deltaTime;
                 if (tRemainedDistance < tDistance) tDistance = tRemainedDistance;
-                parent.mState.move(aVector,tDistance);
+                parent.mState.move(aVector, tDistance);
 
                 tRemainedDistance -= tDistance;
                 return true;

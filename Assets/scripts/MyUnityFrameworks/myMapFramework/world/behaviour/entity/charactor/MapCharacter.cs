@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class MapCharacter : MapEntity {
+    public MapFileData.Npc mFileData;
     /// <summary>移動処理で使うデータ</summary>
     public MovingData mMovingData;
     [SerializeField] public MapCharacterImage mCharacterImage;
@@ -13,6 +14,15 @@ public partial class MapCharacter : MapEntity {
 
     private MapCharacter.Ai mAi;
     private MapCharacter.State mState;
+
+    /// <summary>AI復元する時に必要となるデータ</summary>
+    public string saveAi() {
+        return mAi.save();
+    }
+    /// <summary>Stateを復元する時に必要となるデータ</summary>
+    public string saveState() {
+        return mState.save();
+    }
 
     //<summary>MapWorld内に配置された直後に呼ばれる</summary>
     public override void placed() {
@@ -52,6 +62,6 @@ public partial class MapCharacter : MapEntity {
         return Operation.busy;
     }
     public enum Operation {
-        free,jacked,busy
+        free, jacked, busy
     }
 }

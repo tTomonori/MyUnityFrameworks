@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapOrnament : MapEntity {
+    public MapFileData.Ornament mFileData;
     [SerializeField] private MapEntityImage _Image;
     public override MapEntityImage mImage {
         get { return _Image; }
         set { _Image = value; }
+    }
+
+    /// <summary>ornamentを復元する時に必要となるデータ</summary>
+    public virtual Arg save() {
+        return null;
+    }
+    /// <summary>save時の状態を復元</summary>
+    public virtual void restore(Arg aData) {
+
     }
 }

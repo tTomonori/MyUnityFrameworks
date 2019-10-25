@@ -4,82 +4,62 @@ using UnityEngine;
 
 public class MapFileData {
     private Arg mData;
-    private List<Stratum> mStratumData;
-    private Chip mChipData;
-    private List<Shadow> mShadowData;
-    private List<Ornament> mOrnamentData;
-    private List<Npc> mNpcData;
-    private List<Trigger> mTriggerData;
-    private Event mEventData;
     ///<summary>マップ名</summary>
-    public string name {
-        get { return mData.get<string>("name"); }
-    }
+    public string mMapName;
     ///<summary>階層データ</summary>
-    public List<Stratum> mStratums {
-        get { return mStratumData; }
-    }
+    public List<Stratum> mStratums;
     ///<summary>マスデータ</summary>
-    public Chip mChip {
-        get { return mChipData; }
-    }
+    public Chip mChip;
     ///<summary>影データ</summary>
-    public List<Shadow> mShadow {
-        get { return mShadowData; }
-    }
+    public List<Shadow> mShadows;
     ///<summary>物データ</summary>
-    public List<Ornament> mOrnaments {
-        get { return mOrnamentData; }
-    }
+    public List<Ornament> mOrnaments;
     ///<summary>npcデータ</summary>
-    public List<Npc> mNpc {
-        get { return mNpcData; }
-    }
+    public List<Npc> mNpcs;
     ///<summary>triggerデータ</summary>
-    public List<Trigger> mTrigger {
-        get { return mTriggerData; }
-    }
+    public List<Trigger> mTriggers;
     ///<summary>イベントデータ</summary>
-    public Event mEvent {
-        get { return mEventData; }
-    }
+    public Event mEvents;
 
     public MapFileData(string aFilePath) {
         //ファイルロード
         mData = new Arg(MyJson.deserializeFile("Assets/resources/" + MyMap.mMapResourcesDirectory + "/map/" + aFilePath + ".json"));
+
+        //マップ名
+        mMapName = mData.get<string>("name");
         //階層データ
-        mStratumData = new List<Stratum>();
+        mStratums = new List<Stratum>();
         foreach (Arg tData in mData.get<List<Arg>>("stratum")) {
-            mStratumData.Add(new Stratum(tData));
+            mStratums.Add(new Stratum(tData));
         }
         //chipデータ
-        mChipData = new Chip(mData.get<Arg>("chip"));
+        mChip = new Chip(mData.get<Arg>("chip"));
         //shadowデータ
-        mShadowData = new List<Shadow>();
+        mShadows = new List<Shadow>();
         foreach (Arg tData in mData.get<List<Arg>>("shadow")) {
-            mShadowData.Add(new Shadow(tData));
+            mShadows.Add(new Shadow(tData));
         }
         //ornamentデータ
-        mOrnamentData = new List<Ornament>();
+        mOrnaments = new List<Ornament>();
         foreach (Arg tData in mData.get<List<Arg>>("ornament")) {
-            mOrnamentData.Add(new Ornament(tData));
+            mOrnaments.Add(new Ornament(tData));
         }
         //npcデータ
-        mNpcData = new List<Npc>();
+        mNpcs = new List<Npc>();
         foreach (Arg tData in mData.get<List<Arg>>("npc")) {
-            mNpcData.Add(new Npc(tData));
+            mNpcs.Add(new Npc(tData));
         }
         //triggerデータ
-        mTriggerData = new List<Trigger>();
+        mTriggers = new List<Trigger>();
         foreach (Arg tData in mData.get<List<Arg>>("trigger")) {
-            mTriggerData.Add(new Trigger(tData));
+            mTriggers.Add(new Trigger(tData));
         }
         //イベントデータ
-        mEventData = new Event(mData.get<Arg>("event"));
+        mEvents = new Event(mData.get<Arg>("event"));
     }
 
     public class Stratum {
-        private Arg mData;
+        public Arg mData;
         ///<summary>階層のフィールドデータ(mChipのkeyのリスト)</summary>
         public List<List<int>> mFeild {
             get { return mData.get<List<List<int>>>("feild"); }
@@ -93,7 +73,7 @@ public class MapFileData {
         }
     }
     public class Chip {
-        private Dictionary<string, Tile> mData;
+        public Dictionary<string, Tile> mData;
         public Tile get(int aNum) {
             if (!mData.ContainsKey(aNum.ToString())) return null;
             return mData[aNum.ToString()];
@@ -106,10 +86,11 @@ public class MapFileData {
         }
     }
     public class Tile {
-        private Arg mData;
+        public Arg mData;
         ///<summary>プレハブへのパス</summary>
-        public string mCell {
+        public string mTile {
             get { return mData.get<string>("tile"); }
+            set { mData.set("tile", value); }
         }
         public int mDrawOffsetH {
             get {
@@ -118,15 +99,7 @@ public class MapFileData {
                 else
                     return 0;
             }
-        }
-        /// <summary>tile内に配置されたornament</summary>
-        public Ornament mOrnamentInTile {
-            get {
-                if (mData.ContainsKey("ornament"))
-                    return new Ornament(mData.get<Arg>("ornament"));
-                else
-                    return null;
-            }
+            set { mData.set("drawOffsetH", value); }
         }
         ///<summary>エンカウント番号(エンカウントなしなら空文字列)</summary>
         public string mEncountKey {
@@ -134,30 +107,35 @@ public class MapFileData {
                 if (!mData.ContainsKey("encountKey")) return "";
                 return mData.get<string>("encountKey");
             }
+            set { mData.set("encountKey", value); }
         }
         public float mEncountFrequency {
             get {
                 if (!mData.ContainsKey("encountFrequency")) return 0;
                 return mData.get<float>("encountFrequency");
             }
+            set { mData.set("encountFrequency", value); }
         }
         public Tile(Arg aData) {
             mData = aData;
         }
     }
     public class Shadow {
-        private Arg mData;
+        public Arg mData;
         /// <summary>影に使うspriteへのパス</summary>
         public string mSpritePath {
             get { return mData.get<string>("sprite"); }
+            set { mData.set("sprite", value); }
         }
         /// <summary>colliderの形状を表したタグ</summary>
         public MyTag mCollider {
             get { return new MyTag(mData.get<string>("collider")); }
+            set { mData.set("collider", value); }
         }
         /// <summary>影を配置する座標のリスト Vector3(X,Y,Stratum)</summary>
         public List<Vector3> mPosition {
             get { return mData.get<List<Vector3>>("position"); }
+            set { mData.set("position", value); }
         }
         /// <summary>指定座標のcellからずらす方向</summary>
         public Vector2 mOffset {
@@ -165,6 +143,7 @@ public class MapFileData {
                 if (mData.ContainsKey("offset")) return mData.get<Vector2>("offset");
                 else return Vector2.zero;
             }
+            set { mData.set("offset", value); }
         }
         /// <summary>影をかける強さ(0~1)</summary>
         public float mShadePower {
@@ -172,16 +151,18 @@ public class MapFileData {
                 if (mData.ContainsKey("shadePower")) return mData.get<float>("shadePower");
                 else return 0.3f;
             }
+            set { mData.set("shadePower", value); }
         }
         public Shadow(Arg aData) {
             mData = aData;
         }
     }
     public class Ornament {
-        private Arg mData;
+        public Arg mData;
         ///<summary>プレハブへのパス</summary>
         public string mPath {
             get { return mData.get<string>("path"); }
+            set { mData.set("path", value); }
         }
         ///<summary>オブジェクトの名前</summary>
         public string mName {
@@ -189,38 +170,62 @@ public class MapFileData {
                 if (!mData.ContainsKey("name")) return "";
                 return mData.get<string>("name");
             }
+            set { mData.set("name", value); }
         }
         ///<summary>x座標</summary>
         public float mX {
             get { return mData.get<float>("x"); }
+            set { mData.set("x", value); }
         }
         ///<summary>y座標</summary>
         public float mY {
             get { return mData.get<float>("y"); }
+            set { mData.set("y", value); }
         }
         ///<summary>高さ</summary>
         public float mHeight {
             get { return mData.get<int>("height"); }
+            set { mData.set("height", value); }
         }
         ///<summary>話かけられた時のイベント</summary>
         public string mSpeakDefault {
             get { return (mData.ContainsKey("speakDefault")) ? mData.get<string>("speakDefault") : ""; }
+            set {
+                if (value == "") mData.remove("speakDefault");
+                else mData.set("speakDefault", value);
+            }
         }
         ///<summary>上から話かけられた時のイベント</summary>
         public string mSpeakFromUp {
             get { return (mData.ContainsKey("speakFromUp")) ? mData.get<string>("speakFromUp") : ""; }
+            set {
+                if (value == "") mData.remove("speakFromUp");
+                else mData.set("speakFromUp", value);
+            }
         }
         ///<summary>下から話かけられた時のイベント</summary>
         public string mSpeakFromDown {
             get { return (mData.ContainsKey("speakFromDown")) ? mData.get<string>("speakFromDown") : ""; }
+            set {
+                if (value == "") mData.remove("speakFromDown");
+                else mData.set("speakFromDown", value);
+            }
         }
         ///<summary>左から話かけられた時のイベント</summary>
         public string mSpeakFromLeft {
             get { return (mData.ContainsKey("speakFromLeft")) ? mData.get<string>("speakFromLeft") : ""; }
+            set {
+                if (value == "") mData.remove("speakFromLeft");
+                else mData.set("speakFromLeft", value);
+            }
         }
         ///<summary>右から話かけられた時のイベント</summary>
         public string mSpeakFromRight {
             get { return (mData.ContainsKey("speakFromRight")) ? mData.get<string>("speakFromRight") : ""; }
+            set {
+                if (value == "") mData.remove("speakFromRight");
+                else mData.set("speakFromRight", value);
+            }
         }
         ///<summary>話かけられた時のイベントを持つかどうか</summary>
         public bool mIsSpeaker {
@@ -230,18 +235,12 @@ public class MapFileData {
         public Ornament(Arg aData) {
             mData = aData;
         }
-        /// <summary>tile内に配置されたornamentのデータをworld内に配置されたデータへと変換</summary>
-        public void toInTileData(Vector3 aTilePosition) {
-            if (mData.ContainsKey("x")) mData.set("x", mData.get<float>("x") + aTilePosition.x);
-            else mData.set("x", aTilePosition.x);
-            if (mData.ContainsKey("x")) mData.set("y", mData.get<float>("y") + aTilePosition.y);
-            else mData.set("y", aTilePosition.y);
-            if (mData.ContainsKey("height")) mData.set("height", mData.get<float>("height") + aTilePosition.z);
-            else mData.set("height", aTilePosition.z);
+        public Ornament(Ornament aData) {
+            mData = new Arg(new Dictionary<string, object>((Dictionary<string, object>)aData.mData.dictionary));
         }
     }
     public class Npc {
-        private Arg mData;
+        public Arg mData;
         ///<summary>プレハブへのパス</summary>
         public string mPath {
             get { return mData.get<string>("path"); }
@@ -256,42 +255,84 @@ public class MapFileData {
         ///<summary>向き</summary>
         public Vector2 mDirection {
             get { return mData.get<Vector2>("direction"); }
+            set { mData.set("direction", value); }
         }
         ///<summary>AIを表したタグ</summary>
         public MyTag mAi {
             get { return new MyTag(mData.get<string>("ai")); }
         }
+        ///<summary>AIを表したタグ</summary>
+        public string mAiString {
+            set {
+                if (value == "" || value == null) mData.remove("ai");
+                else mData.set("ai", value);
+            }
+        }
+        ///<summary>Stateを表したタグ</summary>
+        public MyTag mState {
+            get { return mData.ContainsKey("state") ? new MyTag(mData.get<string>("state")) : null; }
+        }
+        ///<summary>Stateを表したタグ</summary>
+        public string mStateString {
+            set {
+                if (value == "" || value == null) mData.remove("state");
+                else mData.set("state", value);
+            }
+        }
         ///<summary>x座標</summary>
         public float mX {
             get { return mData.get<float>("x"); }
+            set { mData.set("x", value); }
         }
         ///<summary>y座標</summary>
         public float mY {
             get { return mData.get<float>("y"); }
+            set { mData.set("y", value); }
         }
         ///<summary>高さ</summary>
         public float mHeight {
             get { return mData.get<int>("height"); }
+            set { mData.set("height", value); }
         }
         ///<summary>話かけられた時のイベント</summary>
         public string mSpeakDefault {
             get { return (mData.ContainsKey("speakDefault")) ? mData.get<string>("speakDefault") : ""; }
+            set {
+                if (value == "") mData.remove("speakDefault");
+                else mData.set("speakDefault", value);
+            }
         }
         ///<summary>上から話かけられた時のイベント</summary>
         public string mSpeakFromUp {
             get { return (mData.ContainsKey("speakFromUp")) ? mData.get<string>("speakFromUp") : ""; }
+            set {
+                if (value == "") mData.remove("speakFromUp");
+                else mData.set("speakFromUp", value);
+            }
         }
         ///<summary>下から話かけられた時のイベント</summary>
         public string mSpeakFromDown {
             get { return (mData.ContainsKey("speakFromDown")) ? mData.get<string>("speakFromDown") : ""; }
+            set {
+                if (value == "") mData.remove("speakFromDown");
+                else mData.set("speakFromDown", value);
+            }
         }
         ///<summary>左から話かけられた時のイベント</summary>
         public string mSpeakFromLeft {
             get { return (mData.ContainsKey("speakFromLeft")) ? mData.get<string>("speakFromLeft") : ""; }
+            set {
+                if (value == "") mData.remove("speakFromLeft");
+                else mData.set("speakFromLeft", value);
+            }
         }
         ///<summary>右から話かけられた時のイベント</summary>
         public string mSpeakFromRight {
             get { return (mData.ContainsKey("speakFromRight")) ? mData.get<string>("speakFromRight") : ""; }
+            set {
+                if (value == "") mData.remove("speakFromRight");
+                else mData.set("speakFromRight", value);
+            }
         }
         ///<summary>話かけられた時のイベントを持つかどうか</summary>
         public bool mIsSpeaker {
@@ -300,9 +341,12 @@ public class MapFileData {
         public Npc(Arg aData) {
             mData = aData;
         }
+        public Npc(Npc aData) {
+            mData = new Arg(new Dictionary<string, object>((Dictionary<string, object>)aData.mData.dictionary));
+        }
     }
     public class Trigger {
-        private Arg mData;
+        public Arg mData;
         ///<summary>トリガーの名前</summary>
         public string mName {
             get {
@@ -317,38 +361,47 @@ public class MapFileData {
         ///<summary>x座標</summary>
         public float mX {
             get { return mData.get<float>("x"); }
+            set { mData.set("x", value); }
         }
-        //<summary>y座標</summary>
+        ///<summary>y座標</summary>
         public float mY {
             get { return mData.get<float>("y"); }
+            set { mData.set("y", value); }
         }
         ///<summary>高さ</summary>
         public float mHeight {
             get { return mData.get<int>("height"); }
+            set { mData.set("height", value); }
         }
         /// <summary>triggerを発火させるentityの名前(リストが空なら全てのentityがtriggerになる)</summary>
         public List<string> mTriggerKey {
             get { return mData.ContainsKey("triggerKey") ? mData.get<List<string>>("triggerKey") : new List<string>(); }
+            set { mData.set("triggerKey", value); }
         }
         /// <summary>triggerKeyになるキャラとの衝突判定</summary>
         public string mCollisionType {
             get { return mData.get<string>("collisionType"); }
+            set { mData.set("collisionType", value); }
         }
         /// <summary>trigger侵入時に発火するイベントのKey</summary>
         public string mEnterKey {
             get { return mData.ContainsKey("enterKey") ? mData.get<string>("enterKey") : ""; }
+            set { mData.set("enterKey", value); }
         }
         /// <summary>trigger内部で停止時に発火するイベントのKey</summary>
         public string mStayKey {
             get { return mData.ContainsKey("stayKey") ? mData.get<string>("stayKey") : ""; }
+            set { mData.set("stayKey", value); }
         }
         /// <summary>trigger内部で移動時に発火するイベントのKey</summary>
         public string mMovedKey {
             get { return mData.ContainsKey("movedKey") ? mData.get<string>("movedKey") : ""; }
+            set { mData.set("movedKey", value); }
         }
         /// <summary>trigger内部から外部へ移動時に発火するイベントのKey</summary>
         public string mExitKey {
             get { return mData.ContainsKey("exitKey") ? mData.get<string>("exitKey") : ""; }
+            set { mData.set("exitKey", value); }
         }
 
         public Trigger(Arg aData) {
@@ -356,12 +409,15 @@ public class MapFileData {
         }
     }
     public class Event {
-        private Arg mData;
+        public Arg mData;
         public IDictionary mDic {
             get { return mData.dictionary; }
         }
         public Arg get(string aKey) {
             return mData.get<Arg>(aKey);
+        }
+        public void set(string aKey, Arg aData) {
+            mData.set(aKey, aData);
         }
         public Event(Arg aData) {
             mData = aData;

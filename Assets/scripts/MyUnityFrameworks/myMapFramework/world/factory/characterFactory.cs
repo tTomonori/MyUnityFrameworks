@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static partial class MapWorldFactory {
-    //<summary>キャラクター生成</summary>
+    ///<summary>キャラクター生成</summary>
     static public MapCharacter createCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = MyBehaviour.createObjectFromResources<MapCharacter>(MyMap.mMapResourcesDirectory + "/character/" + aData.mPath);
         //名前
@@ -14,7 +14,7 @@ public static partial class MapWorldFactory {
         //ai
         tCharacter.setAi(createAi(aData.mAi));
         //state
-        tCharacter.transitionState(new MapCharacter.StandingState());
+        tCharacter.transitionState(createState(aData.mState));
         //movingData
         tCharacter.mMovingData = new MovingData();
         tCharacter.mMovingData.mSpeed = 2.5f;
@@ -32,11 +32,11 @@ public static partial class MapWorldFactory {
 
         return tCharacter;
     }
-    //<summary>キャラのAIを生成</summary>
+    ///<summary>キャラのAIを生成</summary>
     static public MapCharacter.Ai createAi(MyTag aAiData) {
         switch (aAiData.mTagName) {
             case "walkAroundCircle"://円形範囲内を歩き回る
-                return new MapCharacter.WalkAroundCircleAi(float.Parse(aAiData.mArguments[0]));
+                return new MapCharacter.WalkAroundCircleAi(aAiData);
             case "player"://プレイヤー操作
                 return new MapCharacter.PlayerAi();
             case "keyboard"://キーボード操作
@@ -44,9 +44,19 @@ public static partial class MapWorldFactory {
         }
         throw new System.Exception("MapWorldFactory-CharactorFactory : 不正なAI名「" + aAiData.mTagName + "」");
     }
-    //<summary>キャラクターを生成してworldに追加</summary>
+    static public MapCharacter.State createState(MyTag aStateTag) {
+        //未設定なら棒立ち状態を返す
+        if (aStateTag == null) return new MapCharacter.StandingState();
+        switch (aStateTag.mTagName) {
+            case "kari":
+                break;
+        }
+        return new MapCharacter.StandingState();
+    }
+    ///<summary>キャラクターを生成してworldに追加</summary>
     static private void buildCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = createCharacter(aData);
+        tCharacter.mFileData = aData;
         tCharacter.transform.SetParent(mWorld.mCharacterContainer.transform, false);
         tCharacter.setMapPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
         tCharacter.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(tCharacter.mHeight)]);

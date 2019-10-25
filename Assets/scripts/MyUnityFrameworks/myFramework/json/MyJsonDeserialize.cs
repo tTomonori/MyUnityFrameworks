@@ -18,6 +18,11 @@ public static partial class MyJson {
         string jsonString = ((TextAsset)Resources.Load(filePath)).text;
         return deserialize(jsonString);
     }
+    /// <summary>
+    /// 引数文字列をdeserialize
+    /// </summary>
+    /// <returns>deserialize結果</returns>
+    /// <param name="jsonString">Json形式文字列</param>
     static public Dictionary<string, object> deserialize(string jsonString) {
         return new Parser().parse(jsonString);
     }

@@ -10,7 +10,7 @@ public static partial class MapWorldFactory {
     /// <returns>マス</returns>
     /// <param name="aCellData">マスのデータ</param>
     public static MapTile createTile(MapFileData.Tile aTileData) {
-        string tPrefabPath = aTileData.mCell;
+        string tPrefabPath = aTileData.mTile;
         //ロード
         MapTile tTile = MyBehaviour.createObjectFromResources<MapTile>(MyMap.mMapResourcesDirectory + "/tile/" + tPrefabPath);
         //属性にcellを割り当て
@@ -33,12 +33,6 @@ public static partial class MapWorldFactory {
         MapFileData.Tile tTileData = mData.mChip.get(tChipNum);
         if (tTileData != null) {
             tTile = createTile(tTileData);
-            //accessory
-            tData = tTileData.mOrnamentInTile;
-            if (tData != null) {
-                tData.toInTileData(new Vector3(aX, aY, aH));
-                mOrnamentInTileData.Add(tData);
-            }
             //階層に追加
             tTile.transform.SetParent(mWorld.mStratums[aH].mTiles.transform, false);
             tTile.changeLayer(MyMap.mStratumLayerNum[aH]);
@@ -62,12 +56,6 @@ public static partial class MapWorldFactory {
         tTileData = mData.mChip.get(tChipNum);
         if (tTileData != null) {
             tTile = createTile(tTileData);
-            //accessory
-            tData = tTileData.mOrnamentInTile;
-            if (tData != null) {
-                tData.toInTileData(new Vector3(aX, aY, aH));
-                mOrnamentInTileData.Add(tData);
-            }
             //階層に追加
             tTile.transform.SetParent(mWorld.mStratums[aH].mHalfHeightTiles.transform, false);
             tTile.changeLayer(MyMap.mStratumLayerNum[aH]);

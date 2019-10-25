@@ -7,5 +7,6 @@ public partial class MapCharacter : MapEntity {
     public abstract partial class Ai {
         public MapCharacter parent;
         public virtual void update() { }
+        public abstract string save();
     }
 }

@@ -19,17 +19,30 @@ public class MyMap : MyBehaviour {
 
     ///<summary>世界オブジェクト</summary>
     public MapWorld mWorld;
-    ///<summary>マップデータ</summary>
-    public MapFileData mMapData;
+
     ///<summary>マップ読み込み</summary>
     public void load(string aFilePath) {
         mEncountSystem = new MapEncoutSystem();
-        //マップデータ読み込み
-        mMapData = new MapFileData(aFilePath);
         //ワールドを再生成
         if (mWorld != null)
             mWorld.delete();
-        mWorld = MapWorldFactory.create(mMapData);
+        mWorld = MapWorldFactory.create(aFilePath);
+        mWorld.mMap = this;
+        mWorld.name = "world";
+        mWorld.transform.SetParent(this.transform, false);
+    }
+    ///<summary>セーブデータ読み込み</summary>
+    public void loadSaveData(string aFilePath) {
+        //セーブデータ読み込み
+        MapSaveFileData tSaveData = new MapSaveFileData(aFilePath);
+
+        mEncountSystem = new MapEncoutSystem();
+        mEncountSystem.setCount(tSaveData.mEncountCount);
+
+        //ワールドを再生成
+        if (mWorld != null)
+            mWorld.delete();
+        mWorld = MapWorldFactory.createFromSave(aFilePath);
         mWorld.mMap = this;
         mWorld.name = "world";
         mWorld.transform.SetParent(this.transform, false);
@@ -38,11 +51,15 @@ public class MyMap : MyBehaviour {
     public void updateMap() {
 
     }
+    /// <summary>保存</summary>
+    public MapSaveFileData save() {
+        return MapSaveSystem.save(this);
+    }
 
     static public Sprite mSquareMask {
         get { return Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/squareMask"); }
     }
     static public Sprite mTriangleMask {
-        get {return Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/triangleMask"); }
+        get { return Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/triangleMask"); }
     }
 }

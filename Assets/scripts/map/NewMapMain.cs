@@ -25,7 +25,9 @@ public class NewMapMain : MonoBehaviour {
         mDelegate = new TestEventDelegate();
         mMap.mDelegate = mDelegate;
 
-        mMap.load("meshMap");
+        //mMap.load("meshMap");
+        mMap.loadSaveData("save/mapSaveData");
+
         //contoroller
         mController = new MyMapController();
         mMap.mController = mController;
@@ -35,11 +37,18 @@ public class NewMapMain : MonoBehaviour {
 
     }
 
-    bool flag = true;
     void Update() {
+        //入力
         mController.mInputVector = mPad.mTailVec * 0.001f;
-        if (flag)
-            mMap.mWorld.mCameraContainer.position2D = GameObject.Find("character:player").GetComponent<MyBehaviour>().position2D;
         mController.mInputA = mPad.mIsTapped;
+
+        //セーブ
+        if (Input.GetKeyDown(KeyCode.S)) {
+            MapSaveFileData tSave = mMap.save();
+            MyJson.serializeToFile(tSave.createDic().dictionary, "Assets/resources/save/mapSaveData.json", true);
+        }
+
+        //カメラ(仮)
+        mMap.mWorld.mCameraContainer.position2D = GameObject.Find("character:player").GetComponent<MyBehaviour>().position2D;
     }
 }
