@@ -20,7 +20,7 @@ public static partial class MapWorldFactory {
         mWorld.mMapName = mData.mMapName;
         mWorld.mFileData = mData;
         //カメラ生成
-        buildCamera(mWorld.mSize.z);
+        initCamera();
         //フィールド生成
         buildField();
         //影生成
@@ -70,7 +70,7 @@ public static partial class MapWorldFactory {
         mWorld.mMapName = mData.mMapName;
         mWorld.mFileData = mData;
         //カメラ生成
-        buildCamera(mWorld.mSize.z);
+        initCamera();
         //フィールド生成
         buildField();
         //影生成
@@ -146,20 +146,6 @@ public static partial class MapWorldFactory {
         //event処理システム
         tWorld.mEventSystem = new MapEventSystem(tWorld);
         return tWorld;
-    }
-
-    /// <summary>カメラを生成してworldに追加</summary>
-    static private void buildCamera(int aStratumNum) {
-        Camera tCamera = MyBehaviour.create<Camera>();
-        tCamera.name = "mapCamera";
-        tCamera.clearFlags = CameraClearFlags.Skybox;
-        tCamera.orthographic = true;
-        //tCamera.depth = 0;
-        tCamera.cullingMask = (1 << MyMap.mStratumLayerNum[0]);
-        for (int i = 1; i < aStratumNum; ++i)
-            tCamera.cullingMask |= (1 << MyMap.mStratumLayerNum[i]);
-        tCamera.transform.SetParent(mWorld.mCameraContainer.transform, false);
-        tCamera.transform.localPosition = new Vector3(0, 0, -10);
     }
     /// <summary>イベントを生成してDictionaryに追加</summary>
     static private void createEvent() {

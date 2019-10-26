@@ -33,6 +33,7 @@ public class MapWorld : MyBehaviour {
 
     //<summary>キャラのリスト</summary>
     public List<MapCharacter> mCharacters = new List<MapCharacter>();
+    public List<MapCamera> mCameras = new List<MapCamera>();
     /// <summary>イベント</summary>
     public Dictionary<string, MapEvent> mEvents;
 
@@ -67,5 +68,9 @@ public class MapWorld : MyBehaviour {
 
     private void Update() {
         MapWorldUpdater.updateWorld(this);
+        //カメラ更新
+        foreach(MapCamera tCamera in mCameras) {
+            tCamera.updateCamera();
+        }
     }
 }
