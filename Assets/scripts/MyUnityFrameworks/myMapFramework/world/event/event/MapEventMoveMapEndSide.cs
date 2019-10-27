@@ -18,7 +18,9 @@ public class MapEventMoveMapEndSide : MapEvent {
     public float mMoveInSpeed;
     /// <summary>マップ移動後に実行するイベントのKey(移動先のマップのKey)</summary>
     public string mDestinationEventKey;
-    /// <summary>マップ移動後に実行するイベント</summary>
+    /// <summary>マップ移動後に実行するイベント(移動先のマップのKeyで取得したイベント)</summary>
+    public MapEvent mDestinationEvent;
+    /// <summary>マップ移動後に実行するイベント(移動前のマップのKeyで取得したイベント)</summary>
     public MapEvent mHereEvent;
     /// <summary>イベント終了時コールバックの退避用</summary>
     public Action<Arg> mEventEndCallback;
@@ -32,9 +34,22 @@ public class MapEventMoveMapEndSide : MapEvent {
         mMoveInSpeed = aData.ContainsKey("moveInSpeed") ? aData.get<float>("moveInSpeed") : MyMap.mDefaultMoveSpeed;
         mDestinationEventKey = aData.ContainsKey("destinationEventKey") ? aData.get<string>("destinationEventKey") : "";
     }
-    /// <summary>マップ移動前のイベント実行</summary>
+    /// <summary>マップ移動後のイベント実行</summary>
     public override void run(MapEventSystem.Operator aOperator, Action<Arg> aCallback) {
         mEventEndCallback = aCallback;
+        //フェードイン完了後に実行するイベントの準備
+        if (mDestinationEventKey != "" && mDestinationEventKey != null) {
+            mDestinationEvent = aOperator.parent.mWorld.mEvents[mDestinationEventKey];//イベント取得
+            if (!aOperator.jackRequared(mDestinationEvent)) {
+                throw new Exception("MapEventMoveMapEndSide : DestinationEventが求めるAIのジャックに失敗");
+            }
+        }
+        if (mHereEvent != null) {
+            if (!aOperator.jackRequared(mHereEvent)) {
+                throw new Exception("MapEventMoveMapEndSide : HereEventが求めるAIのジャックに失敗");
+            }
+        }
+
         bool tMoveEnded = false;
         bool tFadeEnded = false;
         //フェードイン移動
@@ -84,6 +99,23 @@ public class MapEventMoveMapEndSide : MapEvent {
     }
     /// <summary>マップ移動のフェードアウト演出とキャラ移動演出終了時</summary>
     private void fadeInEnded(MapEventSystem.Operator aOperator) {
-        mEventEndCallback(null);
+        if (mDestinationEvent == null && mHereEvent == null) {
+            mEventEndCallback(null);
+            return;
+        }
+        int tNum = 0;
+        Action f = () => {
+            --tNum;
+            if (tNum <= 0)
+                mEventEndCallback(null);
+        };
+        if (mDestinationEvent != null) {
+            ++tNum;
+            mDestinationEvent.run(aOperator, (arg) => { f(); });
+        }
+        if (mHereEvent != null) {
+            ++tNum;
+            mHereEvent.run(aOperator, (arg) => { f(); });
+        }
     }
 }

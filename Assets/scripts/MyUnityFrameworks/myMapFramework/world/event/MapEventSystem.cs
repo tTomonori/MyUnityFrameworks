@@ -65,6 +65,7 @@ public partial class MapEventSystem {
     /// </summary>
     /// <param name="aEvent">マップ移動イベント</param>
     public void addMoveMapEventEndSide(MapEventMoveMapEndSide aEvent, MapCharacter aInvoker) {
+        MapEventRoot tRoot = new MapEventRoot(new List<string>(), true, false, aEvent);
         Operator tOperator = new Operator(this, aEvent);
         tOperator.mInvoker = aInvoker;
 
@@ -77,7 +78,10 @@ public partial class MapEventSystem {
     /// <summary>operatorを待機リストに追加(追加できたら(実行可能なら)true)</summary>
     public bool addOperator(Operator aOperator) {
         //実行不可
-        if (!aOperator.jackRequared()) return false;
+        if (!aOperator.jackRequared()) {
+            aOperator.releaseAi();
+            return false;
+        }
         //実行可
         mWaitingOperators.Add(aOperator);
         return true;

@@ -17,7 +17,7 @@
         [ 7, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 4, 4, 7 ],
         [ 7, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 4, 4, 4, 4, 7 ],
         [ 7, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 4, 4, 4, 4, 7 ],
-        [ 7, 1, 1, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 ]
+        [ 7, 1, 1, 2, 7, 7, 7, 7, 7, 7, 5, 7, 7, 7, 7, 7, 7, 7, 7 ]
       ],
       "halfHeight": [
         [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
@@ -127,6 +127,8 @@
   "shadow": [
   ],
   "ornament":[ 
+    {"path": "rotaFlower","name": "rotaFlower","x": 8,"y": 3.5,"height": 0},
+    {"path": "rotaFlower","name": "rotaFlower","x": 9.7,"y": 2.3,"height": 0}
   ],
   "npc": [
     {"path": "player/player","name": "keyboard","direction": Vector2(-1,0),"moveSpeed": 5,"ai": "<keyboard>","x":2,"y": 10,"height": 0},
@@ -139,7 +141,10 @@
     {"name": "moveMapTest","shape": "<square,3,1>","x":2,"y": 0,"height": 0,"triggerKey": ["player"],"collisionType": "stop","enterKey": "moveMapTest"}
   ],
   "event": {
-        "speachTest": {"jackInvoker": true,"jackInvoked": true,"event": {"type": "list","list": [
+    "log": {"jackInvoker": true,"event": {"type": "list","list": [
+                                                                       {"type": "delegate","name": "conversation"}
+                                                                     ]}},
+    "speachTest": {"jackInvoker": true,"jackInvoked": true,"event": {"type": "list","list": [
                                                                        {"type": "turnTo","target": "invoked","to": "invoker"},
                                                                        {"type": "delegate","name": "conversation"}
                                                                      ]}},

@@ -3,7 +3,7 @@
   "stratum": [
     {
       "feild": [
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 1, 1, 1, 1, 1, 1 ],
+        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 1, 1, 5, 1, 1, 1 ],
         [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 2, 1 ],
         [ 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 3, 1, 2, 2 ],
         [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
@@ -238,7 +238,8 @@
   ],
   "trigger": [
     {"name": "test","shape": "<square,1,1>","x":0,"y": 4,"height": 0,"triggerKey": ["player"],"collisionType": "stop","enterKey": "moveByTest"},
-    {"name": "moveMapTest","shape": "<square,3,1>","x":11,"y": 23,"height": 0,"triggerKey": ["player"],"collisionType": "stop","enterKey": "moveMapTest"}
+    {"name": "moveMapTest","shape": "<square,3,1>","x":11,"y": 23,"height": 0,"triggerKey": ["player"],"collisionType": "stop","enterKey": "moveMapTest"},
+    {"name": "moveMapTest","shape": "<square,1,1>","x":15,"y": 23,"height": 0,"triggerKey": ["player"],"collisionType": "stop","enterKey": "moveMapTestWithKey"}
   ],
   "event": {
     "speachTest": {"jackInvoker": true,"jackInvoked": true,"event": {"type": "list","list": [
@@ -246,6 +247,7 @@
                                                                        {"type": "delegate","name": "conversation"}
                                                                      ]}},
     "moveByTest":{"jackInvoker": true,"event": {"type": "moveBy","vector": Vector2(2,0),"target": "invoker"}},
-    "moveMapTest": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap2","positionRangeLeftBottom": Vector3(0.5,0,0),"positionRangeRightUp": Vector3(3.5,0,0),"moveOutVector": Vector2(0,1),"moveInVector":Vector2(0,2) }}
+    "moveMapTest": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap2","positionRangeLeftBottom": Vector3(0.5,0,0),"positionRangeRightUp": Vector3(3.5,0,0),"moveOutVector": Vector2(0,1),"moveInVector":Vector2(0,2)}},
+    "moveMapTestWithKey": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap2","positionRangeLeftBottom": Vector3(10,0,0),"positionRangeRightUp": Vector3(10,0,0),"moveOutVector": Vector2(0,1),"moveInVector":Vector2(0,2),"hereEventKey": "moveByTest","destinationEventKey": "log" }}
   }
 }

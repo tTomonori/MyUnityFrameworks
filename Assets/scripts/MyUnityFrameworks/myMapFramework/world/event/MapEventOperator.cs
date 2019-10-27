@@ -26,46 +26,34 @@ public partial class MapEventSystem {
         }
         /// <summary>イベント実行に必須のAIをジャック(ジャックに失敗した場合はfalse)</summary>
         public bool jackRequared() {
-            //マップイベント完了後イベントの場合
-            if (mRootEvent is MapEventMoveMapEndSide) {
-                MapCharacter.JackedAi tPlayerJack = mInvoker.jack();
-                if (tPlayerJack == null) {//ジャック失敗
-                    releaseAi();
-                    return false;
-                }
-                mAiDic.Add("invoker", tPlayerJack);
-                return true;
-            }
+            return jackRequared(mRootEvent);
+        }
+        /// <summary>引数のEventが必要とするAIをジャック(ジャックに失敗した場合はfalse)</summary>
+        public bool jackRequared(MapEvent aEvent) {
             //rootEventでない場合はジャックする必要なし
             if (!(mRootEvent is MapEventRoot)) return true;
-            MapEventRoot tRoot = (MapEventRoot)mRootEvent;
-            MapCharacter.JackedAi tAi;
+
+            return jackRequared((MapEventRoot)mRootEvent);
+        }
+        /// <summary>引数のRootEventが必要とするAIをジャック(ジャックに失敗した場合はfalse)</summary>
+        public bool jackRequared(MapEventRoot aRoot) {
             //Invokerジャック
-            if (tRoot.mJackInvoker) {
-                tAi = mInvoker.jack();
-                if (tAi == null) {//ジャック失敗
-                    releaseAi();
+            if (aRoot.mJackInvoker) {
+                if (!jack("invoker")) {
                     return false;
                 }
-                mAiDic.Add("invoker", tAi);
             }
             //Invokedジャック
-            if (tRoot.mJackInvoked && mInvoked is MapCharacter) {
-                tAi = ((MapCharacter)mInvoked).jack();
-                if (tAi == null) {//ジャック失敗
-                    releaseAi();
+            if (aRoot.mJackInvoked) {
+                if (!jack("invoked")) {
                     return false;
                 }
-                mAiDic.Add("invoked", tAi);
             }
             //その他のキャラジャック
-            foreach (string tName in tRoot.mRequareAi) {
-                tAi = parent.jack(tName);
-                if (tAi == null) {//ジャック失敗
-                    releaseAi();
+            foreach (string tName in aRoot.mRequareAi) {
+                if (!jack(tName)) {
                     return false;
                 }
-                mAiDic.Add(tName, tAi);
             }
             return true;
         }
@@ -77,6 +65,19 @@ public partial class MapEventSystem {
         }
         /// <summary>jackしたAIを全て解放</summary>
         public void releaseAi() {
+            //予約名は先にreleaseする
+            foreach (string tName in new string[] { "invoker", "invoked", "player" }) {
+                if (!mAiDic.ContainsKey(tName)) continue;
+                MapCharacter.JackedAi tAi = mAiDic[tName];
+                //予約名とキャラ名が異なる場合
+                if (tAi.parent.mName != tName) {
+                    mAiDic.Remove(tAi.parent.mName);
+                }
+                //release
+                tAi.release();
+                mAiDic.Remove(tName);
+            }
+            //予約名以外
             foreach (KeyValuePair<string, MapCharacter.JackedAi> tPair in mAiDic) {
                 tPair.Value.release();
             }

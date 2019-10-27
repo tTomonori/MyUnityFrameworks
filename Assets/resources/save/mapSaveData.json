@@ -2,7 +2,8 @@
 "filePath":"meshMap2",
 "encountCount":646.8155,
 "ornament":[
-
+{"path":"rotaFlower","name":"rotaFlower","x":8,"y":3.5,"height":0},
+{"path":"rotaFlower","name":"rotaFlower","x":9.7,"y":2.3,"height":0}
 ],
 "npc":[
 {"path":"player/player","name":"keyboard","direction":Vector2(-1,0),"moveSpeed":5,"ai":"<keyboard>","x":2,"y":10,"height":0},
@@ -10,6 +11,6 @@
 {"path":"player/player","name":"testNpc","direction":Vector2(-1,0),"ai":"<walkAroundCircle,1,9,3>","x":9,"y":3,"height":0,"speakDefault":"speachTest"},
 {"path":"player/player","name":"testNpc","direction":Vector2(-1,0),"ai":"<walkAroundCircle,1,11,3>","x":11,"y":3,"height":0,"speakDefault":"speachTest"},
 {"path":"player/player","name":"testNpc","direction":Vector2(-1,0),"ai":"<walkAroundCircle,1,13,3>","x":13,"y":3,"height":0,"speakDefault":"speachTest"},
-{"name":"player","moveSpeed":2.5,"path":"player/player","ai":"<player>","x":2.832206,"y":1.837929,"height":0,"direction":Vector2(1,0)}
+{"name":"player","moveSpeed":2.5,"path":"player/player","ai":"<player>","x":2.664894,"y":3.052857,"height":0,"direction":Vector2(1,0)}
 ]
 }
