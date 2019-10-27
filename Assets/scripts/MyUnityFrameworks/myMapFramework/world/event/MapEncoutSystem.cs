@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MapEncoutSystem {
     /// <summary>カウントリセット時の最低値</summary>
-    public float mMinCount = 1000;
+    public float mMinCount = 700;
     /// <summary>カウントリセット時の最大値</summary>
-    public float mMaxCount = 5000;
+    public float mMaxCount = 3000;
     /// <summary>残りのカウント</summary>
     public float mCount = 1000;
     /// <summary>エンカウント発火時にtrue</summary>

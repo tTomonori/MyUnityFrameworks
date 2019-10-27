@@ -32,20 +32,20 @@ public class MapTriggerUpdater {
     }
     /// <summary>衝突しているtriggerを取得</summary>
     static private List<MapTrigger> getCollidedTriggers(MapEntity aEntity) {
-        Collider2D[] tColliders = new Collider2D[0];
+        RaycastHit2D[] tHits = new RaycastHit2D[0];
         //衝突しているcollider取得
         if (aEntity.mAttribute.mCollider is BoxCollider2D) {
             BoxCollider2D tBox = (BoxCollider2D)aEntity.mAttribute.mCollider;
-            tColliders = Physics2D.OverlapBoxAll(tBox.transform.position, tBox.size, tBox.transform.rotation.z);
+            tHits = Physics2D.BoxCastAll(tBox.transform.position.toVector2() + tBox.offset, tBox.size, tBox.transform.rotation.z, Vector2.zero, 0);
         } else if (aEntity.mAttribute.mCollider is CircleCollider2D) {
             CircleCollider2D tCircle = (CircleCollider2D)aEntity.mAttribute.mCollider;
-            tColliders = Physics2D.OverlapCircleAll(tCircle.transform.position, tCircle.radius);
+            tHits = Physics2D.CircleCastAll(tCircle.transform.position, tCircle.radius, Vector2.zero, 0);
         }
         //triggerを取得
         List<MapTrigger> tTriggers = new List<MapTrigger>();
         MapTrigger tTrigger;
-        foreach (Collider2D tCollider in tColliders) {
-            tTrigger = tCollider.GetComponent<MapTrigger>();
+        foreach (RaycastHit2D tHit in tHits) {
+            tTrigger = tHit.collider.gameObject.GetComponent<MapTrigger>();
             if (tTrigger == null) continue;
             if (!MapPhysics.isOverlapedH(aEntity, tTrigger.mBehaviour)) continue;
             tTriggers.Add(tTrigger);
