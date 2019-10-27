@@ -23,6 +23,8 @@ public static partial class MapWorldFactory {
         initCamera();
         //フィールド生成
         buildField();
+        //壁生成
+        buildEnd();
         //影生成
         List<MapFileData.Shadow> tShadowData = mData.mShadows;
         int tShadowNum = tShadowData.Count;
@@ -73,6 +75,8 @@ public static partial class MapWorldFactory {
         initCamera();
         //フィールド生成
         buildField();
+        //壁生成
+        buildEnd();
         //影生成
         List<MapFileData.Shadow> tShadowData = mData.mShadows;
         int tShadowNum = tShadowData.Count;
@@ -127,6 +131,10 @@ public static partial class MapWorldFactory {
         tWorld.mStratums = new MapStratum[aSize.z];
         //マス
         tWorld.mCells = new MapCell[aSize.x, aSize.y, aSize.z];
+        //マップ周りの壁壁
+        tWorld.mEndContainer = MyBehaviour.create<MyBehaviour>();
+        tWorld.mEndContainer.name = "endContainer";
+        tWorld.mEndContainer.transform.SetParent(tWorld.transform, false);
         //character
         tWorld.mCharacterContainer = MyBehaviour.create<MyBehaviour>();
         tWorld.mCharacterContainer.name = "characterContainer";

@@ -19,6 +19,8 @@ public class MapWorld : MyBehaviour {
     public MapStratum[] mStratums;
     /// <summary>マス</summary>
     public MapCell[,,] mCells;
+    /// <summary>マップ周りの壁の入れ物</summary>
+    public MyBehaviour mEndContainer;
     ///<summary>characterの入れ物</summary>
     public MyBehaviour mCharacterContainer;
     ///<summary>ornamentの入れ物</summary>

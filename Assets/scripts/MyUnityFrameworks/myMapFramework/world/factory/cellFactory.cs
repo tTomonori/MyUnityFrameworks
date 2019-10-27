@@ -77,5 +77,40 @@ public static partial class MapWorldFactory {
 
         mWorld.mCells[aX, aY, aH] = tCell;
     }
+    /// <summary>マップの周りの壁を生成して配置</summary>
+    static private void buildEnd() {
+        MapTile tTile;
+        //上
+        tTile = createEnd(new Vector2(mWorld.mSize.x + 2, 1));
+        tTile.name = "upEnd";
+        tTile.setMapPosition(new Vector2(mWorld.mSize.x / 2f - 0.5f, mWorld.mSize.y), 0);
+        tTile.transform.SetParent(mWorld.mEndContainer.transform, false);
+        //下
+        tTile = createEnd(new Vector2(mWorld.mSize.x + 2, 1));
+        tTile.name = "downEnd";
+        tTile.setMapPosition(new Vector2(mWorld.mSize.x / 2f - 0.5f, -1), 0);
+        tTile.transform.SetParent(mWorld.mEndContainer.transform, false);
+        //左
+        tTile = createEnd(new Vector2(1, mWorld.mSize.y + 2));
+        tTile.name = "leftEnd";
+        tTile.setMapPosition(new Vector2(-1, mWorld.mSize.y / 2f - 0.5f), 0);
+        tTile.transform.SetParent(mWorld.mEndContainer.transform, false);
+        //右
+        tTile = createEnd(new Vector2(1, mWorld.mSize.y + 2));
+        tTile.name = "rightEnd";
+        tTile.setMapPosition(new Vector2(mWorld.mSize.x, mWorld.mSize.y / 2f - 0.5f), 0);
+        tTile.transform.SetParent(mWorld.mEndContainer.transform, false);
+    }
+    /// <summary>マップ周りに配置する壁を生成</summary>
+    static private MapTile createEnd(Vector2 aSize) {
+        MapTile tTile = MyBehaviour.create<MapTile>();
+        tTile.mCollideHeight = mWorld.mSize.z + 1;
+        TileGroundPhysicsAttribute tAttribute = tTile.gameObject.AddComponent<TileGroundPhysicsAttribute>();
+        tAttribute.mAttribute = TileGroundPhysicsAttribute.Attribute.end;
+        tAttribute.mTile = tTile;
+        BoxCollider2D tCollider = tTile.gameObject.AddComponent<BoxCollider2D>();
+        tCollider.size = aSize;
+        return tTile;
+    }
 }
 

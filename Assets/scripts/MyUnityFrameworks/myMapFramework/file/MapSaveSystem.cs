@@ -44,7 +44,7 @@ public static class MapSaveSystem {
         tSaveData.mY = tPosition.y;
         tSaveData.mHeight = tPosition.h;
         //向き
-        tSaveData.mDirection = aCharacter.mMovingData.mLastDirection;
+        tSaveData.mDirection = aCharacter.mCharacterImage.getDirection();
         //ai
         tSaveData.mAiString = aCharacter.saveAi();
         //state
