@@ -39,7 +39,6 @@ public class MapKeyEventTrigger : MapTrigger {
             //名前が一致するか
             if (tKeyName == aCharacter.mName) {
                 return true;
-                continue;
             }
         }
         return false;
@@ -48,24 +47,24 @@ public class MapKeyEventTrigger : MapTrigger {
     public override void enter(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         if (!isTriggerCharacter(aCharacter)) return;
         if (mEnterKey == "" || mEnterKey == null) return;
-        aEventSystem.addEvent(mEnterKey, aCharacter, mBehaviour);
+        aEventSystem.addEvent(mEnterKey, aCharacter, mBehaviour, mCollider);
     }
     /// <summary>trigger内で移動せずに居座った</summary>
     public override void stay(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         if (!isTriggerCharacter(aCharacter)) return;
         if (mStayKey == "" || mStayKey == null) return;
-        aEventSystem.addEvent(mStayKey, aCharacter, mBehaviour);
+        aEventSystem.addEvent(mStayKey, aCharacter, mBehaviour, mCollider);
     }
     /// <summary>trigger内で移動した</summary>
     public override void moved(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         if (!isTriggerCharacter(aCharacter)) return;
         if (mMovedKey == "" || mMovedKey == null) return;
-        aEventSystem.addEvent(mMovedKey, aCharacter, mBehaviour);
+        aEventSystem.addEvent(mMovedKey, aCharacter, mBehaviour, mCollider);
     }
     /// <summary>triggerから出て行った</summary>
     public override void exit(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         if (!isTriggerCharacter(aCharacter)) return;
         if (mExitKey == "" || mExitKey == null) return;
-        aEventSystem.addEvent(mExitKey, aCharacter, mBehaviour);
+        aEventSystem.addEvent(mExitKey, aCharacter, mBehaviour, mCollider);
     }
 }

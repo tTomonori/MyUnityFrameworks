@@ -51,6 +51,7 @@ public static partial class MapWorldFactory {
         MapTrigger tTrigger = createTrigger(aData);
 
         MapBehaviour tBehaviour = MyBehaviour.create<MapBehaviour>();
+        tBehaviour.name = aData.mName;
         tTrigger.transform.SetParent(tBehaviour.transform, false);
         tTrigger.mBehaviour = tBehaviour;
         tBehaviour.setMapPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);

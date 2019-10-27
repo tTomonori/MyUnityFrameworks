@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapSpeaker : MyBehaviour {
+    private Collider2D _Collider;
+    /// <summary>このTriggerのCollider</summary>
+    public Collider2D mCollider {
+        get {
+            if (_Collider == null)
+                _Collider = GetComponent<Collider2D>();
+            return _Collider;
+        }
+    }
     [SerializeField] public MapBehaviour mBehaviour;
 
     /// <summary>

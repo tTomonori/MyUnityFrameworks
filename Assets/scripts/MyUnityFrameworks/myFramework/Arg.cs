@@ -28,7 +28,7 @@ public class Arg{
                 return (T)o;
             }else if((int)1 is T){
                 object o = (int)(float)arg[key];
-                Debug.Log("Arg : float型の値をint型に変換しちゃってるけどいいの？");
+                Debug.LogWarning("Arg : float型の値をint型に変換しちゃってるけどいいの？");
                 return (T)o;
             }else if(new List<Arg>() is T){
                 List<Arg> o = new List<Arg>();

@@ -1,0 +1,148 @@
+{
+  "name": "デバッグマップ2",
+  "stratum": [
+    {
+      "feild": [
+        [ 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 ],
+        [ 7, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 2, 7 ],
+        [ 7, 4, 4, 4, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7 ],
+        [ 7, 4, 4, 4, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7 ],
+        [ 7, 4, 4, 4, 1, 3, 3, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7 ],
+        [ 7, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 7 ],
+        [ 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 7 ],
+        [ 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 7 ],
+        [ 7, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 7 ],
+        [ 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 4, 1, 1, 7 ],
+        [ 7, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 4, 4, 1, 1, 7 ],
+        [ 7, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 4, 4, 7 ],
+        [ 7, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 4, 4, 4, 4, 7 ],
+        [ 7, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 4, 4, 4, 4, 7 ],
+        [ 7, 1, 1, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 ]
+      ],
+      "halfHeight": [
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0,30,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0,50,-1, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0,50,-1, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0,50,-1, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0,50,-1, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0,50,-1, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0,31,14,14,14,14,43,14,14,14,14,15, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+      ]
+    },
+    {
+      "feild": [
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0,21,21,21,21,21,21,21,21,21,22, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 9, 5, 5, 5, 5, 5, 5, 5, 5,25, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 9, 5, 5, 5, 5, 5, 5, 5, 5,25, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 9, 5, 5, 5, 5, 5, 5, 5, 5,25, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 9, 5, 5, 5, 5, 5, 5, 5, 5,25, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0,27,27,27,27,27,27,27,27,27,28, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+      ],
+      "halfHeight": [
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+      ]
+    }
+  ],
+  "chip": {
+    "-1": { "tile": "transparentWall" },
+    "1":  {"tile": "grass/grass1" },
+    "2":  {"tile": "grass/grass2" },
+    "3": { "tile": "grass/grass3" },
+    "4": { "tile": "grass/grassGrow", "encountKey": "grass" ,"encountFrequency": 100},
+    "5": { "tile": "sand/sand" },
+    "6": { "tile": "water/water" },
+    "7": { "tile": "grass/grassTree" },
+    "8": { "tile": "water/concave" },
+    "9": { "tile": "sand/sand", "drawOffsetH": -1},
+    "10": {"tile": "cliff/vertical/cliffV-LC" },
+    "11": {"tile": "cliff/vertical/cliffV-CC" },
+    "12": {"tile": "cliff/vertical/cliffV-RC" },
+    "13": {"tile": "cliff/vertical/cliffV-LD" },
+    "14": {"tile": "cliff/vertical/cliffV-CD" },
+    "15": {"tile": "cliff/vertical/cliffV-RD" },
+    "20": {"tile": "cliff/top/cliffT-LU" },
+    "21": {"tile": "cliff/top/cliffT-CU" },
+    "22": {"tile": "cliff/top/cliffT-RU" },
+    "23": {"tile": "cliff/top/cliffT-LC" },
+    "25": {"tile": "cliff/top/cliffT-RC" },
+    "26": {"tile": "cliff/top/cliffT-LD" },
+    "27": {"tile": "cliff/top/cliffT-CD" },
+    "28": {"tile": "cliff/top/cliffT-RD" },
+    "30": {"tile": "cliff/slope/cliffSlopeRH-U" },
+    "31": {"tile": "cliff/slope/cliffSlopeRH-D" },
+    "32": {"tile": "cliff/slope/cliffSlopeRH-TU" , "drawOffsetH": -1},
+    "33": {"tile": "cliff/slope/cliffSlopeRH-TD"},
+    "34": {"tile": "cliff/slope/cliffSlopeLH-U" },
+    "35": {"tile": "cliff/slope/cliffSlopeLH-D" },
+    "36": {"tile": "cliff/slope/cliffSlopeLH-TU" , "drawOffsetH": -1},
+    "37": {"tile": "cliff/slope/cliffSlopeLH-TD"},
+    "38": {"tile": "cliff/slope/cliffSlopeDH-L" },
+    "39": {"tile": "cliff/slope/cliffSlopeDH-R" },
+    "40": {"tile": "cliff/slope/cliffSlopeDH-TL" },
+    "41": {"tile": "cliff/slope/cliffSlopeDH-TR" },
+    "42": {"tile": "cliff/slope/step" },
+    "43": {"tile": "cliff/caveEntrance" },
+    "50": { "tile": "cliff/slope/cliffSlopeRH-C" },
+    "60": { "tile": "bridge/bridgePole0" },
+    "61": { "tile": "bridge/bridgePole1" },
+    "62": { "tile": "bridge/bridgePole2" },
+    "63": { "tile": "bridge/bridgePole3" },
+    "64": { "tile": "bridge/bridgePole4" },
+    "65": { "tile": "bridge/bridgePole5" },
+    "66": { "tile": "bridge/bridge0" },
+    "67": { "tile": "bridge/bridge1" },
+    "68": { "tile": "bridge/bridge2" }
+  },
+  "shadow": [
+  ],
+  "ornament":[ 
+  ],
+  "npc": [
+    {"path": "player/player","name": "keyboard","direction": Vector2(-1,0),"moveSpeed": 5,"ai": "<keyboard>","x":2,"y": 10,"height": 0},
+    {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":7,"y": 3,"height": 0,"speakDefault": "speachTest"},
+    {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":9,"y": 3,"height": 0,"speakDefault": "speachTest"},
+    {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":11,"y": 3,"height": 0,"speakDefault": "speachTest"},
+    {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":13,"y": 3,"height": 0,"speakDefault": "speachTest"}
+  ],
+  "trigger": [
+    {"name": "moveMapTest","shape": "<square,3,1>","x":2,"y": 0,"height": 0,"triggerKey": ["player"],"collisionType": "stop","enterKey": "moveMapTest"}
+  ],
+  "event": {
+        "speachTest": {"jackInvoker": true,"jackInvoked": true,"event": {"type": "list","list": [
+                                                                       {"type": "turnTo","target": "invoked","to": "invoker"},
+                                                                       {"type": "delegate","name": "conversation"}
+                                                                     ]}},
+    "moveMapTest": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap","positionRangeLeftBottom": Vector3(9.5,23,0),"positionRangeRightUp": Vector3(12.5,23,0),"moveOutVector": Vector2(0,-1),"moveInVector":Vector2(0,-2) }}
+  }
+}

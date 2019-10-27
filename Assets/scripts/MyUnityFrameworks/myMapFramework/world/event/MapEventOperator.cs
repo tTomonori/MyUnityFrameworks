@@ -15,6 +15,8 @@ public partial class MapEventSystem {
         public MapCharacter mInvoker;
         /// <summary>イベントを持っていたもの</summary>
         public MapBehaviour mInvoked;
+        /// <summary>イベントを持っていたcollider</summary>
+        public Collider2D mInvokedCollider;
         /// <summary>実行するイベント</summary>
         public MapEvent mRootEvent;
         public MapEventSystem parent;
@@ -24,6 +26,17 @@ public partial class MapEventSystem {
         }
         /// <summary>イベント実行に必須のAIをジャック(ジャックに失敗した場合はfalse)</summary>
         public bool jackRequared() {
+            //マップイベント完了後イベントの場合
+            if (mRootEvent is MapEventMoveMapEndSide) {
+                MapCharacter.JackedAi tPlayerJack = mInvoker.jack();
+                if (tPlayerJack == null) {//ジャック失敗
+                    releaseAi();
+                    return false;
+                }
+                mAiDic.Add("invoker", tPlayerJack);
+                return true;
+            }
+            //rootEventでない場合はジャックする必要なし
             if (!(mRootEvent is MapEventRoot)) return true;
             MapEventRoot tRoot = (MapEventRoot)mRootEvent;
             MapCharacter.JackedAi tAi;

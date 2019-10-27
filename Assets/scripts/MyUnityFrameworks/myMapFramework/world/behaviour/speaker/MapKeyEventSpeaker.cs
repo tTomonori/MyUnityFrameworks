@@ -15,7 +15,7 @@ public class MapKeyEventSpeaker : MapSpeaker {
     public override void speak(MapCharacter aCharacter, MapEventSystem aEventSystem) {
         string mAnswerKey = getAnswerKey(aCharacter);
         if (mAnswerKey == "") return;
-        aEventSystem.addEvent(mAnswerKey, aCharacter, mBehaviour);
+        aEventSystem.addEvent(mAnswerKey, aCharacter, mBehaviour, mCollider);
     }
     /// <summary>引数のentityに話しかけられた時に発火するイベントのkeyを取得</summary>
     public string getAnswerKey(MapEntity aEntity) {

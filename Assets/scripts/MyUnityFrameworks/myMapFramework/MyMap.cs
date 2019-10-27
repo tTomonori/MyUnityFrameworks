@@ -7,6 +7,8 @@ public class MyMap : MyBehaviour {
     public static string mMapResourcesDirectory;
     /// <summary>階層を表示するlayerの番号</summary>
     public static int[] mStratumLayerNum = new int[10] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+    /// <summary>キャラの移動速度のデフォルト値</summary>
+    public static float mDefaultMoveSpeed = 1.5f;
 
     ///<summary>操作入力用クラス</summary>
     public MyMapController mController;
@@ -20,9 +22,13 @@ public class MyMap : MyBehaviour {
     ///<summary>世界オブジェクト</summary>
     public MapWorld mWorld;
 
+    /// <summary>プレイヤーのキャラクターデータ</summary>
+    public MapFileData.Npc mPlayerData;
+
     ///<summary>マップ読み込み</summary>
     public void load(string aFilePath) {
-        mEncountSystem = new MapEncoutSystem();
+        if (mEncountSystem == null)
+            mEncountSystem = new MapEncoutSystem();
         //ワールドを再生成
         if (mWorld != null)
             mWorld.delete();
@@ -47,9 +53,30 @@ public class MyMap : MyBehaviour {
         mWorld.name = "world";
         mWorld.transform.SetParent(this.transform, false);
     }
+    /// <summary>マップ移動</summary>
+    public void moveMap(MapEventMoveMap aMoveEvent) {
+        //マップ再生成
+        load(aMoveEvent.mMapPath);
+        //移動先座標計算
+        if (aMoveEvent.mEndSide.mPercentagePosition != null) {
+            MapCharacter tCharacter = MapWorldFactory.createCharacter(mPlayerData);
+            aMoveEvent.mEndSide.calculatePositionFromPercentagePosition(tCharacter.mAttribute.mCollider);
+            tCharacter.delete();
+        }
+        //プレイヤー追加
+        mPlayerData.mX = aMoveEvent.mEndSide.mPosition.x;
+        mPlayerData.mY = aMoveEvent.mEndSide.mPosition.y;
+        mPlayerData.mHeight = aMoveEvent.mEndSide.mPosition.z;
+        mPlayerData.mDirection = aMoveEvent.mEndSide.mMoveInVector;
+        MapWorldFactory.addCharacter(mPlayerData, mWorld);
+        //マップ移動後イベント実行
+        mWorld.mEventSystem.addMoveMapEventEndSide(aMoveEvent.mEndSide, mWorld.getPlayer());
+        mWorld.updateWorld();
+    }
     ///<summary>更新</summary>
-    public void updateMap() {
-
+    private void Update() {
+        mWorld.updateWorld();
+        mController.resetInput();
     }
     /// <summary>保存</summary>
     public MapSaveFileData save() {

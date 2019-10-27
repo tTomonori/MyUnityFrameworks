@@ -68,7 +68,7 @@ public class MapWorld : MyBehaviour {
         return null;
     }
 
-    private void Update() {
+    public void updateWorld() {
         MapWorldUpdater.updateWorld(this);
         //カメラ更新
         foreach(MapCamera tCamera in mCameras) {

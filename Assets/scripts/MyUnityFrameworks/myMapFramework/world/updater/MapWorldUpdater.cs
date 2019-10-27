@@ -45,6 +45,10 @@ public static class MapWorldUpdater {
                 applyImageEvent(tCharacter);
                 //移動データリセット
                 MapCharacterMoveSystem.resetFrameMovingData(tCharacter);
+                //delegateに移動通知
+                if (tCharacter.isPlayer() && tCharacter.getOperation() == MapCharacter.Operation.free) {
+                    aWorld.mMap.mDelegate.report("move", new Arg(new Dictionary<string, object>() { { "distance", (tCharacter.mMovingData.mPrePosition.vector2 - tCharacter.mMapPosition.vector2).magnitude } }));
+                }
             }
             if (!tExistWaiting)
                 break;

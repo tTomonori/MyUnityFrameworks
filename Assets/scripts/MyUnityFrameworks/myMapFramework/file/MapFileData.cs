@@ -184,7 +184,7 @@ public class MapFileData {
         }
         ///<summary>高さ</summary>
         public float mHeight {
-            get { return mData.get<int>("height"); }
+            get { return mData.get<float>("height"); }
             set { mData.set("height", value); }
         }
         ///<summary>話かけられた時のイベント</summary>
@@ -244,6 +244,7 @@ public class MapFileData {
         ///<summary>プレハブへのパス</summary>
         public string mPath {
             get { return mData.get<string>("path"); }
+            set { mData.set("path", value); }
         }
         ///<summary>オブジェクトの名前</summary>
         public string mName {
@@ -251,10 +252,15 @@ public class MapFileData {
                 if (!mData.ContainsKey("name")) return "";
                 return mData.get<string>("name");
             }
+            set { mData.set("name", value); }
+        }
+        public float mMoveSpeed {
+            get { return mData.ContainsKey("moveSpeed") ? mData.get<float>("moveSpeed") : MyMap.mDefaultMoveSpeed; }
+            set { mData.set("moveSpeed", value); }
         }
         ///<summary>向き</summary>
         public Vector2 mDirection {
-            get { return mData.get<Vector2>("direction"); }
+            get { return mData.ContainsKey("direction") ? mData.get<Vector2>("direction") : new Vector2(0, 0); }
             set { mData.set("direction", value); }
         }
         ///<summary>AIを表したタグ</summary>
@@ -291,7 +297,7 @@ public class MapFileData {
         }
         ///<summary>高さ</summary>
         public float mHeight {
-            get { return mData.get<int>("height"); }
+            get { return mData.get<float>("height"); }
             set { mData.set("height", value); }
         }
         ///<summary>話かけられた時のイベント</summary>
@@ -370,7 +376,7 @@ public class MapFileData {
         }
         ///<summary>高さ</summary>
         public float mHeight {
-            get { return mData.get<int>("height"); }
+            get { return mData.get<float>("height"); }
             set { mData.set("height", value); }
         }
         /// <summary>triggerを発火させるentityの名前(リストが空なら全てのentityがtriggerになる)</summary>

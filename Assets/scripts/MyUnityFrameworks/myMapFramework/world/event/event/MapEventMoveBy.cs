@@ -9,7 +9,7 @@ public class MapEventMoveBy : MapEvent {
     public Vector2 mVector;
     public MapEventMoveBy(Arg aData) {
         mTarget = aData.get<string>("target");
-        mSpeed = aData.ContainsKey("speed") ? aData.get<float>("speed") : 1.5f;
+        mSpeed = aData.ContainsKey("speed") ? aData.get<float>("speed") : MyMap.mDefaultMoveSpeed;
         mVector = aData.get<Vector2>("vector");
     }
     public override void run(MapEventSystem.Operator aOperator, Action<Arg> aCallback) {

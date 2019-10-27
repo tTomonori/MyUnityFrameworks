@@ -4,10 +4,10 @@ using UnityEngine;
 using System;
 
 public static class MapCharacterMoveSystem {
-    //障害物と衝突した時、障害物との距離の最大許容距離
-    static private float kMaxSeparation = 0.02f;
-    //当たり判定を貫通しない程度に移動して良い最大距離
-    static private float kMaxDeltaDistance = 1;
+    ///<summary>障害物と衝突した時、障害物との距離の最大許容距離</summary>
+    static public float kMaxSeparation { get; private set; } = 0.02f;
+    ///<summary>当たり判定を貫通しない程度に移動して良い最大距離</summary>
+    static public float kMaxDeltaDistance { get; private set; } = 1;
     //移動させるキャラ
     private static MapCharacter mCharacter;
     //移動させるキャラの属性

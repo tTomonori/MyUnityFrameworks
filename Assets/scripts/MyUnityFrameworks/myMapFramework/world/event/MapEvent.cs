@@ -23,6 +23,9 @@ public abstract class MapEvent {
             //移動
             case "moveBy":
                 return new MapEventMoveBy(aData);
+            //マップ
+            case "moveMap":
+                return new MapEventMoveMap(aData);
         }
         throw new System.Exception("MapEvent : 不正なイベント名「" + aData.get<string>("type") + "」");
     }

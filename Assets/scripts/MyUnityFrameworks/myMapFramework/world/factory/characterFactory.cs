@@ -17,8 +17,9 @@ public static partial class MapWorldFactory {
         tCharacter.transitionState(createState(aData.mState));
         //movingData
         tCharacter.mMovingData = new MovingData();
-        tCharacter.mMovingData.mSpeed = 2.5f;
-        tCharacter.mMovingData.mDeltaDistance = 0.3f;
+        tCharacter.mMovingData.mSpeed = aData.mMoveSpeed;
+        Vector2 tColliderSize = tCharacter.mAttribute.mCollider.minimumCircumscribedRectangle();
+        tCharacter.mMovingData.mDeltaDistance = Mathf.Min(tColliderSize.x, tColliderSize.y);
         //speaker
         if (aData.mIsSpeaker) {
             MapKeyEventSpeaker tSpeaker = tCharacter.mAttribute.gameObject.AddComponent<MapKeyEventSpeaker>();
@@ -54,12 +55,23 @@ public static partial class MapWorldFactory {
         return new MapCharacter.StandingState();
     }
     ///<summary>キャラクターを生成してworldに追加</summary>
-    static private void buildCharacter(MapFileData.Npc aData) {
+    static private MapCharacter buildCharacter(MapFileData.Npc aData) {
         MapCharacter tCharacter = createCharacter(aData);
         tCharacter.mFileData = aData;
         tCharacter.transform.SetParent(mWorld.mCharacterContainer.transform, false);
         tCharacter.setMapPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
         tCharacter.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(tCharacter.mHeight)]);
         mWorld.mCharacters.Add(tCharacter);
+        return tCharacter;
+    }
+    /// <summary>
+    /// キャラクターを生成して追加
+    /// </summary>
+    /// <param name="aCharacterData">追加するキャラクターのデータ</param>
+    /// <param name="aWorld">キャラクターを追加するworld</param>
+    static public void addCharacter(MapFileData.Npc aCharacterData,MapWorld aWorld) {
+        mWorld = aWorld;
+        buildCharacter(aCharacterData).placed();
+        mWorld = null;
     }
 }

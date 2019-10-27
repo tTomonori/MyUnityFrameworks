@@ -52,7 +52,7 @@ public partial class MapCharacter : MapEntity {
     }
     //プレイヤーが操作するキャラかどうか
     public bool isPlayer() {
-        return mAi is MapCharacter.PlayerAi;
+        return mAi is MapCharacter.PlayerAi || mOriginalAi is MapCharacter.PlayerAi;
     }
     //操作状態
     public Operation getOperation() {

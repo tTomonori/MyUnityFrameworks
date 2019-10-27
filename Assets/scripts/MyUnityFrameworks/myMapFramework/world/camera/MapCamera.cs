@@ -85,7 +85,8 @@ public class MapCamera : MyBehaviour {
 
         public override void update(MapCamera aParent) {
             if (mPlayer == null) mPlayer = aParent.mWorld.getPlayer();
-            if (mPlayer == null) return;
+            if (mPlayer == null)
+                return;
             aParent.position2D = mPlayer.mMapPosition.vector2;
         }
     }

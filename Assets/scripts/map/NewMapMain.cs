@@ -18,6 +18,13 @@ public class NewMapMain : MonoBehaviour {
         //delegate
         mDelegate = new TestEventDelegate();
         mMap.mDelegate = mDelegate;
+        //player
+        MapFileData.Npc tPlayerData = new MapFileData.Npc(new Arg());
+        tPlayerData.mName = "player";
+        tPlayerData.mMoveSpeed = 2.5f;
+        tPlayerData.mPath = "player/player";
+        tPlayerData.mAiString= "<player>";
+        mMap.mPlayerData = tPlayerData;
 
         //mMap.load("meshMap");
         mMap.loadSaveData("save/mapSaveData");

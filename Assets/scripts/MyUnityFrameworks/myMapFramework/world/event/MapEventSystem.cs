@@ -35,10 +35,12 @@ public partial class MapEventSystem {
     /// <param name="aEventKey">worldが持つイベントのKey</param>
     /// <param name="aInvoker">起動者</param>
     /// <param name="aInvoked">イベント所持者</param>
-    public bool addEvent(string aEventKey, MapCharacter aInvoker, MapBehaviour aInvoked) {
+    /// <param name="aInvokedCollider">イベント所持者のcollider</param>
+    public bool addEvent(string aEventKey, MapCharacter aInvoker, MapBehaviour aInvoked, Collider2D aInvokedCollider) {
         Operator tOperator = new Operator(this, mWorld.mEvents[aEventKey]);
         tOperator.mInvoker = aInvoker;
         tOperator.mInvoked = aInvoked;
+        tOperator.mInvokedCollider = aInvokedCollider;
 
         return addOperator(tOperator);
     }
@@ -49,12 +51,28 @@ public partial class MapEventSystem {
     /// <param name="aEvent">実行するイベント</param>
     /// <param name="aInvoker">起動者</param>
     /// <param name="aInvoked">イベント所持者</param>
-    public bool addEvent(MapEvent aEvent, MapCharacter aInvoker, MapBehaviour aInvoked) {
+    /// <param name="aInvokedCollider">イベント所持者のcollider</param>
+    public bool addEvent(MapEvent aEvent, MapCharacter aInvoker, MapBehaviour aInvoked, Collider2D aInvokedCollider) {
         Operator tOperator = new Operator(this, aEvent);
         tOperator.mInvoker = aInvoker;
         tOperator.mInvoked = aInvoked;
+        tOperator.mInvokedCollider = aInvokedCollider;
 
         return addOperator(tOperator);
+    }
+    /// <summary>
+    /// マップ移動イベントの移動後のイベント処理実行
+    /// </summary>
+    /// <param name="aEvent">マップ移動イベント</param>
+    public void addMoveMapEventEndSide(MapEventMoveMapEndSide aEvent, MapCharacter aInvoker) {
+        Operator tOperator = new Operator(this, aEvent);
+        tOperator.mInvoker = aInvoker;
+
+        if (addOperator(tOperator)) {
+            runWaitingEvents();
+        } else {
+            throw new System.Exception("MapEventSystem : マップ移動後イベントの実行に失敗");
+        }
     }
     /// <summary>operatorを待機リストに追加(追加できたら(実行可能なら)true)</summary>
     public bool addOperator(Operator aOperator) {

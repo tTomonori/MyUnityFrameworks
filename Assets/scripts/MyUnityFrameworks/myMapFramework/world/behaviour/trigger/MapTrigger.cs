@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapTrigger : MyBehaviour {
+    private Collider2D _Collider;
+    /// <summary>このTriggerのCollider</summary>
+    public Collider2D mCollider {
+        get {
+            if (_Collider == null)
+                _Collider = GetComponent<Collider2D>();
+            return _Collider;
+        }
+    }
     /// <summary>このtriggerが付与されているbehaviour</summary>
     [SerializeField] public MapBehaviour mBehaviour;
     //<summary>引数のentityが衝突するか</summary>
