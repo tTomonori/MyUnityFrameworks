@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static partial class MapWorldFactory {
     ///<summary>キャラクター生成</summary>
-    static public MapCharacter createCharacter(MapFileData.Npc aData) {
+    static public MapCharacter createCharacter(MapFileData.Character aData) {
         MapCharacter tCharacter = MyBehaviour.createObjectFromResources<MapCharacter>(MyMap.mMapResourcesDirectory + "/character/" + aData.mPath);
         //名前
         tCharacter.mName = aData.mName;
@@ -55,7 +55,7 @@ public static partial class MapWorldFactory {
         return new MapCharacter.StandingState();
     }
     ///<summary>キャラクターを生成してworldに追加</summary>
-    static private MapCharacter buildCharacter(MapFileData.Npc aData) {
+    static private MapCharacter buildCharacter(MapFileData.Character aData) {
         MapCharacter tCharacter = createCharacter(aData);
         tCharacter.mFileData = aData;
         tCharacter.transform.SetParent(mWorld.mCharacterContainer.transform, false);
@@ -69,7 +69,7 @@ public static partial class MapWorldFactory {
     /// </summary>
     /// <param name="aCharacterData">追加するキャラクターのデータ</param>
     /// <param name="aWorld">キャラクターを追加するworld</param>
-    static public void addCharacter(MapFileData.Npc aCharacterData,MapWorld aWorld) {
+    static public void addCharacter(MapFileData.Character aCharacterData,MapWorld aWorld) {
         mWorld = aWorld;
         buildCharacter(aCharacterData).placed();
         mWorld = null;

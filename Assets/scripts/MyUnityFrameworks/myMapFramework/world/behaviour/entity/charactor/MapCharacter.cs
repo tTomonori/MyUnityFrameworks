@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class MapCharacter : MapEntity {
-    public MapFileData.Npc mFileData;
+    public MapFileData.Character mFileData;
     /// <summary>移動処理で使うデータ</summary>
     public MovingData mMovingData;
     [SerializeField] public MapCharacterImage mCharacterImage;

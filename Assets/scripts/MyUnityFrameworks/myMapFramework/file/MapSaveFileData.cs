@@ -70,9 +70,9 @@ public class MapSaveFileData {
             }
         }
     }
-    public class SavedNpc : MapFileData.Npc {
+    public class SavedNpc : MapFileData.Character {
         public SavedNpc(Arg aData) : base(aData) { }
-        public SavedNpc(MapFileData.Npc aData) : base(aData) {
+        public SavedNpc(MapFileData.Character aData) : base(aData) {
             if (!(aData is SavedNpc)) return;
             mData.remove("save");
         }

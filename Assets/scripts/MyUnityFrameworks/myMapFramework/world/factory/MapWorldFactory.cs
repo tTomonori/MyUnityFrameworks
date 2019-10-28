@@ -38,10 +38,10 @@ public static partial class MapWorldFactory {
             buildOrnament(tOrnamentData[i]);
         }
         //character(npc)生成
-        List<MapFileData.Npc> tNpcData = mData.mNpcs;
-        int tNpcNum = tNpcData.Count;
-        for (int i = 0; i < tNpcNum; ++i) {
-            buildCharacter(tNpcData[i]);
+        List<MapFileData.Character> tCharacterData = mData.mCharacters;
+        int tCharacterNum = tCharacterData.Count;
+        for (int i = 0; i < tCharacterNum; ++i) {
+            buildCharacter(tCharacterData[i]);
         }
         //trigger生成
         List<MapFileData.Trigger> tTriggerData = mData.mTriggers;

@@ -19,7 +19,7 @@ public class NewMapMain : MonoBehaviour {
         mDelegate = new TestEventDelegate();
         mMap.mDelegate = mDelegate;
         //player
-        MapFileData.Npc tPlayerData = new MapFileData.Npc(new Arg());
+        MapFileData.Character tPlayerData = new MapFileData.Character(new Arg());
         tPlayerData.mName = "player";
         tPlayerData.mMoveSpeed = 2.5f;
         tPlayerData.mPath = "player/player";

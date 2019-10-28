@@ -14,6 +14,8 @@ public class MapEventMoveMap : MapEvent {
     public string mHereEventKey;
     /// <summary>マップ移動完了後に実行するイベント</summary>
     public MapEventMoveMapEndSide mEndSide;
+    /// <summary>フェードアウト完了時のプレイヤーの向き</summary>
+    public Vector2 mPlayerDirection;
     public MapEventMoveMap(Arg aData) {
         mEndSide = new MapEventMoveMapEndSide(aData);
         mMapPath = aData.get<string>("mapPath");
@@ -43,7 +45,6 @@ public class MapEventMoveMap : MapEvent {
     }
     /// <summary>移動先の座標計算</summary>
     private void calculatePercentagePosition(MapEventSystem.Operator aOperator) {
-        if (mEndSide.mPositionRangeLeftBottom == null || mEndSide.mPositionRangeRightUp == null) return;
         //triggerの矩形範囲
         Collider2DEditer.RectangleEndPoint tRange = aOperator.mInvokedCollider.minimumCircumscribedRectangleEndPoint();
         //invokerのcolliderを考慮して矩形範囲を調整
@@ -66,6 +67,7 @@ public class MapEventMoveMap : MapEvent {
     }
     /// <summary>マップ移動のフェードアウト演出終了時</summary>
     private void fadeOutEnded(MapEventSystem.Operator aOperator) {
+        mPlayerDirection = aOperator.getCharacter("player").mCharacterImage.getDirection();
         aOperator.parent.mWorld.mMap.moveMap(this);
     }
 }

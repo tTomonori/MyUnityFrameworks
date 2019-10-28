@@ -23,7 +23,7 @@ public class MyMap : MyBehaviour {
     public MapWorld mWorld;
 
     /// <summary>プレイヤーのキャラクターデータ</summary>
-    public MapFileData.Npc mPlayerData;
+    public MapFileData.Character mPlayerData;
 
     ///<summary>マップ読み込み</summary>
     public void load(string aFilePath) {
@@ -57,17 +57,16 @@ public class MyMap : MyBehaviour {
     public void moveMap(MapEventMoveMap aMoveEvent) {
         //マップ再生成
         load(aMoveEvent.mMapPath);
+        aMoveEvent.mEndSide.mEntranceData = mWorld.mFileData.mEntrances[aMoveEvent.mEndSide.mEntrance];
         //移動先座標計算
-        if (aMoveEvent.mEndSide.mPercentagePosition != null) {
-            MapCharacter tCharacter = MapWorldFactory.createCharacter(mPlayerData);
-            aMoveEvent.mEndSide.calculatePositionFromPercentagePosition(tCharacter.mAttribute.mCollider);
-            tCharacter.delete();
-        }
+        MapCharacter tCharacter = MapWorldFactory.createCharacter(mPlayerData);
+        aMoveEvent.mEndSide.calculatePositionFromPercentagePosition(tCharacter.mAttribute.mCollider);
+        tCharacter.delete();
         //プレイヤー追加
         mPlayerData.mX = aMoveEvent.mEndSide.mPosition.x;
         mPlayerData.mY = aMoveEvent.mEndSide.mPosition.y;
         mPlayerData.mHeight = aMoveEvent.mEndSide.mPosition.z;
-        mPlayerData.mDirection = aMoveEvent.mEndSide.mMoveInVector;
+        mPlayerData.mDirection = aMoveEvent.mPlayerDirection;
         MapWorldFactory.addCharacter(mPlayerData, mWorld);
         //マップ移動後イベント実行
         mWorld.mEventSystem.addMoveMapEventEndSide(aMoveEvent.mEndSide, mWorld.getPlayer());

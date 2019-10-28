@@ -130,7 +130,7 @@
     {"path": "rotaFlower","name": "rotaFlower","x": 8,"y": 3.5,"height": 0},
     {"path": "rotaFlower","name": "rotaFlower","x": 9.7,"y": 2.3,"height": 0}
   ],
-  "npc": [
+  "character": [
     {"path": "player/player","name": "keyboard","direction": Vector2(-1,0),"moveSpeed": 5,"ai": "<keyboard>","x":2,"y": 10,"height": 0},
     {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":7,"y": 3,"height": 0,"speakDefault": "speachTest"},
     {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":9,"y": 3,"height": 0,"speakDefault": "speachTest"},
@@ -141,6 +141,7 @@
     {"name": "moveMapTest","shape": "<square,3,1>","x":2,"y": 0,"height": 0,"triggerKey": ["player"],"collisionType": "stop","enterKey": "moveMapTest"}
   ],
   "event": {
+    "firstLog":{"type": "delegate","name": "log","text": "firstLog"},
     "log": {"jackInvoker": true,"event": {"type": "list","list": [
                                                                        {"type": "delegate","name": "conversation"}
                                                                      ]}},
@@ -148,6 +149,10 @@
                                                                        {"type": "turnTo","target": "invoked","to": "invoker"},
                                                                        {"type": "delegate","name": "conversation"}
                                                                      ]}},
-    "moveMapTest": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap","positionRangeLeftBottom": Vector3(9.5,23,0),"positionRangeRightUp": Vector3(12.5,23,0),"moveOutVector": Vector2(0,-1),"moveInVector":Vector2(0,-2) }}
+    "moveMapTest": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap","entrance": "testOne","moveOutVector": Vector2(0,-1) }}
+  },
+  "entrance":{
+    "testOne": {"x": 2,"y": 0,"height": 0,"size": Vector2(3,0),"moveVector": Vector2(0,1.5)},
+    "testTwo": {"x": 10,"y": 0,"height": 0,"size": Vector2(1,0),"moveVector": Vector2(0,1.5),"eventKey": "log","firstEventKey": "firstLog"}
   }
 }

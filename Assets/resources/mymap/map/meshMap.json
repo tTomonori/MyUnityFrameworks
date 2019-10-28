@@ -232,7 +232,7 @@
   {"path": "shakeTree","name": "shakeTree","x": 15,"y": 1,"height": 0},
   {"path": "shakeTree","name": "shakeTree","x": 16,"y": 1,"height": 0}
   ],
-  "npc": [
+  "character": [
     {"path": "player/player","name": "keyboard","direction": Vector2(-1,0),"moveSpeed": 2.5,"ai": "<keyboard>","x":7,"y": 12,"height": 1},
     {"path": "player/player","name": "testNpc","direction": Vector2(-1,0),"ai": "<walkAroundCircle,1>","x":10,"y": 6,"height": 1,"speakDefault": "speachTest"}
   ],
@@ -247,7 +247,10 @@
                                                                        {"type": "delegate","name": "conversation"}
                                                                      ]}},
     "moveByTest":{"jackInvoker": true,"event": {"type": "moveBy","vector": Vector2(2,0),"target": "invoker"}},
-    "moveMapTest": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap2","positionRangeLeftBottom": Vector3(0.5,0,0),"positionRangeRightUp": Vector3(3.5,0,0),"moveOutVector": Vector2(0,1),"moveInVector":Vector2(0,2)}},
-    "moveMapTestWithKey": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap2","positionRangeLeftBottom": Vector3(10,0,0),"positionRangeRightUp": Vector3(10,0,0),"moveOutVector": Vector2(0,1),"moveInVector":Vector2(0,2),"hereEventKey": "moveByTest","destinationEventKey": "log" }}
+    "moveMapTest": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap2","entrance": "testOne","moveOutVector": Vector2(0,1)}},
+    "moveMapTestWithKey": {"jackInvoker": true,"event":{"type": "moveMap","mapPath": "meshMap2","entrance": "testTwo","moveOutVector": Vector2(0,1),"hereEventKey": "moveByTest","destinationEventKey": "log" }}
+  },
+   "entrance":{
+    "testOne": {"x": 11,"y": 23,"height": 0,"size": Vector2(3,0),"moveVector": Vector2(0,-1.5)}
   }
 }

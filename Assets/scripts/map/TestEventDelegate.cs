@@ -39,6 +39,10 @@ public class TestEventDelegate : MyMapEventDelegate {
                     aOnEnd(null);
                 });
                 break;
+            case "log":
+                Debug.Log("log : " + aData.get<string>("text"));
+                aOnEnd(null);
+                break;
             default:
                 Debug.Log("定義されていない外部処理イベント「" + aData.get<string>("name") + "」");
                 aOnEnd(null);
