@@ -14,8 +14,8 @@ public class MapOrnament : MapEntity {
     public virtual Arg save() {
         return null;
     }
-    /// <summary>save時の状態を復元</summary>
-    public virtual void restore(Arg aData) {
+    /// <summary>変数適用</summary>
+    public virtual void setArg(Arg aData) {
 
     }
 }

@@ -5,6 +5,11 @@ using System.IO;
 using System;
 
 public static partial class MyJson {
+    /// <summary>
+    /// ファイルを読んでdeserialize
+    /// </summary>
+    /// <returns>deserialize結果</returns>
+    /// <param name="filePath">"Assets/../" + filePath (拡張子必須)</param>
     static public Dictionary<string, object> deserializeFile(string filePath) {
         string jsonString = File.ReadAllText(filePath);
         return deserialize(jsonString);
@@ -171,7 +176,7 @@ public static partial class MyJson {
         }
         ///boolを読む
         private object readBool() {
-            search("tf");
+            search("tfTF");
             switch (currentChar) {
                 case 't':
                     if (nextChar != 't') throw new Exception("不正なjson文字列 : invalid value start from 「t」");
@@ -181,6 +186,19 @@ public static partial class MyJson {
                     return true;
                 case 'f':
                     if (nextChar != 'f') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
+                    if (nextChar != 'a') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
+                    if (nextChar != 'l') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
+                    if (nextChar != 's') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
+                    if (nextChar != 'e') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
+                    return false;
+                case 'T':
+                    if (nextChar != 'T') throw new Exception("不正なjson文字列 : invalid value start from 「t」");
+                    if (nextChar != 'r') throw new Exception("不正なjson文字列 : invalid value start from 「t」");
+                    if (nextChar != 'u') throw new Exception("不正なjson文字列 : invalid value start from 「t」");
+                    if (nextChar != 'e') throw new Exception("不正なjson文字列 : invalid value start from 「t」");
+                    return true;
+                case 'F':
+                    if (nextChar != 'F') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
                     if (nextChar != 'a') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
                     if (nextChar != 'l') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
                     if (nextChar != 's') throw new Exception("不正なjson文字列 : invalid value start from 「f」");
@@ -392,6 +410,8 @@ public static partial class MyJson {
                     return readList();
                 case 't'://bool
                 case 'f':
+                case 'T':
+                case 'F':
                     return readBool();
                 case '0'://数字
                 case '1':

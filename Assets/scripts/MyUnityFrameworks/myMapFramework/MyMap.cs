@@ -15,7 +15,7 @@ public class MyMap : MyBehaviour {
     ///<summary>イベント通知先</summary>
     public MyMapEventDelegate mDelegate;
     ///<summary>フラグ</summary>
-    public MapFlag mFlag;
+    public MyFlag mFlag;
     /// <summary>エンカウント</summary>
     public MapEncoutSystem mEncountSystem;
 

@@ -12,11 +12,41 @@ public static partial class MapWorldFactory {
     //<summary>ワールドを作成</summary>
     static public MapWorld create(string aFilePath) {
         MapFileData tData = new MapFileData(aFilePath);
+        createFromFileData(tData);
+        //マップファイルへのパス
+        mWorld.mMapPath = aFilePath;
+
+        //生成完了
+        foreach (MapBehaviour tBehaviour in mWorld.GetComponentsInChildren<MapBehaviour>())
+            tBehaviour.placed();
+
+        MapWorld tCreatedWorld = mWorld;
+        mWorld = null;
+        mData = null;
+        return tCreatedWorld;
+    }
+    //<summary>セーブデータからワールドを作成</summary>
+    static public MapWorld createFromSave(string aFilePath) {
+        MapSaveFileData tSaveData = new MapSaveFileData(aFilePath);
+        createFromFileData(tSaveData);
+        mWorld.mSaveData = tSaveData;
+        //マップファイルへのパス
+        mWorld.mMapPath = tSaveData.mFilePath;
+
+        //生成完了
+        foreach (MapBehaviour tBehaviour in mWorld.GetComponentsInChildren<MapBehaviour>())
+            tBehaviour.placed();
+
+        MapWorld tCreatedWorld = mWorld;
+        mWorld = null;
+        mData = null;
+        return tCreatedWorld;
+    }
+    static private void createFromFileData(MapFileData aData) {
         //マップデータを記憶
-        mData = tData;
+        mData = aData;
         mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums[0].mFeild.Count, mData.mStratums.Count));
 
-        mWorld.mMapPath = aFilePath;
         mWorld.mMapName = mData.mMapName;
         mWorld.mFileData = mData;
         //カメラ生成
@@ -28,7 +58,7 @@ public static partial class MapWorldFactory {
         //影生成
         List<MapFileData.Shadow> tShadowData = mData.mShadows;
         int tShadowNum = tShadowData.Count;
-        for(int i = 0; i < tShadowNum; ++i) {
+        for (int i = 0; i < tShadowNum; ++i) {
             buildShadow(tShadowData[i]);
         }
         //ornament生成
@@ -56,62 +86,6 @@ public static partial class MapWorldFactory {
         foreach (MapBehaviour tBehaviour in mWorld.GetComponentsInChildren<MapBehaviour>())
             tBehaviour.placed();
 
-        MapWorld tCreatedWorld = mWorld;
-        mWorld = null;
-        mData = null;
-        return tCreatedWorld;
-    }
-    //<summary>セーブデータからワールドを作成</summary>
-    static public MapWorld createFromSave(string aFilePath) {
-        MapSaveFileData tSaveData = new MapSaveFileData(aFilePath);
-        //マップデータを記憶
-        mData = new MapFileData(tSaveData.mFilePath);
-        mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums[0].mFeild.Count, mData.mStratums.Count));
-
-        mWorld.mMapPath = tSaveData.mFilePath;
-        mWorld.mMapName = mData.mMapName;
-        mWorld.mFileData = mData;
-        //カメラ生成
-        initCamera();
-        //フィールド生成
-        buildField();
-        //壁生成
-        buildEnd();
-        //影生成
-        List<MapFileData.Shadow> tShadowData = mData.mShadows;
-        int tShadowNum = tShadowData.Count;
-        for (int i = 0; i < tShadowNum; ++i) {
-            buildShadow(tShadowData[i]);
-        }
-        //ornament生成
-        List<MapSaveFileData.SavedOrnament> tOrnamentData = tSaveData.mOrnaments;
-        int tOrnamentNum = tOrnamentData.Count;
-        for (int i = 0; i < tOrnamentNum; ++i) {
-            buildOrnament(tOrnamentData[i]);
-        }
-        //character(npc)生成
-        List<MapSaveFileData.SavedNpc> tNpcData = tSaveData.mNpcs;
-        int tNpcNum = tNpcData.Count;
-        for (int i = 0; i < tNpcNum; ++i) {
-            buildCharacter(tNpcData[i]);
-        }
-        //trigger生成
-        List<MapFileData.Trigger> tTriggerData = mData.mTriggers;
-        int tTriggerNum = tTriggerData.Count;
-        for (int i = 0; i < tTriggerNum; ++i) {
-            buildTrigger(tTriggerData[i]);
-        }
-        //event
-        createEvent();
-
-        //生成完了
-        foreach (MapBehaviour tBehaviour in mWorld.GetComponentsInChildren<MapBehaviour>())
-            tBehaviour.placed();
-
-        MapWorld tCreatedWorld = mWorld;
-        mWorld = null;
-        mData = null;
-        return tCreatedWorld;
     }
     /// <summary>worldを生成しコンテナを追加</summary>
     static private MapWorld initWorld(Vector3Int aSize) {

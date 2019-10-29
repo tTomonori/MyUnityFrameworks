@@ -27,7 +27,6 @@ public static partial class MapWorldFactory {
         MapCell tCell = new MapCell();
 
         MapTile tTile;
-        MapFileData.Ornament tData;
         //平面階層
         int tChipNum = mData.mStratums[aH].mFeild[tY][aX];
         MapFileData.Tile tTileData = mData.mChip.get(tChipNum);

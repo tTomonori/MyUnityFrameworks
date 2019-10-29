@@ -136,7 +136,7 @@ public static partial class MyJson {
                 oOut = ((bool)aObject).ToString();
                 return true;
             } else if (aObject is Vector2) {
-                oOut = "Vector2(" + ((Vector2)aObject).x.ToString()+","+((Vector2)aObject).y.ToString() + ")";
+                oOut = "Vector2(" + ((Vector2)aObject).x.ToString() + "," + ((Vector2)aObject).y.ToString() + ")";
                 return true;
             } else if (aObject is Vector3) {
                 oOut = "Vector3(" + ((Vector3)aObject).x.ToString() + "," + ((Vector3)aObject).y.ToString() + "," + ((Vector3)aObject).z.ToString() + ")";
@@ -150,8 +150,12 @@ public static partial class MyJson {
                 return true;
             } else if (aObject is Arg) {
                 return dictionaryToString(((Arg)aObject).dictionary, out oOut, aSecondFlag);
+            } else if (aObject == null) {
+                Debug.LogWarning("MyJsonSerialize : Nullが含まれている");
+                oOut = "";
+                return false;
             } else {
-                Debug.Log("MyJsonSerialize : サポートしていない型 「" + aObject.GetType() + "」");
+                Debug.LogWarning("MyJsonSerialize : サポートしていない型 「" + aObject.GetType() + "」");
                 oOut = "";
                 return false;
             }

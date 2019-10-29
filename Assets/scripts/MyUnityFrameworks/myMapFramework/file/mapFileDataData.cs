@@ -20,15 +20,17 @@ public partial class MapFileData {
     }
     /// <summary>マス情報のDic</summary>
     public class Chip {
-        public Dictionary<string, Tile> mData;
+        public Arg mData;
+        public Dictionary<string, Tile> mDic;
         public Tile get(int aNum) {
-            if (!mData.ContainsKey(aNum.ToString())) return null;
-            return mData[aNum.ToString()];
+            if (!mDic.ContainsKey(aNum.ToString())) return null;
+            return mDic[aNum.ToString()];
         }
         public Chip(Arg aData) {
-            mData = new Dictionary<string, Tile>();
+            mData = aData;
+            mDic = new Dictionary<string, Tile>();
             foreach (string tKey in aData.dictionary.Keys) {
-                mData.Add(tKey, new Tile(aData.get<Arg>(tKey)));
+                mDic.Add(tKey, new Tile(aData.get<Arg>(tKey)));
             }
         }
     }

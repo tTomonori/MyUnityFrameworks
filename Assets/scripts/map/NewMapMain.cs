@@ -27,7 +27,7 @@ public class NewMapMain : MonoBehaviour {
         mMap.mPlayerData = tPlayerData;
 
         //mMap.load("meshMap");
-        mMap.loadSaveData("save/mapSaveData");
+        mMap.loadSaveData("Assets/resources/save/mapSaveData.json");
 
         //contoroller
         mController = new MyMapController();

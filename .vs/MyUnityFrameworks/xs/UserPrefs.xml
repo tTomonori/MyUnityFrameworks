@@ -1,28 +1,32 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myMapFramework/world/event/MapEventOperator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myMapFramework/world/factory/shadowFactory.cs">
     <Files>
-      <File FileName="Assets/resources/mymap/map/meshMap.json" Line="250" Column="90" />
-      <File FileName="Assets/resources/mymap/map/meshMap2.json" Line="144" Column="16" />
+      <File FileName="Assets/resources/mymap/map/meshMap.json" Line="257" Column="1" />
+      <File FileName="Assets/resources/mymap/map/meshMap2.json" Line="127" Column="14" />
       <File FileName="Assets/resources/save/mapSaveData.json" Line="1" Column="1" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapFileData.cs" Line="65" Column="83" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/file/mapFileDataData.cs" Line="370" Column="38" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapSaveFileData.cs" Line="68" Column="37" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/MyMap.cs" Line="58" Column="1" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/event/event/MapEventMoveMap.cs" Line="52" Column="35" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/event/event/MapEventMoveMapEndSide.cs" Line="133" Column="55" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/event/MapEventSystem.cs" Line="83" Column="26" />
-      <File FileName="Assets/scripts/map/NewMapMain.cs" Line="22" Column="30" />
-      <File FileName="Assets/scripts/map/TestEventDelegate.cs" Line="45" Column="23" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/Arg.cs" Line="40" Column="1" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/event/MapEventOperator.cs" Line="62" Column="29" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapFileData.cs" Line="126" Column="42" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/file/mapFileDataData.cs" Line="23" Column="24" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapSaveFileData.cs" Line="19" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/MyMap.cs" Line="43" Column="68" />
+      <File FileName="Assets/scripts/map/NewMapMain.cs" Line="46" Column="14" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapSaveSystem.cs" Line="29" Column="1" />
+      <File FileName="Assets/resources/save/save.json" Line="9" Column="52" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/MapWorld.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonSerialize.cs" Line="137" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/json/MyJsonDeserialize.cs" Line="179" Column="25" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/Arg.cs" Line="41" Column="62" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/factory/shadowFactory.cs" Line="12" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapSaveSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapSaveSystem.cs" line="27" column="1" />
+      <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapSaveSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/file/MapSaveSystem.cs" line="29" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

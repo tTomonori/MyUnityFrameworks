@@ -7,37 +7,51 @@ public static class MapSaveSystem {
     static public MapSaveFileData save(MyMap aMap) {
         MapSaveFileData tSaveData = new MapSaveFileData();
 
+        //マップ名
+        tSaveData.mMapName = aMap.mWorld.mFileData.mMapName;
         //ファイルパス
         tSaveData.mFilePath = aMap.mWorld.mMapPath;
         //エンカウント
         tSaveData.mEncountCount = aMap.mEncountSystem.mCount;
+        //stratum
+        tSaveData.mStratums = aMap.mWorld.mFileData.mStratums;
+        //chip
+        tSaveData.mChip = aMap.mWorld.mFileData.mChip;
+        //shadow
+        tSaveData.mShadows = aMap.mWorld.mFileData.mShadows;
+        //trigger
+        tSaveData.mTriggers = aMap.mWorld.mFileData.mTriggers;
+        //event
+        tSaveData.mEvents = aMap.mWorld.mFileData.mEvents;
+        //entrance
+        tSaveData.mEntrances = aMap.mWorld.mFileData.mEntrances;
         //ornament
-        foreach(MapOrnament tOrnament in aMap.mWorld.mOrnamentContainer.GetComponentsInChildren<MapOrnament>()) {
+        foreach (MapOrnament tOrnament in aMap.mWorld.mOrnamentContainer.GetComponentsInChildren<MapOrnament>()) {
             tSaveData.mOrnaments.Add(saveOrnament(tOrnament));
         }
         //character(player含む)
         foreach (MapCharacter tCharacter in aMap.mWorld.mCharacterContainer.GetComponentsInChildren<MapCharacter>()) {
-            tSaveData.mNpcs.Add(saveNpc(tCharacter));
+            tSaveData.mCharacters.Add(saveCharacter(tCharacter));
         }
 
         return tSaveData;
     }
     /// <summary>ornamentの保存データ生成</summary>
-    static public MapSaveFileData.SavedOrnament saveOrnament(MapOrnament aOrnament) {
-        MapSaveFileData.SavedOrnament tSaveData = new MapSaveFileData.SavedOrnament(aOrnament.mFileData);
+    static public MapSaveFileData.Ornament saveOrnament(MapOrnament aOrnament) {
+        MapSaveFileData.Ornament tSaveData = new MapSaveFileData.Ornament(aOrnament.mFileData);
         //座標
         MapPosition tPosition = aOrnament.mMapPosition;
         tSaveData.mX = tPosition.x;
         tSaveData.mY = tPosition.y;
         tSaveData.mHeight = tPosition.h;
         //その他データ
-        tSaveData.mSave = aOrnament.save();
+        tSaveData.mArg = aOrnament.save();
 
         return tSaveData;
     }
     /// <summary>characterの保存データ生成</summary>
-    static public MapSaveFileData.SavedNpc saveNpc(MapCharacter aCharacter) {
-        MapSaveFileData.SavedNpc tSaveData = new MapSaveFileData.SavedNpc(aCharacter.mFileData);
+    static public MapSaveFileData.Character saveCharacter(MapCharacter aCharacter) {
+        MapSaveFileData.Character tSaveData = new MapSaveFileData.Character(aCharacter.mFileData);
         //座標
         MapPosition tPosition = aCharacter.mMapPosition;
         tSaveData.mX = tPosition.x;

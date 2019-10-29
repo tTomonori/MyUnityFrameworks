@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class MapFileData {
-    private Arg mData;
+    protected Arg mData;
     ///<summary>マップ名</summary>
     public string mMapName;
     ///<summary>階層データ</summary>
@@ -23,9 +23,23 @@ public partial class MapFileData {
     /// <summary>マップの入り口データ</summary>
     public Dictionary<string, Entrance> mEntrances;
 
+    public MapFileData() {
+        mData = new Arg();
+        mStratums = new List<Stratum>();
+        mChip = new Chip(new Arg());
+        mShadows = new List<Shadow>();
+        mOrnaments = new List<Ornament>();
+        mCharacters = new List<Character>();
+        mTriggers = new List<Trigger>();
+        mEvents = new Event(new Arg());
+        mEntrances = new Dictionary<string, Entrance>();
+    }
     public MapFileData(string aFilePath) {
         //ファイルロード
-        mData = new Arg(MyJson.deserializeFile("Assets/resources/" + MyMap.mMapResourcesDirectory + "/map/" + aFilePath + ".json"));
+        load(new Arg(MyJson.deserializeFile("Assets/resources/" + MyMap.mMapResourcesDirectory + "/map/" + aFilePath + ".json")));
+    }
+    protected void load(Arg aData) {
+        mData = aData;
 
         //マップ名
         mMapName = mData.get<string>("name");
@@ -64,5 +78,54 @@ public partial class MapFileData {
         foreach (KeyValuePair<string, object> tPair in (Dictionary<string, object>)tEntrance.dictionary) {
             mEntrances.Add(tPair.Key, new Entrance(tEntrance.get<Arg>(tPair.Key)));
         }
+    }
+    /// <summary>保持内容をArgにまとめる</summary>
+    public virtual Arg createDic() {
+        Arg tDic = new Arg();
+        List<Arg> tList;
+        //マップ名
+        tDic.set("name", mMapName);
+        //階層データ
+        tList = new List<Arg>();
+        foreach (Stratum tStratum in mStratums) {
+            tList.Add(tStratum.mData);
+        }
+        tDic.set("stratum", tList);
+        //chipデータ
+        tDic.set("chip", mChip.mData);
+        //shadowデータ
+        tList = new List<Arg>();
+        foreach (Shadow tShadow in mShadows) {
+            tList.Add(tShadow.mData);
+        }
+        tDic.set("shadow", tList);
+        //ornamentデータ
+        tList = new List<Arg>();
+        foreach (Ornament tOrnament in mOrnaments) {
+            tList.Add(tOrnament.mData);
+        }
+        tDic.set("ornament", tList);
+        //characterデータ
+        tList = new List<Arg>();
+        foreach (Character tCharacter in mCharacters) {
+            tList.Add(tCharacter.mData);
+        }
+        tDic.set("character", tList);
+        //triggerデータ
+        tList = new List<Arg>();
+        foreach (Trigger tTrigger in mTriggers) {
+            tList.Add(tTrigger.mData);
+        }
+        tDic.set("trigger", tList);
+        //イベントデータ
+        tDic.set("event", mEvents.mData);
+        //入り口データ
+        Dictionary<string, Dictionary<string, object>> tEntranceDic = new Dictionary<string, Dictionary<string, object>>();
+        foreach (KeyValuePair<string, Entrance> tPair in mEntrances) {
+            tEntranceDic.Add(tPair.Key, (Dictionary<string, object>)tPair.Value.mData.dictionary);
+        }
+        tDic.set("entrance", tEntranceDic);
+
+        return tDic;
     }
 }
