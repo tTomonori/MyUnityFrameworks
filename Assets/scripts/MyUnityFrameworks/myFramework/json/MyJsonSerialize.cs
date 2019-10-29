@@ -21,6 +21,7 @@ public static partial class MyJson {
     }
     private class Serializer {
         private bool mLienFeedCode;
+        private int mNest = 0;
         public string serialize(IDictionary data, bool lineFeedCode) {
             mLienFeedCode = lineFeedCode;
             string tOut;
@@ -35,10 +36,27 @@ public static partial class MyJson {
                 return "\n";
             return "";
         }
+        //ネスト分だけスペースを返す
+        private string getNext(bool aSecondFlag = true, int aNestOffset = 0) {
+            if (mLienFeedCode && aSecondFlag) {
+                string tNest = "";
+                for (int i = 0; i < mNest + aNestOffset; ++i) {
+                    tNest += "  ";
+                }
+                return tNest;
+            }
+            return "";
+        }
         //改行を入れる状態なら１文字取り消す
         private string backLine(string s, bool aSecondFlag = true) {
             if (mLienFeedCode && aSecondFlag)
                 return s.Remove(s.Length - 1);
+            return s;
+        }
+        //改行を入れる状態ならネストを取り消す
+        private string backNest(string s, bool aSecondFlag = true, int aNestOffset = 0) {
+            if (mLienFeedCode && aSecondFlag)
+                return s.Remove(s.Length - 2 * (mNest + aNestOffset));
             return s;
         }
         //１文字取り消す
@@ -47,6 +65,7 @@ public static partial class MyJson {
         }
         //dictionaryをstringに
         private bool dictionaryToString(IDictionary aDic, out string oOut, bool aLineFeedCode) {
+            ++mNest;
             string tOut = "";
             //一つ以上要素を書き込めたか
             bool tWritten = false;
@@ -71,6 +90,7 @@ public static partial class MyJson {
                 tOut += tValueString;
                 tOut += ",";
                 tOut += newLineChar(aLineFeedCode);
+                tOut += getNext(aLineFeedCode, 0);
                 tWritten = true;
             }
             if (!tWritten && tContainsError) {//一つも要素がない かつ 不正な要素があった
@@ -79,29 +99,35 @@ public static partial class MyJson {
             }
             //一つ以上要素を書き込める
             if (tWritten) {
+                tOut = backNest(tOut, aLineFeedCode);//ネスト削除
                 tOut = backLine(tOut, aLineFeedCode);//改行削除
                 tOut = back(tOut);//コンマ削除
             }
 
-            oOut = "{" + newLineChar(aLineFeedCode) + tOut + newLineChar(aLineFeedCode) + "}";
+            oOut = "{" + newLineChar(aLineFeedCode) + getNext(aLineFeedCode, 0) + tOut + newLineChar(aLineFeedCode) + getNext(aLineFeedCode, -1) + "}";
+            --mNest;
             return true;
         }
         //listをstringに
         private bool listToString(IList aList, out string oOut) {
+            ++mNest;
             string tOut = "";
             //一つ以上要素を書き込めたか
             bool tWritten = false;
             //不正な要素があったか
             bool tContainsError = false;
+            bool tIsMass = false;//要素がListかDictionaryの時のみ改行を入れる
             foreach (object tObject in aList) {
                 string tElement;
                 if (!toString(tObject, out tElement, false)) {
                     tContainsError = true;
                     continue;
                 }
+                tIsMass = (tObject is IDictionary) || (tObject is IList) || (tObject is Arg);
                 tOut += tElement;
                 tOut += ",";
-                tOut += newLineChar();
+                tOut += newLineChar(tIsMass);
+                tOut += getNext(tIsMass, 0);
                 tWritten = true;
             }
             if (!tWritten && tContainsError) {//一つも要素がない かつ 不正な要素があった
@@ -110,11 +136,13 @@ public static partial class MyJson {
             }
             //一つ以上要素を書き込める
             if (tWritten) {
-                tOut = backLine(tOut);//改行削除
+                tOut = backNest(tOut, tIsMass);//ネスト削除
+                tOut = backLine(tOut, tIsMass);//改行削除
                 tOut = back(tOut);//コンマ削除
             }
-
-            oOut = "[" + newLineChar() + tOut + newLineChar() + "]";
+            bool tFirstIsMass = tWritten && ((aList[0] is IDictionary) || (aList[0] is IList) || (aList[0] is Arg));//先頭の要素がListかDictionaryの時のみ改行を入れる
+            oOut = "[" + newLineChar(tFirstIsMass) + getNext(tFirstIsMass, 0) + tOut + newLineChar(tIsMass) + getNext(tIsMass, -1) + "]";
+            --mNest;
             return true;
         }
         //型を見てStringにする
@@ -133,7 +161,7 @@ public static partial class MyJson {
                 oOut = ((int)aObject).ToString();
                 return true;
             } else if (aObject is bool) {
-                oOut = ((bool)aObject).ToString();
+                oOut = ((bool)aObject).ToString().ToLower();
                 return true;
             } else if (aObject is Vector2) {
                 oOut = "Vector2(" + ((Vector2)aObject).x.ToString() + "," + ((Vector2)aObject).y.ToString() + ")";
