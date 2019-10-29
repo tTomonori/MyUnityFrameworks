@@ -81,7 +81,16 @@ public class MyMap : MyBehaviour {
     public MapSaveFileData save() {
         return MapSaveSystem.save(this);
     }
-
+    /// <summary>予約名パスをフラグで使うパスに変換</summary>
+    public string toFlagPath(string aPath) {
+        if (aPath.StartsWith("worldMap/", System.StringComparison.Ordinal)) {
+            return "myMap/world/" + mWorld.mMapPath + "/" + aPath.Substring(9);
+        }else if (aPath.StartsWith("localMap/",System.StringComparison.Ordinal)) {
+            return "myMap/local/" + mWorld.mMapPath + "/" + aPath.Substring(9);
+        } else {
+            return aPath;
+        }
+    }
     static public Sprite mSquareMask {
         get { return Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/squareMask"); }
     }

@@ -23,17 +23,16 @@ public class NewMapMain : MonoBehaviour {
         tPlayerData.mName = "player";
         tPlayerData.mMoveSpeed = 2.5f;
         tPlayerData.mPath = "player/player";
-        tPlayerData.mAiString= "<player>";
+        tPlayerData.mAiString = "<player>";
         mMap.mPlayerData = tPlayerData;
 
+        mMap.mFlag = MyFlag.load("Assets/resources/save/flagSaveData.json");
         //mMap.load("meshMap");
         mMap.loadSaveData("Assets/resources/save/mapSaveData.json");
 
         //contoroller
         mController = new MyMapController();
         mMap.mController = mController;
-
-
 
 
     }
@@ -47,6 +46,8 @@ public class NewMapMain : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.S)) {
             MapSaveFileData tSave = mMap.save();
             MyJson.serializeToFile(tSave.createDic().dictionary, "Assets/resources/save/mapSaveData.json", true);
+
+            mMap.mFlag.write("Assets/resources/save/flagSaveData.json", true);
         }
     }
 }

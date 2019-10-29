@@ -10,7 +10,7 @@ public class MyFlag {
     /// </summary>
     /// <returns>読み込んだflag</returns>
     /// <param name="aFilePath">"Assets/../" + filePath (拡張子必須)</param>
-    static MyFlag load(string aFilePath) {
+    static public MyFlag load(string aFilePath) {
         MyFlag tFlag = new MyFlag();
         tFlag.mFlags = MyJson.deserializeFile(aFilePath);
         return tFlag;

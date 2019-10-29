@@ -1,5 +1,10 @@
 {
   "name": "デバッグマップ",
+  "fieldMargin": 2,
+  "cameraSize": -1,
+  "arg":{
+
+  },
   "stratum": [
     {
       "feild": [

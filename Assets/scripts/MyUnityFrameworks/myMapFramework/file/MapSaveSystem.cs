@@ -9,6 +9,12 @@ public static class MapSaveSystem {
 
         //マップ名
         tSaveData.mMapName = aMap.mWorld.mFileData.mMapName;
+        //field margin
+        tSaveData.mFieldMargin = aMap.mWorld.mFileData.mFieldMargin;
+        //cameraSize
+        tSaveData.mCameraSize = aMap.mWorld.mCameras[0].mCameraSize;
+        //フレームワーク外部用変数
+        tSaveData.mArg = aMap.mWorld.mFileData.mArg;
         //ファイルパス
         tSaveData.mFilePath = aMap.mWorld.mMapPath;
         //エンカウント

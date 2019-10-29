@@ -9,6 +9,9 @@ public static partial class MapWorldFactory {
         tCamera.name = "worldMainCamera";
         tCamera.transform.SetParent(mWorld.mCameraContainer.transform, false);
         tCamera.mConfig = new MapCamera.ProjectPlayerInCenter();
+        tCamera.mMaxMargin = mWorld.mFileData.mFieldMargin;
+        if (mWorld.mFileData.mCameraSize > 0)
+            tCamera.mCameraSize = mWorld.mFileData.mCameraSize;
         mWorld.mCameras.Add(tCamera);
     }
 }

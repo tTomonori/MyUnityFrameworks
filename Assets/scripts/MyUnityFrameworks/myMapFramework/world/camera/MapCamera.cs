@@ -10,6 +10,11 @@ public class MapCamera : MyBehaviour {
     public MapCameraConfig mConfig;
     /// <summary>Worldをはみ出して写して良い最大距離</summary>
     public float mMaxMargin = 2f;
+    /// <summary>カメラの描画範囲</summary>
+    public float mCameraSize {
+        get { return mCamera.orthographicSize; }
+        set { mCamera.orthographicSize = value; }
+    }
     static public MapCamera init(MapWorld aWorld) {
         MapCamera tCamera = MyBehaviour.create<MapCamera>();
         tCamera.mWorld = aWorld;

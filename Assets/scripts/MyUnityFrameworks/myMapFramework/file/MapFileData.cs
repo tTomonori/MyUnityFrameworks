@@ -6,6 +6,12 @@ public partial class MapFileData {
     protected Arg mData;
     ///<summary>マップ名</summary>
     public string mMapName;
+    /// <summary>カメラに写すフィールド外の最大距離</summary>
+    public float mFieldMargin;
+    /// <summary>カメラのorthographicSize(デフォルト値を適用するなら負の値)</summary>
+    public float mCameraSize;
+    /// <summary>MapFramework外部で使う変数</summary>
+    public Arg mArg;
     ///<summary>階層データ</summary>
     public List<Stratum> mStratums;
     ///<summary>マスデータ</summary>
@@ -43,6 +49,12 @@ public partial class MapFileData {
 
         //マップ名
         mMapName = mData.get<string>("name");
+        //field margin
+        mFieldMargin = mData.ContainsKey("fieldMargin") ? mData.get<float>("fieldMargin") : 0;
+        //camera size
+        mCameraSize = mData.ContainsKey("cameraSize") ? mData.get<float>("cameraSize") : -1;
+        //フレームワーク外部用変数
+        mArg = mData.ContainsKey("arg") ? mData.get<Arg>("arg") : new Arg();
         //階層データ
         mStratums = new List<Stratum>();
         foreach (Arg tData in mData.get<List<Arg>>("stratum")) {
@@ -85,6 +97,13 @@ public partial class MapFileData {
         List<Arg> tList;
         //マップ名
         tDic.set("name", mMapName);
+        //field margin
+        tDic.set("fieldMargin", mFieldMargin);
+        //camera size
+        if (mCameraSize > 0)
+            tDic.set("cameraSize", mCameraSize);
+        //フレームワーク外部用変数
+        tDic.set("arg", mArg.dictionary);
         //階層データ
         tList = new List<Arg>();
         foreach (Stratum tStratum in mStratums) {
