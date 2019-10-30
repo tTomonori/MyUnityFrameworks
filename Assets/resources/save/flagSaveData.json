@@ -2,7 +2,8 @@
   "myMap":{
     "world":{
       "meshMap2":{
-        "test":"test"
+        "test":"test",
+        "testFloat":0
       }
     }
   }

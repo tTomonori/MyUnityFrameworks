@@ -32,7 +32,7 @@ public class MyMap : MyBehaviour {
         //ワールドを再生成
         if (mWorld != null)
             mWorld.delete();
-        mWorld = MapWorldFactory.create(aFilePath);
+        mWorld = MapWorldFactory.create(aFilePath, this);
         mWorld.mMap = this;
         mWorld.name = "world";
         mWorld.transform.SetParent(this.transform, false);
@@ -48,7 +48,7 @@ public class MyMap : MyBehaviour {
         //ワールドを再生成
         if (mWorld != null)
             mWorld.delete();
-        mWorld = MapWorldFactory.createFromSave(aFilePath);
+        mWorld = MapWorldFactory.createFromSave(aFilePath, this);
         mWorld.mMap = this;
         mWorld.name = "world";
         mWorld.transform.SetParent(this.transform, false);
@@ -81,16 +81,7 @@ public class MyMap : MyBehaviour {
     public MapSaveFileData save() {
         return MapSaveSystem.save(this);
     }
-    /// <summary>予約名パスをフラグで使うパスに変換</summary>
-    public string toFlagPath(string aPath) {
-        if (aPath.StartsWith("worldMap/", System.StringComparison.Ordinal)) {
-            return "myMap/world/" + mWorld.mMapPath + "/" + aPath.Substring(9);
-        }else if (aPath.StartsWith("localMap/",System.StringComparison.Ordinal)) {
-            return "myMap/local/" + mWorld.mMapPath + "/" + aPath.Substring(9);
-        } else {
-            return aPath;
-        }
-    }
+
     static public Sprite mSquareMask {
         get { return Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/system/squareMask"); }
     }

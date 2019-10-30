@@ -47,7 +47,10 @@ public static partial class MapWorldFactory {
         return tTrigger;
     }
     //<summary>トリガーを生成してworldに追加</summary>
-    static private void buildTrigger(MapFileData.Trigger aData) {
+    static private MapTrigger buildTrigger(MapFileData.Trigger aData) {
+        //生成フラグ確認
+        if (!flagCreate(aData)) return null;
+
         MapTrigger tTrigger = createTrigger(aData);
 
         MapBehaviour tBehaviour = MyBehaviour.create<MapBehaviour>();
@@ -57,5 +60,6 @@ public static partial class MapWorldFactory {
         tBehaviour.setMapPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
 
         tBehaviour.transform.SetParent(mWorld.mTriggerContainer.transform, false);
+        return tTrigger;
     }
 }

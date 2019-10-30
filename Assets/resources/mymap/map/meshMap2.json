@@ -132,6 +132,7 @@
   "shadow": [
   ],
   "ornament":[ 
+    {"path": "rotaFlower","name": "rotaFlower","x": 3,"y": 3.5,"height": 0,"createFlag": "<and,worldMap/test:test,worldMap/testFloat:1:moreThan>"},
     {"path": "rotaFlower","name": "rotaFlower","x": 8,"y": 3.5,"height": 0},
     {"path": "rotaFlower","name": "rotaFlower","x": 9.7,"y": 2.3,"height": 0}
   ],

@@ -24,7 +24,10 @@ public static partial class MapWorldFactory {
         return tOrnament;
     }
     //<summary>物を生成してworldに追加</summary>
-    static private void buildOrnament(MapFileData.Ornament aData) {
+    static private MapOrnament buildOrnament(MapFileData.Ornament aData) {
+        //生成フラグ確認
+        if (!flagCreate(aData)) return null;
+
         MapOrnament tOrnament = createOrnament(aData);
         tOrnament.mFileData = aData;
         tOrnament.transform.SetParent(mWorld.mOrnamentContainer.transform, false);
@@ -35,6 +38,7 @@ public static partial class MapWorldFactory {
             tOrnament.setArg(aData.mArg);
         //画像イベント適用
         MapWorldUpdater.applyImageEvent(tOrnament);
+        return tOrnament;
     }
 }
 

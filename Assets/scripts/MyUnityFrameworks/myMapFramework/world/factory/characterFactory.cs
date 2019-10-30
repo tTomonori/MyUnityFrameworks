@@ -56,6 +56,9 @@ public static partial class MapWorldFactory {
     }
     ///<summary>キャラクターを生成してworldに追加</summary>
     static private MapCharacter buildCharacter(MapFileData.Character aData) {
+        //生成フラグ確認
+        if (!flagCreate(aData)) return null;
+
         MapCharacter tCharacter = createCharacter(aData);
         tCharacter.mFileData = aData;
         tCharacter.transform.SetParent(mWorld.mCharacterContainer.transform, false);

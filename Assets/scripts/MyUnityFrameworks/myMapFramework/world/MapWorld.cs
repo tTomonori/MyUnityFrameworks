@@ -68,6 +68,43 @@ public class MapWorld : MyBehaviour {
         return null;
     }
 
+    /// <summary>予約名パスをフラグで使うパスに変換</summary>
+    public string toFlagPath(string aPath) {
+        if (aPath.StartsWith("worldMap/", System.StringComparison.Ordinal)) {
+            return "myMap/world/" + mMapPath + "/" + aPath.Substring(9);
+        } else if (aPath.StartsWith("localMap/", System.StringComparison.Ordinal)) {
+            return "myMap/local/" + mMapPath + "/" + aPath.Substring(9);
+        } else {
+            return aPath;
+        }
+    }
+    /// <summary>予約名パスをフラグで使うパスに変換</summary>
+    public MyFlagItem toFlagPath(MyFlagItem aItem) {
+        if (aItem is MyFlagSingleItem) {
+            MyFlagSingleItem tSingle = ((MyFlagSingleItem)aItem).copy();
+            tSingle.mPath = toFlagPath(tSingle.mPath);
+            return tSingle;
+        } else if (aItem is MyFlagAndItems) {
+            MyFlagAndItems tAnd = ((MyFlagAndItems)aItem).copy();
+            for (int i = 0; i < tAnd.mItems.Length; ++i) {
+                tAnd.mItems[i].mPath = toFlagPath(tAnd.mItems[i].mPath);
+            }
+            return tAnd;
+        } else if (aItem is MyFlagOrItems) {
+            MyFlagAndItems tOr = ((MyFlagAndItems)aItem).copy();
+            for (int i = 0; i < tOr.mItems.Length; ++i) {
+                tOr.mItems[i].mPath = toFlagPath(tOr.mItems[i].mPath);
+            }
+            return tOr;
+        }
+        throw new System.Exception("MyMap : FlagItemのパス変換失敗「" + aItem.GetType().ToString() + "」");
+    }
+    /// <summary>フラグチェック</summary>
+    public bool checkFlag(MyFlagItem aItem) {
+        MyFlagItem tItem = toFlagPath(aItem);
+        return mMap.mFlag.check(tItem);
+    }
+
     public void updateWorld() {
         MapWorldUpdater.updateWorld(this);
         //カメラ更新

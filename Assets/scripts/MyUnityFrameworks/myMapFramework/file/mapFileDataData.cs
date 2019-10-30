@@ -108,14 +108,8 @@ public partial class MapFileData {
             mData = aData;
         }
     }
-    /// <summary>Entity</summary>
-    public class Entity {
+    public class Behaviour {
         public Arg mData;
-        ///<summary>プレハブへのパス</summary>
-        public string mPath {
-            get { return mData.get<string>("path"); }
-            set { mData.set("path", value); }
-        }
         ///<summary>オブジェクトの名前</summary>
         public string mName {
             get {
@@ -138,6 +132,56 @@ public partial class MapFileData {
         public float mHeight {
             get { return mData.get<float>("height"); }
             set { mData.set("height", value); }
+        }
+        /// <summary>フラグが立っている場合のみ生成する</summary>
+        public MyFlagItem mCreateFlag {
+            get {
+                if (mData.ContainsKey("createFlag")) return MyFlagItem.create(mData.get<string>("createFlag"));
+                else return null;
+            }
+            set {
+                if (value != null) mData.set("createFlag", value.toString());
+                else mData.remove("createFlag");
+            }
+        }
+        public string mCreateFlagString {
+            get {
+                if (mData.ContainsKey("createFlag")) return mData.get<string>("createFlag");
+                else return null;
+            }
+            set {
+                if (value != null || value != "") mData.set("createFlag", value);
+                else mData.remove("createFlag");
+            }
+        }
+        /// <summary>フラグが立っている場合は生成しない</summary>
+        public MyFlagItem mDeleteFlag {
+            get {
+                if (mData.ContainsKey("deleteFlag")) return MyFlagItem.create(mData.get<string>("deleteFlag"));
+                else return null;
+            }
+            set {
+                if (value != null) mData.set("deleteFlag", value.toString());
+                else mData.remove("deleteFlag");
+            }
+        }
+        public string mDeleteFlagString {
+            get {
+                if (mData.ContainsKey("deleteFlag")) return mData.get<string>("deleteFlag");
+                else return null;
+            }
+            set {
+                if (value != null || value != "") mData.set("deleteFlag", value);
+                else mData.remove("deleteFlag");
+            }
+        }
+    }
+    /// <summary>Entity</summary>
+    public class Entity : Behaviour {
+        ///<summary>プレハブへのパス</summary>
+        public string mPath {
+            get { return mData.get<string>("path"); }
+            set { mData.set("path", value); }
         }
         ///<summary>話かけられた時のイベント</summary>
         public string mSpeakDefault {
@@ -246,33 +290,10 @@ public partial class MapFileData {
         }
     }
     /// <summary>トリガー</summary>
-    public class Trigger {
-        public Arg mData;
-        ///<summary>トリガーの名前</summary>
-        public string mName {
-            get {
-                if (!mData.ContainsKey("name")) return "";
-                return mData.get<string>("name");
-            }
-        }
+    public class Trigger : Behaviour {
         ///<summary>トリガーの形状を表したタグ</summary>
         public MyTag mShape {
             get { return new MyTag(mData.get<string>("shape")); }
-        }
-        ///<summary>x座標</summary>
-        public float mX {
-            get { return mData.get<float>("x"); }
-            set { mData.set("x", value); }
-        }
-        ///<summary>y座標</summary>
-        public float mY {
-            get { return mData.get<float>("y"); }
-            set { mData.set("y", value); }
-        }
-        ///<summary>高さ</summary>
-        public float mHeight {
-            get { return mData.get<float>("height"); }
-            set { mData.set("height", value); }
         }
         /// <summary>triggerを発火させるentityの名前(リストが空なら全てのentityがtriggerになる)</summary>
         public List<string> mTriggerKey {

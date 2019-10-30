@@ -6,7 +6,9 @@ using UnityEngine;
 public class MapEventRoot : MapEvent {
     /// <summary>AIジャックするキャラの名前のリスト</summary>
     public List<string> mRequareAi;
+    /// <summary>イベント発火させてキャラをジャックするか</summary>
     public bool mJackInvoker;
+    /// <summary>イベントを持っていたキャラをジャックするか</summary>
     public bool mJackInvoked;
     /// <summary>実行するイベント</summary>
     public MapEvent mEvent;

@@ -10,11 +10,21 @@ public static partial class MapWorldFactory {
     //生成中のMapWorld
     static private MapWorld mWorld;
     //<summary>ワールドを作成</summary>
-    static public MapWorld create(string aFilePath) {
+    static public MapWorld create(string aFilePath, MyMap aMap) {
         MapFileData tData = new MapFileData(aFilePath);
-        createFromFileData(tData);
+
+        //マップデータを記憶
+        mData = tData;
+        mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums[0].mFeild.Count, mData.mStratums.Count));
+        mWorld.mMap = aMap;
+        mWorld.mMapName = mData.mMapName;
+        mWorld.mFileData = mData;
+
         //マップファイルへのパス
         mWorld.mMapPath = aFilePath;
+
+        //生成
+        createFromFileData();
 
         //生成完了
         foreach (MapBehaviour tBehaviour in mWorld.GetComponentsInChildren<MapBehaviour>())
@@ -26,12 +36,22 @@ public static partial class MapWorldFactory {
         return tCreatedWorld;
     }
     //<summary>セーブデータからワールドを作成</summary>
-    static public MapWorld createFromSave(string aFilePath) {
+    static public MapWorld createFromSave(string aFilePath, MyMap aMap) {
         MapSaveFileData tSaveData = new MapSaveFileData(aFilePath);
-        createFromFileData(tSaveData);
+
+        //マップデータを記憶
+        mData = tSaveData;
+        mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums[0].mFeild.Count, mData.mStratums.Count));
+        mWorld.mMap = aMap;
+        mWorld.mMapName = mData.mMapName;
+        mWorld.mFileData = mData;
         mWorld.mSaveData = tSaveData;
+
         //マップファイルへのパス
         mWorld.mMapPath = tSaveData.mFilePath;
+
+        //生成
+        createFromFileData();
 
         //生成完了
         foreach (MapBehaviour tBehaviour in mWorld.GetComponentsInChildren<MapBehaviour>())
@@ -42,13 +62,7 @@ public static partial class MapWorldFactory {
         mData = null;
         return tCreatedWorld;
     }
-    static private void createFromFileData(MapFileData aData) {
-        //マップデータを記憶
-        mData = aData;
-        mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums[0].mFeild.Count, mData.mStratums.Count));
-
-        mWorld.mMapName = mData.mMapName;
-        mWorld.mFileData = mData;
+    static private void createFromFileData() {
         //カメラ生成
         initCamera();
         //フィールド生成
@@ -133,9 +147,24 @@ public static partial class MapWorldFactory {
     static private void createEvent() {
         mWorld.mEvents = new Dictionary<string, MapEvent>();
         MapFileData.Event tEvents = mData.mEvents;
-        foreach(KeyValuePair<string,object> tPair in (Dictionary<string,object>)tEvents.mDic) {
+        foreach (KeyValuePair<string, object> tPair in (Dictionary<string, object>)tEvents.mDic) {
             Arg tData = tEvents.get(tPair.Key);
             mWorld.mEvents.Add(tPair.Key, MapEvent.createRoot(tData));
         }
+    }
+    /// <summary>フラグを確認して生成するか決定</summary>
+    static private bool flagCreate(MapFileData.Behaviour aData) {
+        //削除フラグ確認
+        MyFlagItem tItem = aData.mDeleteFlag;
+        if (tItem != null) {
+            if (mWorld.checkFlag(tItem))
+                return false;
+        }
+        //生成フラグ確認
+        tItem = aData.mCreateFlag;
+        if (tItem != null) {
+            return mWorld.checkFlag(tItem);
+        }
+        return true;
     }
 }

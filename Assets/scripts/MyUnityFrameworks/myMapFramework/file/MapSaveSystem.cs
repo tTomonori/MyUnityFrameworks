@@ -50,6 +50,8 @@ public static class MapSaveSystem {
         tSaveData.mX = tPosition.x;
         tSaveData.mY = tPosition.y;
         tSaveData.mHeight = tPosition.h;
+        //createFlag
+        tSaveData.mCreateFlag = null;
         //その他データ
         tSaveData.mArg = aOrnament.save();
 
@@ -63,6 +65,8 @@ public static class MapSaveSystem {
         tSaveData.mX = tPosition.x;
         tSaveData.mY = tPosition.y;
         tSaveData.mHeight = tPosition.h;
+        //createFlag
+        tSaveData.mCreateFlag = null;
         //向き
         tSaveData.mDirection = aCharacter.mCharacterImage.getDirection();
         //ai
