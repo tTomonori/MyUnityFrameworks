@@ -93,6 +93,7 @@ MonoBehaviour:
   mRenderMode: 0
   mSprite: {fileID: 21300000, guid: 08cca123ed5fa4fb9beb1378fe26c203, type: 3}
   mPivot: {x: 0.5, y: 0.5}
+  mRotationY: 0
 --- !u!1 &3181098852384256243
 GameObject:
   m_ObjectHideFlags: 0
