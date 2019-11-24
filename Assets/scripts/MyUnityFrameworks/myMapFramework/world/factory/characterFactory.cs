@@ -10,7 +10,7 @@ public static partial class MapWorldFactory {
         tCharacter.mName = aData.mName;
         tCharacter.name = "character:" + aData.mName;
         //向き
-        tCharacter.mCharacterImage.setDirection(aData.mDirection);
+        tCharacter.mCharacterRenderBehaviour.mImage.setDirection(aData.mDirection);
         //ai
         tCharacter.setAi(createAi(aData.mAi));
         //state
@@ -18,11 +18,11 @@ public static partial class MapWorldFactory {
         //movingData
         tCharacter.mMovingData = new MovingData();
         tCharacter.mMovingData.mSpeed = aData.mMoveSpeed;
-        Vector2 tColliderSize = tCharacter.mAttribute.mCollider.minimumCircumscribedRectangle();
-        tCharacter.mMovingData.mDeltaDistance = Mathf.Min(tColliderSize.x, tColliderSize.y);
+        Vector3 tColliderSize = tCharacter.mEntityPhysicsBehaviour.mAttriubteCollider.minimumCircumscribedCube();
+        tCharacter.mMovingData.mDeltaDistance = Mathf.Min(tColliderSize.x, tColliderSize.z);
         //speaker
         if (aData.mIsSpeaker) {
-            MapKeyEventSpeaker tSpeaker = tCharacter.mAttribute.gameObject.AddComponent<MapKeyEventSpeaker>();
+            MapKeyEventSpeaker tSpeaker = tCharacter.mEntityPhysicsBehaviour.mAttriubteCollider.gameObject.AddComponent<MapKeyEventSpeaker>();
             tSpeaker.mBehaviour = tCharacter;
             tSpeaker.mSpeakDefault = aData.mSpeakDefault;
             tSpeaker.mSpeakFromUp = aData.mSpeakFromUp;
@@ -62,8 +62,8 @@ public static partial class MapWorldFactory {
         MapCharacter tCharacter = createCharacter(aData);
         tCharacter.mFileData = aData;
         tCharacter.transform.SetParent(mWorld.mCharacterContainer.transform, false);
-        tCharacter.setMapPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
-        tCharacter.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(tCharacter.mHeight)]);
+        tCharacter.mMapPosition = new MapPosition(aData.mPosition);
+        tCharacter.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(aData.mY)]);
         mWorld.mCharacters.Add(tCharacter);
         return tCharacter;
     }
@@ -72,7 +72,7 @@ public static partial class MapWorldFactory {
     /// </summary>
     /// <param name="aCharacterData">追加するキャラクターのデータ</param>
     /// <param name="aWorld">キャラクターを追加するworld</param>
-    static public void addCharacter(MapFileData.Character aCharacterData,MapWorld aWorld) {
+    static public void addCharacter(MapFileData.Character aCharacterData, MapWorld aWorld) {
         mWorld = aWorld;
         buildCharacter(aCharacterData).placed();
         mWorld = null;

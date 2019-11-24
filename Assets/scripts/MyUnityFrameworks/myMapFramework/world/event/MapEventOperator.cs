@@ -16,7 +16,7 @@ public partial class MapEventSystem {
         /// <summary>イベントを持っていたもの</summary>
         public MapBehaviour mInvoked;
         /// <summary>イベントを持っていたcollider</summary>
-        public Collider2D mInvokedCollider;
+        public Collider mInvokedCollider;
         /// <summary>実行するイベント</summary>
         public MapEvent mRootEvent;
         public MapEventSystem parent;

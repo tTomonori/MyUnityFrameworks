@@ -12,6 +12,7 @@ public class TileGroundPhysicsAttribute : TilePhysicsAttribute {
         flat,
         water,
         magma,
+        edge,
         wall
     }
 }

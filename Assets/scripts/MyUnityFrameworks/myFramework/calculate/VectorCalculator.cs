@@ -10,12 +10,9 @@ public static class VectorCalculator {
     /// <param name="aVector">分解するベクトル</param>
     /// <param name="aComponent">成分方向ベクトル</param>
     static public Vector2 disassembleOrthogonal(this Vector2 aVector, Vector2 aComponent) {
-        //成分ベクトルに直角
-        Vector2 tRightAngleVector = new Vector2(-aComponent.y, aComponent.x);
-        float k = (aVector.x * aComponent.y - aVector.y * aComponent.x) / (tRightAngleVector.x * aComponent.y - tRightAngleVector.y * aComponent.x);
-        //成分ベクトルに直角な方向の成分
-        Vector2 tARightAngleVector = k * tRightAngleVector;
-        return tARightAngleVector;
+        //(aComponent・Returns = 0) && (k*aComponent + Returns = aVector) ←方程式を解く
+        float k = -(aComponent.x * aVector.x + aComponent.y * aVector.y) / (aComponent.x * aComponent.x + aComponent.y * aComponent.y);
+        return k * aComponent + aVector;
     }
     /// <summary>
     /// ベクトルを成分分解する(成分方向ベクトルに平行な成分を返す)
@@ -24,12 +21,8 @@ public static class VectorCalculator {
     /// <param name="aVector">分解するベクトル</param>
     /// <param name="aComponent">成分方向ベクトル</param>
     static public Vector2 disassembleParallel(this Vector2 aVector, Vector2 aComponent) {
-        //成分ベクトルに直角
-        Vector2 tRightAngleVector = new Vector2(-aComponent.y, aComponent.x);
-        float k = (aVector.x * tRightAngleVector.y - aVector.y * tRightAngleVector.x) / (aComponent.x * tRightAngleVector.y - aComponent.y * tRightAngleVector.x);
-        //成分ベクトルに平行な方向の成分
-        Vector2 tAParallelAngleVector = k * aComponent;
-        return tAParallelAngleVector;
+        float k = -(aComponent.x * aVector.x + aComponent.y * aVector.y) / (aComponent.x * aComponent.x + aComponent.y * aComponent.y);
+        return -k * aComponent;
     }
     /// <summary>
     /// ランダムな方向の単位ベクトルを返す
@@ -79,18 +72,37 @@ public static class VectorCalculator {
         return (-0.01f < a) && (a < 0.01f);
     }
     /// <summary>
-    /// 2つのベクトルのなす角
+    /// 2つのベクトルのなす角(0 ~ 180)
     /// </summary>
     /// <param name="v1"></param>
     /// <param name="v2"></param>
     /// <returns>2つのベクトルのなす角(単位は度)</returns>
-    public static float corner(this Vector2 v1, Vector2 v2) {
+    public static float cornerAbs(this Vector2 v1, Vector2 v2) {
         float tRad = Mathf.Atan2(v2.x * v1.y - v1.x * v2.y, v1.x * v2.x + v1.y * v2.y);
         tRad = Mathf.Abs(tRad);
         return 180f * tRad / Mathf.PI;
     }
     /// <summary>
-    /// Matchs the length.
+    /// 2つのベクトルのなす角(-180 ~ 180)(V1からV2への角度,反時計周りが正)
+    /// </summary>
+    /// <param name="v1"></param>
+    /// <param name="v2"></param>
+    /// <returns>2つのベクトルのなす角(単位は度)</returns>
+    public static float corner(this Vector2 v1, Vector2 v2) {
+        float tRad = Mathf.Atan2(v1.x * v2.y - v2.x * v1.y, v2.x * v1.x + v2.y * v1.y);
+        return 180f * tRad / Mathf.PI;
+    }
+    /// <summary>
+    /// 2つのベクトルのなす角(-PI ~ PI)(V1からV2への角度,反時計周りが正)
+    /// </summary>
+    /// <param name="v1"></param>
+    /// <param name="v2"></param>
+    /// <returns>2つのベクトルのなす角(単位はrad)</returns>
+    public static float cornerRad(this Vector2 v1, Vector2 v2) {
+        return Mathf.Atan2(v1.x * v2.y - v2.x * v1.y, v2.x * v1.x + v2.y * v1.y);
+    }
+    /// <summary>
+    /// 引数の長さのベクトルを返す
     /// </summary>
     /// <returns>引数長の同じ向きのベクトル</returns>
     /// <param name="aVector">向き</param>
@@ -101,5 +113,40 @@ public static class VectorCalculator {
     /// <summary>Vector2に変換する</summary>
     public static Vector2 toVector2(this Vector3 aVector) {
         return new Vector2(aVector.x, aVector.y);
+    }
+
+
+
+
+
+    /// <summary>
+    /// ベクトルを成分分解する(成分方向ベクトルに垂直な成分を返す)
+    /// </summary>
+    /// <returns>成分方向ベクトルに垂直な成分</returns>
+    /// <param name="aVector">分解するベクトル</param>
+    /// <param name="aComponent">成分方向ベクトル</param>
+    static public Vector3 disassembleOrthogonal(this Vector3 aVector, Vector3 aComponent) {
+        //(aComponent・Returns = 0) && (k*aComponent + Returns = aVector) ←方程式を解く
+        float k = -(aComponent.x * aVector.x + aComponent.y * aVector.y + aComponent.z * aVector.z) / (aComponent.x * aComponent.x + aComponent.y * aComponent.y + aComponent.z * aComponent.z);
+        return k * aComponent + aVector;
+    }
+    /// <summary>
+    /// ベクトルを成分分解する(成分方向ベクトルに平行な成分を返す)
+    /// </summary>
+    /// <returns>成分方向ベクトルに平行な成分</returns>
+    /// <param name="aVector">分解するベクトル</param>
+    /// <param name="aComponent">成分方向ベクトル</param>
+    static public Vector3 disassembleParallel(this Vector3 aVector, Vector3 aComponent) {
+        float k = -(aComponent.x * aVector.x + aComponent.y * aVector.y + aComponent.z * aVector.z) / (aComponent.x * aComponent.x + aComponent.y * aComponent.y + aComponent.z * aComponent.z);
+        return -k * aComponent;
+    }
+    /// <summary>
+    /// 引数の長さのベクトルを返す
+    /// </summary>
+    /// <returns>引数長の同じ向きのベクトル</returns>
+    /// <param name="aVector">向き</param>
+    /// <param name="aLength">長さ</param>
+    public static Vector3 matchLength(this Vector3 aVector, float aLength) {
+        return aVector * (aLength / aVector.magnitude);
     }
 }

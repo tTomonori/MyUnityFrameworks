@@ -60,12 +60,10 @@ public class MyMap : MyBehaviour {
         aMoveEvent.mEndSide.mEntranceData = mWorld.mFileData.mEntrances[aMoveEvent.mEndSide.mEntrance];
         //移動先座標計算
         MapCharacter tCharacter = MapWorldFactory.createCharacter(mPlayerData);
-        aMoveEvent.mEndSide.calculatePositionFromPercentagePosition(tCharacter.mAttribute.mCollider);
+        aMoveEvent.mEndSide.calculatePositionFromPercentagePosition(tCharacter.mEntityPhysicsBehaviour.mAttriubteCollider);
         tCharacter.delete();
         //プレイヤー追加
-        mPlayerData.mX = aMoveEvent.mEndSide.mPosition.x;
-        mPlayerData.mY = aMoveEvent.mEndSide.mPosition.y;
-        mPlayerData.mHeight = aMoveEvent.mEndSide.mPosition.z;
+        mPlayerData.mPosition = aMoveEvent.mEndSide.mPosition;
         mPlayerData.mDirection = aMoveEvent.mPlayerDirection;
         MapWorldFactory.addCharacter(mPlayerData, mWorld);
         //マップ移動後イベント実行

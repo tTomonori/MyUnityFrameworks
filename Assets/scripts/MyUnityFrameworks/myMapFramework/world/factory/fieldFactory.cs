@@ -8,8 +8,9 @@ public static partial class MapWorldFactory {
     static private List<MapFileData.Ornament> mOrnamentInTileData;
     /// <summary>フィールド(階層,マス)を生成</summary>
     static public void buildField() {
+        mWorld.mOrthographySizeY = 0;
         mOrnamentInTileData = new List<MapFileData.Ornament>();
-        for (int i = 0; i < mWorld.mSize.z; ++i) {
+        for (int i = 0; i < mWorld.mSize.y; ++i) {
             buildStratum(i);
         }
         buildOrnamentInTile();

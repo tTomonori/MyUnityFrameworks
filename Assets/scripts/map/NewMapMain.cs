@@ -27,7 +27,7 @@ public class NewMapMain : MonoBehaviour {
         mMap.mPlayerData = tPlayerData;
 
         mMap.mFlag = MyFlag.load("Assets/resources/save/flagSaveData.json");
-        //mMap.load("meshMap");
+        //mMap.load("rpMap");
         mMap.loadSaveData("Assets/resources/save/mapSaveData.json");
 
         //contoroller

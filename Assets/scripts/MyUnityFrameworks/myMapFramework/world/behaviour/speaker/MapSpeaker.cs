@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapSpeaker : MyBehaviour {
-    private Collider2D _Collider;
+    private Collider _Collider;
     /// <summary>このTriggerのCollider</summary>
-    public Collider2D mCollider {
+    public Collider mCollider {
         get {
             if (_Collider == null)
-                _Collider = GetComponent<Collider2D>();
+                _Collider = GetComponent<Collider>();
             return _Collider;
         }
     }

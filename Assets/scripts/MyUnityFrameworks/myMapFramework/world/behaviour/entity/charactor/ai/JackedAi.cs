@@ -34,7 +34,7 @@ public partial class MapCharacter : MapEntity {
             parent.mCharacterImage.setDirection(aDirection);
         }
         /// <summary>指定距離移動</summary>
-        public void moveBy(Vector2 aVector, float aSpeed, Action aOnEnd) {
+        public void moveBy(Vector3 aVector, float aSpeed, Action aOnEnd) {
             float tRemainedDistance = aVector.magnitude;
             mUpdateFuncList.Add(() => {
                 if (tRemainedDistance <= 0) {

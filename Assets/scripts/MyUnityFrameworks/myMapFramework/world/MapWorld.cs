@@ -32,6 +32,8 @@ public class MapWorld : MyBehaviour {
 
     /// <summary>マップの大きさ</summary>
     public Vector3Int mSize;
+    /// <summary>マップ2D描画でのY方向サイズ</summary>
+    public int mOrthographySizeY;
 
     //<summary>キャラのリスト</summary>
     public List<MapCharacter> mCharacters = new List<MapCharacter>();

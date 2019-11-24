@@ -15,7 +15,7 @@ public static partial class MapWorldFactory {
 
         //マップデータを記憶
         mData = tData;
-        mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums[0].mFeild.Count, mData.mStratums.Count));
+        mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums.Count, mData.mStratums[0].mFeild.Count));
         mWorld.mMap = aMap;
         mWorld.mMapName = mData.mMapName;
         mWorld.mFileData = mData;
@@ -41,7 +41,7 @@ public static partial class MapWorldFactory {
 
         //マップデータを記憶
         mData = tSaveData;
-        mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums[0].mFeild.Count, mData.mStratums.Count));
+        mWorld = initWorld(new Vector3Int(mData.mStratums[0].mFeild[0].Count, mData.mStratums.Count, mData.mStratums[0].mFeild.Count));
         mWorld.mMap = aMap;
         mWorld.mMapName = mData.mMapName;
         mWorld.mFileData = mData;
@@ -73,7 +73,7 @@ public static partial class MapWorldFactory {
         List<MapFileData.Shadow> tShadowData = mData.mShadows;
         int tShadowNum = tShadowData.Count;
         for (int i = 0; i < tShadowNum; ++i) {
-            buildShadow(tShadowData[i]);
+            //buildShadow(tShadowData[i]);
         }
         //ornament生成
         List<MapFileData.Ornament> tOrnamentData = mData.mOrnaments;

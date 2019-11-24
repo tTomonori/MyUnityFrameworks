@@ -1,15 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public partial class MapCharacter : MapEntity {
     public MapFileData.Character mFileData;
     /// <summary>移動処理で使うデータ</summary>
     public MovingData mMovingData;
-    [SerializeField] public MapCharacterImage mCharacterImage;
-    public override MapEntityImage mImage {
-        get { return mCharacterImage; }
-        set { mCharacterImage = (MapCharacterImage)value; }
+    public MapCharacterImage mCharacterImage {
+        get { return mCharacterRenderBehaviour.mImage; }
+    }
+
+    [SerializeField] public MapCharacterRenderBehaviour mCharacterRenderBehaviour;
+    public override MapRenderBehaviour mRenderBehaviour {
+        get { return mCharacterRenderBehaviour; }
+        set { mCharacterRenderBehaviour = (MapCharacterRenderBehaviour)value; }
+    }
+    public override MapEntityRenderBehaviour mEntityRenderBehaviour {
+        get { return mCharacterRenderBehaviour; }
+        set { mCharacterRenderBehaviour = (MapCharacterRenderBehaviour)value; }
     }
 
     private MapCharacter.Ai mAi;
@@ -26,9 +35,9 @@ public partial class MapCharacter : MapEntity {
 
     //<summary>MapWorld内に配置された直後に呼ばれる</summary>
     public override void placed() {
+        MapHeightUpdateSystem.updateHeight(this);
         mMovingData.mPrePosition = mMapPosition;
         mMovingData.mDeltaPrePosition = mMovingData.mPrePosition;
-        MapHeightUpdateSystem.initHeight(this);
         MapTriggerUpdater.initTriggerDataOfMovingData(this);
     }
     //状態遷移
@@ -63,5 +72,50 @@ public partial class MapCharacter : MapEntity {
     }
     public enum Operation {
         free, jacked, busy
+    }
+}
+
+[CustomEditor(typeof(MapCharacter))]
+public class InspectorOfMapCharacter : InspectorOfMapBehaviour {
+    public MapCharacter mCharacter { get => target as MapCharacter; }
+    public override void OnInspectorGUI() {
+        //元のInspector部分を表示
+        base.OnInspectorGUI();
+        //ボタンを表示
+        if (GUILayout.Button("createTemplate")) {
+            evacuate();
+            createRender();
+            createPhysics();
+        }
+    }
+    public void createRender() {
+        MapCharacterRenderBehaviour tRender = mCharacter.createChild<MapCharacterRenderBehaviour>("render");
+        mCharacter.mCharacterRenderBehaviour = tRender;
+
+        //body
+        tRender.createChild("body");
+        //shadow
+        tRender.createChild("shadow");
+    }
+    public void createPhysics() {
+        MapEntityPhysicsBehaviour tPhysics = mCharacter.createChild<MapEntityPhysicsBehaviour>("physics");
+        mCharacter.mPhysicsBehaviour = tPhysics;
+        //属性
+        EntityPhysicsAttribute tAttribute = tPhysics.createChild<EntityPhysicsAttribute>("attribute");
+        tAttribute.mAttribute = EntityPhysicsAttribute.Attribute.walking;
+        tAttribute.mEntity = mCharacter;
+        tPhysics.mAttribute = tAttribute;
+        //属性collider
+        BoxCollider tAttributeCollider = tAttribute.gameObject.AddComponent<BoxCollider>();
+        tAttributeCollider.size = new Vector3(0.6f, 0.9f, 0.3f);
+        tAttributeCollider.center = new Vector3(0, 0.45f, 0.15f);
+
+        //足場rigide
+        MapScaffoldRigide tRigide = tPhysics.createChild<MapScaffoldRigide>("scaffoldRigide");
+        tPhysics.mScaffoldRigide = tRigide;
+        //足場rigide collider
+        BoxCollider tRidigeCollider = tRigide.gameObject.AddComponent<BoxCollider>();
+        tRidigeCollider.size = new Vector3(0.6f, 0.9f, 0.01f);
+        tRidigeCollider.center = new Vector3(0, 0.45f, 0.005f);
     }
 }

@@ -18,10 +18,10 @@ public static partial class MapWorldFactory {
         //マス生成
         List<List<int>> tFeildData = tStratumData.mFeild;
         int tXLength = tFeildData[0].Count;
-        int tYLength = tFeildData.Count;
-        for (int tY = 0; tY < tYLength; tY++) {
+        int tZLength = tFeildData.Count;
+        for (int tZ = 0; tZ < tZLength; tZ++) {
             for (int tX = 0; tX < tXLength; tX++) {
-                buildCell(tX, tY, aStratumLevel);
+                buildCell(tX, aStratumLevel, tZ);
             }
         }
     }

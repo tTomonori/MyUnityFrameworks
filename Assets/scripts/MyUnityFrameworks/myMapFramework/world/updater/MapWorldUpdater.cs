@@ -23,7 +23,13 @@ public static class MapWorldUpdater {
                 if (tCharacter.mMovingData.mRemainingDistance > 0) {
                     tRemainedDistance = MapCharacterMoveSystem.moveCharacter(tCharacter);
                     //高さ更新
-                    MapHeightUpdateSystem.updateHeight(tCharacter);
+                    if (MapHeightUpdateSystem.updateHeight(tCharacter)) {
+                        //高さ更新で座標が変更された
+                        if (MapCharacterMoveSystem.isCollided(tCharacter)) {
+                            //高さ更新の結果衝突した
+                            MapCharacterMoveSystem.resetMoveDelta(tCharacter);//delta移動処理をリセット
+                        }
+                    }
                     //trigger
                     MapTriggerUpdater.trigger(tCharacter, aWorld.mEventSystem);
                     //encount
@@ -39,8 +45,6 @@ public static class MapWorldUpdater {
                 }
 
                 //これ以上移動しない
-                //座標適用
-                tCharacter.applyPosition();
                 //画像イベント
                 applyImageEvent(tCharacter);
                 //移動データリセット
@@ -76,13 +80,12 @@ public static class MapWorldUpdater {
     static public void applyImageEvent(MapEntity aBehaviour) {
         ImageEventTrigger tTrigger;
         ImageEventData tImageEventData = new ImageEventData();
-        foreach (Collider2D tCollider in Physics2D.OverlapPointAll(aBehaviour.worldPosition2D)) {
+        foreach (Collider tCollider in Physics.OverlapSphere(aBehaviour.worldPosition, 0)) {
             tTrigger = tCollider.GetComponent<ImageEventTrigger>();
             if (tTrigger == null) continue;
-            if (!MapPhysics.isOverlapedH(aBehaviour, tTrigger)) continue;
             tTrigger.plusEvent(tImageEventData, aBehaviour);
         }
-        aBehaviour.mImage.applyImageEvent(tImageEventData);
+        aBehaviour.mEntityRenderBehaviour.mBody.applyImageEvent(tImageEventData);
     }
     /// <summary>
     /// エンカウントのカウントを進める

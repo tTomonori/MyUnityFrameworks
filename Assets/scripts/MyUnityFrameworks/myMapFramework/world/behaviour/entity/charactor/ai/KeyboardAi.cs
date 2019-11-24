@@ -6,17 +6,17 @@ public partial class MapCharacter : MapEntity {
     public class KeyboardAi : Ai {
         public override void update() {
             //移動
-            Vector2 tDirectionVector = Vector2.zero;
+            Vector3 tDirectionVector = Vector3.zero;
             if (Input.GetKey(KeyCode.UpArrow))
-                tDirectionVector += new Vector2(0, 1);
+                tDirectionVector += new Vector3(0, 0, 1);
             if (Input.GetKey(KeyCode.DownArrow))
-                tDirectionVector += new Vector2(0, -1);
+                tDirectionVector += new Vector3(0, 0, -1);
             if (Input.GetKey(KeyCode.LeftArrow))
-                tDirectionVector += new Vector2(-1, 0);
+                tDirectionVector += new Vector3(-1, 0, 0);
             if (Input.GetKey(KeyCode.RightArrow))
-                tDirectionVector += new Vector2(1, 0);
+                tDirectionVector += new Vector3(1, 0, 0);
 
-            if (tDirectionVector != Vector2.zero)
+            if (tDirectionVector != Vector3.zero)
                 parent.mState.move(tDirectionVector);
 
             //話しかける

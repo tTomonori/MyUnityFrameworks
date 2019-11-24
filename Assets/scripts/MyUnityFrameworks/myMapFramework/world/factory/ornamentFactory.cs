@@ -12,7 +12,7 @@ public static partial class MapWorldFactory {
 
         //speaker
         if (aData.mIsSpeaker) {
-            MapKeyEventSpeaker tSpeaker = tOrnament.mAttribute.gameObject.AddComponent<MapKeyEventSpeaker>();
+            MapKeyEventSpeaker tSpeaker = tOrnament.mEntityPhysicsBehaviour.mAttriubteCollider.gameObject.AddComponent<MapKeyEventSpeaker>();
             tSpeaker.mBehaviour = tOrnament;
             tSpeaker.mSpeakDefault = aData.mSpeakDefault;
             tSpeaker.mSpeakFromUp = aData.mSpeakFromUp;
@@ -31,8 +31,8 @@ public static partial class MapWorldFactory {
         MapOrnament tOrnament = createOrnament(aData);
         tOrnament.mFileData = aData;
         tOrnament.transform.SetParent(mWorld.mOrnamentContainer.transform, false);
-        tOrnament.setMapPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
-        tOrnament.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(tOrnament.mHeight)]);
+        tOrnament.mMapPosition = new MapPosition(aData.mPosition);
+        tOrnament.changeLayer(MyMap.mStratumLayerNum[Mathf.FloorToInt(aData.mY)]);
         //変数適用
         if (aData.mArg != null)
             tOrnament.setArg(aData.mArg);

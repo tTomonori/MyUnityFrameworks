@@ -26,13 +26,11 @@ public static partial class MapWorldFactory {
             //shadePower
             tShadow.mShadePower = aData.mShadePower;
             //position
-            tShadow.mMapPosition = new MapPosition(tTile.mMapPosition.vector + tOffset);
-            tShadow.mLieBehaviourPileLevel = 5;
-            tShadow.applyPosition();
+            tShadow.mMapPosition = new MapPosition(tTile.mMapPosition.vector + tOffset, 1);
             //sprite
             tMesh = tShadow.createChild<LieMesh>();
             tMesh.mRenderMode = Mesh2D.RenderMode.shadow;
-            tMesh.mSprite= Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/sprites/" + aData.mSpritePath);
+            tMesh.mSprite = Resources.Load<Sprite>(MyMap.mMapResourcesDirectory + "/sprites/" + aData.mSpritePath);
             tMesh.initialize();
             tMesh.setColor(new Color(0, 0, 0, aData.mShadePower));
             //collider

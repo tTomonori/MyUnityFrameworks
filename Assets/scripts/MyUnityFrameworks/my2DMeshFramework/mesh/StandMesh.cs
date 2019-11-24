@@ -12,11 +12,12 @@ public class StandMesh : Mesh2D {
         tMesh.name = "StandMesh";
 
         Vector2 tSize = mSprite.bounds.size;
+        float tRad = mRotationY / 180f * Mathf.PI;
         Vector3[] tVertices = new Vector3[4] {
-            new Vector3(-tSize.x*mPivot.x*Mathf.Cos(mRotationY/180f*Mathf.PI),-tSize.y*mPivot.y+tSize.x*mPivot.x*Mathf.Sin(mRotationY/180f*Mathf.PI),tSize.x*mPivot.x*Mathf.Sin(mRotationY/180f*Mathf.PI)),
-            new Vector3(tSize.x*(1-mPivot.x)*Mathf.Cos(mRotationY/180f*Mathf.PI),-tSize.y*mPivot.y-tSize.x*(1-mPivot.x)*Mathf.Sin(mRotationY/180f*Mathf.PI),-tSize.x*(1-mPivot.x)*Mathf.Sin(mRotationY/180f*Mathf.PI)),
-            new Vector3(-tSize.x*mPivot.x*Mathf.Cos(mRotationY/180f*Mathf.PI),tSize.y*(1-mPivot.y)+tSize.x*mPivot.x*Mathf.Sin(mRotationY/180f*Mathf.PI),tSize.x*mPivot.x*Mathf.Sin(mRotationY/180f*Mathf.PI)),
-            new Vector3(tSize.x*(1-mPivot.x)*Mathf.Cos(mRotationY/180f*Mathf.PI),tSize.y*(1-mPivot.y)-tSize.x*(1-mPivot.x)*Mathf.Sin(mRotationY/180f*Mathf.PI),-tSize.x*(1-mPivot.x)*Mathf.Sin(mRotationY/180f*Mathf.PI))
+            new Vector3(-tSize.x*mPivot.x*Mathf.Cos(tRad),-tSize.y*mPivot.y+tSize.x*mPivot.x*Mathf.Sin(tRad),tSize.x*mPivot.x*Mathf.Sin(tRad)),
+            new Vector3(tSize.x*(1-mPivot.x)*Mathf.Cos(tRad),-tSize.y*mPivot.y-tSize.x*(1-mPivot.x)*Mathf.Sin(tRad),-tSize.x*(1-mPivot.x)*Mathf.Sin(tRad)),
+            new Vector3(-tSize.x*mPivot.x*Mathf.Cos(tRad),tSize.y*(1-mPivot.y)+tSize.x*mPivot.x*Mathf.Sin(tRad),tSize.x*mPivot.x*Mathf.Sin(tRad)),
+            new Vector3(tSize.x*(1-mPivot.x)*Mathf.Cos(tRad),tSize.y*(1-mPivot.y)-tSize.x*(1-mPivot.x)*Mathf.Sin(tRad),-tSize.x*(1-mPivot.x)*Mathf.Sin(tRad))
         };
         Vector2[] tUvs = new Vector2[4] {
             new Vector2(0,0),

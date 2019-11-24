@@ -36,7 +36,7 @@ public partial class MapEventSystem {
     /// <param name="aInvoker">起動者</param>
     /// <param name="aInvoked">イベント所持者</param>
     /// <param name="aInvokedCollider">イベント所持者のcollider</param>
-    public bool addEvent(string aEventKey, MapCharacter aInvoker, MapBehaviour aInvoked, Collider2D aInvokedCollider) {
+    public bool addEvent(string aEventKey, MapCharacter aInvoker, MapBehaviour aInvoked, Collider aInvokedCollider) {
         Operator tOperator = new Operator(this, mWorld.mEvents[aEventKey]);
         tOperator.mInvoker = aInvoker;
         tOperator.mInvoked = aInvoked;
@@ -52,7 +52,7 @@ public partial class MapEventSystem {
     /// <param name="aInvoker">起動者</param>
     /// <param name="aInvoked">イベント所持者</param>
     /// <param name="aInvokedCollider">イベント所持者のcollider</param>
-    public bool addEvent(MapEvent aEvent, MapCharacter aInvoker, MapBehaviour aInvoked, Collider2D aInvokedCollider) {
+    public bool addEvent(MapEvent aEvent, MapCharacter aInvoker, MapBehaviour aInvoked, Collider aInvokedCollider) {
         Operator tOperator = new Operator(this, aEvent);
         tOperator.mInvoker = aInvoker;
         tOperator.mInvoked = aInvoked;

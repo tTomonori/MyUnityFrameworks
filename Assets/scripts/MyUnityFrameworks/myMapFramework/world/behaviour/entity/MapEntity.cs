@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapEntity : MapBehaviour {
-    //画像
-    public virtual MapEntityImage mImage { get; set; }
-    /// <summary>このentityに付いている属性</summary>
-    [SerializeField]public EntityPhysicsAttribute mAttribute;
+    public virtual MapEntityRenderBehaviour mEntityRenderBehaviour { get; set; }
+
+    [SerializeField] public MapEntityPhysicsBehaviour mEntityPhysicsBehaviour;
+    public override MapPhysicsBehaviour mPhysicsBehaviour {
+        get { return mEntityPhysicsBehaviour; }
+        set { mEntityPhysicsBehaviour = (MapEntityPhysicsBehaviour)value; }
+    }
 }

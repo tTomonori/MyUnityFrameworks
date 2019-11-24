@@ -5,62 +5,35 @@ using UnityEngine;
 public abstract class RistrictMovingTile : MyBehaviour {
     /// <summary>制限属性を持たせたcell</summary>
     [SerializeField] public MapTile mTile;
-    private Collider2D _Collider;
-    public Collider2D mCollider {
-        get {
-            if (_Collider == null)
-                _Collider = GetComponent<Collider2D>();
-            return _Collider;
-        }
+    private Collider mCollider { get; set; }
+    private void Awake() {
+        mCollider = GetComponent<Collider>();
     }
-    private Vector2 _ColliderSize = new Vector2(-1, -1);
+    private Vector3 _ColliderSize = new Vector3(-1, -1, -1);
     /// <summary>このbehaviourに付いているcolliderの最小外接矩形</summary>
-    public Vector2 mColliderSize {
+    public Vector3 mColliderSize {
         get {
             if (_ColliderSize.x > 0) return _ColliderSize;
-            if (mCollider is BoxCollider2D) {
-                _ColliderSize = ((BoxCollider2D)mCollider).size;
-                return _ColliderSize;
-            }
-            if (mCollider is EdgeCollider2D) {
-                _ColliderSize = ((EdgeCollider2D)mCollider).minimumCircumscribedRectangle();
-                return _ColliderSize;
-            }
-            throw new System.Exception("RistrictMovingTile : colliderのサイズ計算が未定義「" + mCollider.GetType().ToString() + "」");
+            _ColliderSize = mCollider.minimumCircumscribedCube();
+            return _ColliderSize;
         }
     }
-    public Collider2DEditer.RectangleEndPoint _ColliderEndPoint;
+    public ColliderEditer.CubeEndPoint _ColliderEndPoint;
     /// <summary>このbehaviourに付いているcolliderの最小外接矩形の上下左右の座標(ローカル座標)</summary>
-    public Collider2DEditer.RectangleEndPoint mColliderEndPoint {
+    public ColliderEditer.CubeEndPoint mColliderEndPoint {
         get {
             if (_ColliderEndPoint != null) return _ColliderEndPoint;
-            if (mCollider is BoxCollider2D) {
-                BoxCollider2D tBox = (BoxCollider2D)mCollider;
-                _ColliderEndPoint = new Collider2DEditer.RectangleEndPoint();
-                _ColliderEndPoint.up = tBox.size.y / 2 + tBox.offset.y;
-                _ColliderEndPoint.down = -tBox.size.y / 2 + tBox.offset.y;
-                _ColliderEndPoint.left = -tBox.size.x / 2 + tBox.offset.y;
-                _ColliderEndPoint.right = tBox.size.x / 2 + tBox.offset.y;
-                return _ColliderEndPoint;
-            }
-            if (mCollider is EdgeCollider2D) {
-                _ColliderEndPoint = ((EdgeCollider2D)mCollider).minimumCircumscribedRectangleEndPoint();
-                return _ColliderEndPoint;
-            }
-            if (mCollider is PolygonCollider2D) {
-                _ColliderEndPoint = ((PolygonCollider2D)mCollider).minimumCircumscribedRectangleEndPoint();
-                return _ColliderEndPoint;
-            }
-            throw new System.Exception("RistrictMovingTile : colliderの端の座標計算が未定義「" + mCollider.GetType().ToString() + "」");
+            _ColliderEndPoint = mCollider.minimumCircumscribedCubeEndPoint();
+            return _ColliderEndPoint;
         }
     }
     public struct RistrictMovingData {
         /// <summary>このbehaviour内部での移動ベクトル</summary>
-        public Vector2[] mInternalVector;
+        public Vector3[] mInternalVector;
         /// <summary>このbehaviourを抜けてからの移動ベクトル</summary>
-        public Vector2 mOutsideVector;
+        public Vector3 mOutsideVector;
         /// <summary>このbehaviour内部での最後の移動方向</summary>
-        public Vector2 mLastInternalDirection;
+        public Vector3 mLastInternalDirection;
     }
     /// <summary>
     /// このbehaviourに入ってからの移動ベクトルを返す
@@ -68,7 +41,7 @@ public abstract class RistrictMovingTile : MyBehaviour {
     /// <returns>このbehaviourに入ってからの移動ベクトルデータ</returns>
     /// <param name="aStartPoint">移動開始する座標(このbehaviourからの相対座標)</param>
     /// <param name="aMoveVector">このbehaviourに侵入後の移動方向</param>
-    public abstract RistrictMovingData getMovingData(Vector2 aStartPoint, Vector2 aMoveVector);
+    public abstract RistrictMovingData getMovingData(Vector3 aStartPoint, Vector3 aMoveVector);
 
     /// <summary>
     /// このtile内部でどれだけ移動できるか(移動ベクトルに対する割合を返す)
@@ -76,11 +49,12 @@ public abstract class RistrictMovingTile : MyBehaviour {
     /// <returns>このtile内部で移動できる移動ベクトルの、引数の移動ベクトルに対する割合(0~1)</returns>
     /// <param name="aStartPoint">移動開始地点(相対座標)</param>
     /// <param name="aMovingVector">移動ベクトル</param>
-    protected float calculateRateOfMovingInSelf(Vector2 aStartPoint, Vector2 aMovingVector) {
-        Collider2DEditer.RectangleEndPoint tEnd = mColliderEndPoint;
+    protected float calculateRateOfMovingInSelf(Vector3 aStartPoint, Vector3 aMovingVector) {
+        ColliderEditer.CubeEndPoint tEnd = mColliderEndPoint;
         //tile外部までの距離
         float tHDistance;
         float tVDistance;
+        float tSDistance;
         if (aMovingVector.x < 0) {
             tHDistance = aStartPoint.x - tEnd.left;
         } else if (aMovingVector.x > 0) {
@@ -88,18 +62,26 @@ public abstract class RistrictMovingTile : MyBehaviour {
         } else {
             tHDistance = float.PositiveInfinity;
         }
-        if (aMovingVector.y < 0) {
-            tVDistance = aStartPoint.y - tEnd.down;
-        } else if (aMovingVector.y > 0) {
-            tVDistance = tEnd.up - aStartPoint.y;
+        if (aMovingVector.z < 0) {
+            tVDistance = aStartPoint.z - tEnd.front;
+        } else if (aMovingVector.z > 0) {
+            tVDistance = tEnd.back - aStartPoint.z;
         } else {
             tVDistance = float.PositiveInfinity;
+        }
+        if (aMovingVector.y < 0) {
+            tSDistance = aStartPoint.y - tEnd.bottom;
+        } else if (aMovingVector.y > 0) {
+            tSDistance = tEnd.top - aStartPoint.y;
+        } else {
+            tSDistance = float.PositiveInfinity;
         }
 
         //移動ベクトルに対する外部までの移動ベクトルの割合
         float tHRate = tHDistance / Mathf.Abs(aMovingVector.x);
-        float tVRate = tVDistance / Mathf.Abs(aMovingVector.y);
+        float tVRate = tVDistance / Mathf.Abs(aMovingVector.z);
+        float tSRate = tSDistance / Mathf.Abs(aMovingVector.y);
 
-        return Mathf.Min(Mathf.Min(tHRate, tVRate), 1f);
+        return Mathf.Min(Mathf.Min(tHRate, Mathf.Min(tVRate, tSRate)), 1f);
     }
 }

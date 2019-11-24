@@ -2,74 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapRealPosition {
-    public Vector3 vector;
-    public float x {
-        get { return vector.x; }
-        set { vector.x = value; }
-    }
-    public float y {
-        get { return vector.y; }
-        set { vector.y = value; }
-    }
-    public float h {
-        get { return vector.z; }
-        set { vector.z = value; }
-    }
-    public MapRealPosition(Vector3 aVector) {
-        vector = aVector;
-    }
-    public MapPosition toMapPosition() {
-        return new MapPosition(new Vector3(vector.x, vector.y + vector.z, vector.z));
-    }
-    public RenderPosition toRenderPosition() {
-        return new RenderPosition(new Vector3(vector.x, vector.y + vector.z, Mathf.Floor(vector.y * 100) / 100f + vector.z / 10000f));
-    }
-}
-
 public class MapPosition {
     public Vector3 vector;
+    /// <summary>同座標で重なった時の描画順(値が大きいほど上に描画)</summary>
+    public float pileLevel;
+    /// <summary>平面方向ベクトル</summary>
     public Vector2 vector2 {
-        get { return vector.toVector2(); }
+        get { return new Vector2(vector.x, vector.z); }
     }
-    public float x {
-        get { return vector.x; }
-        set { vector.x = value; }
+    /// <summary>描画座標</summary>
+    public Vector3 renderPosition {
+        get { return new Vector3(vector.x, vector.y + vector.z, vector.z - 0.001f * pileLevel); }
     }
-    public float y {
-        get { return vector.y; }
-        set { vector.y = value; }
+    /// <summary>物理座標</summary>
+    public Vector3 physicsPosition {
+        get { return vector; }
     }
-    public float h {
-        get { return vector.z; }
-        set { vector.z = value; }
-    }
-    public MapPosition(Vector3 aVector) {
-        vector = aVector;
-    }
-    public MapRealPosition toMapRealPosition() {
-        return new MapRealPosition(new Vector3(vector.x, vector.y - vector.z, vector.z));
-    }
-    public RenderPosition toRenderPosition() {
-        return new RenderPosition(new Vector3(vector.x, vector.y, Mathf.Floor((vector.y - vector.z) * 100) / 100f + vector.z / 10000f));
-    }
-
-    public static MapPosition operator +(MapPosition aPosition, Vector2 aVector) {
-        return new MapPosition(new Vector3(aPosition.vector.x + aVector.x, aPosition.vector.y + aVector.y, aPosition.vector.z));
-    }
-    public static MapPosition operator -(MapPosition aPosition, Vector2 aVector) {
-        return new MapPosition(new Vector3(aPosition.vector.x - aVector.x, aPosition.vector.y - aVector.y, aPosition.vector.z));
-    }
-    public static MapPosition operator +(MapPosition aPosition, Vector3 aVector) {
-        return new MapPosition(new Vector3(aPosition.vector.x + aVector.x, aPosition.vector.y + aVector.y, aPosition.vector.z + aVector.z));
-    }
-    public static MapPosition operator -(MapPosition aPosition, Vector3 aVector) {
-        return new MapPosition(new Vector3(aPosition.vector.x - aVector.x, aPosition.vector.y - aVector.y, aPosition.vector.z - aVector.z));
-    }
-}
-
-public class RenderPosition {
-    public Vector3 vector;
     public float x {
         get { return vector.x; }
         set { vector.x = value; }
@@ -82,14 +30,25 @@ public class RenderPosition {
         get { return vector.z; }
         set { vector.z = value; }
     }
-    public RenderPosition(Vector3 aVector) {
+    public MapPosition(Vector3 aVector, float aPileLevel = 0) {
         vector = aVector;
+        pileLevel = aPileLevel;
     }
-    static public float localYToRenderZ(float localY) {
-        return Mathf.Floor(localY * 100) / 100f;
+    /// <summary>自身を複製して返す</summary>
+    public MapPosition copy() {
+        return new MapPosition(vector, pileLevel);
     }
-    public RenderPosition addPileLevel(int aPileLevel) {
-        vector.z -= aPileLevel / 1000f;
-        return this;
+
+    public static MapPosition operator +(MapPosition aPosition, Vector2 aVector) {
+        return new MapPosition(new Vector3(aPosition.vector.x + aVector.x, aPosition.vector.y, aPosition.vector.z + aVector.y));
+    }
+    public static MapPosition operator -(MapPosition aPosition, Vector2 aVector) {
+        return new MapPosition(new Vector3(aPosition.vector.x - aVector.x, aPosition.vector.y, aPosition.vector.z - aVector.y));
+    }
+    public static MapPosition operator +(MapPosition aPosition, Vector3 aVector) {
+        return new MapPosition(new Vector3(aPosition.vector.x + aVector.x, aPosition.vector.y + aVector.y, aPosition.vector.z + aVector.z));
+    }
+    public static MapPosition operator -(MapPosition aPosition, Vector3 aVector) {
+        return new MapPosition(new Vector3(aPosition.vector.x - aVector.x, aPosition.vector.y - aVector.y, aPosition.vector.z - aVector.z));
     }
 }

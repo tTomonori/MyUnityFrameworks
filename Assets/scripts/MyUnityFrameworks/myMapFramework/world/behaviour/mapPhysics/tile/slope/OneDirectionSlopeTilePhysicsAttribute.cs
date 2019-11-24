@@ -5,47 +5,39 @@ using UnityEngine;
 /// <summary>
 /// 傾斜の方向が一方向
 /// colliderは矩形
-/// colliderが矩形が欠けた形の場合は、欠けた部分から侵入不可であること前提
+/// colliderが矩形が欠けた形の場合は、欠けた部分は侵入不可であること前提
 /// </summary>
 public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
     ///<summary>傾斜の方向</summary>
     [SerializeField] public SlopeDirection mSlopeDirection;
-    /// <summary>高い側の高さの小数部分(0~1)</summary>
-    [SerializeField] public float mHighSideHeight = 1;
-    /// <summary>低い側の高さの小数部分(0~1)</summary>
-    [SerializeField] public float mLowSideHeight = 0;
     public enum SlopeDirection {
         upHigh, downHigh, leftHigh, rightHigh, none
     }
-    /// <summary>低い側の高さ(絶対座標)</summary>
-    public float mAbsoluteLowSideHeight {
-        get { return mTile.mHeight + mLowSideHeight; }
+    /// <summary>低い側の高さ(マップ座標)</summary>
+    public float mLowSideHeight {
+        get { return mBehaviour.mMapPosition.y + mColliderEndPoint.bottom; }
     }
-    /// <summary>高い側の高さ(絶対座標)</summary>
-    public float mAbsoluteHighSideHeight {
-        get { return mTile.mHeight + mHighSideHeight; }
+    /// <summary>高い側の高さ(マップ座標)</summary>
+    public float mHighSideHeight {
+        get { return mBehaviour.mMapPosition.y + mColliderEndPoint.top; }
     }
-    /// <summary>坂の中間の高さ</summary>
+    /// <summary>坂の中間の高さ(マップ座標)</summary>
     public float mMiddleHeight {
-        get { return mTile.mHeight + (mHighSideHeight + mLowSideHeight) / 2f; }
-    }
-    public override float getHeight() {
-        return mTile.mHeight + 0.5f;
+        get { return mBehaviour.mMapPosition.y + (mColliderEndPoint.bottom + mColliderEndPoint.top) / 2f; }
     }
     /// <summary>
     /// 指定座標からこの坂道に侵入できるか
     /// </summary>
     /// <returns>侵入できるならtrue</returns>
     /// <param name="aPosition">絶対座標</param>
-    /// <param name="aHeight">侵入する高さ</param>
-    public override bool canBeEntered(Vector2 aPosition, float aHeight) {
+    public override bool canBeEntered(MapPosition aPosition) {
         switch (getRelativeSide(aPosition)) {
             case Side.lowSide:
-                return aHeight < mMiddleHeight ;
+                return true;
             case Side.highSide:
-                return mMiddleHeight < aHeight;
+                return mHighSideHeight <= aPosition.y;
             case Side.railSide:
-                return mAbsoluteLowSideHeight <= aHeight && aHeight <= mAbsoluteHighSideHeight;
+                return mLowSideHeight < aPosition.y;
             case Side.none:
                 Debug.LogWarning("OneDirectionSlopeTilePhysicsAttribute : 傾斜方向が未設定です");
                 return true;
@@ -54,96 +46,34 @@ public class OneDirectionSlopeTilePhysicsAttribute : SlopeTilePhysicsAttribute {
         }
         return false;
     }
-    /// <summary>
-    /// 指定座標の高さを返す
-    /// </summary>
-    /// <returns>指定座標の高さ</returns>
-    /// <param name="aPosition">絶対座標</param>
-    /// <param name="oIsIn">指定座標がこの坂道の内部にあるならtrue</param>
-    public override float getPointHeight(Vector2 aPosition, out bool oIsIn) {
-        Collider2DEditer.RectangleEndPoint tPoint = mColliderEndPoint;
-        switch (mSlopeDirection) {
-            case SlopeDirection.upHigh:
-                if (aPosition.y < tPoint.down) {
-                    oIsIn = false;
-                    return mAbsoluteLowSideHeight;
-                }
-                if (tPoint.up < aPosition.y) {
-                    oIsIn = false;
-                    return mAbsoluteHighSideHeight;
-                }
-                oIsIn = tPoint.left <= aPosition.x && aPosition.x <= tPoint.right;
-                float tDirectionFromBottom = aPosition.y - tPoint.down;
-                return mAbsoluteLowSideHeight + (mHighSideHeight - mLowSideHeight) * tDirectionFromBottom / mColliderSize.y;
-            case SlopeDirection.downHigh:
-                if (aPosition.y < tPoint.down) {
-                    oIsIn = false;
-                    return mAbsoluteHighSideHeight;
-                }
-                if (tPoint.up < aPosition.y) {
-                    oIsIn = false;
-                    return mAbsoluteLowSideHeight;
-                }
-                oIsIn = tPoint.left <= aPosition.x && aPosition.x <= tPoint.right;
-                float tDirectionFromUp = tPoint.up - aPosition.y;
-                return mAbsoluteLowSideHeight + (mHighSideHeight - mLowSideHeight) * tDirectionFromUp / mColliderSize.y;
-            case SlopeDirection.leftHigh:
-                if (aPosition.x < tPoint.left) {
-                    oIsIn = false;
-                    return mAbsoluteHighSideHeight;
-                }
-                if (tPoint.right < aPosition.x) {
-                    oIsIn = false;
-                    return mAbsoluteLowSideHeight;
-                }
-                oIsIn = tPoint.down <= aPosition.y && aPosition.y <= tPoint.up;
-                float tDirectionFromRight = tPoint.right - aPosition.x;
-                return mAbsoluteLowSideHeight + (mHighSideHeight - mLowSideHeight) * tDirectionFromRight / mColliderSize.x;
-            case SlopeDirection.rightHigh:
-                if (aPosition.x < tPoint.left) {
-                    oIsIn = false;
-                    return mAbsoluteLowSideHeight;
-                }
-                if (tPoint.right < aPosition.x) {
-                    oIsIn = false;
-                    return mAbsoluteHighSideHeight;
-                }
-                oIsIn = tPoint.down <= aPosition.y && aPosition.y <= tPoint.up;
-                float tDirectionFromLeft = aPosition.x - tPoint.left;
-                return mAbsoluteLowSideHeight + (mHighSideHeight - mLowSideHeight) * tDirectionFromLeft / mColliderSize.x;
-        }
-        Debug.LogWarning("OneDirectionSlopeTilePhysicsAttribute : 傾斜方向が未設定です");
-        oIsIn = (tPoint.left <= aPosition.x && aPosition.x <= tPoint.right) && (tPoint.down <= aPosition.y && aPosition.y <= tPoint.up);
-        return mTile.mHeight;
-    }
 
     //<summary>引数の座標が傾斜に対してどの位置にいるか</summary>
-    public Side getRelativeSide(Vector2 aPosition) {
-        Collider2DEditer.RectangleEndPoint tPoint = mColliderEndPoint;
+    public Side getRelativeSide(MapPosition aPosition) {
+        ColliderEditer.CubeEndPoint tPoint = mColliderEndPointMap;
         switch (mSlopeDirection) {
             case SlopeDirection.upHigh:
-                if (aPosition.y < tPoint.down) return Side.lowSide;
-                if (tPoint.up < aPosition.y) return Side.highSide;
+                if (aPosition.z < tPoint.front) return Side.lowSide;
+                if (tPoint.back < aPosition.z) return Side.highSide;
                 if (aPosition.x < tPoint.left) return Side.railSide;
                 if (tPoint.right < aPosition.x) return Side.railSide;
                 return Side.inner;
             case SlopeDirection.downHigh:
-                if (aPosition.y < tPoint.down) return Side.highSide;
-                if (tPoint.up < aPosition.y) return Side.lowSide;
+                if (aPosition.z < tPoint.front) return Side.highSide;
+                if (tPoint.back < aPosition.y) return Side.lowSide;
                 if (aPosition.x < tPoint.left) return Side.railSide;
                 if (tPoint.right < aPosition.x) return Side.railSide;
                 return Side.inner;
             case SlopeDirection.leftHigh:
                 if (aPosition.x < tPoint.left) return Side.highSide;
                 if (tPoint.right < aPosition.x) return Side.lowSide;
-                if (aPosition.y < tPoint.down) return Side.railSide;
-                if (tPoint.up < aPosition.y) return Side.railSide;
+                if (aPosition.y < tPoint.front) return Side.railSide;
+                if (tPoint.back < aPosition.y) return Side.railSide;
                 return Side.inner;
             case SlopeDirection.rightHigh:
                 if (aPosition.x < tPoint.left) return Side.lowSide;
                 if (tPoint.right < aPosition.x) return Side.highSide;
-                if (aPosition.y < tPoint.down) return Side.railSide;
-                if (tPoint.up < aPosition.y) return Side.railSide;
+                if (aPosition.y < tPoint.front) return Side.railSide;
+                if (tPoint.back < aPosition.y) return Side.railSide;
                 return Side.inner;
         }
         Debug.LogWarning("OneDirectionSlopeTilePhysicsAttribute : 傾斜方向が未設定です");

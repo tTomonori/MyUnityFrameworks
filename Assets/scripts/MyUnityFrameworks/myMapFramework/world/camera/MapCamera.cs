@@ -18,7 +18,7 @@ public class MapCamera : MyBehaviour {
     static public MapCamera init(MapWorld aWorld) {
         MapCamera tCamera = MyBehaviour.create<MapCamera>();
         tCamera.mWorld = aWorld;
-        tCamera.mCamera = tCamera.createChildCamera(aWorld.mSize.z);
+        tCamera.mCamera = tCamera.createChildCamera(aWorld.mSize.y);
         tCamera.mConfig = new MapCameraConfig();
         tCamera.positionZ = -10;
         return tCamera;
@@ -52,12 +52,13 @@ public class MapCamera : MyBehaviour {
         float tY = 0;
         float tCameraHalfHeight = mCamera.orthographicSize;
         float tCameraHalfWidth = mCamera.orthographicSize * Screen.width / Screen.height;
+        Vector2 tDrawingRange = new Vector2(mWorld.mSize.x, mWorld.mOrthographySizeY);
         //上下方向
-        if (mWorld.mSize.y / 2f + mMaxMargin <= tCameraHalfHeight) {
-            tY = mWorld.mSize.y / 2f - 0.5f;
+        if (tDrawingRange.y / 2f + mMaxMargin <= tCameraHalfHeight) {
+            tY = tDrawingRange.y / 2f - 0.5f;
         } else {
-            if (mWorld.mSize.y + mMaxMargin - 0.5f - tCameraHalfHeight <= this.positionY) {
-                tY = mWorld.mSize.y + mMaxMargin - 0.5f - tCameraHalfHeight;
+            if (tDrawingRange.y + mMaxMargin - 0.5f - tCameraHalfHeight <= this.positionY) {
+                tY = tDrawingRange.y + mMaxMargin - 0.5f - tCameraHalfHeight;
             } else if (this.positionY <= -mMaxMargin - 0.5f + tCameraHalfHeight) {
                 tY = -mMaxMargin - 0.5f + tCameraHalfHeight;
             } else {
@@ -65,11 +66,11 @@ public class MapCamera : MyBehaviour {
             }
         }
         //左右方向
-        if (mWorld.mSize.x / 2f + mMaxMargin <= tCameraHalfWidth) {
-            tX = mWorld.mSize.x / 2f - 0.5f;
+        if (tDrawingRange.x / 2f + mMaxMargin <= tCameraHalfWidth) {
+            tX = tDrawingRange.x / 2f - 0.5f;
         } else {
-            if (mWorld.mSize.x + mMaxMargin - 0.5f - tCameraHalfWidth <= this.positionX) {
-                tX = mWorld.mSize.x + mMaxMargin - 0.5f - tCameraHalfWidth;
+            if (tDrawingRange.x + mMaxMargin - 0.5f - tCameraHalfWidth <= this.positionX) {
+                tX = tDrawingRange.x + mMaxMargin - 0.5f - tCameraHalfWidth;
             } else if (this.positionX <= -mMaxMargin - 0.5f + tCameraHalfWidth) {
                 tX = -mMaxMargin - 0.5f + tCameraHalfWidth;
             } else {
@@ -92,7 +93,7 @@ public class MapCamera : MyBehaviour {
             if (mPlayer == null) mPlayer = aParent.mWorld.getPlayer();
             if (mPlayer == null)
                 return;
-            aParent.position2D = mPlayer.mMapPosition.vector2;
+            aParent.position2D = mPlayer.mMapPosition.renderPosition.toVector2();
         }
     }
     public void test<T>() where T : MyBehaviour {

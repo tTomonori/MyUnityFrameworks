@@ -15,25 +15,21 @@ public static class MapSpeakUpdater {
     /// <summary>話しかけるor調べる対象となるspeakerを優先順位順で取得</summary>
     static public List<MapSpeaker> getTargetSpeakers(MapCharacter aCharacter) {
         //配置後全く移動していない場合は話しかけれない
-        if (aCharacter.mMovingData.mLastDirection == Vector2.zero) return new List<MapSpeaker>();
+        if (aCharacter.mMovingData.mLastDirection == Vector3.zero) return new List<MapSpeaker>();
 
-        List<MapSpeaker> tSpeakers = getSurroundSpeakers(aCharacter);
+        List<MapSpeaker> tSpeakers = getFrontSpeakers(aCharacter);
         List<MapSpeaker> tTargets = new List<MapSpeaker>();
-        ColliderDistance2D tDistance;
-        CircleCollider2D tCharaCenter = makeCenterCollider(aCharacter);
         float tCorner;
         List<float> tCornerList = new List<float>();
+        Vector3 tSeacherPoint = aCharacter.mEntityPhysicsBehaviour.mAttriubteCollider.getCenter();//話しかけるキャラのcolliderの中心点
+        Vector3 tClosestPoint;
+        Vector2 tCharacterDirection = new Vector2(aCharacter.mMovingData.mLastDirection.x, aCharacter.mMovingData.mLastDirection.z);//キャラが向いている方向
         foreach (MapSpeaker tSpeaker in tSpeakers) {
-            //話かける対象となるか
-            tDistance = tSpeaker.GetComponent<Collider2D>().Distance(tCharaCenter);
-            //移動方向と話しかける対象がいる方向のなす角
-            if (tDistance.distance >= 0) {
-                tCorner = tDistance.normal.corner(aCharacter.mMovingData.mLastDirection);
-            } else {
-                tCorner = (tSpeaker.mBehaviour.transform.position - tCharaCenter.transform.position).toVector2().corner(aCharacter.mMovingData.mLastDirection);
-            }
-            if (tDistance.distance >= 0 && tCorner > 70)
-                continue;
+            //tSeacherPointからspeakerのcolliderへの最寄り点
+            tClosestPoint = tSpeaker.mCollider.ClosestPoint(tSeacherPoint);
+            //キャラの向きとspeakerへの方向のなす角
+            tCorner = tCharacterDirection.cornerAbs(new Vector2(tClosestPoint.x - tSeacherPoint.x, tClosestPoint.z - tSeacherPoint.z));
+
             //対象のリストに追加
             bool tAdd = false;
             for (int i = 0; i < tCornerList.Count; ++i) {
@@ -48,44 +44,27 @@ public static class MapSpeakUpdater {
                 tTargets.Add(tSpeaker);
             }
         }
-        GameObject.Destroy(tCharaCenter.gameObject);
         return tTargets;
     }
-    /// <summary>周囲のspeaker取得</summary>
-    static public List<MapSpeaker> getSurroundSpeakers(MapCharacter aCharacter) {
-        Collider2D[] tColliders = getSurroundColliders(aCharacter);
+    /// <summary>正面の話しかけるor調べる範囲内のspeakerを取得</summary>
+    static public List<MapSpeaker> getFrontSpeakers(MapCharacter aCharacter) {
+        Collider tCharacterCollider = aCharacter.mEntityPhysicsBehaviour.mAttriubteCollider;
+        Vector3 tColliderHalfSize = tCharacterCollider.minimumCircumscribedCube() / 2f;
+        //キャラが向いている方向
+        float tAngle = new Vector2(-1, 0).corner(new Vector2(aCharacter.mMovingData.mLastDirection.x, aCharacter.mMovingData.mLastDirection.z));
+        //調べる範囲
+        float tYRate = Mathf.Abs(Mathf.Abs(tAngle) - 90) / 90f;
+        Vector3 tSearchSize = new Vector3(tColliderHalfSize.x * (1 - tYRate) + tColliderHalfSize.z * tYRate + aCharacter.mMovingData.mSpeakDistance, tColliderHalfSize.y * 2, tColliderHalfSize.x * tYRate + tColliderHalfSize.z * (1 - tYRate));
+        //範囲内のcolliderを取得
+        Collider[] tColliders = Physics.OverlapBox(tCharacterCollider.transform.position + tCharacterCollider.getCenter() + aCharacter.mMovingData.mLastDirection.normalized * tSearchSize.x / 2f, tSearchSize / 2f, Quaternion.Euler(0, tAngle, 0));
+        //speakerのみ抽出
         List<MapSpeaker> tSpeakers = new List<MapSpeaker>();
         MapSpeaker tSpeaker;
-        foreach (Collider2D tCollider in tColliders) {
+        foreach (Collider tCollider in tColliders) {
             tSpeaker = tCollider.GetComponent<MapSpeaker>();
             if (tSpeaker == null) continue;
-            if (tSpeaker.mBehaviour == aCharacter) continue;//自分自身には話かけられない
-            if (!MapPhysics.isOverlapedH(aCharacter, tSpeaker.mBehaviour)) continue;
             tSpeakers.Add(tSpeaker);
         }
         return tSpeakers;
-    }
-    /// <summary>周囲のcolliderを取得</summary>
-    static public Collider2D[] getSurroundColliders(MapCharacter aCharacter) {
-        if (aCharacter.mAttribute.mCollider is BoxCollider2D) {
-            BoxCollider2D tBox = (BoxCollider2D)aCharacter.mAttribute.mCollider;
-            return Physics2D.OverlapCapsuleAll(tBox.transform.position.toVector2() + tBox.offset, tBox.size + new Vector2(1f, 1f), (tBox.size.x < tBox.size.y) ? CapsuleDirection2D.Vertical : CapsuleDirection2D.Horizontal, tBox.transform.rotation.z);
-        }
-        if (aCharacter.mAttribute.mCollider is CircleCollider2D) {
-            return Physics2D.OverlapCircleAll(aCharacter.mAttribute.mCollider.transform.position, ((CircleCollider2D)(aCharacter.mAttribute.mCollider)).radius);
-        }
-        return Physics2D.OverlapCircleAll(aCharacter.transform.position, 1f);
-    }
-    /// <summary>キャラのcolliderの中心点にdistanceをとるためのcolliderを配置</summary>
-    static public CircleCollider2D makeCenterCollider(MapCharacter aCharacter) {
-        CircleCollider2D tCenter = MyBehaviour.create<CircleCollider2D>();
-        if (aCharacter.mAttribute.mCollider is BoxCollider2D) {
-            tCenter.transform.position = aCharacter.mAttribute.mCollider.transform.position.toVector2() + ((BoxCollider2D)aCharacter.mAttribute.mCollider).offset;
-            tCenter.radius = 0.01f;
-            return tCenter;
-        }
-        tCenter.transform.position = aCharacter.mAttribute.mCollider.transform.position;
-        tCenter.radius = 0.01f;
-        return tCenter;
     }
 }

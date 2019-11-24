@@ -19,8 +19,13 @@ public class MapKeyEventSpeaker : MapSpeaker {
     }
     /// <summary>引数のentityに話しかけられた時に発火するイベントのkeyを取得</summary>
     public string getAnswerKey(MapEntity aEntity) {
-        ColliderDistance2D tDistance = aEntity.mAttribute.mCollider.Distance(this.gameObject.GetComponent<Collider2D>());
-        switch (DirectionOperator.convertToDirection(tDistance.normal)) {
+        //最小外接矩形の距離ベクトル
+        Vector2 tDistance = ColliderEditer.planeDistance(aEntity.mEntityPhysicsBehaviour.mAttriubteCollider, this.gameObject.GetComponent<Collider>());
+        if (tDistance == Vector2.zero) {//最小外接矩形が重なっていた場合は座標の距離ベクトルを使う
+            tDistance = aEntity.mMapPosition.vector2 - mBehaviour.mMapPosition.vector2;
+        }
+        //話かけてきた方向で分岐
+        switch (DirectionOperator.convertToDirection(tDistance)) {
             case Direction.up:
                 if (mSpeakFromUp != "") return mSpeakFromUp;
                 break;

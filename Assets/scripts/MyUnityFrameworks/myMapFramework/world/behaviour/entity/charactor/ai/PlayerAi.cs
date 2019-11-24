@@ -10,8 +10,10 @@ public partial class MapCharacter : MapEntity {
                 mController = parent.GetComponentInParent<MyMap>().mController;
             }
             //移動
-            if (mController.mInputVector != null)
-                parent.mState.move((Vector2)mController.mInputVector,((Vector2)mController.mInputVector).magnitude);
+            if (mController.mInputVector != null) {
+                Vector2 tInputVector = (Vector2)mController.mInputVector;
+                parent.mState.move(new Vector3(tInputVector.x, 0, tInputVector.y), tInputVector.magnitude);
+            }
             //話しかける
             if (mController.mInputA)
                 parent.mState.speak();

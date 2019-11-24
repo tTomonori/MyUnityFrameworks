@@ -15,7 +15,7 @@ public partial class MapCharacter : MapEntity {
         public WalkAroundCircleAi(MyTag aTag) {
             mRange = float.Parse(aTag.mArguments[0]);
             if (aTag.mArguments.Length >= 3) {
-                mCenterPosition = new MapPosition(new Vector3(float.Parse(aTag.mArguments[1]), float.Parse(aTag.mArguments[2])));
+                mCenterPosition = new MapPosition(new Vector3(float.Parse(aTag.mArguments[1]), 0, float.Parse(aTag.mArguments[2])));
             }
         }
         public override void update() {
@@ -27,7 +27,7 @@ public partial class MapCharacter : MapEntity {
             mWalkState.update();
         }
         public override string save() {
-            return "<walkAroundCircle," + mRange + "," + mCenterPosition.x + "," + mCenterPosition.y + ">";
+            return "<walkAroundCircle," + mRange + "," + mCenterPosition.x + "," + mCenterPosition.z + ">";
         }
 
         private class WalkState {
@@ -50,7 +50,7 @@ public partial class MapCharacter : MapEntity {
                 }
                 //移動方向の決定
                 Vector2 tDirection = mTargetPosition - mParent.parent.mMapPosition.vector2;
-                mParent.parent.mState.move(tDirection);
+                mParent.parent.mState.move(new Vector3(tDirection.x, 0, tDirection.y));
             }
         }
         //停止中

@@ -13,9 +13,9 @@ public static class MapCharacterMoveSystem {
     //移動させるキャラの属性
     private static EntityPhysicsAttribute mAttribute;
     //移動させるキャラに付いているcollider
-    private static Collider2D mCollider;
+    private static Collider mCollider;
     //移動方向(単位ベクトル)
-    private static Vector2 mDirection;
+    private static Vector3 mDirection;
     //当たり判定を貫通しないように移動できる距離
     private static float mDeltaDistance;
 
@@ -36,9 +36,13 @@ public static class MapCharacterMoveSystem {
         aCharacter.mMovingData.mDirection = Vector2.zero;
         aCharacter.mMovingData.mMaxMoveDistance = float.PositiveInfinity;
     }
+    /// <summary>最後のdelta移動処理をリセットする</summary>
+    public static void resetMoveDelta(MapCharacter aCharacter) {
+        aCharacter.mMapPosition = aCharacter.mMovingData.mDeltaPrePosition;
+    }
     ///<summary>キャラを移動させる(同フレームでさらに移動可能ならtrue)</summary>
     public static bool moveCharacter(MapCharacter aCharacter) {
-        if (aCharacter.mMovingData.mDirection == Vector2.zero) {
+        if (aCharacter.mMovingData.mDirection == Vector3.zero) {
             //移動しない場合
             aCharacter.mMovingData.mRemainingDistance = 0;
             return false;
@@ -49,7 +53,7 @@ public static class MapCharacterMoveSystem {
         aCharacter.mMovingData.mLastDirection = aCharacter.mMovingData.mDirection;
         //移動処理で使うデータ収集・記録
         mCharacter = aCharacter;
-        mAttribute = aCharacter.mAttribute;
+        mAttribute = aCharacter.mEntityPhysicsBehaviour.mAttribute;
         mCollider = mAttribute.mCollider;
         mDirection = aCharacter.mMovingData.mDirection.normalized;
         mDeltaDistance = aCharacter.mMovingData.mDeltaDistance;
@@ -78,15 +82,15 @@ public static class MapCharacterMoveSystem {
         //ここで移動させる距離
         float tDistance = (mRemainingDistance < mDeltaDistance) ? mRemainingDistance : mDeltaDistance;
         //移動ベクトル
-        Vector2 tVector = mDirection.matchLength(tDistance);
+        Vector3 tVector = mDirection.matchLength(tDistance);
         return moveToward(tVector);
     }
     /// <summary>ベクトル分移動</summary>
-    private static MoveResult moveToward(Vector2 aVector) {
+    private static MoveResult moveToward(Vector3 aVector) {
         //衝突する移動制限tileを探索
-        RaycastHit2D[] tCollidedRistrictTiles = castRistrictTile(aVector, aVector.magnitude);
+        RaycastHit[] tCollidedRistrictTiles = castRistrictTile(aVector, aVector.magnitude);
 
-        RaycastHit2D[] tCollidedAttributes;
+        RaycastHit[] tCollidedAttributes;
         MoveResult tResult;
         if (tCollidedRistrictTiles.Length == 0) {
             //衝突する移動制限tileなし
@@ -118,11 +122,17 @@ public static class MapCharacterMoveSystem {
     /// <summary>スライド移動する</summary>
     /// <returns>移動結果</returns>
     /// <param name="aVector">衝突していなければ進んでいた方向ベクトル</param>
-    /// <param name="aAttributes">衝突した属性を持つcolliderのHit2D</param>
-    private static MoveResult slide(Vector2 aVector, RaycastHit2D[] aAttributes) {
-        Vector2 tSlideVector;
-        foreach (RaycastHit2D tHit in aAttributes) {
-            tSlideVector = aVector.disassembleOrthogonal(tHit.normal);
+    /// <param name="aAttributes">衝突した属性を持つcolliderのHit</param>
+    private static MoveResult slide(Vector3 aVector, RaycastHit[] aAttributes) {
+        Vector3 tSlideVector;
+        Vector2 tArg2DVector = new Vector2(aVector.x, aVector.z);
+        foreach (RaycastHit tHit in aAttributes) {
+            if (aVector.y == 0) {
+                Vector2 tV = tArg2DVector.disassembleOrthogonal(new Vector2(tHit.normal.x, tHit.normal.z));
+                tSlideVector = new Vector3(tV.x, 0, tV.y);
+            } else {
+                tSlideVector = aVector.disassembleOrthogonal(tHit.normal);
+            }
             //スライド移動しようとしても移動方向がかわらない場合は衝突として扱う
             if (aVector == tSlideVector) return new MoveResult(MapPhysics.CollisionType.collide, 0);
             MapPhysics.CollisionType tCollisionType;
@@ -140,17 +150,17 @@ public static class MapCharacterMoveSystem {
     /// </summary>
     /// <returns>移動結果</returns>
     /// <param name="aVector">移動方向</param>
-    /// <param name="aRistrictTiles">接触した移動制限tileのcolliderのHit2D</param>
-    private static MoveResult ristrictMove(Vector2 aVector, RaycastHit2D[] aRistrictTiles) {
+    /// <param name="aRistrictTiles">接触した移動制限tileのcolliderのHit</param>
+    private static MoveResult ristrictMove(Vector3 aVector, RaycastHit[] aRistrictTiles) {
         RistrictMovingTile.RistrictMovingData tMovingData;
         MoveResult tResult;
         MoveResult tMinResult;
-        RaycastHit2D[] tHitList;
+        RaycastHit[] tHitList;
 
         //移動制限tileにしたがって移動
         tResult = ristrictMoveInner(aVector, aRistrictTiles, out tMovingData);
         //衝突,止められた,これ以上移動しない場合は移動完了
-        if (tResult.mCollisionType != MapPhysics.CollisionType.pass || tMovingData.mOutsideVector == Vector2.zero) {
+        if (tResult.mCollisionType != MapPhysics.CollisionType.pass || tMovingData.mOutsideVector == Vector3.zero) {
             return tResult;
         }
         //移動制限tile外部で移動制限tileを探して移動
@@ -162,7 +172,7 @@ public static class MapCharacterMoveSystem {
             //移動制限tileにしたがって移動
             tMinResult = ristrictMoveInner(tMovingData.mOutsideVector, tHitList, out tMovingData);
             //衝突,止められた場合は移動完了
-            if (tMinResult.mCollisionType != MapPhysics.CollisionType.pass || tMovingData.mOutsideVector == Vector2.zero) {
+            if (tMinResult.mCollisionType != MapPhysics.CollisionType.pass || tMovingData.mOutsideVector == Vector3.zero) {
                 tMinResult.mDistance = tResult.mDistance;
                 return tMinResult;
             }
@@ -173,7 +183,7 @@ public static class MapCharacterMoveSystem {
             }
         }
         //移動制限tile外部で直線移動する
-        RaycastHit2D[] t;
+        RaycastHit[] t;
         MoveResult tOutResult = linearMove(tMovingData.mOutsideVector, out t);
         tOutResult.mDistance += tResult.mDistance;
         return tOutResult;
@@ -183,24 +193,24 @@ public static class MapCharacterMoveSystem {
     /// </summary>
     /// <returns>移動結果</returns>
     /// <param name="aVector">移動制限tile外部で移動するはずの移動ベクトル</param>
-    /// <param name="aRistrictTiles">移動制限tileのcolliderのHit2D</param>
+    /// <param name="aRistrictTiles">移動制限tileのcolliderのHit</param>
     /// <param name="oMovingData">制限移動データ</param>
-    private static MoveResult ristrictMoveInner(Vector2 aVector, RaycastHit2D[] aRistrictTiles, out RistrictMovingTile.RistrictMovingData oMovingData) {
+    private static MoveResult ristrictMoveInner(Vector3 aVector, RaycastHit[] aRistrictTiles, out RistrictMovingTile.RistrictMovingData oMovingData) {
         RistrictMovingTile tTile;
         oMovingData = new RistrictMovingTile.RistrictMovingData();
-        foreach (RaycastHit2D tHit in aRistrictTiles) {
+        foreach (RaycastHit tHit in aRistrictTiles) {
             tTile = tHit.collider.GetComponent<RistrictMovingTile>();
-            RistrictMovingTile.RistrictMovingData tData = tTile.getMovingData(mCharacter.mMapPosition.vector2 - tTile.mTile.mMapPosition.vector2, aVector);
+            RistrictMovingTile.RistrictMovingData tData = tTile.getMovingData(mCharacter.mMapPosition.vector - tTile.mTile.mMapPosition.vector, aVector);
             oMovingData = tData;
             //tileに接しただけで内部を移動しない
             if (tData.mInternalVector.Length == 0)
                 continue;
 
             //移動制限tile内部で移動
-            RaycastHit2D[] tCollidedAttributes;
+            RaycastHit[] tCollidedAttributes;
             MoveResult tResult;
             float tMoveDistance = 0;
-            foreach (Vector2 tVector in tData.mInternalVector) {
+            foreach (Vector3 tVector in tData.mInternalVector) {
                 tResult = linearMove(tVector, out tCollidedAttributes);
                 switch (tResult.mCollisionType) {
                     case MapPhysics.CollisionType.pass:
@@ -208,11 +218,11 @@ public static class MapCharacterMoveSystem {
                         continue;
                     case MapPhysics.CollisionType.collide:
                         //スライド移動する
-                        Vector2 tSlideVector;
+                        Vector3 tSlideVector;
                         MoveResult tSlideResult;
-                        Vector2 tRemainedVector = tVector.matchLength(tVector.magnitude - tResult.mDistance);
-                        RaycastHit2D[] _;
-                        foreach (RaycastHit2D tCollidedAttribute in tCollidedAttributes) {
+                        Vector3 tRemainedVector = tVector.matchLength(tVector.magnitude - tResult.mDistance);
+                        RaycastHit[] _;
+                        foreach (RaycastHit tCollidedAttribute in tCollidedAttributes) {
                             tSlideVector = tRemainedVector.disassembleOrthogonal(tCollidedAttribute.normal);
                             tSlideResult = linearMove(tSlideVector, out _);
                             //移動できなかった場合は次の属性に沿って移動
@@ -236,15 +246,14 @@ public static class MapCharacterMoveSystem {
     /// </summary>
     /// <returns>移動結果</returns>
     /// <param name="aVector">移動方向,距離</param>
-    /// <param name="oCollidedAtributes">衝突した属性を持つcolliderのHit2D</param>
-    private static MoveResult linearMove(Vector2 aVector, out RaycastHit2D[] oCollidedAtributes) {
+    /// <param name="oCollidedAtributes">衝突した属性を持つcolliderのHit</param>
+    private static MoveResult linearMove(Vector3 aVector, out RaycastHit[] oCollidedAtributes) {
         MapPhysics.CollisionType tCollisionType;
-        RaycastHit2D[] tHitList = castAttribute(aVector, aVector.magnitude, out tCollisionType);
+        RaycastHit[] tHitList = castAttribute(aVector, aVector.magnitude, out tCollisionType);
         switch (tCollisionType) {
             case MapPhysics.CollisionType.pass:
                 move(aVector);
-                //mCharacter.mMapPosition += aVector;
-                oCollidedAtributes = new RaycastHit2D[0];
+                oCollidedAtributes = new RaycastHit[0];
                 return new MoveResult(MapPhysics.CollisionType.pass, aVector.magnitude);
             case MapPhysics.CollisionType.collide:
                 float tCollideMoveDistance = tHitList[0].distance - kMaxSeparation;
@@ -256,7 +265,6 @@ public static class MapCharacterMoveSystem {
             case MapPhysics.CollisionType.stop:
                 float tStopMoveDistance = tHitList[0].distance + kMaxSeparation;
                 move(aVector.matchLength(tStopMoveDistance));
-                //mCharacter.mMapPosition += aVector.matchLength(tStopMoveDistance);
                 oCollidedAtributes = tHitList;
                 return new MoveResult(MapPhysics.CollisionType.stop, tStopMoveDistance);
         }
@@ -270,18 +278,13 @@ public static class MapCharacterMoveSystem {
     /// <param name="aVector">探索方向</param>
     /// <param name="aDistance">探索距離</param>
     /// <param name="oCollisionType">衝突した属性とのcollisionType(同じ距離で複数と衝突する場合はcollideの物のみをListに入れて返す)</param>
-    private static RaycastHit2D[] castAttribute(Vector2 aVector, float aDistance, out MapPhysics.CollisionType oCollisionType) {
+    private static RaycastHit[] castAttribute(Vector3 aVector, float aDistance, out MapPhysics.CollisionType oCollisionType) {
         //衝突するcolliderを取得
-        RaycastHit2D[] tHitList = new RaycastHit2D[0];
-        if (mCollider is BoxCollider2D) {
-            tHitList = Physics2D.BoxCastAll(mCharacter.worldPosition2D + mCollider.offset, ((BoxCollider2D)mCollider).size, mCharacter.transform.rotation.z, aVector, aDistance);
-        } else if (mCollider is CircleCollider2D) {
-            tHitList = Physics2D.CircleCastAll(mCharacter.worldPosition2D + mCollider.offset, ((CircleCollider2D)mCollider).radius, aVector, aDistance);
-        }
+        RaycastHit[] tHitList = cast(aVector, aDistance);
         //衝突する属性を取得
         int tHitLength = tHitList.Length;
-        RaycastHit2D[] tNears = new RaycastHit2D[tHitLength];
-        RaycastHit2D tHit;
+        RaycastHit[] tNears = new RaycastHit[tHitLength];
+        RaycastHit tHit;
         MapPhysicsAttribute tAttribute;
         MapPhysics.CollisionType tCollisionType = MapPhysics.CollisionType.pass;
         int tHitIndex;
@@ -297,7 +300,7 @@ public static class MapCharacterMoveSystem {
         //衝突する属性がなかった
         if (tNearsNum == 0) {
             oCollisionType = MapPhysics.CollisionType.pass;
-            return new RaycastHit2D[0];
+            return new RaycastHit[0];
         }
         //同じ距離で衝突する属性を取得
         //stopよりcollideを優先するためのフラグ
@@ -329,7 +332,7 @@ public static class MapCharacterMoveSystem {
                     continue;
             }
         }
-        Array.Resize<RaycastHit2D>(ref tNears, tNearsNum);
+        Array.Resize<RaycastHit>(ref tNears, tNearsNum);
         oCollisionType = (tCollided) ? MapPhysics.CollisionType.collide : MapPhysics.CollisionType.stop;
         return tNears;
     }
@@ -344,7 +347,7 @@ public static class MapCharacterMoveSystem {
         MapPhysicsAttribute tCollidedAttribute = null;
         oCollisionType = MapPhysics.CollisionType.pass;
         foreach (MapPhysicsAttribute tAttribute in aBehaviour.GetComponents<MapPhysicsAttribute>()) {
-            MapPhysics.CollisionType tCollisionType = MapPhysics.canCollide(mCharacter.mAttribute, tAttribute);
+            MapPhysics.CollisionType tCollisionType = MapPhysics.canCollide(mAttribute, tAttribute);
             string t = aBehaviour.transform.parent.name;
             if (tCollisionType == MapPhysics.CollisionType.collide) {
                 tCollidedAttribute = tAttribute;
@@ -364,13 +367,13 @@ public static class MapCharacterMoveSystem {
     /// <returns>衝突した移動制限tileのcolliderのHit2D</returns>
     /// <param name="aVector">探索方向</param>
     /// <param name="aDistance">探索距離</param>
-    private static RaycastHit2D[] castRistrictTile(Vector2 aVector, float aDistance) {
+    private static RaycastHit[] castRistrictTile(Vector3 aVector, float aDistance) {
         //衝突するcolliderを取得
-        RaycastHit2D[] tHitList = Physics2D.RaycastAll(mCharacter.worldPosition2D, aVector, aDistance);
+        RaycastHit[] tHitList = castHeight(aVector, aDistance);
         int tHitLength = tHitList.Length;
-        RaycastHit2D[] tNears = new RaycastHit2D[tHitList.Length];
+        RaycastHit[] tNears = new RaycastHit[tHitList.Length];
         int tHitIndex;
-        RaycastHit2D tHit;
+        RaycastHit tHit;
         RistrictMovingTile tTile;
         int tNearsNum = 0;
         //衝突する移動制限tileがあるか探す
@@ -378,13 +381,12 @@ public static class MapCharacterMoveSystem {
             tHit = tHitList[tHitIndex];
             tTile = tHit.collider.GetComponent<RistrictMovingTile>();
             if (tTile == null) continue;
-            if (!MapPhysics.canCollide(mCharacter.mAttribute, tTile)) continue;
             tNears[0] = tHit;
             tNearsNum = 1;
             break;
         }
         if (tNearsNum == 0) {
-            return new RaycastHit2D[0];
+            return new RaycastHit[0];
         }
         //同じ距離で衝突する移動制限tileがあるか探す
         for (int i = tHitIndex + 1; i < tHitLength; ++i) {
@@ -394,16 +396,15 @@ public static class MapCharacterMoveSystem {
             //同じ距離で衝突するcolliderあり
             tTile = tHit.collider.GetComponent<RistrictMovingTile>();
             if (tTile == null) continue;
-            if (!MapPhysics.canCollide(mCharacter.mAttribute, tTile)) continue;
             tNears[tNearsNum] = tHit;
             tNearsNum++;
         }
-        Array.Resize<RaycastHit2D>(ref tNears, tNearsNum);
+        Array.Resize<RaycastHit>(ref tNears, tNearsNum);
         return tNears;
     }
-    private static void move(Vector2 aVector) {
+    private static void move(Vector3 aVector) {
         //移動方向単位ベクトル
-        Vector2 tNormal = aVector.normalized;
+        Vector3 tNormal = aVector.normalized;
         float tLength = aVector.magnitude;
         for (; tLength > 0; tLength -= kMaxSeparation) {
             switch (tryMove(tNormal * tLength)) {
@@ -421,18 +422,13 @@ public static class MapCharacterMoveSystem {
     /// </summary>
     /// <returns>衝突状況</returns>
     /// <param name="aVector">移動方向,距離</param>
-    private static MapPhysics.CollisionType tryMove(Vector2 aVector) {
+    private static MapPhysics.CollisionType tryMove(Vector3 aVector) {
         //衝突するcolliderを取得
-        RaycastHit2D[] tHitList = new RaycastHit2D[0];
-        if (mCollider is BoxCollider2D) {
-            tHitList = Physics2D.BoxCastAll(mCharacter.worldPosition2D + aVector + mCollider.offset, ((BoxCollider2D)mCollider).size, mCharacter.transform.rotation.z, Vector2.zero, 0);
-        } else if (mCollider is CircleCollider2D) {
-            tHitList = Physics2D.CircleCastAll(mCharacter.worldPosition2D + aVector, ((CircleCollider2D)mCollider).radius, Vector2.zero, 0);
-        }
+        RaycastHit[] tHitList = cast(aVector, aVector.magnitude);
 
         MapPhysics.CollisionType tCollisionType;
         bool tStopFlag = false;
-        foreach (RaycastHit2D tHit in tHitList) {
+        foreach (RaycastHit tHit in tHitList) {
             getCollidedAttribute(tHit.collider.gameObject, out tCollisionType);
             if (tCollisionType == MapPhysics.CollisionType.collide)
                 return MapPhysics.CollisionType.collide;
@@ -440,6 +436,41 @@ public static class MapCharacterMoveSystem {
                 tStopFlag = true;
         }
         return (tStopFlag) ? MapPhysics.CollisionType.stop : MapPhysics.CollisionType.pass;
+    }
+
+    /// <summary>
+    /// 移動するキャラのcolliderのrayを飛ばす
+    /// </summary>
+    /// <returns>衝突したcollider</returns>
+    /// <param name="aVector">cast方向</param>
+    /// <param name="aDistance">cast距離</param>
+    private static RaycastHit[] cast(Vector3 aVector, float aDistance) {
+        RaycastHit[] tHitList = new RaycastHit[0];
+        if (mCollider is BoxCollider) {
+            tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + ((BoxCollider)mCollider).center, ((BoxCollider)mCollider).size / 2f, aVector, mCollider.transform.rotation, aDistance);
+        } else if (mCollider is SphereCollider) {
+            tHitList = Physics.SphereCastAll(mCharacter.mPhysicsBehaviour.worldPosition + ((SphereCollider)mCollider).center, ((SphereCollider)mCollider).radius, aVector, aDistance);
+        } else {
+            Debug.LogWarning("MapCharacterMoveSystem : 未定義のcolliderのcast「" + mCollider.GetType().ToString() + "」");
+        }
+        return tHitList;
+    }
+    /// <summary>
+    /// 移動するキャラの座標点から高さ分のrayを飛ばす
+    /// </summary>
+    /// <returns>衝突したcollider</returns>
+    /// <param name="aVector">cast方向</param>
+    /// <param name="aDistance">cast距離</param>
+    private static RaycastHit[] castHeight(Vector3 aVector, float aDistance) {
+        RaycastHit[] tHitList = new RaycastHit[0];
+        if (mCollider is BoxCollider) {
+            tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + ((BoxCollider)mCollider).center, new Vector3(0, ((BoxCollider)mCollider).size.y / 2f, 0), aVector, Quaternion.Euler(0, 0, 0), aDistance);
+        } else if (mCollider is SphereCollider) {
+            tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + ((SphereCollider)mCollider).center, new Vector3(0, ((SphereCollider)mCollider).radius, 0), aVector, Quaternion.Euler(0, 0, 0), aDistance);
+        } else {
+            Debug.LogWarning("MapCharacterMoveSystem : 未定義のcolliderのcastHeight「" + mCollider.GetType().ToString() + "」");
+        }
+        return tHitList;
     }
 
     public class MoveResult {
@@ -452,7 +483,23 @@ public static class MapCharacterMoveSystem {
     }
 
     //<summary>(誤差を考慮した上で)指定座標に居るならtrue</summary>
+    public static bool arrived(MapCharacter aCharacter, Vector3 aPosition) {
+        return Vector3.Distance(aCharacter.mMapPosition.vector, aPosition) <= kMaxSeparation;
+    }
+    //<summary>(誤差を考慮した上で)指定座標(x,z)に居るならtrue</summary>
     public static bool arrived(MapCharacter aCharacter, Vector2 aPosition) {
         return Vector2.Distance(aCharacter.mMapPosition.vector2, aPosition) <= kMaxSeparation;
+    }
+    /// <summary>何かに衝突しているならtrue</summary>
+    public static bool isCollided(MapCharacter aCharacter) {
+        mCharacter = aCharacter;
+        mCollider = aCharacter.mEntityPhysicsBehaviour.mAttriubteCollider;
+        mAttribute = aCharacter.mEntityPhysicsBehaviour.mAttribute;
+        MapPhysics.CollisionType tType;
+        RaycastHit[] tHits = castAttribute(new Vector3(0, 1, 0), 0, out tType);
+        mCharacter = null;
+        mCollider = null;
+        mAttribute = null;
+        return tType == MapPhysics.CollisionType.collide;
     }
 }

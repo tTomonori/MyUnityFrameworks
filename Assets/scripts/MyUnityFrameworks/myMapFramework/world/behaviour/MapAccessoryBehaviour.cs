@@ -49,6 +49,6 @@ public class MapAccessoryBehaviour : MyBehaviour {
         }
     }
     private void setPosition() {
-        this.position = new MapPosition(mPosition).toRenderPosition().addPileLevel(mPileLevel).vector;
+        this.position = new MapPosition(mPosition, mPileLevel).renderPosition;
     }
 }

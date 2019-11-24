@@ -47,9 +47,7 @@ public static class MapSaveSystem {
         MapSaveFileData.Ornament tSaveData = new MapSaveFileData.Ornament(aOrnament.mFileData);
         //座標
         MapPosition tPosition = aOrnament.mMapPosition;
-        tSaveData.mX = tPosition.x;
-        tSaveData.mY = tPosition.y;
-        tSaveData.mHeight = tPosition.h;
+        tSaveData.mPosition = tPosition.vector;
         //createFlag
         tSaveData.mCreateFlag = null;
         //その他データ
@@ -62,9 +60,7 @@ public static class MapSaveSystem {
         MapSaveFileData.Character tSaveData = new MapSaveFileData.Character(aCharacter.mFileData);
         //座標
         MapPosition tPosition = aCharacter.mMapPosition;
-        tSaveData.mX = tPosition.x;
-        tSaveData.mY = tPosition.y;
-        tSaveData.mHeight = tPosition.h;
+        tSaveData.mPosition = tPosition.vector;
         //createFlag
         tSaveData.mCreateFlag = null;
         //向き

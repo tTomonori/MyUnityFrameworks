@@ -7,7 +7,7 @@ public class MapEventMoveMap : MapEvent {
     /// <summary>移動先のマップファイルのパス</summary>
     public string mMapPath;
     /// <summary>フェードアウト中の移動方向(移動速度が0以下なら向きのみを変える)</summary>
-    public Vector2 mMoveOutVector;
+    public Vector3 mMoveOutVector;
     /// <summary>フェードアウト中の移動速度</summary>
     public float mMoveOutSpeed;
     /// <summary>マップ移動後に実行するイベントのKey(移動前のマップのKey)</summary>
@@ -19,7 +19,7 @@ public class MapEventMoveMap : MapEvent {
     public MapEventMoveMap(Arg aData) {
         mEndSide = new MapEventMoveMapEndSide(aData);
         mMapPath = aData.get<string>("mapPath");
-        mMoveOutVector = aData.get<Vector2>("moveOutVector");
+        mMoveOutVector = aData.get<Vector3>("moveOutVector");
         mMoveOutSpeed = aData.ContainsKey("moveOutSpeed") ? aData.get<float>("moveOutSpeed") : MyMap.mDefaultMoveSpeed;
         mHereEventKey = aData.ContainsKey("hereEventKey") ? aData.get<string>("hereEventKey") : "";
     }
@@ -36,7 +36,7 @@ public class MapEventMoveMap : MapEvent {
         if (mMoveOutSpeed > 0) {
             //移動する
             aOperator.getAi("invoker").moveBy(mMoveOutVector, mMoveOutSpeed, () => { });
-        } else if (mMoveOutVector != Vector2.zero) {
+        } else if (mMoveOutVector != Vector3.zero) {
             //向きのみ変更
             aOperator.getAi("invoker").parent.mCharacterImage.setDirection(mMoveOutVector);
         }
@@ -46,22 +46,26 @@ public class MapEventMoveMap : MapEvent {
     /// <summary>移動先の座標計算</summary>
     private void calculatePercentagePosition(MapEventSystem.Operator aOperator) {
         //triggerの矩形範囲
-        Collider2DEditer.RectangleEndPoint tRange = aOperator.mInvokedCollider.minimumCircumscribedRectangleEndPoint();
+        ColliderEditer.CubeEndPoint tRange = aOperator.mInvokedCollider.minimumCircumscribedCubeEndPoint();
         //invokerのcolliderを考慮して矩形範囲を調整
-        Collider2DEditer.RectangleEndPoint tSize = aOperator.mInvoker.mAttribute.mCollider.minimumCircumscribedRectangleEndPoint();
-        tRange.up -= tSize.up;
-        tRange.down -= tSize.down;
+        ColliderEditer.CubeEndPoint tSize = aOperator.mInvoker.mEntityPhysicsBehaviour.mAttriubteCollider.minimumCircumscribedCubeEndPoint();
         tRange.left -= tSize.left;
         tRange.right -= tSize.right;
+        tRange.top -= tSize.top;
+        tRange.bottom -= tSize.bottom;
+        tRange.back -= tSize.back;
+        tRange.front -= tSize.front;
 
 
-        Vector2 tRelative = aOperator.mInvoker.worldPosition2D - aOperator.mInvokedCollider.transform.position.toVector2();
-        Vector2 tRangePosition = new Vector2((tRelative.x - tRange.left) / (tRange.right - tRange.left), (tRelative.y - tRange.down) / (tRange.up - tRange.left));
+        Vector3 tRelative = aOperator.mInvoker.mEntityPhysicsBehaviour.mAttribute.worldPosition - aOperator.mInvokedCollider.transform.position;
+        Vector3 tRangePosition = new Vector3((tRelative.x - tRange.left) / (tRange.right - tRange.left), (tRelative.y - tRange.bottom) / (tRange.top - tRange.bottom), (tRelative.z - tRange.front) / (tRange.back - tRange.front));
         //座標が(0~1)の範囲になるように調整
         if (tRangePosition.x < 0) tRangePosition.x = 0;
         else if (1 < tRangePosition.x) tRangePosition.x = 1;
         if (tRangePosition.y < 0) tRangePosition.y = 0;
         else if (1 < tRangePosition.y) tRangePosition.y = 1;
+        if (tRangePosition.z < 0) tRangePosition.z = 0;
+        else if (1 < tRangePosition.z) tRangePosition.z = 1;
 
         mEndSide.mPercentagePosition = tRangePosition;
     }

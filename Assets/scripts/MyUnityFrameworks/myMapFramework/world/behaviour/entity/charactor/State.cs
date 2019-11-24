@@ -14,7 +14,7 @@ public partial class MapCharacter : MapEntity {
         }
 
         ///<summary>移動入力(入力を受け付けたらtrue)</summary>
-        public virtual bool move(Vector2 aVector, float aMaxMoveDistance = float.PositiveInfinity) {
+        public virtual bool move(Vector3 aVector, float aMaxMoveDistance = float.PositiveInfinity) {
             return false;
         }
         /// <summary>話しかけるor調べる入力(入力を受け付けたらtrue)</summary>

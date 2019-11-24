@@ -13,7 +13,7 @@ public partial class MapCharacter : MapEntity {
         public override void update() {
 
         }
-        public override bool move(Vector2 aVector, float aMaxMoveDistance = float.PositiveInfinity) {
+        public override bool move(Vector3 aVector, float aMaxMoveDistance = float.PositiveInfinity) {
             //移動状態に遷移
             parent.transitionState(new WalkingState());
             return parent.mState.move(aVector, aMaxMoveDistance);

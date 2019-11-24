@@ -8,43 +8,24 @@ public static class MapPhysics {
     }
 
     /// <summary>
-    /// 指定した高さにある二つの物体が衝突するか
+    /// 第一引数の属性が第二引数の属性と衝突するか
     /// </summary>
-    /// <returns>衝突するならtrue</returns>
-    /// <param name="aHeight1">衝突する側</param>
-    /// <param name="aHeight2">衝突される側</param>
-    public static bool isOverlapedH(MapBehaviour aBehaviour1, MapBehaviour aBehaviour2) {
-        MapBehaviour tUpperBehaviour;
-        MapBehaviour tLowerBehaviour;
-        if (aBehaviour1.mHeight < aBehaviour2.mHeight) {
-            tUpperBehaviour = aBehaviour2;
-            tLowerBehaviour = aBehaviour1;
-        } else {
-            tUpperBehaviour = aBehaviour1;
-            tLowerBehaviour = aBehaviour2;
-        }
-        return tUpperBehaviour.mHeight < tLowerBehaviour.mHeight + tLowerBehaviour.mCollideHeight;
-    }
-    //衝突するか判定
+    /// <returns>衝突結果</returns>
+    /// <param name="aAttribute1">属性1</param>
+    /// <param name="aAttribute2">属性2</param>
     public static CollisionType canCollide(MapPhysicsAttribute aAttribute1, MapPhysicsAttribute aAttribute2) {
         if (aAttribute1 is EntityPhysicsAttribute)
             return canCollide((EntityPhysicsAttribute)aAttribute1, aAttribute2);
 
         return CollisionType.pass;
     }
-    public static bool canCollide(EntityPhysicsAttribute aEntity, RistrictMovingTile aRistrictTile) {
-        return isOverlapedH(aEntity.mEntity, aRistrictTile.mTile);
-    }
     public static CollisionType canCollide(EntityPhysicsAttribute aAttribute1, MapPhysicsAttribute aAttribute2) {
-        //階層判定
-        if (!isOverlapedH(aAttribute1.mBehaviour, aAttribute2.mBehaviour)) return CollisionType.pass;
-
         //相手の属性で分岐
         if (aAttribute2 is TileGroundPhysicsAttribute) {
             return aAttribute1.canEnter((TileGroundPhysicsAttribute)aAttribute2) ? CollisionType.pass : CollisionType.collide;
         }
         if (aAttribute2 is SlopeTilePhysicsAttribute) {
-            return ((SlopeTilePhysicsAttribute)aAttribute2).canBeEntered(aAttribute1.mBehaviour.worldPosition2D, aAttribute1.getHeight()) ? CollisionType.pass : CollisionType.collide;
+            return ((SlopeTilePhysicsAttribute)aAttribute2).canBeEntered(aAttribute1.mBehaviour.mMapPosition) ? CollisionType.pass : CollisionType.collide;
         }
         if (aAttribute2 is EntityPhysicsAttribute) {
             return aAttribute1.canEnter((EntityPhysicsAttribute)aAttribute2) ? CollisionType.pass : CollisionType.collide;

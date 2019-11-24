@@ -9,6 +9,7 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
         ghost,
         ornament,
         walking,
+        floating,
         flying,
         pygmy
     }
@@ -32,9 +33,24 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
                     case TileGroundPhysicsAttribute.Attribute.air:
                     case TileGroundPhysicsAttribute.Attribute.water:
                     case TileGroundPhysicsAttribute.Attribute.magma:
+                    case TileGroundPhysicsAttribute.Attribute.edge:
                     case TileGroundPhysicsAttribute.Attribute.wall:
                         return false;
                     case TileGroundPhysicsAttribute.Attribute.flat:
+                        return true;
+                }
+                break;
+            case Attribute.floating:
+                switch (aTilePhysics.mAttribute) {
+                    case TileGroundPhysicsAttribute.Attribute.none:
+                    case TileGroundPhysicsAttribute.Attribute.end:
+                    case TileGroundPhysicsAttribute.Attribute.edge:
+                    case TileGroundPhysicsAttribute.Attribute.wall:
+                        return false;
+                    case TileGroundPhysicsAttribute.Attribute.flat:
+                    case TileGroundPhysicsAttribute.Attribute.water:
+                    case TileGroundPhysicsAttribute.Attribute.magma:
+                    case TileGroundPhysicsAttribute.Attribute.air:
                         return true;
                 }
                 break;
@@ -47,6 +63,7 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
                     case TileGroundPhysicsAttribute.Attribute.flat:
                     case TileGroundPhysicsAttribute.Attribute.water:
                     case TileGroundPhysicsAttribute.Attribute.magma:
+                    case TileGroundPhysicsAttribute.Attribute.edge:
                     case TileGroundPhysicsAttribute.Attribute.air:
                         return true;
                 }
@@ -55,6 +72,7 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
                 switch (aTilePhysics.mAttribute) {
                     case TileGroundPhysicsAttribute.Attribute.none:
                     case TileGroundPhysicsAttribute.Attribute.end:
+                    case TileGroundPhysicsAttribute.Attribute.edge:
                     case TileGroundPhysicsAttribute.Attribute.wall:
                         return false;
                     case TileGroundPhysicsAttribute.Attribute.flat:
@@ -75,12 +93,14 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
                 return true;
             case Attribute.ornament:
             case Attribute.walking:
+            case Attribute.floating:
             case Attribute.flying:
                 switch (aEntityPhysics.mAttribute) {
                     case Attribute.ghost:
                         return true;
                     case Attribute.ornament:
                     case Attribute.walking:
+                    case Attribute.floating:
                     case Attribute.flying:
                         return false;
                     case Attribute.pygmy:
@@ -94,8 +114,9 @@ public class EntityPhysicsAttribute : MapPhysicsAttribute {
                     case Attribute.ornament:
                     case Attribute.walking:
                     case Attribute.flying:
-                    case Attribute.pygmy:
                         return true;
+                    case Attribute.pygmy:
+                        return false;
                 }
                 break;
         }

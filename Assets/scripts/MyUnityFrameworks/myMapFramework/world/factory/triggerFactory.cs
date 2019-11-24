@@ -10,9 +10,10 @@ public static partial class MapWorldFactory {
         //形状
         MyTag tShapeTag = aData.mShape;
         switch (tShapeTag.mTagName) {
-            case "square"://四角形
-                BoxCollider2D tBox = tTrigger.gameObject.AddComponent<BoxCollider2D>();
-                tBox.size = new Vector2(float.Parse(tShapeTag.mArguments[0]), float.Parse(tShapeTag.mArguments[1]));
+            case "cube"://立方体
+                BoxCollider tBox = tTrigger.gameObject.AddComponent<BoxCollider>();
+                tBox.size = new Vector3(float.Parse(tShapeTag.mArguments[0]), float.Parse(tShapeTag.mArguments[1]), float.Parse(tShapeTag.mArguments[1]));
+                tBox.center = new Vector3(0, tBox.size.y / 2f, 0);
                 break;
             default:
                 throw new System.Exception("MapWorldFactory-TriggerFactory : 不正な形状名「" + tShapeTag.mTagName + "」");
@@ -55,9 +56,12 @@ public static partial class MapWorldFactory {
 
         MapBehaviour tBehaviour = MyBehaviour.create<MapBehaviour>();
         tBehaviour.name = aData.mName;
-        tTrigger.transform.SetParent(tBehaviour.transform, false);
+
+        MapPhysicsBehaviour tPhysics = tTrigger.gameObject.AddComponent<MapPhysicsBehaviour>();
+        tPhysics.transform.SetParent(tBehaviour.transform, false);
+        tBehaviour.mPhysicsBehaviour = tPhysics;
         tTrigger.mBehaviour = tBehaviour;
-        tBehaviour.setMapPosition(new Vector2(aData.mX, aData.mY), aData.mHeight);
+        tBehaviour.mMapPosition = new MapPosition(aData.mPosition);
 
         tBehaviour.transform.SetParent(mWorld.mTriggerContainer.transform, false);
         return tTrigger;

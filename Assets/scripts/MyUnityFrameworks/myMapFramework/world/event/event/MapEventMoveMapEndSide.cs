@@ -23,7 +23,7 @@ public class MapEventMoveMapEndSide : MapEvent {
     /// <summary>マップ移動後に実行するイベント(移動前のマップのKeyで取得したイベント)</summary>
     public MapEvent mHereEvent;
     /// <summary>移動前のマップでの出口に対する相対座標(0 ~ 1)</summary>
-    public Vector2 mPercentagePosition;
+    public Vector3 mPercentagePosition;
 
     /// <summary>イベント終了時コールバックの退避用</summary>
     public Action<Arg> mEventEndCallback;
@@ -92,26 +92,32 @@ public class MapEventMoveMapEndSide : MapEvent {
     /// 移動先の座標計算
     /// </summary>
     /// <param name="aCollider">移動先に配置するキャラのcollider</param>
-    public void calculatePositionFromPercentagePosition(Collider2D aCollider) {
-        Collider2DEditer.RectangleEndPoint tSize = aCollider.minimumCircumscribedRectangleEndPoint();
+    public void calculatePositionFromPercentagePosition(Collider aCollider) {
+        ColliderEditer.CubeEndPoint tSize = aCollider.minimumCircumscribedCubeEndPoint();
         //移動先となりうる範囲
-        Vector2 tLeftBottom = new Vector2(mEntranceData.mX - mEntranceData.mSize.x / 2f, mEntranceData.mY - mEntranceData.mSize.y / 2f);
-        Vector2 tRightUp = new Vector2(mEntranceData.mX + mEntranceData.mSize.x / 2f, mEntranceData.mY + mEntranceData.mSize.y / 2f);
-        tRightUp.y += -tSize.up - MapCharacterMoveSystem.kMaxSeparation;
-        tLeftBottom.y += -tSize.down + MapCharacterMoveSystem.kMaxSeparation;
-        tLeftBottom.x += -tSize.left + MapCharacterMoveSystem.kMaxSeparation;
-        tRightUp.x += -tSize.right - MapCharacterMoveSystem.kMaxSeparation;
+        Vector3 tLeftFrontBottom = new Vector3(mEntranceData.mX - mEntranceData.mSize.x / 2f, mEntranceData.mY - mEntranceData.mSize.y / 2f, mEntranceData.mZ - mEntranceData.mSize.z / 2f);
+        Vector3 tRightBackTop = new Vector3(mEntranceData.mX + mEntranceData.mSize.x / 2f, mEntranceData.mY + mEntranceData.mSize.y / 2f, mEntranceData.mZ + mEntranceData.mSize.z / 2f);
+        tLeftFrontBottom.x -= tSize.left + MapCharacterMoveSystem.kMaxSeparation;
+        tRightBackTop.x -= tSize.right - MapCharacterMoveSystem.kMaxSeparation;
+        tLeftFrontBottom.y -= tSize.bottom - MapCharacterMoveSystem.kMaxSeparation;
+        tRightBackTop.y -= tSize.top + MapCharacterMoveSystem.kMaxSeparation;
+        tLeftFrontBottom.z -= tSize.front - MapCharacterMoveSystem.kMaxSeparation;
+        tRightBackTop.z -= tSize.back + MapCharacterMoveSystem.kMaxSeparation;
         //移動先となりうる範囲のサイズが負の値になったら調整
-        if (tRightUp.x < tLeftBottom.x) {
-            tLeftBottom.x = mEntranceData.mX;
-            tRightUp.x = mEntranceData.mX;
+        if (tRightBackTop.x < tLeftFrontBottom.x) {
+            tLeftFrontBottom.x = mEntranceData.mX;
+            tRightBackTop.x = mEntranceData.mX;
         }
-        if (tRightUp.y < tLeftBottom.y) {
-            tLeftBottom.y = mEntranceData.mY;
-            tRightUp.y = mEntranceData.mY;
+        if (tRightBackTop.y < tLeftFrontBottom.y) {
+            tLeftFrontBottom.y = mEntranceData.mY;
+            tRightBackTop.y = mEntranceData.mY;
+        }
+        if (tRightBackTop.z < tLeftFrontBottom.z) {
+            tLeftFrontBottom.z = mEntranceData.mZ;
+            tRightBackTop.z = mEntranceData.mZ;
         }
         //移動先の座標
-        mPosition = new Vector3(tLeftBottom.x + (tRightUp.x - tLeftBottom.x) * mPercentagePosition.x, tLeftBottom.y + (tRightUp.y - tLeftBottom.y) * mPercentagePosition.y, mEntranceData.mHeight);
+        mPosition = new Vector3(tLeftFrontBottom.x + (tRightBackTop.x - tLeftFrontBottom.x) * mPercentagePosition.x, tLeftFrontBottom.y + (tRightBackTop.y - tLeftFrontBottom.y) * mPercentagePosition.y, tLeftFrontBottom.z + (tRightBackTop.z - tLeftFrontBottom.z) * mPercentagePosition.z);
     }
     /// <summary>マップ移動のフェードアウト演出とキャラ移動演出終了時</summary>
     private void fadeInEnded(MapEventSystem.Operator aOperator) {

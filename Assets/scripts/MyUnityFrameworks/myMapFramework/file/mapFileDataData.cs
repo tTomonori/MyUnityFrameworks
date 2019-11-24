@@ -120,18 +120,19 @@ public partial class MapFileData {
         }
         ///<summary>x座標</summary>
         public float mX {
-            get { return mData.get<float>("x"); }
-            set { mData.set("x", value); }
+            get { return mData.get<Vector3>("position").x; }
         }
         ///<summary>y座標</summary>
         public float mY {
-            get { return mData.get<float>("y"); }
-            set { mData.set("y", value); }
+            get { return mData.get<Vector3>("position").y; }
         }
-        ///<summary>高さ</summary>
-        public float mHeight {
-            get { return mData.get<float>("height"); }
-            set { mData.set("height", value); }
+        ///<summary>z座標</summary>
+        public float mZ {
+            get { return mData.get<Vector3>("position").z; }
+        }
+        public Vector3 mPosition {
+            get { return mData.get<Vector3>("position"); }
+            set { mData.set("position", value); }
         }
         /// <summary>フラグが立っている場合のみ生成する</summary>
         public MyFlagItem mCreateFlag {
@@ -351,27 +352,28 @@ public partial class MapFileData {
         public Arg mData;
         ///<summary>x座標</summary>
         public float mX {
-            get { return mData.get<float>("x"); }
-            set { mData.set("x", value); }
+            get { return mData.get<Vector3>("position").x; }
         }
         ///<summary>y座標</summary>
         public float mY {
-            get { return mData.get<float>("y"); }
-            set { mData.set("y", value); }
+            get { return mData.get<Vector3>("position").y; }
         }
-        ///<summary>高さ</summary>
-        public float mHeight {
-            get { return mData.get<float>("height"); }
-            set { mData.set("height", value); }
+        ///<summary>z座標</summary>
+        public float mZ {
+            get { return mData.get<Vector3>("position").z; }
+        }
+        public Vector3 mPosition {
+            get { return mData.get<Vector3>("position"); }
+            set { mData.set("position", value); }
         }
         /// <summary>移動先となりうる範囲のサイズ</summary>
-        public Vector2 mSize {
-            get { return mData.get<Vector2>("size"); }
+        public Vector3 mSize {
+            get { return mData.get<Vector3>("size"); }
             set { mData.set("size", value); }
         }
         /// <summary>マップ移動演出時の移動方向</summary>
         public Vector2 mMoveVector {
-            get { return mData.get<Vector2>("moveVector"); }
+            get { return mData.get<Vector3>("moveVector"); }
             set { mData.set("moveVector", value); }
         }
         /// <summary>マップ移動演出時の移動速度(負の値:デフォルト値適用,0:移動演出を行わない)</summary>
