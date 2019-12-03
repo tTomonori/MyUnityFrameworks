@@ -1,4 +1,4 @@
-﻿Shader "Unlit/Shadow"
+﻿Shader "My/Shadow"
 {
     Properties
     {

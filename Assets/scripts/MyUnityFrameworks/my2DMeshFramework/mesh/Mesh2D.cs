@@ -29,19 +29,20 @@ public abstract class Mesh2D : MyBehaviour {
     public void createMaterial() {
         switch (mRenderMode) {
             case RenderMode.opaque:
-                mRenderer.material = new Material(Shader.Find("Unlit/Texture"));
+                mRenderer.material = new Material(Shader.Find("My/Texture"));
+                //mRenderer.material = new Material(Shader.Find("Unlit/Texture"));
                 mRenderer.sharedMaterial.SetTexture("_MainTex", mSprite.texture);
                 break;
             case RenderMode.transparent:
-                mRenderer.material = new Material(Shader.Find("Unlit/TransparentWriteZ"));
+                mRenderer.material = new Material(Shader.Find("My/TransparentWriteZ"));
                 mRenderer.sharedMaterial.SetTexture("_MainTex", mSprite.texture);
                 break;
             case RenderMode.translucent:
-                mRenderer.material = new Material(Shader.Find("Unlit/Translucent"));
+                mRenderer.material = new Material(Shader.Find("My/Translucent"));
                 mRenderer.sharedMaterial.SetTexture("_MainTex", mSprite.texture);
                 break;
             case RenderMode.shadow:
-                mRenderer.material = new Material(Shader.Find("Unlit/Shadow"));
+                mRenderer.material = new Material(Shader.Find("My/Shadow"));
                 mRenderer.sharedMaterial.SetTexture("_MainTex", mSprite.texture);
                 break;
         }

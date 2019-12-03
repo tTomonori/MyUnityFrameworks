@@ -44,7 +44,7 @@ public abstract class RistrictMovingTile : MyBehaviour {
     public abstract RistrictMovingData getMovingData(Vector3 aStartPoint, Vector3 aMoveVector);
 
     /// <summary>
-    /// このtile内部でどれだけ移動できるか(移動ベクトルに対する割合を返す)
+    /// このtile内部でどれだけ移動できるか(移動ベクトルに対する割合を返す)(tileが矩形であること前提)
     /// </summary>
     /// <returns>このtile内部で移動できる移動ベクトルの、引数の移動ベクトルに対する割合(0~1)</returns>
     /// <param name="aStartPoint">移動開始地点(相対座標)</param>

@@ -7,7 +7,7 @@ public static class MapCharacterMoveSystem {
     ///<summary>障害物と衝突した時、障害物との距離の最大許容距離</summary>
     static public float kMaxSeparation { get; private set; } = 0.02f;
     ///<summary>当たり判定を貫通しない程度に移動して良い最大距離</summary>
-    static public float kMaxDeltaDistance { get; private set; } = 1;
+    static public float kMaxDeltaDistance { get; private set; } = 0.4f;
     //移動させるキャラ
     private static MapCharacter mCharacter;
     //移動させるキャラの属性
@@ -463,13 +463,24 @@ public static class MapCharacterMoveSystem {
     /// <param name="aDistance">cast距離</param>
     private static RaycastHit[] castHeight(Vector3 aVector, float aDistance) {
         RaycastHit[] tHitList = new RaycastHit[0];
-        if (mCollider is BoxCollider) {
-            tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + ((BoxCollider)mCollider).center, new Vector3(0, ((BoxCollider)mCollider).size.y / 2f, 0), aVector, Quaternion.Euler(0, 0, 0), aDistance);
-        } else if (mCollider is SphereCollider) {
-            tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + ((SphereCollider)mCollider).center, new Vector3(0, ((SphereCollider)mCollider).radius, 0), aVector, Quaternion.Euler(0, 0, 0), aDistance);
-        } else {
-            Debug.LogWarning("MapCharacterMoveSystem : 未定義のcolliderのcastHeight「" + mCollider.GetType().ToString() + "」");
+        switch (mCollider) {
+            case BoxCollider box:
+                tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + new Vector3(0,box.center.y,0), new Vector3(0, box.size.y / 2f, 0), aVector, Quaternion.Euler(0, 0, 0), aDistance);
+                break;
+            case SphereCollider sphere:
+                tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + new Vector3(0,sphere.center.y,0), new Vector3(0, sphere.radius, 0), aVector, Quaternion.Euler(0, 0, 0), aDistance);
+                break;
+            default:
+                Debug.LogWarning("MapCharacterMoveSystem : 未定義のcolliderのcastHeight「" + mCollider.GetType().ToString() + "」");
+                break;
         }
+        //if (mCollider is BoxCollider) {
+        //    tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + ((BoxCollider)mCollider).center, new Vector3(0, ((BoxCollider)mCollider).size.y / 2f, 0), aVector, Quaternion.Euler(0, 0, 0), aDistance);
+        //} else if (mCollider is SphereCollider) {
+        //    tHitList = Physics.BoxCastAll(mCharacter.mPhysicsBehaviour.worldPosition + ((SphereCollider)mCollider).center, new Vector3(0, ((SphereCollider)mCollider).radius, 0), aVector, Quaternion.Euler(0, 0, 0), aDistance);
+        //} else {
+        //    Debug.LogWarning("MapCharacterMoveSystem : 未定義のcolliderのcastHeight「" + mCollider.GetType().ToString() + "」");
+        //}
         return tHitList;
     }
 

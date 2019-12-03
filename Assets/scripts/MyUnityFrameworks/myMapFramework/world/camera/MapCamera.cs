@@ -39,6 +39,8 @@ public class MapCamera : MyBehaviour {
         for (int i = 1; i < aStratumNum; ++i)
             tCamera.cullingMask |= (1 << MyMap.mStratumLayerNum[i]);
 
+        tCamera.depthTextureMode |= DepthTextureMode.Depth;
+
         return tCamera;
     }
     /// <summary>Marginを考慮して調整</summary>

@@ -1,4 +1,4 @@
-﻿Shader "Unlit/TransparentWriteZ"
+﻿Shader "My/TransparentWriteZ"
 {
     Properties
     {
@@ -6,13 +6,15 @@
         _TintColor ("Color", Color) = (1,1,1,1)
     }
     SubShader
-    {
-        Tags { "Queue"="Transparent+1" "RenderType"="Transparent" }
-        Blend SrcAlpha OneMinusSrcAlpha
-        LOD 100
-        
+    {   
+        Tags { "Queue"="AlphaTest+1" }
         Pass
         {
+            Tags { "RenderType"="Transparent" }
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite On
+            LOD 100
+            
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -58,5 +60,42 @@
             }
             ENDCG
         }
+        
+        Pass
+        {
+            Name "ShadowCast"
+            Tags {"LightMode" = "ShadowCaster"}
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_shadowcaster
+            #include "UnityCG.cginc"
+
+            struct v2f {
+                float2 uv : TEXCOORD0;
+                V2F_SHADOW_CASTER;
+            };
+            
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            
+            v2f vert(appdata_base v)
+            {
+                v2f o;
+                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+                TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+                return o;
+            }
+            
+            float4 frag(v2f i) : SV_Target
+            {
+                fixed4 col = tex2D(_MainTex, i.uv);
+                clip(col.a - 0.5);
+                SHADOW_CASTER_FRAGMENT(i)
+            }
+            ENDCG
+        }
     }
+    FallBack "Diffuse"
 }

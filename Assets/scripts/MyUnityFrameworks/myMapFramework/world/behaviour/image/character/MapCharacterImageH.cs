@@ -45,9 +45,9 @@ public class MapCharacterImageH : MapCharacterImage {
         mAnimator.mMesh = mMesh.mFilter.mesh;
     }
 
-    public override void moved(Vector2 aVector) {
+    public override void moved(Vector3 aVector) {
         //垂直移動した場合の対応策
-        Vector2 tVector = aVector;
+        Vector2 tVector = new Vector2(aVector.x, aVector.z);
         if (tVector.x == 0 && tVector.y != 0) {
             tVector = new Vector2((mLastDirection == DirectionImageH.left || mLastDirection == DirectionImageH.stayLeft) ? -0.1f : 0.1f, tVector.y);
         }
@@ -85,8 +85,8 @@ public class MapCharacterImageH : MapCharacterImage {
                 return;
         }
     }
-    public override void setDirection(Vector2 aVector) {
-        switch (DirectionOperator.convertToDirectionH(aVector)) {
+    public override void setDirection(Vector3 aVector) {
+        switch (DirectionOperator.convertToDirectionH(new Vector2(aVector.x, aVector.z))) {
             case DirectionH.left:
                 mLastDirection = DirectionImageH.stayLeft;
                 mAnimator.setRects(mFrameRects[1]);
@@ -116,6 +116,6 @@ public class MapCharacterImageH : MapCharacterImage {
     }
     /// <summary>影を落とす</summary>
     public override void shade(ImageEventData aData) {
-        mMesh.setColor(new Color(1f - aData.mShadow, 1f - aData.mShadow, 1f - aData.mShadow,1));
+        mMesh.setColor(new Color(1f - aData.mShadow, 1f - aData.mShadow, 1f - aData.mShadow, 1));
     }
 }
