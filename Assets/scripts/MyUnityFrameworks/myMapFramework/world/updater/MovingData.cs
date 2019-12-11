@@ -24,6 +24,11 @@ public class MovingData {
     /// <summary>移動処理1回前に衝突していたtrigger</summary>
     public List<MapTrigger> mCollidedTriggers;
 
+    /// <summary>足場までの距離</summary>
+    public float mScaffoldDistance;
+    /// <summary>移動処理1回前の足場までの距離</summary>
+    public float mDeltaPreScaffoldDistance;
+
     /// <summary>trueなら話しかけるor調べる行動を行う</summary>
     public bool mSpeak;
     /// <summary>話かけるor調べる距離</summary>

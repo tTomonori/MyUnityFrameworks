@@ -4,12 +4,13 @@ using UnityEngine;
 using System;
 
 public static class MapHeightUpdateSystem {
+    /// <summary></summary>
+    private static float kDelta = 0.002f;
     /// <summary>キャラの高さを更新する(座標を変更した場合はtrue)</summary>
     public static bool updateHeight(MapEntity aEntity) {
         float tDistance = getDistanceToScaffold(aEntity);
         if (tDistance == 0) return false;
-        //if (-MapCharacterMoveSystem.kMaxSeparation <= tDistance && tDistance <= MapCharacterMoveSystem.kMaxSeparation) return false;
-        aEntity.mMapPosition += new Vector3(0, -tDistance + MapCharacterMoveSystem.kMaxSeparation, 0);
+        aEntity.mMapPosition += new Vector3(0, -tDistance, 0);
         return true;
     }
     /// <summary>
@@ -18,7 +19,7 @@ public static class MapHeightUpdateSystem {
     /// <returns>足場までの距離</returns>
     /// <param name="aEntity">A entity.</param>
     public static float getDistanceToScaffold(MapEntity aEntity) {
-        RaycastHit[] tHits = scaffoldRigideCast(aEntity, 0, 2f);
+        RaycastHit[] tHits = scaffoldRigideCast(aEntity, kDelta, 2f + kDelta);
         //最寄りの足場を探す
         MapScaffold tScaffold = null;
         RaycastHit tHit;
@@ -28,7 +29,7 @@ public static class MapHeightUpdateSystem {
             tScaffold = tHit.collider.gameObject.GetComponent<MapScaffold>();
             if (tScaffold == null) continue;
             if (tHit.distance > 0) {
-                return tHit.distance;
+                return tHit.distance - kDelta;
             } else {
                 //足場と衝突している場合
                 tScaffoldCollider = tHit.collider;
@@ -46,7 +47,7 @@ public static class MapHeightUpdateSystem {
             //上方向に移動して離せる距離
             tUpperDistance = getCorrectDistanceToScaffold(aEntity, tScaffoldCollider);
             //移動した結果他の足場に衝突しないか確認
-            tHits = scaffoldRigideCast(aEntity, tUpperDistance + MapCharacterMoveSystem.kMaxSeparation, 0);
+            tHits = scaffoldRigideCast(aEntity, tUpperDistance + kDelta, 0);
             tScaffold = null;
             foreach (RaycastHit tCastHit in tHits) {
                 tScaffold = tCastHit.collider.GetComponent<MapScaffold>();
@@ -71,14 +72,14 @@ public static class MapHeightUpdateSystem {
         ColliderEditer.CubeEndPoint tHitEnd = aScaffold.minimumCircumscribedCubeEndPointWorld();
         float tUpperDistance = (tHitEnd.top) - (tEntityCollider.transform.position.y + tEntityEnd.bottom);
         //cast
-        RaycastHit[] tHits = scaffoldRigideCast(aEntity, tUpperDistance, tHitEnd.top - tHitEnd.bottom);
+        RaycastHit[] tHits = scaffoldRigideCast(aEntity, tUpperDistance + kDelta, tHitEnd.top - tHitEnd.bottom + kDelta);
         //指定されたscaffoldのHitを探す
         for (int i = 0; i < tHits.Length; ++i) {
             RaycastHit tHit = tHits[i];
             MapScaffold tScaffold = tHit.collider.gameObject.GetComponent<MapScaffold>();
             if (tScaffold == null) continue;
             if (tHit.collider != aScaffold) continue;
-            return tUpperDistance - tHit.distance;
+            return tUpperDistance - tHit.distance + kDelta;
         }
         //return tUpperDistance - (tHitEnd.top - tHitEnd.bottom);
         throw new System.Exception("MapHeightUpdateSystem : 衝突するはずの足場と衝突できなかった");

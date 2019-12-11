@@ -39,6 +39,7 @@ public static class MapCharacterMoveSystem {
     /// <summary>最後のdelta移動処理をリセットする</summary>
     public static void resetMoveDelta(MapCharacter aCharacter) {
         aCharacter.mMapPosition = aCharacter.mMovingData.mDeltaPrePosition;
+        aCharacter.mMovingData.mScaffoldDistance = aCharacter.mMovingData.mDeltaPreScaffoldDistance;
     }
     ///<summary>キャラを移動させる(同フレームでさらに移動可能ならtrue)</summary>
     public static bool moveCharacter(MapCharacter aCharacter) {
