@@ -26,7 +26,7 @@ public abstract class Mesh2D : MyBehaviour {
     }
 
     abstract public void createMesh();
-    public void createMaterial() {
+    public virtual void createMaterial() {
         switch (mRenderMode) {
             case RenderMode.opaque:
                 mRenderer.material = new Material(Shader.Find("My/Texture"));

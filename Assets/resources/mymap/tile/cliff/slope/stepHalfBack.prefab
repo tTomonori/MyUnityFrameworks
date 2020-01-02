@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mRenderMode: 0
-  mSprite: {fileID: 21300000, guid: 23abebf73cfb9440682eee09c34bf77e, type: 3}
+  mSprite: {fileID: 21300000, guid: 842162a71c022427a8c9f3b27ba4347c, type: 3}
   mPivot: {x: 0.5, y: 0.5}
   mSize: {x: 1, y: 0.5}
   mDirection: {x: 0, y: 1}

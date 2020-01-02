@@ -47,6 +47,8 @@ public static class MapWorldUpdater {
                 //これ以上移動しない
                 //画像イベント
                 applyImageEvent(tCharacter);
+                //影
+                MapShadowUpdater.updateShadow(tCharacter);
                 //移動データリセット
                 MapCharacterMoveSystem.resetFrameMovingData(tCharacter);
                 //delegateに移動通知

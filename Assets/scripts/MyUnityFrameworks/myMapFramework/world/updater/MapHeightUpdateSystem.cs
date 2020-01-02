@@ -5,13 +5,29 @@ using System;
 
 public static class MapHeightUpdateSystem {
     /// <summary></summary>
-    private static float kDelta = 0.002f;
+    private static float kDelta = 0.02f;
     /// <summary>キャラの高さを更新する(座標を変更した場合はtrue)</summary>
     public static bool updateHeight(MapEntity aEntity) {
-        float tDistance = getDistanceToScaffold(aEntity);
-        if (tDistance == 0) return false;
-        aEntity.mMapPosition += new Vector3(0, -tDistance, 0);
-        return true;
+        float tDistance = 0;
+        switch (aEntity.mEntityPhysicsBehaviour.mScaffoldRigide.mAttribute) {
+            case MapScaffoldRigide.ScaffoldRigideAttribute.normal://徒歩
+                tDistance = getDistanceToScaffold(aEntity);
+                if (tDistance == 0) return false;
+                aEntity.mMapPosition += new Vector3(0, -tDistance, 0);
+                return true;
+            case MapScaffoldRigide.ScaffoldRigideAttribute.fly://飛行
+                tDistance = getDistanceToScaffold(aEntity);
+                if (tDistance >= 0) return false;
+                aEntity.mMapPosition += new Vector3(0, -tDistance, 0);
+                return true;
+            case MapScaffoldRigide.ScaffoldRigideAttribute.dug://地中
+                tDistance = getDistanceToScaffold(aEntity);
+                if (tDistance <= 0) return false;
+                aEntity.mMapPosition += new Vector3(0, -tDistance, 0);
+                return true;
+        }
+        Debug.LogWarning("MapHeightUpdateSystem : 未定義の足場移動属性の高さ更新「" + aEntity.mEntityPhysicsBehaviour.mScaffoldRigide.mAttribute.ToString() + "」");
+        return false;
     }
     /// <summary>
     /// 足場までの距離を返す(負の値の場合は上方向の距離を示す)

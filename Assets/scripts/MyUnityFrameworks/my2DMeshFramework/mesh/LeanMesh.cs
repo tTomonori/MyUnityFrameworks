@@ -9,6 +9,7 @@ public class LeanMesh : Mesh2D {
     [SerializeField] public Vector2 mScale = new Vector2(1, 1);
     [SerializeField] public float mScaleUp = 1;
     [SerializeField] public float mScaleDown = 1;
+    [SerializeField] public Color mColor = new Color(1, 1, 1, 1);
     public Vector2 mDirectionVector {
         set {
             if (value.x == 0 && value.y == 0) mDirection = 90;
@@ -63,5 +64,9 @@ public class LeanMesh : Mesh2D {
         tMesh.vertices = tVertices;
         tMesh.uv = tUvs;
         tMesh.triangles = tTriangles;
+    }
+    public override void createMaterial() {
+        base.createMaterial();
+        setColor(mColor);
     }
 }
