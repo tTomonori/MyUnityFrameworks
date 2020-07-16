@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using UnityEditor;
 
 public partial class MyBehaviour : MonoBehaviour {
     /// <summary>
@@ -102,6 +103,14 @@ public partial class MyBehaviour : MonoBehaviour {
     /// <typeparam name="T">Component</typeparam>
     public T[] GetComponentsInChildrenWithoutSelf<T>() where T : Component {
         return GetComponentsInChildren<T>().Where(c => this.gameObject != c.gameObject).ToArray();
+    }
+    /// <summary>
+    /// GetComponentInChildrenで自分自身を含まないようにする
+    /// </summary>
+    /// <returns>The component in children without self.</returns>
+    /// <typeparam name="T">Component</typeparam>
+    public T GetComponentInChildrenWithoutSelf<T>() where T : Component {
+        return (GetComponentsInChildren<T>().Where(c => this.gameObject != c.gameObject).ToArray())[0];
     }
     /// <summary>
     /// aSecond秒後にaFunctionを実行
@@ -300,4 +309,14 @@ public partial class MyBehaviour : MonoBehaviour {
     public void removeUpdateFunction(string aName) {
         ins.removeUpdateFunction(aName);
     }
+#if UNITY_EDITOR
+    /// <summary>edit mode でdestroyを呼び出す</summary>
+    public void deleteOnEditMode() {
+        EditorApplication.delayCall += deleteOnEditModeDelegate;
+    }
+    private void deleteOnEditModeDelegate() {
+        EditorApplication.delayCall -= deleteOnEditModeDelegate;
+        DestroyImmediate(gameObject);
+    }
+#endif
 }

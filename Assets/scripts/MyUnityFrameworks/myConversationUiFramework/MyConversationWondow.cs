@@ -23,7 +23,7 @@ public class MyConversationWondow : MyBehaviour {
     //<summary>名前表示欄のウィンドウ</summary>
     [SerializeField] public MyBehaviour mNameWindow;
     private void Start(){
-        mCamera.enabled = false;
+        //mCamera.enabled = false;
         mText.mCallback = onReaded;
     }
     public void on(Arg aData,Action aCallback){

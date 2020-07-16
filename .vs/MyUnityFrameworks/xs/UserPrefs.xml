@@ -1,16 +1,17 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapWorldUpdater.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/MyBehaviour.cs">
     <Files>
-      <File FileName="Assets/scripts/map/NewMapMain.cs" Line="31" Column="28" />
-      <File FileName="Assets/resources/save/mapSaveData.json" Line="333" Column="71" />
-      <File FileName="Assets/resources/mymap/map/rpMap.json" Line="233" Column="72" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapWorldUpdater.cs" Line="51" Column="59" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" Line="30" Column="9" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MovingData.cs" Line="29" Column="26" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapCharacterMoveSystem.cs" Line="479" Column="76" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/slope/DownHighSlopeRistrictionTile.cs" Line="1" Column="1" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myMapFramework/world/behaviour/cel/ristrictMovingTile/RistrictMovingTile.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/MeshTextMain.cs" Line="17" Column="21" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/mesh/MeshTextBoardWriter.cs" Line="7" Column="16" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/mesh/MeshTextBoard.cs" Line="137" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/TextDisplay.cs" Line="8" Column="16" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/MyTextBoard.cs" Line="108" Column="14" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/TagReader.cs" Line="14" Column="14" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/MyTag.cs" Line="8" Column="14" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/ui/MyButton.cs" Line="54" Column="19" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/MyBehaviour.cs" Line="311" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/ui/MyListButton.cs" Line="19" Column="53" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
@@ -21,6 +22,7 @@
       <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" line="66" column="1" />
       <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" line="67" column="1" />
       <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" line="71" column="1" />
+      <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myConversationUiFramework/MyConversationWondow.cs" relfile="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/MyConversationWondow.cs" line="54" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
