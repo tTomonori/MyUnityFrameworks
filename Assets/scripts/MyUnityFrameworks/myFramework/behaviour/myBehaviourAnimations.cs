@@ -49,6 +49,10 @@ public partial class MyBehaviour : MonoBehaviour{
         Vector3 delta = goal - position;
         return moveBy(delta, duration, callback);
     }
+    public Coroutine moveTo(Vector2 goal, float duration, Action callback = null) {
+        Vector3 delta = new Vector3(goal.x,goal.y,positionZ) - position;
+        return moveBy(delta, duration, callback);
+    }
     /// <summary>
     /// 移動させる
     /// </summary>
@@ -66,7 +70,11 @@ public partial class MyBehaviour : MonoBehaviour{
     /// <param name="goal">目標地点</param>
     /// <param name="speed">移動速度(/s)</param>
     /// <param name="callback">移動終了時関数</param>
-    public Coroutine moveToWithSpeed(Vector2 goal, float speed, Action callback = null){
+    public Coroutine moveToWithSpeed(Vector3 goal, float speed, Action callback = null){
+        Vector3 tDelta = goal - position;
+        return StartCoroutine(moveDelta(tDelta, tDelta.magnitude / speed, callback));
+    }
+    public Coroutine moveToWithSpeed(Vector2 goal, float speed, Action callback = null) {
         Vector2 tDelta = goal - position2D;
         return StartCoroutine(moveDelta(tDelta, tDelta.magnitude / speed, callback));
     }
