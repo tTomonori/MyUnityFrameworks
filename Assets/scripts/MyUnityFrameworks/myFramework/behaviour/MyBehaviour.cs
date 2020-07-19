@@ -232,11 +232,9 @@ public partial class MyBehaviour : MonoBehaviour {
             gameObject.transform.localScale = new Vector3(tScale.x, tScale.y, value);
         }
     }
-    public float scale3D {
-        set { this.transform.localScale = new Vector3(value, value, value); }
-    }
-    public float scale2D {
-        set { this.transform.localScale = new Vector3(value, value, scaleZ); }
+    public Vector2 scale2D {
+        get { return new Vector2(scaleX, scaleY); }
+        set { this.transform.localScale = new Vector3(value.x, value.y, scaleZ); }
     }
     //回転
     public Vector3 rotate {

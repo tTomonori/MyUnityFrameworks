@@ -14,6 +14,45 @@ public partial class MyBehaviour : MonoBehaviour{
     public Coroutine scaleBy(Vector3 delta,float duration,Action callback=null){
         return StartCoroutine(scaleDelta(delta,duration,callback));
     }
+    /// <summary>
+    /// scaleを変化させる
+    /// </summary>
+    /// <param name="delta">変化先</param>
+    /// <param name="duration">変化時間</param>
+    /// <param name="callback">変化終了時間数</param>
+    public Coroutine scaleTo(Vector3 goal, float duration, Action callback = null) {
+        Vector3 delta = goal - scale;
+        return StartCoroutine(scaleDelta(delta, duration, callback));
+    }
+    public Coroutine scaleTo(Vector2 goal, float duration, Action callback = null) {
+        Vector2 delta = goal - scale2D;
+        return StartCoroutine(scaleDelta(delta, duration, callback));
+    }
+    /// <summary>
+    /// scaleを変化させる
+    /// </summary>
+    /// <returns>コルーチン</returns>
+    /// <param name="delta">変化量</param>
+    /// <param name="speed">変化速度(/s)</param>
+    /// <param name="callback">変化終了時関数</param>
+    public Coroutine scaleByWithSpeed(Vector3 delta, float speed, Action callback = null) {
+        return StartCoroutine(scaleDelta(delta, delta.magnitude / speed, callback));
+    }
+    /// <summary>
+    /// scaleを変化させる
+    /// </summary>
+    /// <returns>コルーチン</returns>
+    /// <param name="goal">変化先</param>
+    /// <param name="speed">変化速度(/s)</param>
+    /// <param name="callback">変化終了時関数</param>
+    public Coroutine scaleToWithSpeed(Vector3 goal, float speed, Action callback = null) {
+        Vector3 tDelta = goal - scale;
+        return StartCoroutine(scaleDelta(tDelta, tDelta.magnitude / speed, callback));
+    }
+    public Coroutine scaleToWithSpeed(Vector2 goal, float speed, Action callback = null) {
+        Vector2 tDelta = goal - scale2D;
+        return StartCoroutine(scaleDelta(tDelta, tDelta.magnitude / speed, callback));
+    }
     private IEnumerator scaleDelta(Vector3 delta,float duration,Action callback){
         float tLeftTime = duration;
         Vector3 tLeftDistance = delta;
