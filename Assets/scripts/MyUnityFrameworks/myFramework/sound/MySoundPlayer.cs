@@ -121,7 +121,7 @@ public static class MySoundPlayer {
                 tBehaviour = tAudio.gameObject.AddComponent<MyBehaviour>();
                 SoundSet tSet = new SoundSet();
                 tSet.mSound = tAudio;
-                tSet.mCoroutine = tBehaviour.StartCoroutine(deleteSe(tAudio, ""));
+                tSet.mCoroutine = tBehaviour.StartCoroutine(deleteSe(tAudio, aFilePath));
                 mSe.Add(aFilePath, tSet);
                 GameObject.DontDestroyOnLoad(tAudio);
             }
