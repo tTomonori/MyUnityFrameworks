@@ -7,8 +7,7 @@ public class PlaygroundMain : MyBehaviour {
 
     // Use this for initialization
     void Start() {
-        MySoundPlayer.playSe("cancel3");
-        setTimeout(1, () => { MySoundPlayer.playSe("nandesyou"); });
+        MySoundPlayer.playBgm("cancel3");
     }
 
     // Update is called once per frame

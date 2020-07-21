@@ -8,6 +8,7 @@ public static class MySoundPlayer {
     private static Dictionary<string, SoundSet> mSe;
     private static Coroutine mBgmFadeCoroutine;
     private static Coroutine mBgmLoopCoroutine;
+    private static LoopType mBgmLoopType;
     public enum LoopType {
         notLoop, normalConnect
     }
@@ -24,11 +25,29 @@ public static class MySoundPlayer {
         if (mBgm == null) {
             mBgm = MyBehaviour.create<AudioSource>();
             mBgm.name = "BGM AudioSource";
+            mBgm.gameObject.AddComponent<MyBehaviour>();
             GameObject.DontDestroyOnLoad(mBgm);
         }
+
         mBgm.clip = Resources.Load<AudioClip>("sound/bgm/" + aFilePath);
+        mBgm.time = 0;
         mBgm.volume = aVolume;
         mBgm.Play();
+        MyBehaviour tBehaviour = mBgm.gameObject.GetComponent<MyBehaviour>();
+        if (mBgmLoopCoroutine != null)
+            tBehaviour.StopCoroutine(mBgmLoopCoroutine);
+        switch (aLoopType) {
+            case LoopType.normalConnect:
+                mBgmLoopType = aLoopType;
+                mBgmLoopCoroutine = tBehaviour.StartCoroutine(runNormalConnect(mBgm));
+                break;
+        }
+    }
+    private static IEnumerator runNormalConnect(AudioSource aAudio) {
+        while (true) {
+            if (!aAudio.isPlaying) aAudio.Play();
+            yield return null;
+        }
     }
     /// <summary>
     /// BGMを停止する
@@ -45,7 +64,10 @@ public static class MySoundPlayer {
         MyBehaviour tBehaviour = mBgm.GetComponent<MyBehaviour>();
         if (tBehaviour == null) tBehaviour = mBgm.gameObject.AddComponent<MyBehaviour>();
 
-        return tBehaviour.StartCoroutine(fadeBgmCoroutine(mBgm, aVolume, aDuration, aCallback));
+        if (mBgmFadeCoroutine != null)
+            tBehaviour.StopCoroutine(mBgmFadeCoroutine);
+        mBgmFadeCoroutine= tBehaviour.StartCoroutine(fadeBgmCoroutine(mBgm, aVolume, aDuration, aCallback));
+        return mBgmFadeCoroutine;
     }
     private static IEnumerator fadeBgmCoroutine(AudioSource aAudio, float aVolume, float aDuration, Action aCallback) {
         float tInitialVolume = aAudio.volume;

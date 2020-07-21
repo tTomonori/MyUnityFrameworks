@@ -10,10 +10,10 @@
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/TagReader.cs" Line="14" Column="14" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/MyTag.cs" Line="8" Column="14" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/MyBehaviour.cs" Line="234" Column="6" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="53" Column="40" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/SoundPlayer.cs" Line="30" Column="9" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/MySoundPlayer.cs" Line="22" Column="9" />
-      <File FileName="Assets/scripts/PlaygroundMain.cs" Line="10" Column="9" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="54" Column="87" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/SoundPlayer.cs" Line="30" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/MySoundPlayer.cs" Line="90" Column="44" />
+      <File FileName="Assets/scripts/PlaygroundMain.cs" Line="10" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
