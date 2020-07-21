@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/sound/MySoundPlayer.cs">
     <Files>
       <File FileName="Assets/scripts/MeshTextMain.cs" Line="17" Column="21" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/mesh/MeshTextBoardWriter.cs" Line="7" Column="16" />
@@ -9,10 +9,11 @@
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/MyTextBoard.cs" Line="108" Column="14" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/TagReader.cs" Line="14" Column="14" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/MyTag.cs" Line="8" Column="14" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/ui/MyButton.cs" Line="54" Column="19" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/MyBehaviour.cs" Line="234" Column="6" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/ui/MyListButton.cs" Line="19" Column="53" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="53" Column="40" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/SoundPlayer.cs" Line="30" Column="9" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/MySoundPlayer.cs" Line="22" Column="9" />
+      <File FileName="Assets/scripts/PlaygroundMain.cs" Line="10" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

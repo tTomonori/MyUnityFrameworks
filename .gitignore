@@ -33,3 +33,5 @@ sysinfo.txt
 MyUnityFramework.app
 !.gitkeep
 Assets/resources/temp
+Assets/resources/sound/bgm/*
+Assets/resources/sound/se/*
