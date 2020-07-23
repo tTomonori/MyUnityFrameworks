@@ -8,8 +8,6 @@
       <File FileName="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/TextDisplay.cs" Line="8" Column="16" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/MyTextBoard.cs" Line="108" Column="14" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/TagReader.cs" Line="14" Column="14" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/text/MyTag.cs" Line="8" Column="14" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/MyBehaviour.cs" Line="234" Column="6" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="54" Column="87" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/SoundPlayer.cs" Line="30" Column="1" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sound/MySoundPlayer.cs" Line="124" Column="87" />

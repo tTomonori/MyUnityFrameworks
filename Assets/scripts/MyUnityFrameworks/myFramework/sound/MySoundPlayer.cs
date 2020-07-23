@@ -70,7 +70,7 @@ public static class MySoundPlayer {
         return mBgmFadeCoroutine;
     }
     private static IEnumerator fadeBgmCoroutine(AudioSource aAudio, float aVolume, float aDuration, Action aCallback) {
-        float tInitialVolume = aAudio.volume;
+        float tInitial = aAudio.volume;
         float tElapsedTime = 0;
         while (true) {
             tElapsedTime += Time.deltaTime;
@@ -80,7 +80,7 @@ public static class MySoundPlayer {
                 if (aCallback != null) aCallback();
                 yield break;
             }
-            aAudio.volume = tInitialVolume + (aVolume - tInitialVolume) * (tElapsedTime / aDuration);
+            aAudio.volume = tInitial + (aVolume - tInitial) * (tElapsedTime / aDuration);
             yield return null;
         }
     }

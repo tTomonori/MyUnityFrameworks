@@ -7,7 +7,10 @@ public class PlaygroundMain : MyBehaviour {
 
     // Use this for initialization
     void Start() {
-        MySoundPlayer.playBgm("cancel3");
+        GameObject.Find("g").GetComponent<MyBehaviour>().opacityBy(-1,1,()=> {
+            GameObject.Find("g").GetComponent<MyBehaviour>().opacityBy(1, 1);
+
+            });
     }
 
     // Update is called once per frame
