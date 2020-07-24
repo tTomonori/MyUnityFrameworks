@@ -172,64 +172,70 @@ public partial class MyBehaviour : MonoBehaviour {
     /// <param name="duration">変化時間</param>
     /// <param name="callback">完了時コールバック</param>
     public void opacityBy(float delta, float duration, Action callback = null) {
-        //return StartCoroutine(opacityDelta(delta, duration, callback));
-
-        //透明度を変化させるcomponent
-        List<object> tList = new List<object>();
-        foreach (SpriteRenderer tC in GetComponentsInChildren<SpriteRenderer>()) tList.Add(tC);
-        foreach (TextMesh tC in GetComponentsInChildren<TextMesh>()) tList.Add(tC);
-        foreach (Image tC in GetComponentsInChildren<Image>()) tList.Add(tC);
-        foreach (Text tC in GetComponentsInChildren<Text>()) tList.Add(tC);
-
         CallbackSystem system = new CallbackSystem();
-        foreach (object obj in tList) {
-            StartCoroutine(opacityDelta(obj, delta, duration, system.getCounter()));
-        }
+        foreach (SpriteRenderer tC in GetComponentsInChildren<SpriteRenderer>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
+        foreach (TextMesh tC in GetComponentsInChildren<TextMesh>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
+        foreach (Image tC in GetComponentsInChildren<Image>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
+        foreach (Text tC in GetComponentsInChildren<Text>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
         system.then(callback);
     }
-    private IEnumerator opacityDelta(float delta, float duration, Action callback) {
-        //透明度を変化させるcomponent
-        List<object> tList = new List<object>();
-        foreach (SpriteRenderer tC in GetComponentsInChildren<SpriteRenderer>()) tList.Add(tC);
-        foreach (TextMesh tC in GetComponentsInChildren<TextMesh>()) tList.Add(tC);
-        foreach (Image tC in GetComponentsInChildren<Image>()) tList.Add(tC);
-        foreach (Text tC in GetComponentsInChildren<Text>()) tList.Add(tC);
-
-        float tLeftTime = duration;
-        float tLeftDistance = delta;
-        while (true) {
-            tLeftTime -= Time.deltaTime;
-            if (tLeftTime <= 0) {//fade完了
-                foreach (object tO in tList) {
-                    Color tColor = (Color)tO.GetType().GetProperty("color").GetValue(tO, null);
-                    tO.GetType().GetProperty("color").SetValue(tO, new Color(tColor.r, tColor.g, tColor.b, tColor.a + tLeftDistance), null);
-                }
-                if (callback != null) callback();
-                yield break;
-            }
-            float tDelta = delta * (Time.deltaTime / duration);
-            foreach (object tO in tList) {
-                Color tColor = (Color)tO.GetType().GetProperty("color").GetValue(tO, null);
-                tO.GetType().GetProperty("color").SetValue(tO, new Color(tColor.r, tColor.g, tColor.b, tColor.a + tDelta), null);
-            }
-            tLeftDistance -= tDelta;
-            yield return null;
-        }
-    }
-    private IEnumerator opacityDelta(object obj, float delta, float duration, Action callback) {
-        Type type = obj.GetType();
-        PropertyInfo info = type.GetProperty("color");
-        Color tInitial = (Color)info.GetValue(obj);
+    private IEnumerator opacityDelta(SpriteRenderer obj, float delta, float duration, Action callback) {
+        Color tInitial = obj.color;
         float tElapsedTime = 0;
         while (true) {
             tElapsedTime += Time.deltaTime;
             if (tElapsedTime > duration) tElapsedTime = duration;
             if (tElapsedTime == duration) {//完了
-                info.SetValue(obj, new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta));
+                obj.color = new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta);
                 if (callback != null) callback();
                 yield break;
             }
-            info.SetValue(obj, new Color(tInitial.r,tInitial.g,tInitial.b, tInitial.a + delta * (tElapsedTime / duration)));
+            obj.color = new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta * (tElapsedTime / duration));
+            yield return null;
+        }
+    }
+    private IEnumerator opacityDelta(TextMesh obj, float delta, float duration, Action callback) {
+        Color tInitial = obj.color;
+        float tElapsedTime = 0;
+        while (true) {
+            tElapsedTime += Time.deltaTime;
+            if (tElapsedTime > duration) tElapsedTime = duration;
+            if (tElapsedTime == duration) {//完了
+                obj.color = new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta);
+                if (callback != null) callback();
+                yield break;
+            }
+            obj.color = new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta * (tElapsedTime / duration));
+            yield return null;
+        }
+    }
+    private IEnumerator opacityDelta(Image obj, float delta, float duration, Action callback) {
+        Color tInitial = obj.color;
+        float tElapsedTime = 0;
+        while (true) {
+            tElapsedTime += Time.deltaTime;
+            if (tElapsedTime > duration) tElapsedTime = duration;
+            if (tElapsedTime == duration) {//完了
+                obj.color = new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta);
+                if (callback != null) callback();
+                yield break;
+            }
+            obj.color = new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta * (tElapsedTime / duration));
+            yield return null;
+        }
+    }
+    private IEnumerator opacityDelta(Text obj, float delta, float duration, Action callback) {
+        Color tInitial = obj.color;
+        float tElapsedTime = 0;
+        while (true) {
+            tElapsedTime += Time.deltaTime;
+            if (tElapsedTime > duration) tElapsedTime = duration;
+            if (tElapsedTime == duration) {//完了
+                obj.color = new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta);
+                if (callback != null) callback();
+                yield break;
+            }
+            obj.color = new Color(tInitial.r, tInitial.g, tInitial.b, tInitial.a + delta * (tElapsedTime / duration));
             yield return null;
         }
     }
