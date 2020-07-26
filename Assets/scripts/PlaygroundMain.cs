@@ -7,8 +7,8 @@ public class PlaygroundMain : MyBehaviour {
 
     // Use this for initialization
     void Start() {
-        GameObject.Find("g").GetComponent<MyBehaviour>().opacityBy(-1,1,()=> {
-            GameObject.Find("g").GetComponent<MyBehaviour>().opacityBy(1, 1);
+        GameObject.Find("g").GetComponent<MyBehaviour>().opacityBy(-1,10,()=> {
+            //GameObject.Find("g").GetComponent<MyBehaviour>().opacityBy(1, 1);
 
             });
     }
