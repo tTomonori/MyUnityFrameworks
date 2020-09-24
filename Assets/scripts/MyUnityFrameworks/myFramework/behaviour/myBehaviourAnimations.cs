@@ -172,7 +172,7 @@ public partial class MyBehaviour : MonoBehaviour {
         foreach (TextMesh tC in GetComponentsInChildren<TextMesh>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
         foreach (Image tC in GetComponentsInChildren<Image>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
         foreach (Text tC in GetComponentsInChildren<Text>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
-        system.then(callback);
+        system.then(callback!=null?callback:()=> { });
     }
     private IEnumerator opacityDeltad(SpriteRenderer obj, float delta, float duration, Action callback) {
         float tElapsedTime = 0;

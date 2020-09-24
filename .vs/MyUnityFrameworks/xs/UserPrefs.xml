@@ -1,9 +1,10 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/sprite/SpriteCutter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs">
     <Files>
       <File FileName="Assets/scripts/PlaygroundMain.cs" Line="12" Column="139" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sprite/SpriteCutter.cs" Line="40" Column="28" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,10 +14,11 @@
               <Node name="scripts" expanded="True">
                 <Node name="MyUnityFrameworks" expanded="True">
                   <Node name="myFramework" expanded="True">
-                    <Node name="calculate" expanded="True" />
-                    <Node name="sprite" expanded="True">
-                      <Node name="SpriteCutter.cs" selected="True" />
+                    <Node name="behaviour" expanded="True">
+                      <Node name="myBehaviourAnimations.cs" selected="True" />
                     </Node>
+                    <Node name="calculate" expanded="True" />
+                    <Node name="sprite" expanded="True" />
                     <Node name="ui" expanded="True" />
                   </Node>
                 </Node>
@@ -29,7 +31,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f4270727-aa73-4200-b1d5-93c933e91731" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="005fcad7-2e1b-43f5-8dac-7f562fb0d630" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" line="66" column="1" />
