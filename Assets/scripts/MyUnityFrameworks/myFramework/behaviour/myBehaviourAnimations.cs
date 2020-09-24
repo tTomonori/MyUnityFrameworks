@@ -174,21 +174,13 @@ public partial class MyBehaviour : MonoBehaviour {
         foreach (Text tC in GetComponentsInChildren<Text>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
         system.then(callback!=null?callback:()=> { });
     }
-    private IEnumerator opacityDeltad(SpriteRenderer obj, float delta, float duration, Action callback) {
-        float tElapsedTime = 0;
-        while (true) {
-            if ((float)tElapsedTime + Time.deltaTime >= (float)duration) {//完了
-                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta * (duration - tElapsedTime) / duration);
-                if (callback != null) callback();
-                yield break;
-            }
-            tElapsedTime += Time.deltaTime;
-            obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta * Time.deltaTime / duration);
-            yield return null;
-        }
-    }
     private IEnumerator opacityDelta(TextMesh obj, float delta, float duration, Action callback) {
         float tElapsedTime = 0;
+        if (duration == 0) {
+            obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta);
+            if (callback != null) callback();
+            yield break;
+        }
         while (true) {
             if ((float)tElapsedTime + Time.deltaTime >= (float)duration) {//完了
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta * (duration - tElapsedTime) / duration);
@@ -202,6 +194,11 @@ public partial class MyBehaviour : MonoBehaviour {
     }
     private IEnumerator opacityDelta(Image obj, float delta, float duration, Action callback) {
         float tElapsedTime = 0;
+        if (duration == 0) {
+            obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta);
+            if (callback != null) callback();
+            yield break;
+        }
         while (true) {
             if ((float)tElapsedTime + Time.deltaTime >= (float)duration) {//完了
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta * (duration - tElapsedTime) / duration);
@@ -215,6 +212,11 @@ public partial class MyBehaviour : MonoBehaviour {
     }
     private IEnumerator opacityDelta(Text obj, float delta, float duration, Action callback) {
         float tElapsedTime = 0;
+        if (duration == 0) {
+            obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta);
+            if (callback != null) callback();
+            yield break;
+        }
         while (true) {
             if ((float)tElapsedTime + Time.deltaTime >= (float)duration) {//完了
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta * (duration - tElapsedTime) / duration);
@@ -228,6 +230,11 @@ public partial class MyBehaviour : MonoBehaviour {
     }
     private IEnumerator opacityDelta(SpriteRenderer obj, float delta, float duration, Action callback) {
         float tElapsedTime = 0;
+        if (duration == 0) {
+            obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta);
+            if (callback != null) callback();
+            yield break;
+        }
         while (true) {
             if ((float)tElapsedTime + Time.deltaTime >= (float)duration) {//完了
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, obj.color.a + delta * (duration - tElapsedTime) / duration);
