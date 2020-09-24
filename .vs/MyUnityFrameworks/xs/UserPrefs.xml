@@ -1,9 +1,9 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/PlaygroundMain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/sprite/SpriteCutter.cs">
     <Files>
       <File FileName="Assets/scripts/PlaygroundMain.cs" Line="12" Column="139" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sprite/SpriteCutter.cs" Line="40" Column="1" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sprite/SpriteCutter.cs" Line="40" Column="28" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,11 +14,12 @@
                 <Node name="MyUnityFrameworks" expanded="True">
                   <Node name="myFramework" expanded="True">
                     <Node name="calculate" expanded="True" />
-                    <Node name="sprite" expanded="True" />
+                    <Node name="sprite" expanded="True">
+                      <Node name="SpriteCutter.cs" selected="True" />
+                    </Node>
                     <Node name="ui" expanded="True" />
                   </Node>
                 </Node>
-                <Node name="PlaygroundMain.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -28,7 +29,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="c911eb2e-6e33-4453-bb2e-a6fde7b0a78a" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f4270727-aa73-4200-b1d5-93c933e91731" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" line="66" column="1" />

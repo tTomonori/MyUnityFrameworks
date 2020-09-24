@@ -37,9 +37,6 @@ public static class SpriteCutter {
         } else if (aSprite.bounds.size.x * aHeight / aWidth > aSprite.bounds.size.y) {
             //指定比率に比べ横長
             float tIdealWidth = aSprite.bounds.size.y * aWidth / aHeight;
-            Debug.Log(tIdealWidth * aSprite.pixelsPerUnit);
-            Debug.Log(aSprite.bounds.size.y * aSprite.pixelsPerUnit);
-            Debug.Log((aSprite.bounds.size.x - tIdealWidth) / 2f * aSprite.pixelsPerUnit);
             return Create(aSprite.texture, new Rect((aSprite.bounds.size.x - tIdealWidth) / 2f * aSprite.pixelsPerUnit, 0, tIdealWidth * aSprite.pixelsPerUnit, aSprite.bounds.size.y * aSprite.pixelsPerUnit), aSprite.pivot / (aSprite.bounds.size * aSprite.pixelsPerUnit), aSprite.pixelsPerUnit);
         } else {
             //調整の必要なし
