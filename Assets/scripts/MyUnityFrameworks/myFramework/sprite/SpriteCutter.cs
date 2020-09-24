@@ -22,4 +22,28 @@ public static class SpriteCutter {
         }
         return tSprites;
     }
+    /// <summary>
+    /// 画像をカットして指定した比率にする
+    /// </summary>
+    /// <param name="aSprite">調整する画像</param>
+    /// <param name="aWidth">幅の比率</param>
+    /// <param name="aHeight">高さの比率</param>
+    /// <returns></returns>
+    static public Sprite setRatio(Sprite aSprite, float aWidth, float aHeight) {
+        if (aSprite.bounds.size.x * aHeight / aWidth < aSprite.bounds.size.y) {
+            //指定比率に比べ縦長
+            float tIdealHeight = aSprite.bounds.size.x * aHeight / aWidth;
+            return Create(aSprite.texture, new Rect(0, (aSprite.bounds.size.y - tIdealHeight) / 2f * aSprite.pixelsPerUnit, aSprite.bounds.size.x * aSprite.pixelsPerUnit, tIdealHeight * aSprite.pixelsPerUnit), aSprite.pivot / (aSprite.bounds.size*aSprite.pixelsPerUnit), aSprite.pixelsPerUnit);
+        } else if (aSprite.bounds.size.x * aHeight / aWidth > aSprite.bounds.size.y) {
+            //指定比率に比べ横長
+            float tIdealWidth = aSprite.bounds.size.y * aWidth / aHeight;
+            Debug.Log(tIdealWidth * aSprite.pixelsPerUnit);
+            Debug.Log(aSprite.bounds.size.y * aSprite.pixelsPerUnit);
+            Debug.Log((aSprite.bounds.size.x - tIdealWidth) / 2f * aSprite.pixelsPerUnit);
+            return Create(aSprite.texture, new Rect((aSprite.bounds.size.x - tIdealWidth) / 2f * aSprite.pixelsPerUnit, 0, tIdealWidth * aSprite.pixelsPerUnit, aSprite.bounds.size.y * aSprite.pixelsPerUnit), aSprite.pivot / (aSprite.bounds.size * aSprite.pixelsPerUnit), aSprite.pixelsPerUnit);
+        } else {
+            //調整の必要なし
+            return aSprite;
+        }
+    }
 }
