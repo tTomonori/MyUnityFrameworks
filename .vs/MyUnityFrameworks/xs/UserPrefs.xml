@@ -1,12 +1,13 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/Translucent.shader">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/3DText.shader">
     <Files>
       <File FileName="Assets/scripts/PlaygroundMain.cs" Line="12" Column="139" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sprite/SpriteCutter.cs" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="237" Column="10" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/TransparentWriteZ.shader" Line="58" Column="74" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/TransparentWriteZ.shader" />
       <File FileName="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/Translucent.shader" Line="48" Column="17" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/3DText.shader" Line="17" Column="54" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +18,7 @@
                 <Node name="MyUnityFrameworks" expanded="True">
                   <Node name="my2DMeshFramework" expanded="True">
                     <Node name="shader" expanded="True">
-                      <Node name="Translucent.shader" selected="True" />
+                      <Node name="3DText.shader" selected="True" />
                     </Node>
                   </Node>
                   <Node name="myFramework" expanded="True">
