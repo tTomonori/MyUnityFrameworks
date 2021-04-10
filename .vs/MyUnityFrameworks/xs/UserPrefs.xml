@@ -1,10 +1,12 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/Translucent.shader">
     <Files>
       <File FileName="Assets/scripts/PlaygroundMain.cs" Line="12" Column="139" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/sprite/SpriteCutter.cs" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="175" Column="53" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="237" Column="10" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/TransparentWriteZ.shader" Line="58" Column="74" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/Translucent.shader" Line="48" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,10 +15,13 @@
             <Node name="Assets" expanded="True">
               <Node name="scripts" expanded="True">
                 <Node name="MyUnityFrameworks" expanded="True">
-                  <Node name="myFramework" expanded="True">
-                    <Node name="behaviour" expanded="True">
-                      <Node name="myBehaviourAnimations.cs" selected="True" />
+                  <Node name="my2DMeshFramework" expanded="True">
+                    <Node name="shader" expanded="True">
+                      <Node name="Translucent.shader" selected="True" />
                     </Node>
+                  </Node>
+                  <Node name="myFramework" expanded="True">
+                    <Node name="behaviour" expanded="True" />
                     <Node name="calculate" expanded="True" />
                     <Node name="sprite" expanded="True" />
                     <Node name="ui" expanded="True" />
@@ -31,7 +36,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="363aab26-22cb-4daa-851c-d09d131711e8" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1c94e2f5-67b7-433f-91ab-fe08e9ac11b4" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" line="66" column="1" />
