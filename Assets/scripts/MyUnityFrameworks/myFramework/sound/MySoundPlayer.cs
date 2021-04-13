@@ -29,7 +29,7 @@ public static class MySoundPlayer {
             GameObject.DontDestroyOnLoad(mBgm);
         }
 
-        mBgm.clip = Resources.Load<AudioClip>("sound/bgm/" + aFilePath);
+        mBgm.clip = Resources.Load<AudioClip>("sounds/bgm/" + aFilePath);
         mBgm.time = 0;
         mBgm.volume = aVolume;
         mBgm.Play();
@@ -96,7 +96,7 @@ public static class MySoundPlayer {
         if (aAllowOverlap) {
             //同時再生可
             tAudio = MyBehaviour.create<AudioSource>();
-            tAudio.clip = Resources.Load<AudioClip>("sound/se/" + aFilePath);
+            tAudio.clip = Resources.Load<AudioClip>("sounds/se/" + aFilePath);
             tAudio.name = "SE : " + aFilePath;
             tAudio.volume = aVolume;
             tAudio.Play();
@@ -108,13 +108,13 @@ public static class MySoundPlayer {
             if (mSe.ContainsKey(aFilePath)) {
                 //同時再生しようとした
                 SoundSet tPlayedSet = mSe[aFilePath];
-                tPlayedSet.mSound.clip = Resources.Load<AudioClip>("sound/se/" + aFilePath);
+                tPlayedSet.mSound.clip = Resources.Load<AudioClip>("sounds/se/" + aFilePath);
                 tPlayedSet.mSound.time = 0;
                 tPlayedSet.mSound.Play();
                 return;
             } else {
                 tAudio = MyBehaviour.create<AudioSource>();
-                tAudio.clip = Resources.Load<AudioClip>("sound/se/" + aFilePath);
+                tAudio.clip = Resources.Load<AudioClip>("sounds/se/" + aFilePath);
                 tAudio.name = "SE : " + aFilePath;
                 tAudio.volume = aVolume;
                 tAudio.Play();
