@@ -130,10 +130,137 @@ public partial class MyBehaviour : MonoBehaviour {
     /// <param name="delta">回転量</param>
     /// <param name="duration">回転時間</param>
     /// <param name="callback">回転終了時関数</param>
-    public Coroutine rotateBy(float delta, float duration, Action callback = null) {
-        return StartCoroutine(rotateDelta(delta, duration, callback));
+    public Coroutine rotateXBy(float delta, float duration, Action callback = null) {
+        return StartCoroutine(rotateXDelta(delta, duration, callback));
     }
-    private IEnumerator rotateDelta(float delta, float duration, Action callback) {
+    /// <summary>
+    /// 回転させる(オイラー角の仕様上バグあり)
+    /// </summary>
+    /// <param name="goal">回転後の回転量(メソッド呼び出し時の回転量からの相対回転量分移動)</param>
+    /// <param name="duration">回転時間</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateXTo(float goal, float duration, Action callback = null) {
+        return StartCoroutine(rotateXDelta(goal - rotateX, duration, callback));
+    }
+    /// <summary>
+    /// 回転させる
+    /// </summary>
+    /// <param name="delta">回転量</param>
+    /// <param name="speed">回転速度(/s)</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateXByWithSpeed(float delta, float speed, Action callback = null) {
+        return StartCoroutine(rotateXDelta(delta, Mathf.Abs(delta / speed), callback));
+    }
+    /// <summary>
+    /// 回転させる(オイラー角の仕様上バグあり)
+    /// </summary>
+    /// <param name="goal">回転後の回転量(メソッド呼び出し時の回転量からの相対回転量分移動)</param>
+    /// <param name="speed">回転速度(/s)</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateXToWithSpeed(float goal, float speed, Action callback = null) {
+        return StartCoroutine(rotateXDelta(goal - rotateX, Mathf.Abs((goal - rotateX) / speed), callback));
+    }
+    private IEnumerator rotateXDelta(float delta, float duration, Action callback) {
+        float tElapsedTime = 0;
+        while (true) {
+            if (tElapsedTime + Time.deltaTime >= duration) {//完了
+                rotateX += delta * (duration - tElapsedTime) / duration;
+                if (callback != null) callback();
+                yield break;
+            }
+            tElapsedTime += Time.deltaTime;
+            rotateX += delta * Time.deltaTime / duration;
+            yield return null;
+        }
+
+    }
+    /// <summary>
+    /// 回転させる
+    /// </summary>
+    /// <param name="delta">回転量</param>
+    /// <param name="duration">回転時間</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateYBy(float delta, float duration, Action callback = null) {
+        return StartCoroutine(rotateYDelta(delta, duration, callback));
+    }
+    /// <summary>
+    /// 回転させる(オイラー角の仕様上バグあり)
+    /// </summary>
+    /// <param name="goal">回転後の回転量(メソッド呼び出し時の回転量からの相対回転量分移動)</param>
+    /// <param name="duration">回転時間</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateYTo(float goal, float duration, Action callback = null) {
+        return StartCoroutine(rotateYDelta(goal - rotateY, duration, callback));
+    }
+    /// <summary>
+    /// 回転させる
+    /// </summary>
+    /// <param name="delta">回転量</param>
+    /// <param name="speed">回転速度(/s)</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateYByWithSpeed(float delta, float speed, Action callback = null) {
+        return StartCoroutine(rotateYDelta(delta, Mathf.Abs(delta / speed), callback));
+    }
+    /// <summary>
+    /// 回転させる(オイラー角の仕様上バグあり)
+    /// </summary>
+    /// <param name="goal">回転後の回転量(メソッド呼び出し時の回転量からの相対回転量分移動)</param>
+    /// <param name="speed">回転速度(/s)</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateYToWithSpeed(float goal, float speed, Action callback = null) {
+        return StartCoroutine(rotateYDelta(goal - rotateY, Mathf.Abs((goal - rotateY) / speed), callback));
+    }
+    private IEnumerator rotateYDelta(float delta, float duration, Action callback) {
+        float tElapsedTime = 0;
+        while (true) {
+            if (tElapsedTime + Time.deltaTime >= duration) {//完了
+                rotateY += delta * (duration - tElapsedTime) / duration;
+                if (callback != null) callback();
+                yield break;
+            }
+            tElapsedTime += Time.deltaTime;
+            rotateY += delta * Time.deltaTime / duration;
+            yield return null;
+        }
+
+    }
+    /// <summary>
+    /// 回転させる
+    /// </summary>
+    /// <param name="delta">回転量</param>
+    /// <param name="duration">回転時間</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateZBy(float delta, float duration, Action callback = null) {
+        return StartCoroutine(rotateZDelta(delta, duration, callback));
+    }
+    /// <summary>
+    /// 回転させる(オイラー角の仕様上バグあり)
+    /// </summary>
+    /// <param name="goal">回転後の回転量(メソッド呼び出し時の回転量からの相対回転量分移動)</param>
+    /// <param name="duration">回転時間</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateZTo(float goal, float duration, Action callback = null) {
+        return StartCoroutine(rotateZDelta(goal - rotateZ, duration, callback));
+    }
+    /// <summary>
+    /// 回転させる
+    /// </summary>
+    /// <param name="delta">回転量</param>
+    /// <param name="speed">回転速度(/s)</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateZByWithSpeed(float delta, float speed, Action callback = null) {
+        return StartCoroutine(rotateZDelta(delta, Mathf.Abs(delta / speed), callback));
+    }
+    /// <summary>
+    /// 回転させる(オイラー角の仕様上バグあり)
+    /// </summary>
+    /// <param name="goal">回転後の回転量(メソッド呼び出し時の回転量からの相対回転量分移動)</param>
+    /// <param name="speed">回転速度(/s)</param>
+    /// <param name="callback">回転終了時関数</param>
+    public Coroutine rotateZToWithSpeed(float goal, float speed, Action callback = null) {
+        return StartCoroutine(rotateZDelta(goal - rotateZ, Mathf.Abs((goal - rotateZ) / speed), callback));
+    }
+    private IEnumerator rotateZDelta(float delta, float duration, Action callback) {
         float tElapsedTime = 0;
         while (true) {
             if (tElapsedTime + Time.deltaTime >= duration) {//完了
@@ -172,7 +299,7 @@ public partial class MyBehaviour : MonoBehaviour {
         foreach (TextMesh tC in GetComponentsInChildren<TextMesh>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
         foreach (Image tC in GetComponentsInChildren<Image>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
         foreach (Text tC in GetComponentsInChildren<Text>()) StartCoroutine(opacityDelta(tC, delta, duration, system.getCounter()));
-        system.then(callback!=null?callback:()=> { });
+        system.then(callback != null ? callback : () => { });
     }
     private IEnumerator opacityDelta(TextMesh obj, float delta, float duration, Action callback) {
         float tElapsedTime = 0;

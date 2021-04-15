@@ -5,6 +5,6 @@ using UnityEngine;
 public class RotateTrigger : MapTrigger {
     [SerializeField] MyBehaviour mTarget;
     public override void enter(MapCharacter aCharacter, MapEventSystem aEventSystem) {
-        mTarget.rotateBy(360, 1.5f);
+        mTarget.rotateZBy(360, 1.5f);
     }
 }

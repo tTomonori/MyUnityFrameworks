@@ -13,11 +13,11 @@ public class MyScrollViewElement : MyBehaviour {
     }
     //ソートを始めた
     public virtual void grab(){
-        rotateBy(30,0.1f);
+        rotateZBy(30,0.1f);
     }
     //ソートを終えた
     public virtual void release(){
-        rotateBy(-30, 0.1f);
+        rotateZBy(-30, 0.1f);
 
     }
 }

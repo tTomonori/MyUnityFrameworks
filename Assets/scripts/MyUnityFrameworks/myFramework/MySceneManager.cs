@@ -43,7 +43,7 @@ public static class MySceneManager {
     public class SceneData {
         public SceneData(string aName, Arg aArg, Action<Scene> aOpened, Action<Arg> aClosed, SceneOpenType aSceneOpenType) {
             name = aName;
-            arg = aArg;
+            arg = (aArg == null) ? new Arg() : aArg;
             opened = aOpened;
             closed = aClosed;
             pausedBehaviour = new List<MonoBehaviour>();
@@ -83,7 +83,7 @@ public static class MySceneManager {
     }
     ///<summary>シーンを開く</summary>
     static public void openScene(string aName, Arg aArg = null, Action<Scene> aOpened = null, Action<Arg> aClosed = null) {
-        SceneData tData = new SceneData(aName, (aArg == null) ? new Arg() : aArg, aOpened, aClosed, SceneOpenType.additive);
+        SceneData tData = new SceneData(aName, aArg, aOpened, aClosed, SceneOpenType.additive);
         mScenes.Add(tData);
         //SceneManager.LoadSceneAsync(aName, LoadSceneMode.Additive);
         SceneManager.LoadScene(aName, LoadSceneMode.Additive);
@@ -117,7 +117,7 @@ public static class MySceneManager {
     }
     ///<summary>シーン変更する</summary>
     static public void changeScene(string aName, Arg aArg = null, Action<Scene> aOpened = null, Action<Arg> aClosed = null) {
-        SceneData tData = new SceneData(aName, (aArg == null) ? new Arg() : aArg, aOpened, aClosed, SceneOpenType.main);
+        SceneData tData = new SceneData(aName, aArg, aOpened, aClosed, SceneOpenType.main);
         mScenes.Clear();//シーンのデータを全て削除
         mScenes.Add(tData);
         SceneManager.LoadScene(aName);
@@ -144,7 +144,7 @@ public static class MySceneManager {
             foreach (SceneData tSceneData in tScenes)
                 closeScene(tSceneData.name, aToCurrentSceneArg, null);
             //nextSceneを開く
-            SceneData tNextSceneData = new SceneData(aNextSceneName, (aToFadeAndNextSceneArg == null) ? new Arg() : aToFadeAndNextSceneArg, aNextSceneOpened, aNextSceneClosed, SceneOpenType.main);
+            SceneData tNextSceneData = new SceneData(aNextSceneName, aToFadeAndNextSceneArg, aNextSceneOpened, aNextSceneClosed, SceneOpenType.main);
             mScenes.Add(tNextSceneData);
             SceneManager.LoadScene(aNextSceneName, LoadSceneMode.Additive);
         };
