@@ -125,6 +125,56 @@ public partial class MyBehaviour : MonoBehaviour {
         }
     }
     /// <summary>
+    /// Sinを利用した移動
+    /// </summary>
+    /// <param name="directionHorizontal">波の水平方向の移動距離</param>
+    /// <param name="directionVertical">波の垂直方向の最大移動距離</param>
+    /// <param name="startPi">移動開始時の座標のpi(PIはかけない)</param>
+    /// <param name="goalPi">移動先の座標のpi(PIはかけない)</param>
+    /// <param name="duration">移動時間</param>
+    /// <param name="callback">終了時コールバック</param>
+    /// <returns></returns>
+    public Coroutine sinMove(Vector3 directionHorizontal, Vector3 directionVertical, float startPi, float goalPi, float duration, Action callback) {
+        return StartCoroutine(sinMoveDelta(directionHorizontal, directionVertical, startPi, goalPi, duration, callback));
+    }
+    /// <summary>
+    /// Sinを利用した移動
+    /// </summary>
+    /// <param name="directionHorizontal">波の水平方向の移動距離</param>
+    /// <param name="directionVertical">波の垂直方向の最大移動距離</param>
+    /// <param name="startPi">移動開始時の座標のpi(PIはかけない)</param>
+    /// <param name="goalPi">移動先の座標のpi(PIはかけない)</param>
+    /// <param name="horizontalSpeed">波の水平方向の移動速度</param>
+    /// <param name="callback">終了時コールバック</param>
+    /// <returns></returns>
+    public Coroutine sinMoveWithSpeed(Vector3 directionHorizontal, Vector3 directionVertical, float startPi, float goalPi, float horizontalSpeed, Action callback) {
+        return StartCoroutine(sinMoveDelta(directionHorizontal, directionVertical, startPi, goalPi, directionHorizontal.magnitude / horizontalSpeed, callback));
+    }
+    private IEnumerator sinMoveDelta(Vector3 directionHorizontal, Vector3 directionVertical, float startPi, float goalPi, float duration, Action callback) {
+        float tElapsedTime = 0;
+        Vector3 tCurrentY = Vector3.zero;
+        Vector3 tY;
+        while (true) {
+            if (tElapsedTime + Time.deltaTime >= duration) {//完了
+                //x方向
+                position += directionHorizontal * (duration - tElapsedTime) / duration;
+                //y方向
+                tY = Mathf.Sin(goalPi * Mathf.PI) * directionVertical;
+                position += tY - tCurrentY;
+                if (callback != null) callback();
+                yield break;
+            }
+            tElapsedTime += Time.deltaTime;
+            //x方向
+            position += directionHorizontal * Time.deltaTime / duration;
+            //y方向
+            tY = Mathf.Sin((startPi + tElapsedTime / duration * (goalPi - startPi)) * Mathf.PI) * directionVertical;
+            position += tY - tCurrentY;
+            tCurrentY = tY;
+            yield return null;
+        }
+    }
+    /// <summary>
     /// 回転させる
     /// </summary>
     /// <param name="delta">回転量</param>

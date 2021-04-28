@@ -136,7 +136,8 @@ public static class MySceneManager {
                     closeScene(aFadeSceneName, null, null);
                     fadeCallbacks = null;
                     nextSceneReadyOfFade = null;
-                    fadeInFinishedOfFade();
+                    if (fadeInFinishedOfFade != null)
+                        fadeInFinishedOfFade();
                     fadeInFinishedOfFade = null;
                 };
                 nextSceneReadyOfFade();

@@ -8,10 +8,7 @@ public class PlaygroundMain : MyBehaviour {
     // Use this for initialization
     void Start() {
         MyBehaviour tRen = GameObject.Find("g").GetComponent<MyBehaviour>();
-        Debug.Log(tRen.transform.localRotation);
-        MyBehaviour.setTimeoutToIns(1, () => {
-            tRen.rotateZToWithSpeed(100, 10);
-        });
+        tRen.sinMoveWithSpeed(new Vector3(3, 3, 0), new Vector3(-3, 3, 0), 0, 2, 1, () => { });
     }
 
     // Update is called once per frame

@@ -28,6 +28,11 @@ public partial class MyBehaviour : MonoBehaviour {
     static public T create<T>() where T : Component {
         return new GameObject().AddComponent<T>();
     }
+    static public T create<T>(string name) where T : Component {
+        T o = new GameObject().AddComponent<T>();
+        o.name = name;
+        return o;
+    }
     /// <summary>
     /// 指定したパスのプレハブを生成
     /// </summary>

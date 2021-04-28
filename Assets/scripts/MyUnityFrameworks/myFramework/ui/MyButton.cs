@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MyButton : MyBehaviour {
+    /// <summary>押された時に実行する関数</summary>
+    public Action mPushedFunction = null;
     //押された時のメッセージ
     [SerializeField] protected string mPushedMessage;
     [SerializeField] protected string mGroup;
@@ -52,6 +55,8 @@ public class MyButton : MyBehaviour {
     /// ボタンを押されたことにする
     /// </summary>
     public void push(){
+        if (mPushedFunction != null)
+            mPushedFunction();
         pushed();
         string tMessage = (mPushedMessage == "") ? name + "Pushed" : mPushedMessage;
         Subject.sendMessage(new Message(tMessage, mParameters, mGroup));
