@@ -1,9 +1,10 @@
 ﻿<Properties StartupConfiguration="{049B9E55-E666-14F7-72E3-104B9DD6AE24}|">
   <MonoDevelop.Ide.ItemProperties.MyUnityFrameworks PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/Translucent.shader">
     <Files>
       <File FileName="Assets/scripts/PlaygroundMain.cs" Line="11" Column="83" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="156" Column="20" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/my2DMeshFramework/shader/Translucent.shader" Line="10" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
