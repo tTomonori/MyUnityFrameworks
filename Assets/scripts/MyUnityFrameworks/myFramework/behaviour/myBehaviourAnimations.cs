@@ -152,7 +152,7 @@ public partial class MyBehaviour : MonoBehaviour {
     }
     private IEnumerator sinMoveDelta(Vector3 directionHorizontal, Vector3 directionVertical, float startPi, float goalPi, float duration, Action callback) {
         float tElapsedTime = 0;
-        Vector3 tCurrentY = Vector3.zero;
+        Vector3 tCurrentY = Mathf.Sin(startPi * Mathf.PI) * directionVertical;
         Vector3 tY;
         while (true) {
             if (tElapsedTime + Time.deltaTime >= duration) {//完了
