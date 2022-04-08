@@ -144,11 +144,11 @@ public partial class MyBehaviour : MonoBehaviour {
     /// <param name="directionVertical">波の垂直方向の最大移動距離</param>
     /// <param name="startPi">移動開始時の座標のpi(PIはかけない)</param>
     /// <param name="goalPi">移動先の座標のpi(PIはかけない)</param>
-    /// <param name="horizontalSpeed">波の水平方向の移動速度</param>
+    /// <param name="piSpeed">回転量の移動速度</param>
     /// <param name="callback">終了時コールバック</param>
     /// <returns></returns>
-    public Coroutine sinMoveWithSpeed(Vector3 directionHorizontal, Vector3 directionVertical, float startPi, float goalPi, float horizontalSpeed, Action callback) {
-        return StartCoroutine(sinMoveDelta(directionHorizontal, directionVertical, startPi, goalPi, directionHorizontal.magnitude / horizontalSpeed, callback));
+    public Coroutine sinMoveWithSpeed(Vector3 directionHorizontal, Vector3 directionVertical, float startPi, float goalPi, float piSpeed, Action callback) {
+        return StartCoroutine(sinMoveDelta(directionHorizontal, directionVertical, startPi, goalPi, Mathf.Abs((goalPi - startPi) / piSpeed), callback));
     }
     private IEnumerator sinMoveDelta(Vector3 directionHorizontal, Vector3 directionVertical, float startPi, float goalPi, float duration, Action callback) {
         float tElapsedTime = 0;

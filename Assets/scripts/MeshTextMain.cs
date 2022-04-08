@@ -19,6 +19,12 @@ public class MeshTextMain : MonoBehaviour {
 
         GameObject p = GameObject.Find("p");
         p.transform.position = new Vector3(tp.renderedWidth, tp.renderedHeight);
+
+        GameObject.Find("board").GetComponent<MeshTextBoard>().mTapCallback = (a) => { Debug.Log(a); };
+
+        float f;
+        bool b = float.TryParse("a", out f);
+        int i = 1;
     }
 
     // Update is called once per frame

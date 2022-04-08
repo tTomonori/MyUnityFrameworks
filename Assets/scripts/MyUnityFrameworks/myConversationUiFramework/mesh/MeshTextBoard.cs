@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using System;
 using TMPro;
 
@@ -26,7 +27,7 @@ using TMPro;
 /// </collider>colliderを付けない
 /// <highlight,引数,1,0,0,1>collider + color
 /// </highlight>/collider + /color
-/// <link,引数,1,0,0,1,0.1>collider + color + u
+/// <link,引数,1,0,0,1,0.1,1,0,0,1>collider + color + u
 /// </link>/collider + /color + /u
 /// 
 /// <animate,...>アニメーション
@@ -115,8 +116,7 @@ public class MeshTextBoard : MyBehaviour {
     }
     [SerializeField, TextArea(5, 10)] private string _Text = "";
 
-    private void OnValidate() {
-        mWriting = this.findChild<MyBehaviour>("writing");
+    private void Awake() {
         if (mWriting != null) {
             mWriting.name = "deletedWriting";
             mWriting.deleteOnEditMode();
@@ -124,7 +124,9 @@ public class MeshTextBoard : MyBehaviour {
         mWriting = null;
         regenerate();
     }
-    private void Awake() {
+    /// <summary>テキストを適用</summary>
+    public void applyText() {
+        mWriting = this.findChild<MyBehaviour>("writing");
         if (mWriting != null) {
             mWriting.name = "deletedWriting";
             mWriting.deleteOnEditMode();
@@ -154,6 +156,10 @@ public class MeshTextBoard : MyBehaviour {
         Line tLine = mWriting.createChild<Line>("Line" + mLines.Count);
         tLine.position = new Vector3(0, 0, 0);
         mLines.Add(tLine);
+        //アンダーライン生成
+        if (mCurrentUnderLine != null) {
+            createUnderline(mCurrentUnderLine.transform.localScale.y, mCurrentUnderLine.color);
+        }
         return tLine;
     }
     /// <summary>文字mesh生成</summary>
@@ -178,8 +184,52 @@ public class MeshTextBoard : MyBehaviour {
         return tP;
     }
     /// <summary>アンダーライン生成</summary>
-    private void createUnderline(float aThickness) {
-
+    private void createUnderline(float aThickness, Color aColor) {
+        Line tLastLine = mLines[mLines.Count - 1];
+        mCurrentUnderLine = tLastLine.createChild<SpriteRenderer>("underline");
+        mCurrentUnderLine.sprite = Sprite.Create(new Texture2D(100, 100), new Rect(0, 0, 100, 100), new Vector2(0, 0.5f));
+        mCurrentUnderLine.color = aColor;
+        mCurrentUnderLine.transform.localScale = new Vector3(0, aThickness, 1);
+        mCurrentUnderLine.transform.localPosition = new Vector3(tLastLine.mCurrentWidth, 0, 0);
+    }
+    /// <summary>読み仮名をふる</summary>
+    private void writeReading(int aTargetStrLength, string aReading) {
+        //読み仮名をふる文字を含む最も前の行を探索
+        int tLength = aTargetStrLength;
+        int tIndex = mLines.Count - 1;
+        while (true) {
+            if (tLength <= mLines[tIndex].mElements.Count) break;
+            if (tIndex <= 0) break;
+            tLength -= mLines[tIndex].mElements.Count;
+            tIndex--;
+        }
+        //探索した行に含まれる読み仮名をふる文字の幅を求める
+        tLength = tLength > mLines[tIndex].mElements.Count ? mLines[tIndex].mElements.Count : tLength;
+        float tTargetStrWidth = 0;
+        Line tTargetLine = mLines[tIndex];
+        int tTargetLineElementNum = tTargetLine.mElements.Count;
+        for (int i = 0; i < tLength; i++) {
+            tTargetStrWidth += tTargetLine.mElements[tTargetLineElementNum - i - 1].mWidth;
+        }
+        //読み仮名生成
+        TextMeshPro tReading = createTextMesh();
+        tReading.transform.SetParent(tTargetLine.transform, false);
+        tReading.name = "reading";
+        tReading.rectTransform.sizeDelta = new Vector2(tTargetStrWidth, 1);
+        tReading.fontSize = kUnitFontSize * mReadingFontSize;
+        MyBehaviour tBehaviour = tReading.gameObject.AddComponent<MyBehaviour>();
+        tBehaviour.position = new Vector3(tTargetLine.mCurrentWidth - tTargetStrWidth / 2f, tTargetLine.mCurrentHeight + mReadingFontSize / 2f, 0);
+        tReading.text = aReading;
+        //表示領域からはみ出る場合は「...」をつけて省略
+        if (tReading.preferredWidth <= tTargetStrWidth) return;
+        for (; ; ) {
+            int tReadingLength = tReading.text.Length;
+            if (tReadingLength == 0) break;
+            tReading.text = tReading.text.Remove(tReadingLength - 1);
+            tReading.text += "...";
+            if (tReading.preferredWidth <= tTargetStrWidth) break;
+            tReading.text = tReading.text.Remove(tReadingLength - 1);
+        }
     }
     /// <summary>末尾に文字追加</summary>
     public void addLast(string aText) {
@@ -223,6 +273,10 @@ public class MeshTextBoard : MyBehaviour {
             tAddedLine = tLastLine;
             tSemiLastLine = mLines.Count == 1 ? null : mLines[mLines.Count - 2];
         }
+        //アンダーラインを伸ばす
+        if (mCurrentUnderLine != null) {
+            mCurrentUnderLine.transform.localScale += new Vector3(aElement.mWidth, 0, 0);
+        }
         //行の位置を調整
         //横方向
         switch (mHorizontalAlign) {
@@ -265,14 +319,22 @@ public class MeshTextBoard : MyBehaviour {
                 createNewLine();
                 break;
             case "u":
-                if (aTag.mArguments.Length == 0) createUnderline(0.1f);
-                else createUnderline(float.Parse(aTag.mArguments[0]));
+                if (aTag.mArguments.Length == 0) createUnderline(0.1f, mCurrentFontColor);
+                else if (aTag.mArguments.Length == 1) {
+                    createUnderline(float.Parse(aTag.mArguments[0]), mCurrentFontColor);
+                } else {
+                    string[] tCl = new string[aTag.mArguments.Length - 1];
+                    Array.Copy(aTag.mArguments, 1, tCl, 0, aTag.mArguments.Length - 1);
+                    createUnderline(float.Parse(aTag.mArguments[0]), makeColor(tCl));
+                }
                 break;
             case "image":
                 ImageElement tImageElement = ImageElement.create(aTag.mArguments[0], this);
                 addLast(tImageElement);
                 break;
             case "reading":
+                writeReading(int.Parse(aTag.mArguments[0]), aTag.mArguments[1]);
+                break;
             case "collider":
                 mCurrentColliderArgument = aTag.mArguments[0];
                 break;
@@ -281,19 +343,28 @@ public class MeshTextBoard : MyBehaviour {
                 mCurrentColliderArgument = aTag.mArguments[0];
                 //色
                 string[] tCp = new string[aTag.mArguments.Length - 1];
-                Array.Copy(aTag.mArguments, tCp, aTag.mArguments.Length - 1);
+                Array.Copy(aTag.mArguments, 1, tCp, 0, aTag.mArguments.Length - 1);
                 mCurrentFontColor = makeColor(tCp);
                 break;
             case "link":
                 //触れた時の引数
                 mCurrentColliderArgument = aTag.mArguments[0];
                 //色
-                string[] tCp2 = new string[aTag.mArguments.Length - 1];
-                Array.Copy(aTag.mArguments, tCp2, aTag.mArguments.Length - 1);
+                float tR;
+                bool tIsNumber = float.TryParse(aTag.mArguments[1], out tR);
+                int tColorArgLength = tIsNumber ? 4 : 1;
+                string[] tCp2 = new string[tColorArgLength];
+                Array.Copy(aTag.mArguments, 1, tCp2, 0, tColorArgLength);
                 mCurrentFontColor = makeColor(tCp2);
                 //アンダーライン
-                if (aTag.mArguments.Length < 6) createUnderline(0.1f);
-                else createUnderline(float.Parse(aTag.mArguments[0]));
+                if (aTag.mArguments.Length < tColorArgLength + 2) createUnderline(0.1f, mCurrentFontColor);
+                else if (aTag.mArguments.Length == tColorArgLength + 2) {
+                    createUnderline(float.Parse(aTag.mArguments[tColorArgLength + 1]), mCurrentFontColor);
+                } else {
+                    string[] tCl2 = new string[aTag.mArguments.Length - tColorArgLength - 2];
+                    Array.Copy(aTag.mArguments, tColorArgLength + 2, tCl2, 0, aTag.mArguments.Length - tColorArgLength - 2);
+                    createUnderline(float.Parse(aTag.mArguments[tColorArgLength + 1]), makeColor(tCl2));
+                }
                 break;
             case "animation":
                 mCurrentAnimate = aTag;
@@ -368,36 +439,61 @@ public class MeshTextBoard : MyBehaviour {
     }
     private class StringElement : CharElement {
         private TextMeshPro mPro;
+        private String mArgument;
+        private MeshTextBoard mParent;
         static public StringElement create(string aString, MeshTextBoard aParent) {
-            StringElement aElement = MyBehaviour.create<StringElement>();
-            aElement.name = aString;
-            aElement.mPro = aParent.createTextMesh();
-            aElement.mPro.text = aString;
-            aElement.mWidth = aElement.mPro.preferredWidth;
-            aElement.mHeight = aParent.mCurrentFontHeight;
-            aElement.mPro.transform.SetParent(aElement.transform, false);
-            return aElement;
+            StringElement tElement = MyBehaviour.create<StringElement>();
+            tElement.mParent = aParent;
+            tElement.name = aString;
+            tElement.mPro = aParent.createTextMesh();
+            tElement.mPro.text = aString;
+            tElement.mWidth = tElement.mPro.preferredWidth;
+            tElement.mHeight = aParent.mCurrentFontHeight;
+            tElement.mPro.transform.SetParent(tElement.transform, false);
+            if (aParent.mCurrentColliderArgument != "") {
+                tElement.mArgument = aParent.mCurrentColliderArgument;
+                BoxCollider2D tCollider = tElement.gameObject.AddComponent<BoxCollider2D>();
+                tCollider.size = new Vector2(tElement.mWidth, tElement.mHeight);
+            }
+            return tElement;
+        }
+        private void OnMouseDown() {
+            if (mParent.mTapCallback != null) {
+                mParent.mTapCallback(mArgument);
+            }
         }
     }
     private class ImageElement : CharElement {
         private SpriteRenderer mRenderer;
+        private String mArgument;
+        private MeshTextBoard mParent;
         static public ImageElement create(string aPath, MeshTextBoard aParent) {
-            ImageElement aElement = MyBehaviour.create<ImageElement>();
-            aElement.name = "image:" + aPath;
-            aElement.mRenderer = aElement.createChild<SpriteRenderer>();
-            aElement.mRenderer.sprite = Resources.Load<Sprite>(aPath);
-            aElement.mHeight = aParent.mCurrentFontHeight;
-            aElement.mWidth = aElement.mHeight * (aElement.mRenderer.sprite.bounds.size.x / aElement.mRenderer.sprite.bounds.size.y);
-            float tScale = aElement.mHeight / aElement.mRenderer.sprite.bounds.size.y;
-            aElement.mRenderer.transform.localScale = new Vector3(tScale, tScale, 1);
-            return aElement;
+            ImageElement tElement = MyBehaviour.create<ImageElement>();
+            tElement.name = "image:" + aPath;
+            tElement.mRenderer = tElement.createChild<SpriteRenderer>();
+            tElement.mRenderer.sprite = Resources.Load<Sprite>(aPath);
+            tElement.mHeight = aParent.mCurrentFontHeight;
+            tElement.mWidth = tElement.mHeight * (tElement.mRenderer.sprite.bounds.size.x / tElement.mRenderer.sprite.bounds.size.y);
+            float tScale = tElement.mHeight / tElement.mRenderer.sprite.bounds.size.y;
+            tElement.mRenderer.transform.localScale = new Vector3(tScale, tScale, 1);
+            if (aParent.mCurrentColliderArgument != "") {
+                tElement.mArgument = aParent.mCurrentColliderArgument;
+                BoxCollider2D tCollider = tElement.gameObject.AddComponent<BoxCollider2D>();
+                tCollider.size = new Vector2(tElement.mWidth, tElement.mHeight);
+            }
+            return tElement;
+        }
+        private void OnMouseDown() {
+            if (mParent.mTapCallback != null) {
+                mParent.mTapCallback(mArgument);
+            }
         }
     }
 
     //行(pivotは行の左下)
     private class Line : MyBehaviour {
         /// <summary>要素</summary>
-        private List<CharElement> mElements;
+        public List<CharElement> mElements { get; private set; }
         /// <summary>現在の幅</summary>
         public float mCurrentWidth { get; private set; }
         /// <summary>現在の高さ</summary>
@@ -417,4 +513,19 @@ public class MeshTextBoard : MyBehaviour {
             if (mCurrentHeight < aElement.mHeight) mCurrentHeight = aElement.mHeight;
         }
     }
+}
+[CustomEditor(typeof(MeshTextBoard))]
+public class ExampleScriptEditor : Editor {
+    /// <summary>InspectorのGUIを更新</summary>
+    public override void OnInspectorGUI() {
+        //元のInspector部分を表示
+        base.OnInspectorGUI();
+        //targetを変換して対象を取得
+        MeshTextBoard tBoard = target as MeshTextBoard;
+        //ボタンを表示
+        if (GUILayout.Button("Apply")) {
+            tBoard.applyText();
+        }
+    }
+
 }
