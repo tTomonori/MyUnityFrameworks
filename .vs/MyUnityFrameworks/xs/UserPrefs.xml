@@ -3,13 +3,15 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/mesh/MeshTextBoard.cs">
     <Files>
       <File FileName="Assets/scripts/MeshTextMain.cs" Line="1" Column="1" />
-      <File FileName="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/mesh/MeshTextBoard.cs" Line="170" Column="37" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/mesh/MeshTextBoard.cs" Line="34" Column="24" />
       <File FileName="Assets/scripts/MyUnityFrameworks/myConversationUiFramework/mesh/MeshTextBoardWriter.cs" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/MyBehaviour.cs" />
+      <File FileName="Assets/scripts/MyUnityFrameworks/myFramework/behaviour/myBehaviourAnimations.cs" Line="74" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="247d6362-3cf9-403f-a75b-b36ad436e2bc" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="8aa7e437-7a54-4120-b285-797dad75885d" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/tomo/Desktop/game/MyUnityFrameworks/Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" relfile="Assets/scripts/MyUnityFrameworks/myMapFramework/world/updater/MapHeightUpdateSystem.cs" line="66" column="1" />

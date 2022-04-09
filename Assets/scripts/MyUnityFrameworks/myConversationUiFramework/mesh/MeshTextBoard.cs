@@ -30,9 +30,10 @@ using TMPro;
 /// <link,引数,1,0,0,1,0.1,1,0,0,1>collider + color + u
 /// </link>/collider + /color + /u
 /// 
-/// <animate,...>アニメーション
-///     <animate,rotate,180>回転
-///     <animate,tremble,10>揺れる
+/// <animation,...>アニメーション
+///     <animation,circle>縁を描く
+///     <animation,impact,2,0.5,2>拡縮移動でフェードイン<,,サイズ倍率,時間,開始時距離>
+///     <animation,tremble>揺れる
 /// </animate>アニメーションキャンセル
 /// </summary>
 public class MeshTextBoard : MyBehaviour {
@@ -117,12 +118,7 @@ public class MeshTextBoard : MyBehaviour {
     [SerializeField, TextArea(5, 10)] private string _Text = "";
 
     private void Awake() {
-        if (mWriting != null) {
-            mWriting.name = "deletedWriting";
-            mWriting.deleteOnEditMode();
-        }
-        mWriting = null;
-        regenerate();
+        applyText();
     }
     /// <summary>テキストを適用</summary>
     public void applyText() {
@@ -238,6 +234,8 @@ public class MeshTextBoard : MyBehaviour {
             TagReader.Element tElement = tReader.read();
             //1文字
             if (tElement is TagReader.OneChar) {
+                //改行は無視
+                if (((TagReader.OneChar)tElement).mChar == "\n") continue;
                 StringElement tStringElement = StringElement.create(((TagReader.OneChar)tElement).mChar, this);
                 addLast(tStringElement);
                 continue;
@@ -258,6 +256,10 @@ public class MeshTextBoard : MyBehaviour {
     }
     /// <summary>末尾に要素を追加</summary>
     private void addLast(CharElement aElement) {
+        //アニメーション要素追加
+        if (mCurrentAnimate != null)
+            AnimateElement.addAnimateElement(aElement);
+
         Line tLastLine = mLines[mLines.Count - 1];
         Line tAddedLine, tSemiLastLine;
         //幅を考慮し追加可能か確認
@@ -436,11 +438,18 @@ public class MeshTextBoard : MyBehaviour {
     private abstract class CharElement : MyBehaviour {
         public float mWidth { get; protected set; }
         public float mHeight { get; protected set; }
+        public MeshTextBoard mParent;
+        public String mArgument;
+        //表示要素にComponentを追加する
+        abstract public T addComponentToChildren<T>() where T : Component;
+        private void OnMouseDown() {
+            if (mParent.mTapCallback != null) {
+                mParent.mTapCallback(mArgument);
+            }
+        }
     }
     private class StringElement : CharElement {
         private TextMeshPro mPro;
-        private String mArgument;
-        private MeshTextBoard mParent;
         static public StringElement create(string aString, MeshTextBoard aParent) {
             StringElement tElement = MyBehaviour.create<StringElement>();
             tElement.mParent = aParent;
@@ -457,18 +466,15 @@ public class MeshTextBoard : MyBehaviour {
             }
             return tElement;
         }
-        private void OnMouseDown() {
-            if (mParent.mTapCallback != null) {
-                mParent.mTapCallback(mArgument);
-            }
+        public override T addComponentToChildren<T>() {
+            return mPro.gameObject.AddComponent<T>();
         }
     }
     private class ImageElement : CharElement {
         private SpriteRenderer mRenderer;
-        private String mArgument;
-        private MeshTextBoard mParent;
         static public ImageElement create(string aPath, MeshTextBoard aParent) {
             ImageElement tElement = MyBehaviour.create<ImageElement>();
+            tElement.mParent = aParent;
             tElement.name = "image:" + aPath;
             tElement.mRenderer = tElement.createChild<SpriteRenderer>();
             tElement.mRenderer.sprite = Resources.Load<Sprite>(aPath);
@@ -483,10 +489,8 @@ public class MeshTextBoard : MyBehaviour {
             }
             return tElement;
         }
-        private void OnMouseDown() {
-            if (mParent.mTapCallback != null) {
-                mParent.mTapCallback(mArgument);
-            }
+        public override T addComponentToChildren<T>() {
+            return mRenderer.gameObject.AddComponent<T>();
         }
     }
 
@@ -511,6 +515,89 @@ public class MeshTextBoard : MyBehaviour {
             mCurrentWidth += aElement.mWidth;
             //現在の高さ更新
             if (mCurrentHeight < aElement.mHeight) mCurrentHeight = aElement.mHeight;
+        }
+    }
+    private class AnimateElement : MyBehaviour {
+        public static AnimateElement addAnimateElement(CharElement aElement) {
+            switch (aElement.mParent.mCurrentAnimate.mArguments[0]) {
+                case "circle":
+                    CircleElement tRotate = aElement.gameObject.AddComponent<CircleElement>();
+                    tRotate.init(aElement);
+                    return tRotate;
+                case "impact":
+                    ImpactElement tImpact = aElement.gameObject.AddComponent<ImpactElement>();
+                    tImpact.init(aElement);
+                    return tImpact;
+                case "tremble":
+                    TrembleElement tTremble = aElement.gameObject.AddComponent<TrembleElement>();
+                    tTremble.init(aElement);
+                    return tTremble;
+            }
+            return null;
+        }
+    }
+    private class CircleElement : AnimateElement {
+        private float mCurrentRad = 270;
+        [SerializeField] private MyBehaviour mAnimateBehaviour;
+        [SerializeField] private float mCircleRadius;
+        public void init(CharElement aElement) {
+            mAnimateBehaviour = aElement.addComponentToChildren<MyBehaviour>();
+            mCircleRadius = aElement.mHeight / 3f;
+        }
+        private void Update() {
+            mCurrentRad = (mCurrentRad - 360 * Time.deltaTime + 360) % 360;
+            Vector2 tVector = Quaternion.Euler(0, 0, mCurrentRad) * new Vector2(1, 0) * mCircleRadius + new Vector3(0, mCircleRadius, 0);
+            mAnimateBehaviour.position2D = tVector;
+        }
+    }
+    private class ImpactElement : AnimateElement {
+        private float mElapsedTime = 0;
+        private Vector2 mInitialPosition;
+        private Vector2 mTargetScale;
+        [SerializeField] private MyBehaviour mAnimateBehaviour;
+        [SerializeField] private float mInitialScale;
+        [SerializeField] private float mDuration;
+        [SerializeField] private float mInitialDistance;
+        public void init(CharElement aElement) {
+            mAnimateBehaviour = aElement.addComponentToChildren<MyBehaviour>();
+            mInitialScale = aElement.mParent.mCurrentAnimate.mArguments.Length < 2 ? 5 : float.Parse(aElement.mParent.mCurrentAnimate.mArguments[1]);
+            mDuration = aElement.mParent.mCurrentAnimate.mArguments.Length < 3 ? 0.3f : float.Parse(aElement.mParent.mCurrentAnimate.mArguments[2]);
+            mInitialDistance = aElement.mParent.mCurrentAnimate.mArguments.Length < 4 ? aElement.mHeight : float.Parse(aElement.mParent.mCurrentAnimate.mArguments[3]);
+            mInitialPosition = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 359)) * new Vector2(1, 0) * mInitialDistance;
+            mTargetScale = mAnimateBehaviour.scale2D;
+        }
+        private void Update() {
+            if (mElapsedTime >= mDuration) return;
+            mElapsedTime += Time.deltaTime;
+            if (mElapsedTime >= mDuration) {
+                mAnimateBehaviour.scale2D = mTargetScale;
+                mAnimateBehaviour.position2D = new Vector2(0, 0);
+                return;
+            }
+            float tScale = mInitialScale - (mInitialScale - 1) * mElapsedTime / mDuration;
+            mAnimateBehaviour.scale2D = mTargetScale * tScale;
+            mAnimateBehaviour.position2D = mInitialPosition - mInitialPosition * mElapsedTime / mDuration;
+        }
+    }
+    private class TrembleElement : AnimateElement {
+        private float mTrembleTime = 0.05f;
+        [SerializeField] private MyBehaviour mAnimateBehaviour;
+        [SerializeField] private float mMoveRangeRadius;
+        private void Start() {
+            Vector2 tVector = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 359)) * new Vector2(1, 0) * mMoveRangeRadius;
+            mAnimateBehaviour.moveBy(tVector, mTrembleTime, tremble);
+        }
+        public void init(CharElement aElement) {
+            mAnimateBehaviour = aElement.addComponentToChildren<MyBehaviour>();
+            mMoveRangeRadius = aElement.mHeight / 8f;
+        }
+        private void tremble() {
+            Vector2 tCurrentVector = mAnimateBehaviour.position.matchLength(mMoveRangeRadius);
+            Vector2 tNextVector = Quaternion.Euler(0, 0, UnityEngine.Random.Range(100, 260)) * tCurrentVector;
+            if (Time.deltaTime >= mTrembleTime)
+                MyBehaviour.setTimeoutToIns(0, () => { mAnimateBehaviour.moveBy(tNextVector - tCurrentVector, mTrembleTime, tremble); });
+            else
+                mAnimateBehaviour.moveBy(tNextVector - tCurrentVector, mTrembleTime, tremble);
         }
     }
 }
