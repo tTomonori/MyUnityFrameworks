@@ -20,7 +20,10 @@ public class MeshTextMain : MonoBehaviour {
         GameObject p = GameObject.Find("p");
         p.transform.position = new Vector3(tp.renderedWidth, tp.renderedHeight);
 
-        GameObject.Find("board").GetComponent<MeshTextBoard>().mTapCallback = (a) => { Debug.Log(a); };
+        MeshTextBoard tBoard = GameObject.Find("board").GetComponent<MeshTextBoard>();
+        tBoard.mTapCallback = (a) => { Debug.Log("TAP : " + a); };
+        tBoard.mEnterCallback = (a) => { Debug.Log("ENTER : " + a); };
+        tBoard.mExitCallback = (a) => { Debug.Log("EXIT : " + a); };
 
         MeshTextBoardWriter tWriter = GameObject.Find("writer").GetComponent<MeshTextBoardWriter>();
         tWriter.mEndCallback = () => {
@@ -35,17 +38,18 @@ public class MeshTextMain : MonoBehaviour {
             tWriter.read();
         }
     }
-    [System.NonSerialized] public string mText =
+    [System.NonSerialized]
+    public string mText =
  "あれ<color,red>れ<size,2>れあ</size>んな<br><color,0,1,1,0.5>"
-+"<animation,circle>くるくる</animation>"
-+"kkj<br>"
-+"<animation,impact>か<image,temp/cannotLoad>おん</animation><br>"
-+"<highlight,テスト,red>テスト</highlight><br>"
-+"あiu<u,0.1,green>ハハハ<reading,3,わらい><br>"
-+"XYZ</u>んん<link,リンク,blue,0.1,red>LINK</link><br>"
-+"<animation,tremble>あいうえお</animation><next>あああ<stop>"
-+"<animation,impact>な<wait,1>ん<wait,1>て<wait,1>ね<wait,3></animation><br>"
-+"<writeInterval,1>ゆっくり話そうねーー<br>"
-+"んーーーー<resetWriteInterval><br>"
-+"abcdefghij<next>";
++ "<animation,circle>くるくる</animation>"
++ "kkj<br>"
++ "<animation,impact>か<image,temp/cannotLoad>おん</animation><br>"
++ "<highlight,テスト,red>テスト</highlight><br>"
++ "あiu<u,0.1,green>ハハハ<reading,3,わらい><br>"
++ "XYZ</u>んん<link,リンク,blue,0.1,red>LINK</link><br>"
++ "<animation,tremble>あいうえお</animation><next>あああ<stop>"
++ "<animation,impact>な<wait,1>ん<wait,1>て<wait,1>ね<wait,3></animation><br>"
++ "<writeInterval,1>ゆっくり話そうねーー<br>"
++ "んーーーー<resetWriteInterval><br>"
++ "abcdefghij<next>";
 }

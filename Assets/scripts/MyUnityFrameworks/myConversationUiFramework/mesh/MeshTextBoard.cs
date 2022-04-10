@@ -47,10 +47,14 @@ public class MeshTextBoard : MyBehaviour {
     private Color mCurrentFontColor;
     private SpriteRenderer mCurrentUnderLine;
     private TagReader.StartTag mCurrentAnimate;
-    private string mCurrentColliderArgument = "";
+    private TextCollider mCurrentCollider;
 
     /// <summary>文字に触れた時のcallback</summary>
     public Action<string> mTapCallback;
+    /// <summary>文字にmouseEnter時のコールバック</summary>
+    public Action<string> mEnterCallback;
+    /// <summary>文字にmouseExit時のコールバック</summary>
+    public Action<string> mExitCallback;
 
     //<summary>デフォルトフォント</summary>
     public TMP_FontAsset mDefaultFontAsset {
@@ -148,10 +152,10 @@ public class MeshTextBoard : MyBehaviour {
     ///<summary>表示初期化</summary>
     public void reset() {
         mCurrentFontHeight = _DefaultFontHeight;
-        mCurrentFontColor = mDefaultFontColor;
+        mCurrentFontColor = _DefaultFontColor;
         mCurrentUnderLine = null;
         mCurrentAnimate = null;
-        mCurrentColliderArgument = "";
+        mCurrentCollider = null;
         clear();
     }
     /// <summary>新しい行作成</summary>
@@ -162,6 +166,10 @@ public class MeshTextBoard : MyBehaviour {
         //アンダーライン生成
         if (mCurrentUnderLine != null) {
             createUnderline(mCurrentUnderLine.transform.localScale.y, mCurrentUnderLine.color);
+        }
+        //collider生成
+        if (mCurrentCollider != null) {
+            createTextCollider(mCurrentCollider.mArgument);
         }
         return tLine;
     }
@@ -194,6 +202,13 @@ public class MeshTextBoard : MyBehaviour {
         mCurrentUnderLine.color = aColor;
         mCurrentUnderLine.transform.localScale = new Vector3(0, aThickness, 1);
         mCurrentUnderLine.transform.localPosition = new Vector3(tLastLine.mCurrentWidth, 0, 0);
+    }
+    /// <summary>collider生成</summary>
+    private void createTextCollider(string aArgument) {
+        Line tLastLine = mLines[mLines.Count - 1];
+        mCurrentCollider = tLastLine.createChild<TextCollider>("collider");
+        mCurrentCollider.init(this, aArgument);
+        mCurrentCollider.position = new Vector3(tLastLine.mCurrentWidth, 0, 0);
     }
     /// <summary>読み仮名をふる</summary>
     private void writeReading(int aTargetStrLength, string aReading) {
@@ -267,6 +282,14 @@ public class MeshTextBoard : MyBehaviour {
         //アンダーラインを伸ばす
         if (mCurrentUnderLine != null) {
             mCurrentUnderLine.transform.localScale += new Vector3(aElement.mWidth, 0, 0);
+        }
+        //コライダーを伸ばす
+        if (mCurrentCollider != null) {
+            Vector2 tSize = mCurrentCollider.mCollider.size;
+            tSize.x = mCurrentCollider.mCollider.size.x + aElement.mWidth;
+            tSize.y = tSize.y < aElement.mHeight ? aElement.mHeight : tSize.y;
+            mCurrentCollider.mCollider.size = tSize;
+            mCurrentCollider.mCollider.offset = tSize / 2f;
         }
         //行の位置を調整
         //横方向
@@ -353,11 +376,11 @@ public class MeshTextBoard : MyBehaviour {
                 writeReading(int.Parse(aTag.mArguments[0]), aTag.mArguments[1]);
                 break;
             case "collider":
-                mCurrentColliderArgument = aTag.mArguments[0];
+                createTextCollider(aTag.mArguments[0]);
                 break;
             case "highlight":
                 //触れた時の引数
-                mCurrentColliderArgument = aTag.mArguments[0];
+                createTextCollider(aTag.mArguments[0]);
                 //色
                 string[] tCp = new string[aTag.mArguments.Length - 1];
                 Array.Copy(aTag.mArguments, 1, tCp, 0, aTag.mArguments.Length - 1);
@@ -365,7 +388,7 @@ public class MeshTextBoard : MyBehaviour {
                 break;
             case "link":
                 //触れた時の引数
-                mCurrentColliderArgument = aTag.mArguments[0];
+                createTextCollider(aTag.mArguments[0]);
                 //色
                 float tR;
                 bool tIsNumber = float.TryParse(aTag.mArguments[1], out tR);
@@ -401,16 +424,16 @@ public class MeshTextBoard : MyBehaviour {
                 mCurrentUnderLine = null;
                 break;
             case "collider":
-                mCurrentColliderArgument = "";
+                mCurrentCollider = null;
                 break;
             case "highlight":
                 mCurrentFontColor = mDefaultFontColor;
-                mCurrentColliderArgument = "";
+                mCurrentCollider = null;
                 break;
             case "link":
                 mCurrentFontColor = mDefaultFontColor;
                 mCurrentUnderLine = null;
-                mCurrentColliderArgument = "";
+                mCurrentCollider = null;
                 break;
             case "animation":
                 mCurrentAnimate = null;
@@ -448,6 +471,33 @@ public class MeshTextBoard : MyBehaviour {
         return new Color(0, 0, 0, 1);
     }
 
+    //文字に付与するcollider
+    private class TextCollider : MyBehaviour {
+        public MeshTextBoard mParent;
+        public string mArgument;
+        public BoxCollider2D mCollider;
+        public void init(MeshTextBoard aParent, string aArgument) {
+            mParent = aParent;
+            mArgument = aArgument;
+            mCollider = this.gameObject.AddComponent<BoxCollider2D>();
+            mCollider.size = new Vector2(0, 0);
+        }
+        private void OnMouseUpAsButton() {
+            if (mParent.mTapCallback != null) {
+                mParent.mTapCallback(mArgument);
+            }
+        }
+        private void OnMouseEnter() {
+            if (mParent.mEnterCallback != null) {
+                mParent.mEnterCallback(mArgument);
+            }
+        }
+        private void OnMouseExit() {
+            if (mParent.mExitCallback != null) {
+                mParent.mExitCallback(mArgument);
+            }
+        }
+    }
 
     //行に入れる要素
     private abstract class CharElement : MyBehaviour {
@@ -457,12 +507,8 @@ public class MeshTextBoard : MyBehaviour {
         public String mArgument;
         //表示要素にComponentを追加する
         abstract public T addComponentToChildren<T>() where T : Component;
-        private void OnMouseDown() {
-            if (mParent.mTapCallback != null) {
-                mParent.mTapCallback(mArgument);
-            }
-        }
     }
+    //文字要素
     private class StringElement : CharElement {
         private TextMeshPro mPro;
         static public StringElement create(string aString, MeshTextBoard aParent) {
@@ -474,17 +520,13 @@ public class MeshTextBoard : MyBehaviour {
             tElement.mWidth = tElement.mPro.preferredWidth;
             tElement.mHeight = aParent.mCurrentFontHeight;
             tElement.mPro.transform.SetParent(tElement.transform, false);
-            if (aParent.mCurrentColliderArgument != "") {
-                tElement.mArgument = aParent.mCurrentColliderArgument;
-                BoxCollider2D tCollider = tElement.gameObject.AddComponent<BoxCollider2D>();
-                tCollider.size = new Vector2(tElement.mWidth, tElement.mHeight);
-            }
             return tElement;
         }
         public override T addComponentToChildren<T>() {
             return mPro.gameObject.AddComponent<T>();
         }
     }
+    //画像要素
     private class ImageElement : CharElement {
         private SpriteRenderer mRenderer;
         static public ImageElement create(string aPath, MeshTextBoard aParent) {
@@ -497,11 +539,6 @@ public class MeshTextBoard : MyBehaviour {
             tElement.mWidth = tElement.mHeight * (tElement.mRenderer.sprite.bounds.size.x / tElement.mRenderer.sprite.bounds.size.y);
             float tScale = tElement.mHeight / tElement.mRenderer.sprite.bounds.size.y;
             tElement.mRenderer.transform.localScale = new Vector3(tScale, tScale, 1);
-            if (aParent.mCurrentColliderArgument != "") {
-                tElement.mArgument = aParent.mCurrentColliderArgument;
-                BoxCollider2D tCollider = tElement.gameObject.AddComponent<BoxCollider2D>();
-                tCollider.size = new Vector2(tElement.mWidth, tElement.mHeight);
-            }
             return tElement;
         }
         public override T addComponentToChildren<T>() {
