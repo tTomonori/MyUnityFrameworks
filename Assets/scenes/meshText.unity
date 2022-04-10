@@ -11255,6 +11255,60 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &1698727403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1698727405}
+  - component: {fileID: 1698727404}
+  m_Layer: 0
+  m_Name: writer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1698727404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698727403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a7b337f834bb416e97712bc78cd8167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DefaultFontAsset: {fileID: 11400000, guid: 7d0313e6312eb44a68b0b20ae428e3da, type: 2}
+  _DefaultFontHeight: 1
+  _DefaultFontColor: {r: 0, g: 0, b: 0, a: 1}
+  _LineSpacing: 0.3
+  _LineWidth: 10
+  _ReadingFontSize: 0.3
+  _HorizontalAlign: 0
+  _VerticalAlign: 0
+  _CharacterAlign: 1
+  _Text: "\u3042\u308C<color,red>\u308C<size,2>\u308C\u3042</size>\u3093\u306A<br><color,0,1,1,0.5>\n<animation,circle>\u304F\u308B\u304F\u308B</animation>\nkkj<br>\n<animation,impact>\u304B<image,temp/cannotLoad>\u304A\u3093</animation><br>\n<highlight,\u30C6\u30B9\u30C8,red>\u30C6\u30B9\u30C8</highlight><br>\n\u3042iu<u,0.1,green>\u30CF\u30CF\u30CF<reading,3,\u308F\u3089\u3044><br>\nXYZ</u>\u3093\u3093<link,\u30EA\u30F3\u30AF,blue,0.1,red>LINK</link><br>\n<animation,tremble>\u3042\u3044\u3046\u3048\u304A</animation><next>\u3042\u3042\u3042<stop>\n<animation,impact>\u306A<wait,1>\u3093<wait,1>\u3066<wait,1>\u306D<wait,3></animation><br>\n<writeInterval,1>\u3086\u3063\u304F\u308A\u8A71\u305D\u3046\u306D\u30FC\u30FC<br>\n\u3093\u30FC\u30FC\u30FC\u30FC<resetWriteInterval><br>\nabcdefghij<next>"
+  _DefaultWriteInterval: 0.1
+--- !u!4 &1698727405
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698727403}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3, y: 4.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1703615918
 GameObject:
   m_ObjectHideFlags: 0

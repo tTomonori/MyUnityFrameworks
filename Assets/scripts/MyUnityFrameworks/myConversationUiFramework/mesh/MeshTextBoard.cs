@@ -132,20 +132,27 @@ public class MeshTextBoard : MyBehaviour {
     }
     /// <summary>再生成</summary>
     public void regenerate() {
-        mCurrentFontHeight = _DefaultFontHeight;
-        mCurrentFontColor = mDefaultFontColor;
-        mCurrentUnderLine = null;
-        mCurrentAnimate = null;
-        mCurrentColliderArgument = "";
-
+        string tText = _Text;
+        reset();
+        addLast(tText);
+    }
+    ///<summary>表示削除</summary>
+    public void clear() {
         mWriting?.delete();
         mWriting = this.createChild<MyBehaviour>("writing");
         mLines.Clear();
         createNewLine();
 
-        string tText = _Text;
         _Text = "";
-        addLast(tText);
+    }
+    ///<summary>表示初期化</summary>
+    public void reset() {
+        mCurrentFontHeight = _DefaultFontHeight;
+        mCurrentFontColor = mDefaultFontColor;
+        mCurrentUnderLine = null;
+        mCurrentAnimate = null;
+        mCurrentColliderArgument = "";
+        clear();
     }
     /// <summary>新しい行作成</summary>
     private Line createNewLine() {
@@ -232,25 +239,7 @@ public class MeshTextBoard : MyBehaviour {
         TagReader tReader = new TagReader(aText);
         while (!tReader.isEnd()) {
             TagReader.Element tElement = tReader.read();
-            //1文字
-            if (tElement is TagReader.OneChar) {
-                //改行は無視
-                if (((TagReader.OneChar)tElement).mChar == "\n") continue;
-                StringElement tStringElement = StringElement.create(((TagReader.OneChar)tElement).mChar, this);
-                addLast(tStringElement);
-                continue;
-            }
-            //開始タグ
-            if (tElement is TagReader.StartTag) {
-                applyStartTag(((TagReader.StartTag)tElement));
-                continue;
-            }
-            //終了タグ
-            if (tElement is TagReader.EndTag) {
-                applyEndTag(((TagReader.EndTag)tElement));
-                continue;
-            }
-            Debug.LogWarning("MyTextBoard : 文字読み込み失敗　次の文字「" + tReader.mNext.ToString() + "」");
+            addLast(tElement);
         }
         _Text += aText;
     }
@@ -307,6 +296,32 @@ public class MeshTextBoard : MyBehaviour {
                 mWriting.positionY = -tAddedLine.positionY;
                 break;
         }
+    }
+    /// <summary>末尾にread結果追加</summary>
+    public void addLast(TagReader.Element aElement) {
+        //1文字
+        if (aElement is TagReader.OneChar) {
+            //改行は無視
+            if (((TagReader.OneChar)aElement).mChar == "\n") return;
+            string tChar = ((TagReader.OneChar)aElement).mChar;
+            StringElement tStringElement = StringElement.create(tChar, this);
+            _Text+= tChar;
+            addLast(tStringElement);
+            return;
+        }
+        //開始タグ
+        if (aElement is TagReader.StartTag) {
+            _Text += ((TagReader.StartTag)aElement).mOriginalString;
+            applyStartTag(((TagReader.StartTag)aElement));
+            return;
+        }
+        //終了タグ
+        if (aElement is TagReader.EndTag) {
+            _Text += ((TagReader.EndTag)aElement).mOriginalString;
+            applyEndTag(((TagReader.EndTag)aElement));
+            return;
+        }
+        Debug.LogWarning("MyTextBoard : 文字読み込み失敗");
     }
     /// <summary>開始タグ適用</summary>
     private void applyStartTag(TagReader.StartTag aTag) {
@@ -595,7 +610,7 @@ public class MeshTextBoard : MyBehaviour {
             Vector2 tCurrentVector = mAnimateBehaviour.position.matchLength(mMoveRangeRadius);
             Vector2 tNextVector = Quaternion.Euler(0, 0, UnityEngine.Random.Range(100, 260)) * tCurrentVector;
             if (Time.deltaTime >= mTrembleTime)
-                MyBehaviour.setTimeoutToIns(0, () => { mAnimateBehaviour.moveBy(tNextVector - tCurrentVector, mTrembleTime, tremble); });
+                MyBehaviour.setTimeoutToIns(0, () => { mAnimateBehaviour?.moveBy(tNextVector - tCurrentVector, mTrembleTime, tremble); });
             else
                 mAnimateBehaviour.moveBy(tNextVector - tCurrentVector, mTrembleTime, tremble);
         }
